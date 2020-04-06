@@ -1,0 +1,32 @@
+#!/bin/bash
+
+SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+DEFAULT_VERSION="latest"
+
+# Identifying build version
+
+VERSION=$1
+if [ -z "${VERSION}" ]; then
+    VERSION=${DEFAULT_VERSION}
+    echo "Build version not specified: building with default version [${VERSION}]"
+else
+    echo "Building with specified version [${VERSION}]"
+fi
+
+IMAGE_NAME="wenet/web:$VERSION"
+
+docker build -t ${IMAGE_NAME} .
+
+if [ $? == 0 ]; then
+    echo "Build successful: ${IMAGE_NAME}"
+
+    # Tagging images for registry
+
+    echo "Tagging image for push to registry.u-hopper.com:5000"
+    docker tag ${IMAGE_NAME} registry.u-hopper.com:5000/${IMAGE_NAME}
+    echo "Image can be pushed with:"
+    echo "- docker push registry.u-hopper.com:5000/${IMAGE_NAME}"
+
+else
+    echo "Build failed!"
+fi
