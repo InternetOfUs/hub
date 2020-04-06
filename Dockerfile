@@ -32,7 +32,7 @@ RUN rm -fr /var/www && ln -s /app /var/www
 ADD / /app
 
 # RUN rm -rf /app/vendor
-# RUN cd /app && php composer.phar install
+# RUN cd /app && php composer.phar install --no-dev
 
 # copy .htaccess files with correct aliases
 ADD docker_support/.htaccess /.htaccess
@@ -43,7 +43,6 @@ RUN sed -i 's/${custom_alias}/frontend/g' /app/frontend/web/.htaccess
 RUN sed -ri 's/memory_limit\s*=.*$/memory_limit = 1024M/' /etc/php/7.4/apache2/php.ini
 
 RUN chmod 755 /*.sh
-RUN chmod -R a+w /app/frontend/runtime/logs
 
 ADD https://bitbucket.org/uhopper/docker-wait-links/raw/master/waitlinks.sh /waitlinks.sh
 RUN chmod a+x /waitlinks.sh
