@@ -8,18 +8,17 @@ use common\models\User;
 /**
  * Signup form
  */
-class SignupForm extends Model
-{
+class SignupForm extends Model {
+
     public $username;
     public $email;
     public $password;
-
+    public $password_repeat;
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             ['username', 'trim'],
             ['username', 'required'],
@@ -34,7 +33,18 @@ class SignupForm extends Model
 
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
+            [['password', 'password_repeat'], 'checkPassword'],
         ];
+    }
+
+
+    public function checkPassword($attribute, $params) {
+        if($this->password == $this->password_repeat){
+            return true;
+        } else {
+            $this->addError($attribute, Yii::t('signup', 'Password does not match.'));
+            $this->addError('password_repeat', Yii::t('signup', 'Password does not match.'));
+        }
     }
 
     /**
@@ -42,20 +52,25 @@ class SignupForm extends Model
      *
      * @return bool whether the creating new account was successful and email was sent
      */
-    public function signup()
-    {
+    public function signup() {
         if (!$this->validate()) {
             return null;
         }
-        
+
         $user = new User();
         $user->username = $this->username;
         $user->email = $this->email;
+        $user->status = User::STATUS_ACTIVE; // TODO
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
-        return $user->save() && $this->sendEmail($user);
 
+        if ($user->save()) {
+            // $this->sendEmail($user);
+            return $user;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -63,8 +78,7 @@ class SignupForm extends Model
      * @param User $user user model to with email should be send
      * @return bool whether the email was sent
      */
-    protected function sendEmail($user)
-    {
+    protected function sendEmail($user) {
         return Yii::$app
             ->mailer
             ->compose(
