@@ -37,6 +37,15 @@ class SignupForm extends Model {
         ];
     }
 
+    public function attributeLabels() {
+        return [
+            'username' => Yii::t('common', 'Username'),
+            'email' => Yii::t('common', 'Email'),
+            'password' => Yii::t('common', 'Password'),
+            'password_repeat' => Yii::t('common', 'Verification password'),
+
+        ];
+    }
 
     public function checkPassword($attribute, $params) {
         if($this->password == $this->password_repeat){
