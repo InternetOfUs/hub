@@ -10,7 +10,7 @@ class ServiceApiConnector extends Component {
     public $baseUrl;
 
     public function initUserProfile($userId) {
-
+        
     }
 
 }
