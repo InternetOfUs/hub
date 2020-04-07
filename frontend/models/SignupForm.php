@@ -75,7 +75,7 @@ class SignupForm extends Model {
         $user->generateEmailVerificationToken();
 
         if ($user->save()) {
-            Yii::$app->serviceApi->initUserProfile();
+            Yii::$app->serviceApi->initUserProfile($user->id);
             // $this->sendEmail($user);
             return $user;
         } else {
