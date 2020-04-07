@@ -20,13 +20,13 @@
         <?= $form->field($model, 'password')->passwordInput()->label(Yii::t('common', 'Password')); ?>
         <?= $form->field($model, 'rememberMe')->checkbox()->label(Yii::t('signup', 'Remember me')); ?>
 
-        <div style="margin:20px 0;">
+        <!-- <div style="margin:20px 0;">
             <p class="light">
-                <?= Yii::t('signup', 'If you forgot your password you can'); ?> <?= Html::a( Yii::t('signup', 'reset it'), ['site/request-password-reset']) ?>.
+                <?//= Yii::t('signup', 'If you forgot your password you can'); ?> <?//= Html::a( Yii::t('signup', 'reset it'), ['site/request-password-reset']) ?>.
                 <br>
-                <?= Yii::t('signup', 'Need new verification email?'); ?> <?= Html::a( Yii::t('signup', 'Resend'), ['site/resend-verification-email']) ?>
+                <?//= Yii::t('signup', 'Need new verification email?'); ?> <?//= Html::a( Yii::t('signup', 'Resend'), ['site/resend-verification-email']) ?>
             </p>
-        </div>
+        </div> -->
 
         <div class="form-group">
             <?= Html::submitButton( Yii::t('common', 'Login'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
