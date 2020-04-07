@@ -1,25 +1,120 @@
 html,
 body {
+    font-family: 'Montserrat', sans-serif;
     height: 100%;
 }
 
+nav{height: 80px;}
+
+a.logo{
+    display: block;
+    padding: 0px;
+    margin: 15px;
+}
+
+a.logo img{
+    display: block;
+    height: 100%;
+}
+
+ul.navbar-nav{margin-top: 20px;}
+ul.navbar-nav li{margin-right: 15px;}
+
+ul.navbar-nav li.active a,
+ul.navbar-nav li a:focus,
+ul.navbar-nav li a:hover{background-color: transparent;}
+
+ul.navbar-nav li.active a,
+ul.navbar-nav li a:hover{
+    border-bottom: 2px solid #00a3b6;
+    background-color: transparent;
+}
+
+ul.navbar-nav li a{
+    padding: 10px 15px !important;
+    text-transform: uppercase;
+    letter-spacing: 0.015em;
+    font-size: 14px;
+    color: #00a3b6;
+}
+
+ul.navbar-nav li a:hover{
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #00a3b6;
+}
+
+ul.navbar-nav li.menu_btn a{
+    border-bottom: 0px !important;
+    padding: 10px 25px !important;
+    background-color: #00a3b6;
+    color: #fff;
+}
+
+ul.navbar-nav li.menu_btn.active a,
+ul.navbar-nav li.menu_btn a:hover{background-color: #3b4150;}
+
+/* align the logout "link" (button in form) of the navbar */
+.nav li > form > button.logout {
+    color: #00a3b6;
+    padding: 10px;
+    border: none;
+}
+
+.nav li > form > button.logout:hover {
+    border-bottom: 2px solid red;
+    color: red;
+}
+
 .wrap {
-    min-height: 100%;
-    height: auto;
     margin: 0 auto -60px;
     padding: 0 0 60px;
+    min-height: 100%;
+    height: auto;
 }
 
-.wrap > .container {
-    padding: 70px 15px 20px;
-}
+.wrap > .container {padding: 90px 15px 20px;}
 
 .footer {
-    height: 60px;
     background-color: #f5f5f5;
     border-top: 1px solid #ddd;
     padding-top: 20px;
+    height: 60px;
 }
+
+/* common */
+
+p.light{color: #888;}
+p a{color: #00a3b6;}
+
+/* forms */
+
+div.site-signup,
+div.site-login{
+    padding: 20px 0 0 0;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+form div.form-group button{margin-top: 15px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .jumbotron {
     text-align: center;
@@ -95,11 +190,7 @@ a.desc:after {
     margin: 0 0 15px 0;
 }
 
-/* align the logout "link" (button in form) of the navbar */
-.nav li > form > button.logout {
-    padding: 15px;
-    border: none;
-}
+
 
 @media(max-width:767px) {
     .nav li > form > button.logout {

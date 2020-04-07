@@ -35,7 +35,7 @@ class SiteController extends Controller {
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'landing'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -81,12 +81,12 @@ class SiteController extends Controller {
      */
     public function actionLogin() {
         if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+            return $this->redirect(['site/landing']);
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->redirect(['site/landing']);
         } else {
             $model->password = '';
 
@@ -94,6 +94,10 @@ class SiteController extends Controller {
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionLanding() {
+        return $this->render('landing');
     }
 
     /**

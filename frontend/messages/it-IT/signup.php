@@ -18,10 +18,17 @@
  */
 return [
     'Check your email for further instructions.' => '',
+    'If you forgot your password you can' => '',
+    'Need new verification email?' => '',
     'Password does not match.' => '',
+    'Please fill out the following fields to login' => '',
     'Please fill out the following fields to signup' => '',
+    'Remember me' => '',
+    'Resend' => '',
     'Sorry, we are unable to resend verification email for the provided email address.' => '',
     'Sorry, we are unable to verify your account with provided token.' => '',
     'Thank you for registration. Please check your inbox for verification email.' => '',
+    'Verification password' => '',
     'Your email has been confirmed!' => '',
+    'reset it' => '',
 ];

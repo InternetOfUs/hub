@@ -42,7 +42,7 @@ class SignupForm extends Model {
             'username' => Yii::t('common', 'Username'),
             'email' => Yii::t('common', 'Email'),
             'password' => Yii::t('common', 'Password'),
-            'password_repeat' => Yii::t('common', 'Verification password'),
+            'password_repeat' => Yii::t('signup', 'Verification password'),
 
         ];
     }

@@ -18,8 +18,12 @@
  */
 return [
     'Email' => '',
+    'Home' => '',
+    'Login' => '',
+    'Logout' => '',
     'Password' => '',
+    'Profile' => '',
     'Signup' => '',
     'Username' => '',
-    'Verification password' => '',
+    'Username or Email' => '',
 ];
