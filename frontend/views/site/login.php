@@ -16,6 +16,7 @@
     <p><?php echo Yii::t('signup', 'Please fill out the following fields to login') ?>:</p>
 
     <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+        <?= $form->field($model, 'username_or_email')->textInput(['autofocus' => true])->label(Yii::t('common', 'Username or Email')); ?>
         <?= $form->field($model, 'password')->passwordInput()->label(Yii::t('common', 'Password')); ?>
         <?= $form->field($model, 'rememberMe')->checkbox()->label(Yii::t('signup', 'Remember me')); ?>
 
