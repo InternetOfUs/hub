@@ -59,6 +59,10 @@ return [
             ],
         ],
         */
+        'serviceApi' => [
+            'class' => 'frontend\components\ServiceApiConnector',
+            'baseUrl' => 'http://0.0.0.0:8080',
+        ],
     ],
     'params' => $params,
 ];
