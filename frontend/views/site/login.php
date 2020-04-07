@@ -1,41 +1,36 @@
 <?php
+    /* @var $this yii\web\View */
+    /* @var $form yii\bootstrap\ActiveForm */
+    /* @var $model \common\models\LoginForm */
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \common\models\LoginForm */
+    use yii\helpers\Html;
+    use yii\bootstrap\ActiveForm;
 
-use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
-
-$this->title = 'Login';
-$this->params['breadcrumbs'][] = $this->title;
+    $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Login');
+    $this->params['breadcrumbs'][] = Yii::t('common', 'Login');
 ?>
+
 <div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Yii::t('common', 'Login'); ?></h1>
 
-    <p>Please fill out the following fields to login:</p>
+    <p><?php echo Yii::t('signup', 'Please fill out the following fields to login') ?>:</p>
 
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+    <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+        <?= $form->field($model, 'username_or_email')->textInput(['autofocus' => true])->label(Yii::t('common', 'Username or Email')); ?>
+        <?= $form->field($model, 'password')->passwordInput()->label(Yii::t('common', 'Password')); ?>
+        <?= $form->field($model, 'rememberMe')->checkbox()->label(Yii::t('signup', 'Remember me')); ?>
 
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+        <!-- <div style="margin:20px 0;">
+            <p class="light">
+                <?//= Yii::t('signup', 'If you forgot your password you can'); ?> <?//= Html::a( Yii::t('signup', 'reset it'), ['site/request-password-reset']) ?>.
+                <br>
+                <?//= Yii::t('signup', 'Need new verification email?'); ?> <?//= Html::a( Yii::t('signup', 'Resend'), ['site/resend-verification-email']) ?>
+            </p>
+        </div> -->
 
-                <?= $form->field($model, 'password')->passwordInput() ?>
-
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
-
-                <div style="color:#999;margin:1em 0">
-                    If you forgot your password you can <?= Html::a('reset it', ['site/request-password-reset']) ?>.
-                    <br>
-                    Need new verification email? <?= Html::a('Resend', ['site/resend-verification-email']) ?>
-                </div>
-
-                <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                </div>
-
-            <?php ActiveForm::end(); ?>
+        <div class="form-group">
+            <?= Html::submitButton( Yii::t('common', 'Login'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
         </div>
-    </div>
+
+    <?php ActiveForm::end(); ?>
 </div>
