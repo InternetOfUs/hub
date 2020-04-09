@@ -3,6 +3,7 @@
 namespace frontend\components;
 
 use Yii;
+use yii\helpers\Json;
 use yii\base\Component;
 
 class ServiceApiConnector extends Component {
@@ -11,7 +12,7 @@ class ServiceApiConnector extends Component {
     public $apikey;
 
     public function initUserProfile($userId) {
-        $url = $baseUrl . '/user/profile/' . $userId;
+        $url = $this->baseUrl . '/user/profile/' . $userId;
         try {
             $this->post($url, $this->authHeaders());
         } catch (\Exception $e) {
