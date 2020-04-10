@@ -61,6 +61,11 @@ return [
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
         ],
+        'serviceApi' => [
+            'class' => 'frontend\components\ServiceApiConnector',
+            'baseUrl' => $params['service.api.base.url'],
+            'apikey' => $params['service.api.apikey'],
+        ],
     ],
     'params' => $params,
 ];
