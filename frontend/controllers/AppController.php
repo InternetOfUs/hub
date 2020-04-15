@@ -5,6 +5,7 @@ use Yii;
 use yii\web\Controller;
 // use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\web\NotFoundHttpException;
 
 /**
  * Site controller
@@ -21,7 +22,7 @@ class AppController extends Controller {
                 'only' => ['index'],
                 'rules' => [
                     [
-                        'actions' => ['index'],
+                        'actions' => ['index', 'details'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -52,5 +53,18 @@ class AppController extends Controller {
     public function actionIndex() {
         return $this->render('index');
     }
+
+    public function actionDetails($id, $preview=FALSE) {
+		// $app = Resource::model()->findByPk($id);
+        $app = [];
+		if(!$app){
+            throw new NotFoundHttpException('The specified app cannot be found.');
+		// } else if(!$app->active && !$preview){
+		// 	$this->render('app/not_active');
+		} else {
+			$this->render('app/details', array('app' => $app));
+		}
+	}
+
 
 }

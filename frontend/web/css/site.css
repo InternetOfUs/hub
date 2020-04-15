@@ -21,6 +21,7 @@ a{
     cursor: pointer !important;
 }
 
+p{font-weight: 300;}
 p.light{color: #888;}
 p a{color: #00a3b6;}
 
@@ -194,15 +195,31 @@ div.appsContainer{
 
 div.appsContainer a.app{
     border: 1px solid #ddd;
+    text-decoration: none;
     border-radius: 5px;
     margin: 0 0 15px 0;
     padding: 15px;
     width: 32%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 div.appsContainer a.app:hover{
     background-color: rgba(0,163,182, 0.3);
     border-color: rgba(0,163,182, 0.6);
+}
+
+div.appsContainer a.app:hover *{color: #666 !important;}
+
+div.appsContainer a.app h2{
+    font-size: 20px;
+    margin-top: 5px;
+    color: #00a3b6;
+}
+
+div.appsContainer a.app p{
+    color: #888;
 }
 
 div.appsContainer a.app div.image_container{height: 40px;}

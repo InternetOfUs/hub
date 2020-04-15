@@ -1,4 +1,6 @@
 <?php
+    use yii\helpers\Url;
+    
     $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Apps');
     $this->params['breadcrumbs'][] = Yii::t('common', 'Apps');
 ?>
@@ -46,24 +48,24 @@
 	</div>
 	<div class="col-xs-12 col-sm-8 col-md-8 col-lg-9">
 		<div class="appsContainer">
-            <a href="#" class="app">
-                <h2>nome</h2>
-                <p>descrizione</p>
-                <div class="image_container">
+            <a href="<?php echo Url::to(['/app/details', 'id' => 1]); ?>" class="app">
+                <h2 style="align-self: flex-start">nome app1</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <div class="image_container" style="align-self: flex-end">
                     <img src="https://telegram.org/img/t_logo.png" alt="">
                 </div>
             </a>
             <a href="#" class="app">
-                <h2>nome</h2>
-                <p>descrizione</p>
-                <div class="image_container">
+                <h2>nome app2</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <div class="image_container" style="align-self: flex-end">
                     <img src="https://telegram.org/img/t_logo.png" alt="">
                 </div>
             </a>
             <a href="#" class="app">
-                <h2>nome</h2>
-                <p>descrizione</p>
-                <div class="image_container">
+                <h2>nome app3</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <div class="image_container" style="align-self: flex-end">
                     <img src="https://telegram.org/img/t_logo.png" alt="">
                 </div>
             </a>
