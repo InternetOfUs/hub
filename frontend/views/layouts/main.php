@@ -40,9 +40,8 @@
             ]);
             $menuItems = [
                 ['label' => Yii::t('common', 'Home'),  'url' => ['/site/index'], 'visible' => Yii::$app->user->isGuest],
-                ['label' => Yii::t('common', 'Profile'),  'url' => ['/site/landing'], 'visible' => !Yii::$app->user->isGuest],
-                // ['label' => 'About', 'url' => ['/site/about']],
-                // ['label' => 'Contact', 'url' => ['/site/contact']],
+                ['label' => Yii::t('common', 'Apps'),  'url' => ['/app/index'], 'visible' => !Yii::$app->user->isGuest],
+                // ['label' => Yii::t('common', 'Profile'),  'url' => ['#'], 'visible' => !Yii::$app->user->isGuest],
             ];
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => Yii::t('common', 'Login'),  'url' => ['/site/login']];
