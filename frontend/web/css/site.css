@@ -221,9 +221,16 @@ div.appsContainer a.app h2{
 
 div.appsContainer a.app p{color: #888;}
 
-div.appsContainer a.app div.image_container{height: 40px;}
+div.appsContainer a.app ul{margin: 0px;}
 
-div.appsContainer a.app div.image_container img{
+div.appsContainer a.app ul li{
+    display: inline-block;
+    margin-right: 10px;
+}
+
+div.appsContainer a.app ul li div.image_container{height: 30px;}
+
+div.appsContainer a.app ul li div.image_container img{
     display: block;
     height: 100%;
     width: auto;

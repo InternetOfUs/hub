@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use common\models\User;
 
 /**
  * This is the model class for table "app".
@@ -108,6 +109,10 @@ class WenetApp extends \yii\db\ActiveRecord {
         return WenetApp::find()->where(['status' => self::STATUS_ACTIVE])->all();
     }
 
+    public static function hasPlatformTelegram($id) {
+        return AppPlatformTelegram::find()->where(['app_id' => $id])->all();
+    }
+
     public function afterFind() {
         if ($this->metadata) {
             $this->allMetadata = json_decode($this->metadata, true);
@@ -117,7 +122,7 @@ class WenetApp extends \yii\db\ActiveRecord {
             } else {
                 $this->associatedCategories = [];
             }
-            
+
         } else {
             $this->associatedCategories = array();
         }
@@ -131,4 +136,5 @@ class WenetApp extends \yii\db\ActiveRecord {
     public function getOwner() {
         return $this->hasOne(User::className(), ['id' => 'owner_id']);
     }
+
 }

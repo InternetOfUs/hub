@@ -82,19 +82,31 @@
 							}
 						}
 
+                        $itemPlatforms = [];
                         $availablePlatforms = [];
-                        $availablePlatforms = ["telegram"]; //TODO
-                        $platformsContent = '<ul>';
-                        foreach ($availablePlatforms as $key => $ap) {
-                            $platformsContent .= '<li>';
-                                $platformsContent .= '<div class="image_container" style="align-self: flex-end">';
-                                    $platformsContent .= '<img src="https://telegram.org/img/t_logo.png" alt="'. Yii::t('title', 'platform icon') .'">';
-                                $platformsContent .= '</div>';
-                            $platformsContent .= '</li>';
+                        if(WenetApp::hasPlatformTelegram($app->id)){
+                            $availablePlatforms[] = "telegram";
+                            $itemPlatforms[] = 'platform__telegram';
                         }
-                        $platformsContent .= '</ul>';
+                        // $availablePlatforms[] = "messenger";
+                        // $availablePlatforms[] = "slack";
 
-                        $content = '<a href="'. Url::to(['/wenetapp/details', 'id' => $app->id]) .'" class="'.implode($itemTags, ' ').' app appId__'.$app->id.'">';
+                        $platformsContent = '';
+                        if(count($availablePlatforms) > 0){
+                            $platformsContent .= '<ul class="platform_icons">';
+                            foreach ($availablePlatforms as $key => $ap) {
+                                $platformsContent .= '<li>';
+                                    $platformsContent .= '<div class="image_container" style="align-self: flex-end">';
+                                        $platformsContent .= '<img src="/images/platforms/'.$ap.'.png" alt="'. Yii::t('title', 'platform icon') .'">';
+                                    $platformsContent .= '</div>';
+                                $platformsContent .= '</li>';
+                            }
+                            $platformsContent .= '</ul>';
+                        } else {
+                            $platformsContent .= '';
+                        }
+
+                        $content = '<a href="'. Url::to(['/wenetapp/details', 'id' => $app->id]) .'" class="'.implode($itemTags, ' '). ' '.implode($itemPlatforms, ' ').' app appId__'.$app->id.'">';
                             $content .= '<h2>'. $app->name .'</h2>';
                             $content .= '<p>'. $app->description .'</p>';
                             $content .= $platformsContent;
