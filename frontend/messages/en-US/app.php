@@ -31,7 +31,7 @@ return [
     'Token' => '',
     'Updated At' => '',
     'all' => '',
-    'filter_platform' => '',
-    'filter_tags' => '',
+    'filter_platform' => 'Platforms',
+    'filter_tags' => 'Tags',
     'filters' => '',
 ];

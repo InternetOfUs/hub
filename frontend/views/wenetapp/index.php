@@ -21,12 +21,12 @@
     </div>
 <?php } else { ?>
     <div class="row apps_section">
-    	<div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
+    	<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
     		<div class="filters_container">
                 <span class="filter_title">
 					<?php echo Yii::t('app', 'filters'); ?>
-					<!-- <span id="open_div"><i class="fa fa-chevron-down"></i></span>
-					<span id="close_div"><i class="fa fa-chevron-up"></i></span> -->
+					<span id="open_div"><i class="fa fa-chevron-down"></i></span>
+					<span id="close_div"><i class="fa fa-chevron-up"></i></span>
 				</span>
 				<div class="accordion">
                     <div class="filters all">
@@ -69,7 +69,7 @@
 			    </div>
 		    </div>
 	    </div>
-        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9">
+        <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
     		<div class="appsContainer">
                 <?php
                     $apps = WenetApp::activeApps();
@@ -94,7 +94,7 @@
                         }
                         $platformsContent .= '</ul>';
 
-                        $content = '<a href="'. Url::to(['/wenetapp/details', 'id' => $app->id]) .'" class="'.implode($itemTags, ' ').' app">';
+                        $content = '<a href="'. Url::to(['/wenetapp/details', 'id' => $app->id]) .'" class="'.implode($itemTags, ' ').' app appId__'.$app->id.'">';
                             $content .= '<h2>'. $app->name .'</h2>';
                             $content .= '<p>'. $app->description .'</p>';
                             $content .= $platformsContent;
@@ -113,57 +113,56 @@
 
 var platforms = <?php echo json_encode($activePlatformsList); ?>;
 var tags = <?php echo json_encode($activeTagsList); ?>;
-var displayedResourceIds = [];
+var displayedAppIds = [];
 
-function getResourceIdForPreview(element) {
+function getAppIdForPreview(element) {
 	var elementClasses = element.attr("class").split(" ");
 
-	var elementResourceId = undefined;
+	var elementAppId = undefined;
 	for (var elementClassIndex in elementClasses) {
 		var elementClass = elementClasses[elementClassIndex];
-		if (elementClass.includes("resourcePreview__")) {
-			elementResourceId = elementClass.replace("resourcePreview__", "");
+		if (elementClass.includes("appId__")) {
+			elementAppId = elementClass.replace("appId__", "");
 		}
 	}
-	return elementResourceId;
+	return elementAppId;
 }
 
 function filterFunction( itemElem ) {
-
 	var element = $(this);
 
-	var elementResourceId = getResourceIdForPreview(element);
-	if (elementResourceId === undefined) {
+	var elementAppId = getAppIdForPreview(element);
+	if (elementAppId === undefined) {
 		return false;
 	}
 
 	if (filtersEmpty()) {
-		displayedResourceIds.push(elementResourceId);
+		displayedAppIds.push(elementAppId);
 		return true;
 	} else {
-		var platformBool = true;
+        var platformsBool = true;
 		if (platforms.length > 0) {
-			platformBool = false;
+			platformsBool = false;
 			for (var i = 0; i < platforms.length; i++) {
-				var platformToCheck = platforms[i];
-				platformBool = platformBool || element.hasClass(platformToCheck.replace(".", ""));
+				var platformsToCheck = platforms[i];
+				platformsBool = platformsBool || element.hasClass(platformsToCheck.replace(".", ""));
 			}
 		}
 
-		var tagBool = true;
+		var tagsBool = true;
 		if (tags.length > 0) {
-			tagBool = false;
+			tagsBool = false;
 			for (var i = 0; i < tags.length; i++) {
 				var tagToCheck = tags[i];
-				tagBool = tagBool || $(this).hasClass(tagToCheck.replace(".", ""));
+				tagsBool = tagsBool || $(this).hasClass(tagToCheck.replace(".", ""));
 			}
 		}
 
-		var shoudldBeDisplayed = platformBool && tagBool;
-		if (shoudldBeDisplayed) {
-			displayedResourceIds.push(elementResourceId);
+		var shouldBeDisplayed = platformsBool && tagsBool;
+		if (shouldBeDisplayed) {
+			displayedAppIds.push(elementAppId);
 		}
-		return shoudldBeDisplayed;
+		return shouldBeDisplayed;
 	}
 }
 
@@ -180,7 +179,7 @@ function updateBoxView() {
 }
 
 $(window).on('load', function(){
-	displayedResourceIds = [];
+	displayedAppIds = [];
 	updateBoxView();
 
     $('.filters a').click(function(){
@@ -188,14 +187,14 @@ $(window).on('load', function(){
 		var selectorType = getSelectorType(selector);
 
 		if($(this).hasClass('resetFilters')){
-			console.log('resetting filters');
+			// console.log('resetting filters');
 			$('.platforms a').removeClass('current');
 			$('.tags a').removeClass('current');
 			$(this).addClass('current');
 			resetFitlers();
 		} else {
 			if ($(this).hasClass('current')) {
-				console.log('removing filter ' + selector);
+				// console.log('removing filter ' + selector);
 				$('.resetFilters').removeClass('current');
 				$(this).removeClass('current');
 				removeFilter(selector, selectorType);
@@ -204,19 +203,20 @@ $(window).on('load', function(){
 					resetFitlers();
 				}
 			} else {
-				console.log('applying filter ' + selector);
+				// console.log('applying filter ' + selector);
 				$('.sectors a.allCategories').removeClass('current');
 				$('.resetFilters').removeClass('current');
 				$(this).addClass('current');
 				addFilter( selector, selectorType );
-				console.log(selector +", "+ selectorType);
+				// console.log(selector +", "+ selectorType);
 			}
 		}
 
-		displayedResourceIds = [];
+		displayedAppIds = [];
 		updateBoxView();
     });
 
+    console.log($(document).innerWidth());
 	$('span.filter_title').click(function(){
 		if($(document).innerWidth() < 768){
 			if($('div.accordion').hasClass('open')){

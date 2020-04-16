@@ -31,7 +31,7 @@ return [
     'Token' => '',
     'Updated At' => '',
     'all' => '',
-    'filter_platform' => '',
+    'filter_platform' => 'puppa',
     'filter_tags' => '',
     'filters' => '',
 ];
