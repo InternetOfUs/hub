@@ -20,21 +20,29 @@ use Yii;
  *
  * @property User $owner
  */
-class WenetApp extends \yii\db\ActiveRecord
-{
+class WenetApp extends \yii\db\ActiveRecord {
+
+    public $allMetadata = [];
+    public $associatedCategories = [];
+
+    const STATUS_CREATED = 0;
+    const STATUS_ACTIVE = 1;
+
+    const SOCIAL = 'social';
+    const ASSISTANCE = 'assistance';
+    const TELEGRAM = 'telegram';
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'app';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'status', 'metadata', 'created_at', 'updated_at', 'owner_id'], 'required'],
             [['status', 'created_at', 'updated_at', 'owner_id'], 'integer'],
@@ -49,10 +57,8 @@ class WenetApp extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
-            'id' => Yii::t('app', 'ID'),
             'status' => Yii::t('app', 'Status'),
             'name' => Yii::t('app', 'Name'),
             'description' => Yii::t('app', 'Description'),
@@ -65,13 +71,64 @@ class WenetApp extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function label($label) {
+        return self::labels()[$label];
+    }
+
+    public static function labels() {
+        return [
+    		self::SOCIAL => Yii::t('app', 'Social'),
+    		self::ASSISTANCE => Yii::t('app', 'Assistance'),
+    		self::TELEGRAM => Yii::t('app', 'Telegram'),
+    	];
+    }
+
+    public static function getPlatforms(){
+        return [
+            self::TELEGRAM
+        ];
+    }
+
+    public static function getTags(){
+        return [
+            self::SOCIAL,
+            self::ASSISTANCE
+        ];
+    }
+
+    public static function numberOfActiveApps() {
+        return count(WenetApp::find()->where(['status' => self::STATUS_ACTIVE])->all());
+    }
+
+    public static function thereAreActiveApps() {
+        return self::numberOfActiveApps() > 0;
+    }
+
+    public static function activeApps() {
+        return WenetApp::find()->where(['status' => self::STATUS_ACTIVE])->all();
+    }
+
+    public function afterFind() {
+        if ($this->metadata) {
+            $this->allMetadata = json_decode($this->metadata, true);
+
+            if (isset($this->allMetadata['categories']) && is_array($this->allMetadata['categories'])) {
+                $this->associatedCategories = $this->allMetadata['categories'];
+            } else {
+                $this->associatedCategories = [];
+            }
+            
+        } else {
+            $this->associatedCategories = array();
+        }
+    }
+
     /**
      * Gets query for [[Owner]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getOwner()
-    {
+    public function getOwner() {
         return $this->hasOne(User::className(), ['id' => 'owner_id']);
     }
 }

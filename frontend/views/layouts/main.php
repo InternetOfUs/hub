@@ -40,7 +40,7 @@
             ]);
             $menuItems = [
                 ['label' => Yii::t('common', 'Home'),  'url' => ['/site/index'], 'visible' => Yii::$app->user->isGuest],
-                ['label' => Yii::t('common', 'Apps'),  'url' => ['/app/index'], 'visible' => !Yii::$app->user->isGuest],
+                ['label' => Yii::t('common', 'Apps'),  'url' => ['/wenetapp/index'], 'visible' => !Yii::$app->user->isGuest],
                 // ['label' => Yii::t('common', 'Profile'),  'url' => ['#'], 'visible' => !Yii::$app->user->isGuest],
             ];
             if (Yii::$app->user->isGuest) {

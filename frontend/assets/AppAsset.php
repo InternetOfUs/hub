@@ -17,6 +17,9 @@ class AppAsset extends AssetBundle
     public $js = [
         'js/isotope.pkgd.min.js'
     ];
+    public $jsOptions = [
+        'position' => \yii\web\View::POS_HEAD
+    ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
