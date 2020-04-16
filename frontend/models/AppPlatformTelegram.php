@@ -52,6 +52,6 @@ class AppPlatformTelegram extends \yii\db\ActiveRecord {
      * @return \yii\db\ActiveQuery
      */
     public function getApp() {
-        return $this->hasOne(App::className(), ['id' => 'app_id']);
+        return $this->hasOne(WenetApp::className(), ['id' => 'app_id']);
     }
 }

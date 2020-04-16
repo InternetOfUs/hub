@@ -77,7 +77,7 @@ class WenetappController extends Controller {
         if(!$app){
             throw new NotFoundHttpException('The specified app cannot be found.');
 		} else {
-			$this->render('details', array(
+			return $this->render('details', array(
                 'app' => $app
             ));
 		}
