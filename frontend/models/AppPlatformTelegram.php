@@ -15,21 +15,18 @@ use Yii;
  *
  * @property App $app
  */
-class AppPlatformTelegram extends \yii\db\ActiveRecord
-{
+class AppPlatformTelegram extends \yii\db\ActiveRecord {
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'app_platform_telegram';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['created_at', 'updated_at'], 'required'],
             [['created_at', 'updated_at'], 'integer'],
@@ -41,11 +38,8 @@ class AppPlatformTelegram extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'app_id' => Yii::t('app', 'App ID'),
             'bot_username' => Yii::t('app', 'Bot Username'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
@@ -57,8 +51,7 @@ class AppPlatformTelegram extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getApp()
-    {
+    public function getApp() {
         return $this->hasOne(App::className(), ['id' => 'app_id']);
     }
 }
