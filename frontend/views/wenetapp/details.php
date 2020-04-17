@@ -24,7 +24,7 @@ use frontend\models\WenetApp;
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="connections">
             <!-- TODO -->
-            <?php if(WenetApp::hasPlatformTelegram($app->id)){ ?>
+            <?php if($app->hasPlatformTelegram()){ ?>
                 <script async src="https://telegram.org/js/telegram-widget.js?8" data-telegram-login="uh_test_bot" data-size="large" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>
                 <script type="text/javascript">
                 function onTelegramAuth(user) {
