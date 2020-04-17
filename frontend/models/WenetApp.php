@@ -122,7 +122,6 @@ class WenetApp extends \yii\db\ActiveRecord {
             } else {
                 $this->associatedCategories = [];
             }
-
         } else {
             $this->associatedCategories = array();
         }

@@ -85,8 +85,8 @@
                         $itemPlatforms = [];
                         $availablePlatforms = [];
                         if(WenetApp::hasPlatformTelegram($app->id)){
-                            $availablePlatforms[] = "telegram";
-                            $itemPlatforms[] = 'platform__telegram';
+                            $availablePlatforms[] = WenetApp::TELEGRAM;
+                            $itemPlatforms[] = 'platform__' . WenetApp::TELEGRAM;
                         }
                         // $availablePlatforms[] = "messenger";
                         // $availablePlatforms[] = "slack";
