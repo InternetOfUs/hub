@@ -84,7 +84,7 @@
 
                         $itemPlatforms = [];
                         $availablePlatforms = [];
-                        if(WenetApp::hasPlatformTelegram($app->id)){
+                        if($app->hasPlatformTelegram()) {
                             $availablePlatforms[] = WenetApp::TELEGRAM;
                             $itemPlatforms[] = 'platform__' . WenetApp::TELEGRAM;
                         }

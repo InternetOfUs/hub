@@ -109,8 +109,8 @@ class WenetApp extends \yii\db\ActiveRecord {
         return WenetApp::find()->where(['status' => self::STATUS_ACTIVE])->all();
     }
 
-    public static function hasPlatformTelegram($id) {
-        return AppPlatformTelegram::find()->where(['app_id' => $id])->all();
+    public function hasPlatformTelegram() {
+        return AppPlatformTelegram::find()->where(['app_id' => $this->id])->all();
     }
 
     public function afterFind() {
