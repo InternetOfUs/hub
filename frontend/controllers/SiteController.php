@@ -35,7 +35,7 @@ class SiteController extends Controller {
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout', 'landing'],
+                        'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -81,12 +81,12 @@ class SiteController extends Controller {
      */
     public function actionLogin() {
         if (!Yii::$app->user->isGuest) {
-            return $this->redirect(['site/landing']);
+            return $this->redirect(['wenetapp/index']);
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->redirect(['site/landing']);
+            return $this->redirect(['wenetapp/index']);
         } else {
             $model->password = '';
 
@@ -96,9 +96,9 @@ class SiteController extends Controller {
         }
     }
 
-    public function actionLanding() {
-        return $this->render('landing');
-    }
+    // public function actionLanding() {
+    //     return $this->render('landing');
+    // }
 
     /**
      * Logs out the current user.

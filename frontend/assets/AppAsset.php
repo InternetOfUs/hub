@@ -13,11 +13,17 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/site.css',
+        'css/responsive.css',
     ];
     public $js = [
+        'js/isotope.pkgd.min.js'
+    ];
+    public $jsOptions = [
+        'position' => \yii\web\View::POS_HEAD
     ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
+        'frontend\assets\FontAwesomeAsset',
     ];
 }

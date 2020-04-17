@@ -17,14 +17,8 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'App' => '',
-    'Apps' => '',
-    'Email' => '',
-    'Home' => '',
-    'Login' => '',
-    'Logout' => '',
-    'Password' => '',
-    'Signup' => '',
-    'Username' => '',
-    'Username or Email' => '',
+    'Filter for platform' => '',
+    'Filter for tag' => '',
+    'See all' => '',
+    'platform icon' => '',
 ];

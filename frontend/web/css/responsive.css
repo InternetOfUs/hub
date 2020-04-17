@@ -1,0 +1,56 @@
+@media screen and (max-width: 991px){
+    div.appsContainer a.app{width: 48%;}
+    div.appsContainer a.app:nth-child(3n+1),
+    div.appsContainer a.app:nth-child(3n+2){margin-right: 0%;}
+    div.appsContainer a.app:nth-child(2n+1){margin-right: 2%;}
+}
+
+@media screen and (max-width: 767px){
+    div.navbar-collapse{
+        background-color: #fff;
+        border-top: 1px solid #ddd;
+        -webkit-box-shadow: 0px 10px 19px -10px rgba(0,0,0,0.40);
+        -moz-box-shadow: 0px 10px 19px -10px rgba(0,0,0,0.40);
+        box-shadow: 0px 10px 19px -10px rgba(0,0,0,0.40);
+    }
+
+    div.navbar-collapse ul{margin: 10px;}
+    div.navbar-collapse ul li{margin: 0 0 15px 0;}
+    div.navbar-collapse ul li:last-child{margin:0;}
+
+    div.navbar-collapse ul li a,
+    div.navbar-collapse ul li > form > button.logout{
+        border: 0px !important;
+        color: #4c5363;
+    }
+
+    div.navbar-collapse ul li.active a{
+        color: #00a3b6;
+        border: none;
+    }
+    .filters_container span.filter_title{
+		border-bottom: 1px solid #ddd;
+		text-align: left !important;
+		padding: 0 0 10px 0;
+		margin-right: 0px;
+		cursor: pointer;
+	}
+	.filters_container span.filter_title span#open_div{display: block;}
+	div.accordion{
+		overflow: hidden;
+		height: 0px;
+        margin-bottom: 10px;
+	}
+    .filters ul li{
+        display: inline-block;
+        margin-right: 5px;
+        margin-bottom: 10px;
+    }
+}
+
+@media screen and (max-width: 480px){
+    div.appsContainer a.app{
+        margin-right: 0%;
+        width: 100%;
+    }
+}
