@@ -111,7 +111,15 @@ class WenetApp extends \yii\db\ActiveRecord {
     }
 
     public function hasPlatformTelegram() {
-        return AppPlatformTelegram::find()->where(['app_id' => $this->id])->all();
+        return AppPlatformTelegram::find()->where(['app_id' => $this->id])->one();
+    }
+
+    public function telegramUserAlreadyExists() {
+        $userId = Yii::$app->user->id;
+        return UserAccountTelegram::find()
+            ->where(['app_id' => $this->id])
+            ->andWhere(['user_id' => $userId])
+            ->one();
     }
 
     public function afterFind() {

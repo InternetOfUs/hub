@@ -88,8 +88,6 @@
                             $availablePlatforms[] = WenetApp::PLATFORM_TELEGRAM;
                             $itemPlatforms[] = 'platform__' . WenetApp::PLATFORM_TELEGRAM;
                         }
-                        // $availablePlatforms[] = "messenger";
-                        // $availablePlatforms[] = "slack";
 
                         $platformsContent = '';
                         if(count($availablePlatforms) > 0){
@@ -228,7 +226,6 @@ $(window).on('load', function(){
 		updateBoxView();
     });
 
-    console.log($(document).innerWidth());
 	$('span.filter_title').click(function(){
 		if($(document).innerWidth() < 768){
 			if($('div.accordion').hasClass('open')){

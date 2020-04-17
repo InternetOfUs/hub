@@ -1,5 +1,6 @@
 <?php
-use frontend\models\WenetApp;
+    use frontend\models\AppPlatformTelegram;
+
     $this->title = Yii::$app->name . ' | ' . $app->name;
     $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Apps'), 'url' => ['index']];
     $this->params['breadcrumbs'][] = $app->name;
@@ -24,14 +25,25 @@ use frontend\models\WenetApp;
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="connections">
             <!-- TODO -->
-            <?php if($app->hasPlatformTelegram()){ ?>
-                <script async src="https://telegram.org/js/telegram-widget.js?8" data-telegram-login="uh_test_bot" data-size="large" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>
-                <script type="text/javascript">
-                function onTelegramAuth(user) {
-                    alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
+            <?php
+                if( $app->hasPlatformTelegram() ){
+                    if( $app->telegramUserAlreadyExists() ){
+                        echo 'sei già registrato!';
+                    } else {
+                        echo '<script async src="https://telegram.org/js/telegram-widget.js?8" data-telegram-login="uh_test_bot" data-size="large" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>';
+                    }
+                } else {
+                    echo 'no telegram!';
                 }
-                </script>
-            <?php } ?>
+            ?>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+
+    function onTelegramAuth(user) {
+        alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
+    }
+
+</script>
