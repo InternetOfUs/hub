@@ -7,6 +7,8 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use frontend\models\WenetApp;
+use frontend\models\AppPlatformTelegram;
+use frontend\models\UserAccountTelegram;
 
 /**
  * Site controller
@@ -20,10 +22,10 @@ class WenetappController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'details'],
+                'only' => ['index', 'details', 'associateUser'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'details'],
+                        'actions' => ['index', 'details', 'associate-user'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -84,5 +86,33 @@ class WenetappController extends Controller {
 		}
 	}
 
+    public function actionAssociateUser() {
+        $data = Yii::$app->request->post();
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        if ($data['platform'] == 'telegram') {
+            $account = new UserAccountTelegram();
+            $account->user_id = $data['userId'];
+            $account->app_id = $data['appId'];
+            $account->telegram_id = $data['platformId'];
+            if ($account->save()) {
+                return [
+                    'message' => 'saved',
+                ];
+            } else {
+                Yii::warning('Could not save new telegram account');
+                Yii::$app->response->statusCode = 400;
+                return [
+                    'message' => 'could not save account',
+                ];
+            }
+        } else {
+            Yii::warning('Unsupported platform provided');
+            Yii::$app->response->statusCode = 400;
+            return [
+                'message' => 'unsupported platform',
+            ];
+        }
+    }
 
 }

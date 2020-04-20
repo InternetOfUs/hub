@@ -1,6 +1,11 @@
 <?php
 namespace frontend\models;
+
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use common\models\User;
+use frontend\models\WenetApp;
+
 /**
  * This is the model class for table "user_account_telegram".
  *
@@ -12,7 +17,7 @@ use Yii;
  * @property int $updated_at
  *
  * @property User $user
- * @property App $app
+ * @property WenetApp $app
  */
 class UserAccountTelegram extends \yii\db\ActiveRecord {
     /**
@@ -26,11 +31,11 @@ class UserAccountTelegram extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['user_id', 'app_id', 'telegram_id', 'created_at', 'updated_at'], 'required'],
+            [['user_id', 'app_id', 'telegram_id'], 'required'],
             [['user_id', 'telegram_id', 'created_at', 'updated_at'], 'integer'],
             [['app_id'], 'string', 'max' => 128],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
-            [['app_id'], 'exist', 'skipOnError' => true, 'targetClass' => App::className(), 'targetAttribute' => ['app_id' => 'id']],
+            [['app_id'], 'exist', 'skipOnError' => true, 'targetClass' => WenetApp::className(), 'targetAttribute' => ['app_id' => 'id']],
         ];
     }
     /**
@@ -45,6 +50,17 @@ class UserAccountTelegram extends \yii\db\ActiveRecord {
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
+
+    public function behaviors() {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+            ],
+        ];
+    }
+
     /**
      * Gets query for [[User]].
      *
@@ -59,7 +75,7 @@ class UserAccountTelegram extends \yii\db\ActiveRecord {
      * @return \yii\db\ActiveQuery
      */
     public function getApp() {
-        return $this->hasOne(App::className(), ['id' => 'app_id']);
+        return $this->hasOne(WenetApp::className(), ['id' => 'app_id']);
     }
 
 }

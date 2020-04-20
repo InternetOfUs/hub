@@ -44,7 +44,18 @@
 <script type="text/javascript">
 
     function onTelegramAuth(user) {
-        alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
+        var data = {
+            "appId": "<?php echo $app->id; ?>",
+            "platform": "telegram",
+            "userId": <?php echo Yii::$app->user->id; ?>,
+            "platformId": user.id
+        };
+        $.post( "/wenetapp/associate-user", data).done(function(response) {
+            // console.log( "saved" );
+            // TODO remove button, ...
+        }).fail(function(response) {
+            // console.log( "error: " + response.message );
+        });
     }
 
 </script>
