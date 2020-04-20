@@ -111,7 +111,27 @@ class WenetApp extends \yii\db\ActiveRecord {
     }
 
     public function hasPlatformTelegram() {
-        return AppPlatformTelegram::find()->where(['app_id' => $this->id])->one();
+        if ($this->getPlatformTelegram()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Get the enabled telegram platform, if defined.
+     * @return AppPlatformTelegram|null
+     */
+    public function getPlatformTelegram() {
+        $telegramPlatforms = AppPlatformTelegram::find()->where(['app_id' => $this->id])->all();
+        if (count($telegramPlatforms) == 0) {
+            return null;
+        } else if (count($telegramPlatforms) == 1) {
+            return $telegramPlatforms[0];
+        } else {
+            Yii::warning('App ['.$this->id.'] should not have more that one telegram platform configured');
+            return $telegramPlatforms[0];
+        }
     }
 
     public function telegramUserAlreadyExists() {
@@ -143,6 +163,11 @@ class WenetApp extends \yii\db\ActiveRecord {
      */
     public function getOwner() {
         return $this->hasOne(User::className(), ['id' => 'owner_id']);
+    }
+
+    public function getEnabledPlatforms()
+    {
+        return $this->hasMany(UserAccountTelegram::className(), ['app_id' => 'id']);
     }
 
 }

@@ -26,11 +26,12 @@
         <div class="connections">
             <!-- TODO -->
             <?php
-                if( $app->hasPlatformTelegram() ){
+                $telegramPlatform = $app->getPlatformTelegram();
+                if( $telegramPlatform ){
                     if( $app->telegramUserAlreadyExists() ){
                         echo 'sei già registrato!';
                     } else {
-                        echo '<script async src="https://telegram.org/js/telegram-widget.js?8" data-telegram-login="uh_test_bot" data-size="large" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>';
+                        echo '<script async src="https://telegram.org/js/telegram-widget.js?8" data-telegram-login="'.$telegramPlatform->bot_username.'" data-size="large" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>';
                     }
                 } else {
                     echo 'no telegram!';

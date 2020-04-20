@@ -77,6 +77,7 @@ class WenetappController extends Controller {
         if(!$app){
             throw new NotFoundHttpException('The specified app cannot be found.');
 		} else {
+            $telegramPlatforms = AppPlatformTelegram::find()->where(['app_id' => $app->id])->all();
 			return $this->render('details', array(
                 'app' => $app
             ));
