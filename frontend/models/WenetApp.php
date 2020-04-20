@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 use common\models\User;
 
 /**
@@ -46,7 +47,7 @@ class WenetApp extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['id', 'status', 'metadata', 'created_at', 'updated_at', 'owner_id'], 'required'],
+            [['id', 'status', 'metadata', 'owner_id'], 'required'],
             [['status', 'created_at', 'updated_at', 'owner_id'], 'integer'],
             [['description', 'message_callback_url', 'metadata'], 'string'],
             [['id'], 'string', 'max' => 128],
@@ -70,6 +71,16 @@ class WenetApp extends \yii\db\ActiveRecord {
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'owner_id' => Yii::t('app', 'Owner ID'),
+        ];
+    }
+
+    public function behaviors() {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+            ],
         ];
     }
 
