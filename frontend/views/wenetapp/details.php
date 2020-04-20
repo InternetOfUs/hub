@@ -1,5 +1,6 @@
 <?php
     use frontend\models\AppPlatformTelegram;
+    use yii\helpers\Url;
 
     $this->title = Yii::$app->name . ' | ' . $app->name;
     $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Apps'), 'url' => ['index']];
@@ -50,7 +51,7 @@
             "userId": <?php echo Yii::$app->user->id; ?>,
             "platformId": user.id
         };
-        $.post( "/wenetapp/associate-user", data).done(function(response) {
+        $.post( "<?php echo Url::base(); ?>/wenetapp/associate-user", data).done(function(response) {
             // console.log( "saved" );
             $('#telegram_widget_container').css('display', 'none');
             $('#telegram_container').append('<button class="logoutTelegramBtn"><span class="icon"></span><?php echo Yii::t('app', 'Disconnect my account'); ?></button>');

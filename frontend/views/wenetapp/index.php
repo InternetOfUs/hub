@@ -95,7 +95,7 @@
                             foreach ($availablePlatforms as $key => $ap) {
                                 $platformsContent .= '<li>';
                                     $platformsContent .= '<div class="image_container" style="align-self: flex-end">';
-                                        $platformsContent .= '<img src="/images/platforms/'.$ap.'.png" alt="'. Yii::t('title', 'platform icon') .'">';
+                                        $platformsContent .= '<img src="'.Url::base().'/images/platforms/'.$ap.'.png" alt="'. Yii::t('title', 'platform icon') .'">';
                                     $platformsContent .= '</div>';
                                 $platformsContent .= '</li>';
                             }
