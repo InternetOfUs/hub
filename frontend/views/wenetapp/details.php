@@ -24,17 +24,17 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="connections">
-            <!-- TODO -->
             <?php
                 $telegramPlatform = $app->getPlatformTelegram();
                 if( $telegramPlatform ){
+                    echo '<div id="telegram_container">';
                     if( $app->telegramUserAlreadyExists() ){
-                        echo 'sei già registrato!';
+                        // TODO
+                        echo '<button onclick="" class="logoutTelegramBtn" type="button"><span class="icon"></span>'.Yii::t('app', 'Disconnect my account').'</button>';
                     } else {
-                        echo '<script async src="https://telegram.org/js/telegram-widget.js?8" data-telegram-login="'.$telegramPlatform->bot_username.'" data-size="large" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>';
+                        echo '<div id="telegram_widget_container"><script async src="https://telegram.org/js/telegram-widget.js?8" data-telegram-login="'.$telegramPlatform->bot_username.'" data-size="large" data-onauth="onTelegramAuth(user)" data-request-access="write"></script></div>';
                     }
-                } else {
-                    echo 'no telegram!';
+                    echo '</div>';
                 }
             ?>
         </div>
@@ -52,9 +52,12 @@
         };
         $.post( "/wenetapp/associate-user", data).done(function(response) {
             // console.log( "saved" );
-            // TODO remove button, ...
+            $('#telegram_widget_container').css('display', 'none');
+            $('#telegram_container').append('<button class="logoutTelegramBtn"><span class="icon"></span><?php echo Yii::t('app', 'Disconnect my account'); ?></button>');
         }).fail(function(response) {
             // console.log( "error: " + response.message );
+            $('#telegram_widget_container').css('display', 'none');
+            $('#telegram_container').append('<p><?php echo Yii::t('app', 'There is a problem with the Telegram login. Please retry later.'); ?></p>');
         });
     }
 
