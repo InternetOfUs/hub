@@ -15,6 +15,8 @@ use frontend\models\WenetApp;
  * @property int $telegram_id
  * @property int $created_at
  * @property int $updated_at
+ * @property string $metadata
+ * @property int $active
  *
  * @property User $user
  * @property WenetApp $app
@@ -31,8 +33,9 @@ class UserAccountTelegram extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['user_id', 'app_id', 'telegram_id'], 'required'],
-            [['user_id', 'telegram_id', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'app_id', 'telegram_id', 'active'], 'required'],
+            [['user_id', 'telegram_id', 'created_at', 'updated_at', 'active'], 'integer'],
+            [['metadata'], 'string'],
             [['app_id'], 'string', 'max' => 128],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['app_id'], 'exist', 'skipOnError' => true, 'targetClass' => WenetApp::className(), 'targetAttribute' => ['app_id' => 'id']],
