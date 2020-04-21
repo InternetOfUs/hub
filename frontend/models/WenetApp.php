@@ -147,10 +147,10 @@ class WenetApp extends \yii\db\ActiveRecord {
 
     public function getTelegramUser() {
         $userId = Yii::$app->user->id;
-        $telegramUser =  UserAccountTelegram::find()
-            ->where(['app_id' => $this->id])
-            ->andWhere(['user_id' => $userId])
-            ->one();
+        $telegramUser =  UserAccountTelegram::find()->where([
+            'app_id' => $this->id,
+            'user_id' => $userId
+        ])->one();
 
         if($telegramUser){
             return $telegramUser;

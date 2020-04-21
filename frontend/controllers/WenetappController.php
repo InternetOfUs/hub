@@ -91,11 +91,21 @@ class WenetappController extends Controller {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
         if ($data['platform'] == 'telegram') {
-            $account = new UserAccountTelegram();
-            $account->user_id = $data['userId'];
-            $account->app_id = $data['appId'];
-            $account->telegram_id = $data['platformId'];
+            $account = UserAccountTelegram::find()->where([
+                'app_id' => $data['appId'],
+                'user_id' => $data['userId'],
+                'telegram_id' => $data['platformId'],
+            ])->one();
+
+            if (!$account) {
+                $account = new UserAccountTelegram();
+                $account->user_id = $data['userId'];
+                $account->app_id = $data['appId'];
+                $account->telegram_id = $data['platformId'];
+            }
+            
             $account->active = UserAccountTelegram::ACTIVE;
+
             if ($account->save()) {
                 return [
                     'message' => 'saved',
