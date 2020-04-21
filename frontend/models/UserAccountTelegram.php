@@ -22,6 +22,10 @@ use frontend\models\WenetApp;
  * @property WenetApp $app
  */
 class UserAccountTelegram extends \yii\db\ActiveRecord {
+
+    const NOT_ACTIVE = 0;
+    const ACTIVE = 1;
+
     /**
      * {@inheritdoc}
      */

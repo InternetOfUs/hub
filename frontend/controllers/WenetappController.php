@@ -95,6 +95,7 @@ class WenetappController extends Controller {
             $account->user_id = $data['userId'];
             $account->app_id = $data['appId'];
             $account->telegram_id = $data['platformId'];
+            $account->active = UserAccountTelegram::ACTIVE;
             if ($account->save()) {
                 return [
                     'message' => 'saved',

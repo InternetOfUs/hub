@@ -145,12 +145,28 @@ class WenetApp extends \yii\db\ActiveRecord {
         }
     }
 
-    public function telegramUserAlreadyExists() {
+    public function getTelegramUser() {
         $userId = Yii::$app->user->id;
-        return UserAccountTelegram::find()
+        $telegramUser =  UserAccountTelegram::find()
             ->where(['app_id' => $this->id])
             ->andWhere(['user_id' => $userId])
             ->one();
+
+        if($telegramUser){
+            return $telegramUser;
+        } else {
+            return null;
+        }
+    }
+
+
+    public function telegramUserIsActive() {
+        $user = $this->getTelegramUser();
+        if ($user !== null && $user->active == UserAccountTelegram::ACTIVE) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function afterFind() {

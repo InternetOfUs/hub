@@ -29,8 +29,7 @@
                 $telegramPlatform = $app->getPlatformTelegram();
                 if( $telegramPlatform ){
                     echo '<div id="telegram_container">';
-                    if( $app->telegramUserAlreadyExists() ){
-                        // TODO
+                    if( $app->telegramUserIsActive() ){
                         echo '<button onclick="" class="logoutTelegramBtn" type="button"><span class="icon"></span>'.Yii::t('app', 'Disconnect my account').'</button>';
                     } else {
                         echo '<div id="telegram_widget_container"><script async src="https://telegram.org/js/telegram-widget.js?8" data-telegram-login="'.$telegramPlatform->bot_username.'" data-size="large" data-onauth="onTelegramAuth(user)" data-request-access="write"></script></div>';
