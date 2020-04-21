@@ -61,4 +61,21 @@
         });
     }
 
+    function disabletelegram() {
+        var data = {
+            "appId": "<?php echo $app->id; ?>",
+            "platform": "telegram",
+            "userId": <?php echo Yii::$app->user->id; ?>
+        };
+        $.post( "<?php echo Url::base(); ?>/wenetapp/disassociate-user", data).done(function(response) {
+            // console.log( "saved" );
+            // $('#telegram_widget_container').css('display', 'none');
+            // $('#telegram_container').append('<button class="logoutTelegramBtn"><span class="icon"></span><?php echo Yii::t('app', 'Disconnect my account'); ?></button>');
+        }).fail(function(response) {
+            // console.log( "error: " + response.message );
+            // $('#telegram_widget_container').css('display', 'none');
+            // $('#telegram_container').append('<p><?php echo Yii::t('app', 'There is a problem with the Telegram login. Please retry later.'); ?></p>');
+        });
+    }
+
 </script>

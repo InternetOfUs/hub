@@ -22,10 +22,10 @@ class WenetappController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'details', 'associateUser'],
+                'only' => ['index', 'details', 'associate-user', 'disassociate-user'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'details', 'associate-user'],
+                        'actions' => ['index', 'details', 'associate-user', 'disassociate-user'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -103,7 +103,7 @@ class WenetappController extends Controller {
                 $account->app_id = $data['appId'];
                 $account->telegram_id = $data['platformId'];
             }
-            
+
             $account->active = UserAccountTelegram::ACTIVE;
 
             if ($account->save()) {
@@ -112,6 +112,38 @@ class WenetappController extends Controller {
                 ];
             } else {
                 Yii::warning('Could not save new telegram account');
+                Yii::$app->response->statusCode = 400;
+                return [
+                    'message' => 'could not save account',
+                ];
+            }
+        } else {
+            Yii::warning('Unsupported platform provided');
+            Yii::$app->response->statusCode = 400;
+            return [
+                'message' => 'unsupported platform',
+            ];
+        }
+    }
+
+    public function actionDisassociateUser() {
+        $data = Yii::$app->request->post();
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        if ($data['platform'] == 'telegram') {
+            $account = UserAccountTelegram::find()->where([
+                'app_id' => $data['appId'],
+                'user_id' => $data['userId'],
+            ])->one();
+
+            $account->active = UserAccountTelegram::NOT_ACTIVE;
+
+            if ($account->save()) {
+                return [
+                    'message' => 'disabled',
+                ];
+            } else {
+                Yii::warning('Could not disable telegram account');
                 Yii::$app->response->statusCode = 400;
                 return [
                     'message' => 'could not save account',
