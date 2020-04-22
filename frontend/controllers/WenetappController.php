@@ -114,7 +114,7 @@ class WenetappController extends Controller {
                 Yii::warning('Could not save new telegram account');
                 Yii::$app->response->statusCode = 400;
                 return [
-                    'message' => 'could not save account',
+                    'message' => Yii::t('app', 'There is a problem with the Telegram login. Please retry later.'),
                 ];
             }
         } else {
@@ -146,7 +146,7 @@ class WenetappController extends Controller {
                 Yii::warning('Could not disable telegram account');
                 Yii::$app->response->statusCode = 400;
                 return [
-                    'message' => 'could not save account',
+                    'message' => Yii::t('app', 'There is a problem with the Telegram logout. Please retry later.'),
                 ];
             }
         } else {

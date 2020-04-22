@@ -259,7 +259,7 @@ div.connections{
     margin: 20px 0;
 }
 
-button.logoutTelegramBtn{
+button#logoutTelegramBtn{
     background-color: #54a9eb;
     vertical-align: middle;
     padding: 11px 21px;
@@ -274,9 +274,9 @@ button.logoutTelegramBtn{
     margin: 0;
 }
 
-button.logoutTelegramBtn:hover{ background-color: #4c95ce;}
+button#logoutTelegramBtn:hover{ background-color: #4c95ce;}
 
-button.logoutTelegramBtn span.icon{
+button#logoutTelegramBtn span.icon{
     background-image: url('../images/platforms/telegram_icon.png');
     background-repeat: no-repeat;
     background-position: center;

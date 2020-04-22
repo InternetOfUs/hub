@@ -27,16 +27,36 @@
         <div class="connections">
             <?php
                 $telegramPlatform = $app->getPlatformTelegram();
+
                 if( $telegramPlatform ){
-                    echo '<div id="telegram_container">';
+
+                    $loginIsVisible = 'none';
+                    $logoutIsVisible = 'none';
                     if( $app->telegramUserIsActive() ){
-                        echo '<button onclick="" class="logoutTelegramBtn" type="button"><span class="icon"></span>'.Yii::t('app', 'Disconnect my account').'</button>';
+                        $logoutIsVisible = 'block';
                     } else {
-                        echo '<div id="telegram_widget_container"><script async src="https://telegram.org/js/telegram-widget.js?8" data-telegram-login="'.$telegramPlatform->bot_username.'" data-size="large" data-onauth="onTelegramAuth(user)" data-request-access="write"></script></div>';
+                        $loginIsVisible = 'block';
                     }
-                    echo '</div>';
-                }
             ?>
+                <div id="telegram_container">
+                    <!-- login -->
+                    <div id="login_telegram" style="display:<?php echo $loginIsVisible; ?>">
+                        <script async src="https://telegram.org/js/telegram-widget.js?8"
+                            data-telegram-login="<?php echo $telegramPlatform->bot_username; ?>"
+                            data-size="large"
+                            data-onauth="onTelegramAuth(user)"
+                            data-request-access="write">
+                        </script>
+                    </div>
+                    <!-- logout -->
+                    <button id="logoutTelegramBtn" style="display:<?php echo $logoutIsVisible; ?>"
+                        onclick="disabletelegram()"
+                        type="button">
+                        <span class="icon"></span>
+                        <?php echo Yii::t('app', 'Disconnect my account'); ?>
+                    </button>
+                </div>
+            <?php } ?>
         </div>
     </div>
 </div>
@@ -52,12 +72,13 @@
         };
         $.post( "<?php echo Url::base(); ?>/wenetapp/associate-user", data).done(function(response) {
             // console.log( "saved" );
-            $('#telegram_widget_container').css('display', 'none');
-            $('#telegram_container').append('<button class="logoutTelegramBtn"><span class="icon"></span><?php echo Yii::t('app', 'Disconnect my account'); ?></button>');
+            $('#login_telegram').css('display', 'none');
+            $('#logoutTelegramBtn').css('display', 'block');
         }).fail(function(response) {
             // console.log( "error: " + response.message );
-            $('#telegram_widget_container').css('display', 'none');
-            $('#telegram_container').append('<p><?php echo Yii::t('app', 'There is a problem with the Telegram login. Please retry later.'); ?></p>');
+            $('#login_telegram').css('display', 'none');
+            var content = '<p>' + response.message + '<p>';
+            $('#telegram_container').append(content);
         });
     }
 
@@ -69,12 +90,13 @@
         };
         $.post( "<?php echo Url::base(); ?>/wenetapp/disassociate-user", data).done(function(response) {
             // console.log( "saved" );
-            // $('#telegram_widget_container').css('display', 'none');
-            // $('#telegram_container').append('<button class="logoutTelegramBtn"><span class="icon"></span><?php echo Yii::t('app', 'Disconnect my account'); ?></button>');
+            $('#login_telegram').css('display', 'block');
+            $('#logoutTelegramBtn').css('display', 'none');
         }).fail(function(response) {
             // console.log( "error: " + response.message );
-            // $('#telegram_widget_container').css('display', 'none');
-            // $('#telegram_container').append('<p><?php echo Yii::t('app', 'There is a problem with the Telegram login. Please retry later.'); ?></p>');
+            $('#logoutTelegramBtn').css('display', 'none');
+            var content = '<p>' + response.message + '<p>';
+            $('#telegram_container').append(content);
         });
     }
 
