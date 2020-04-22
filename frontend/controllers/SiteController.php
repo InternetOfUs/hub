@@ -10,6 +10,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+use common\models\User;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
@@ -81,12 +82,20 @@ class SiteController extends Controller {
      */
     public function actionLogin() {
         if (!Yii::$app->user->isGuest) {
-            return $this->redirect(['wenetapp/index']);
+            if(User::isDeveloper(Yii::$app->user->id)){
+                return $this->redirect(['wenetapp/index-developer']);
+            } else {
+                return $this->redirect(['wenetapp/index']);
+            }
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->redirect(['wenetapp/index']);
+            if(User::isDeveloper(Yii::$app->user->id)){
+                return $this->redirect(['wenetapp/index-developer']);
+            } else {
+                return $this->redirect(['wenetapp/index']);
+            }
         } else {
             $model->password = '';
 

@@ -192,8 +192,7 @@ class WenetApp extends \yii\db\ActiveRecord {
         return $this->hasOne(User::className(), ['id' => 'owner_id']);
     }
 
-    public function getEnabledPlatforms()
-    {
+    public function getEnabledPlatforms() {
         return $this->hasMany(UserAccountTelegram::className(), ['app_id' => 'id']);
     }
 

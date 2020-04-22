@@ -3,9 +3,10 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use yii\web\NotFoundHttpException;
+use yii\data\ArrayDataProvider;
 use frontend\models\WenetApp;
 use frontend\models\AppPlatformTelegram;
 use frontend\models\UserAccountTelegram;
@@ -22,10 +23,16 @@ class WenetappController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'details', 'associate-user', 'disassociate-user'],
+                'only' => [
+                    'index', 'details', 'associate-user', 'disassociate-user',
+                    'index-developer', 'create', 'update', 'details-developer', 'delete'
+                ],
                 'rules' => [
                     [
-                        'actions' => ['index', 'details', 'associate-user', 'disassociate-user'],
+                        'actions' => [
+                            'index', 'details', 'associate-user', 'disassociate-user',
+                            'index-developer', 'create', 'update', 'details-developer', 'delete'
+                        ],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -156,6 +163,76 @@ class WenetappController extends Controller {
                 'message' => 'unsupported platform',
             ];
         }
+    }
+
+    public function actionIndexDeveloper(){
+        $userApps = WenetApp::find()
+            ->where(['owner_id' => Yii::$app->user->id])
+            ->all();
+
+        $provider = new ArrayDataProvider([
+            'allModels' => $userApps,
+            'pagination' => [
+                'pageSize' => 15,
+            ],
+            'sort' => [
+                'attributes' => [],
+            ],
+        ]);
+
+        return $this->render('index_developer', array(
+            'provider' => $provider
+		));
+    }
+
+    public function actionDetailsDeveloper($id) {
+		$app = WenetApp::find()->where(["id" => $id])->one();
+
+        if(!$app){
+            throw new NotFoundHttpException('The specified app cannot be found.');
+		} else {
+			return $this->render('details_developer', array(
+                'app' => $app
+            ));
+		}
+
+        return $this->render('details_developer', array(
+		));
+    }
+
+    public function actionCreate(){
+        $model = new WenetApp;
+        $model->owner_id = Yii::$app->user->id;
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->create()) {
+                return $this->redirect(['index-developer']);
+            } else {
+                // TODO
+                // Yii::error('Could not create new Wenet APP', '');
+            }
+        }
+
+        return $this->render('create', array(
+            'model' => $model
+        ));
+    }
+
+    public function actionUpdate($id) {
+        $app = WenetApp::find()->where(["id" => $id])->one();
+        if ($app->load(Yii::$app->request->post())) {
+            if ($app->save()) {
+                return $this->redirect(['details-developer']);
+            }
+        }
+        return $this->render('update', ['app' => $app ]);
+    }
+
+    // TODO davvero?
+    public function actionDelete($id) {
+        $model = WenetApp::find()->where(["id" => $id])->one();
+        $model->delete();
+
+        return $this->redirect(['index-developer']);
     }
 
 }
