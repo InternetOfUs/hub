@@ -32,13 +32,16 @@
 
                     $loginIsVisible = 'none';
                     $logoutIsVisible = 'none';
+                    $openChatIsVisible = 'none';
                     if( $app->telegramUserIsActive() ){
                         $logoutIsVisible = 'block';
+                        $openChatIsVisible = 'inline-block';
                     } else {
                         $loginIsVisible = 'block';
                     }
             ?>
                 <div id="telegram_container">
+                    <h2>Telegram</h2>
                     <!-- login -->
                     <div id="login_telegram" style="display:<?php echo $loginIsVisible; ?>">
                         <script async src="https://telegram.org/js/telegram-widget.js?8"
@@ -48,6 +51,12 @@
                             data-request-access="write">
                         </script>
                     </div>
+                    <!-- open chat -->
+                    <a id="openChatTelegramBtn" style="display:<?php echo $openChatIsVisible; ?>"
+                        href="https://t.me/<?php echo $telegramPlatform->bot_username; ?>" target="_blank">
+                        <span class="icon"></span>
+                        <?php echo Yii::t('app', 'Open chat'); ?>
+                    </a>
                     <!-- logout -->
                     <button id="logoutTelegramBtn" style="display:<?php echo $logoutIsVisible; ?>"
                         onclick="disabletelegram()"
@@ -74,9 +83,12 @@
             // console.log( "saved" );
             $('#login_telegram').css('display', 'none');
             $('#logoutTelegramBtn').css('display', 'block');
+            $('#openChatTelegramBtn').css('display', 'inline-block');
         }).fail(function(response) {
             // console.log( "error: " + response.message );
             $('#login_telegram').css('display', 'none');
+            $('#logoutTelegramBtn').css('display', 'none');
+            $('#openChatTelegramBtn').css('display', 'none');
             var content = '<p>' + response.message + '<p>';
             $('#telegram_container').append(content);
         });
@@ -92,9 +104,12 @@
             // console.log( "saved" );
             $('#login_telegram').css('display', 'block');
             $('#logoutTelegramBtn').css('display', 'none');
+            $('#openChatTelegramBtn').css('display', 'none');
         }).fail(function(response) {
             // console.log( "error: " + response.message );
+            $('#login_telegram').css('display', 'none');
             $('#logoutTelegramBtn').css('display', 'none');
+            $('#openChatTelegramBtn').css('display', 'none');
             var content = '<p>' + response.message + '<p>';
             $('#telegram_container').append(content);
         });
