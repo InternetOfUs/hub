@@ -88,8 +88,6 @@
                             $availablePlatforms[] = WenetApp::PLATFORM_TELEGRAM;
                             $itemPlatforms[] = 'platform__' . WenetApp::PLATFORM_TELEGRAM;
                         }
-                        // $availablePlatforms[] = "messenger";
-                        // $availablePlatforms[] = "slack";
 
                         $platformsContent = '';
                         if(count($availablePlatforms) > 0){
@@ -97,7 +95,7 @@
                             foreach ($availablePlatforms as $key => $ap) {
                                 $platformsContent .= '<li>';
                                     $platformsContent .= '<div class="image_container" style="align-self: flex-end">';
-                                        $platformsContent .= '<img src="/images/platforms/'.$ap.'.png" alt="'. Yii::t('title', 'platform icon') .'">';
+                                        $platformsContent .= '<img src="'.Url::base().'/images/platforms/'.$ap.'.png" alt="'. Yii::t('title', 'platform icon') .'">';
                                     $platformsContent .= '</div>';
                                 $platformsContent .= '</li>';
                             }
@@ -228,7 +226,6 @@ $(window).on('load', function(){
 		updateBoxView();
     });
 
-    console.log($(document).innerWidth());
 	$('span.filter_title').click(function(){
 		if($(document).innerWidth() < 768){
 			if($('div.accordion').hasClass('open')){

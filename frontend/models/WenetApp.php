@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 use common\models\User;
 
 /**
@@ -46,7 +47,7 @@ class WenetApp extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['id', 'status', 'metadata', 'created_at', 'updated_at', 'owner_id'], 'required'],
+            [['id', 'status', 'metadata', 'owner_id'], 'required'],
             [['status', 'created_at', 'updated_at', 'owner_id'], 'integer'],
             [['description', 'message_callback_url', 'metadata'], 'string'],
             [['id'], 'string', 'max' => 128],
@@ -70,6 +71,16 @@ class WenetApp extends \yii\db\ActiveRecord {
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'owner_id' => Yii::t('app', 'Owner ID'),
+        ];
+    }
+
+    public function behaviors() {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+            ],
         ];
     }
 
@@ -111,7 +122,51 @@ class WenetApp extends \yii\db\ActiveRecord {
     }
 
     public function hasPlatformTelegram() {
-        return AppPlatformTelegram::find()->where(['app_id' => $this->id])->all();
+        if ($this->getPlatformTelegram()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Get the enabled telegram platform, if defined.
+     * @return AppPlatformTelegram|null
+     */
+    public function getPlatformTelegram() {
+        $telegramPlatforms = AppPlatformTelegram::find()->where(['app_id' => $this->id])->all();
+        if (count($telegramPlatforms) == 0) {
+            return null;
+        } else if (count($telegramPlatforms) == 1) {
+            return $telegramPlatforms[0];
+        } else {
+            Yii::warning('App ['.$this->id.'] should not have more that one telegram platform configured');
+            return $telegramPlatforms[0];
+        }
+    }
+
+    public function getTelegramUser() {
+        $userId = Yii::$app->user->id;
+        $telegramUser =  UserAccountTelegram::find()->where([
+            'app_id' => $this->id,
+            'user_id' => $userId
+        ])->one();
+
+        if($telegramUser){
+            return $telegramUser;
+        } else {
+            return null;
+        }
+    }
+
+
+    public function telegramUserIsActive() {
+        $user = $this->getTelegramUser();
+        if ($user !== null && $user->active == UserAccountTelegram::ACTIVE) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function afterFind() {
@@ -135,6 +190,11 @@ class WenetApp extends \yii\db\ActiveRecord {
      */
     public function getOwner() {
         return $this->hasOne(User::className(), ['id' => 'owner_id']);
+    }
+
+    public function getEnabledPlatforms()
+    {
+        return $this->hasMany(UserAccountTelegram::className(), ['app_id' => 'id']);
     }
 
 }

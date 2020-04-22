@@ -1,5 +1,7 @@
 <?php
-use frontend\models\WenetApp;
+    use frontend\models\AppPlatformTelegram;
+    use yii\helpers\Url;
+
     $this->title = Yii::$app->name . ' | ' . $app->name;
     $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Apps'), 'url' => ['index']];
     $this->params['breadcrumbs'][] = $app->name;
@@ -23,15 +25,94 @@ use frontend\models\WenetApp;
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="connections">
-            <!-- TODO -->
-            <?php if($app->hasPlatformTelegram()){ ?>
-                <script async src="https://telegram.org/js/telegram-widget.js?8" data-telegram-login="uh_test_bot" data-size="large" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>
-                <script type="text/javascript">
-                function onTelegramAuth(user) {
-                    alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
-                }
-                </script>
+            <?php
+                $telegramPlatform = $app->getPlatformTelegram();
+
+                if( $telegramPlatform ){
+
+                    $loginIsVisible = 'none';
+                    $logoutIsVisible = 'none';
+                    $openChatIsVisible = 'none';
+                    if( $app->telegramUserIsActive() ){
+                        $logoutIsVisible = 'block';
+                        $openChatIsVisible = 'inline-block';
+                    } else {
+                        $loginIsVisible = 'block';
+                    }
+            ?>
+                <div id="telegram_container">
+                    <h2>Telegram</h2>
+                    <!-- login -->
+                    <div id="login_telegram" style="display:<?php echo $loginIsVisible; ?>">
+                        <script async src="https://telegram.org/js/telegram-widget.js?8"
+                            data-telegram-login="<?php echo $telegramPlatform->bot_username; ?>"
+                            data-size="large"
+                            data-onauth="onTelegramAuth(user)"
+                            data-request-access="write">
+                        </script>
+                    </div>
+                    <!-- open chat -->
+                    <a id="openChatTelegramBtn" style="display:<?php echo $openChatIsVisible; ?>"
+                        href="https://t.me/<?php echo $telegramPlatform->bot_username; ?>" target="_blank">
+                        <span class="icon"></span>
+                        <?php echo Yii::t('app', 'Open chat'); ?>
+                    </a>
+                    <!-- logout -->
+                    <button id="logoutTelegramBtn" style="display:<?php echo $logoutIsVisible; ?>"
+                        onclick="disabletelegram()"
+                        type="button">
+                        <span class="icon"></span>
+                        <?php echo Yii::t('app', 'Disconnect my account'); ?>
+                    </button>
+                </div>
             <?php } ?>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+
+    function onTelegramAuth(user) {
+        var data = {
+            "appId": "<?php echo $app->id; ?>",
+            "platform": "telegram",
+            "userId": <?php echo Yii::$app->user->id; ?>,
+            "platformId": user.id
+        };
+        $.post( "<?php echo Url::base(); ?>/wenetapp/associate-user", data).done(function(response) {
+            // console.log( "saved" );
+            $('#login_telegram').css('display', 'none');
+            $('#logoutTelegramBtn').css('display', 'block');
+            $('#openChatTelegramBtn').css('display', 'inline-block');
+        }).fail(function(response) {
+            // console.log( "error: " + response.message );
+            $('#login_telegram').css('display', 'none');
+            $('#logoutTelegramBtn').css('display', 'none');
+            $('#openChatTelegramBtn').css('display', 'none');
+            var content = '<p>' + response.message + '<p>';
+            $('#telegram_container').append(content);
+        });
+    }
+
+    function disabletelegram() {
+        var data = {
+            "appId": "<?php echo $app->id; ?>",
+            "platform": "telegram",
+            "userId": <?php echo Yii::$app->user->id; ?>
+        };
+        $.post( "<?php echo Url::base(); ?>/wenetapp/disassociate-user", data).done(function(response) {
+            // console.log( "saved" );
+            $('#login_telegram').css('display', 'block');
+            $('#logoutTelegramBtn').css('display', 'none');
+            $('#openChatTelegramBtn').css('display', 'none');
+        }).fail(function(response) {
+            // console.log( "error: " + response.message );
+            $('#login_telegram').css('display', 'none');
+            $('#logoutTelegramBtn').css('display', 'none');
+            $('#openChatTelegramBtn').css('display', 'none');
+            var content = '<p>' + response.message + '<p>';
+            $('#telegram_container').append(content);
+        });
+    }
+
+</script>

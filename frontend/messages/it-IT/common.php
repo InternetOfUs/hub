@@ -17,7 +17,6 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'App' => '',
     'Apps' => '',
     'Email' => '',
     'Home' => '',
@@ -27,4 +26,5 @@ return [
     'Signup' => '',
     'Username' => '',
     'Username or Email' => '',
+    'App' => '@@@@',
 ];

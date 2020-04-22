@@ -17,10 +17,14 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'filter_platform' => 'puppa',
+    'App ID' => '',
     'Assistance' => '',
     'Bot Username' => '',
     'Created At' => '',
+    'Creator' => '',
     'Description' => '',
+    'Disconnect my account' => '',
     'Message Callback Url' => '',
     'Metadata' => '',
     'Name' => '',
@@ -28,10 +32,13 @@ return [
     'Social' => '',
     'Status' => '',
     'Telegram' => '',
+    'Telegram ID' => '',
+    'There is a problem with the Telegram login. Please retry later.' => '',
+    'There is a problem with the Telegram logout. Please retry later.' => '',
     'Token' => '',
     'Updated At' => '',
+    'User ID' => '',
     'all' => '',
-    'filter_platform' => 'puppa',
     'filter_tags' => '',
     'filters' => '',
 ];
