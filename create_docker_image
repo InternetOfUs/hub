@@ -13,7 +13,7 @@ else
     echo "Building with specified version [${VERSION}]"
 fi
 
-IMAGE_NAME="wenet/web:$VERSION"
+IMAGE_NAME="wenet/hub:$VERSION"
 
 docker build -t ${IMAGE_NAME} .
 
@@ -22,10 +22,10 @@ if [ $? == 0 ]; then
 
     # Tagging images for registry
 
-    echo "Tagging image for push to registry.u-hopper.com:5000"
-    docker tag ${IMAGE_NAME} registry.u-hopper.com:5000/${IMAGE_NAME}
+    echo "Tagging image for push to registry.u-hopper.com"
+    docker tag ${IMAGE_NAME} registry.u-hopper.com/${IMAGE_NAME}
     echo "Image can be pushed with:"
-    echo "- docker push registry.u-hopper.com:5000/${IMAGE_NAME}"
+    echo "- docker push registry.u-hopper.com/${IMAGE_NAME}"
 
 else
     echo "Build failed!"
