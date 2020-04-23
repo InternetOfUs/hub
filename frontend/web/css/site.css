@@ -47,8 +47,15 @@ div.box_container{
     padding: 15px;
 }
 
-/*  header */
+div.box_container h3{
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    color: #00a3b6;
+}
 
+div.box_container p{margin: 0 0 15px 0;}
+
+/*  header */
 nav{
     background-color: #fff;
     height: 80px;
@@ -389,8 +396,6 @@ h1 span{
     color: #aaa;
 }
 
-h1 span.status_span{font-size: 16px;}
-
 div.developer_attributes_container{
     border-bottom: 1px solid #ddd;
     border-top: 1px solid #ddd;
@@ -400,22 +405,33 @@ div.developer_attributes_container{
 
 div.developer_attributes_container p{margin-bottom: 20px;}
 
-div.attribute_container{margin: 0 0 20px 0;}
+table.attribute_container{width: 100%;}
+table.attribute_container tr td{vertical-align: top !important;}
 
-div.attribute_container span{
-    display: inline-block;
-    width: 50px;
+table.attribute_container tr td:first-child{
     text-align: right;
+    width: 50px;
 }
 
-pre{
+table.attribute_container tr td:last-child{padding-left: 10px;}
+
+table.attribute_container tr td span{
+    display: inline-block;
+    padding-top: 5px;
+}
+
+table.attribute_container tr td pre{
     border: 1px solid #dadada;
     background-color: #f6f6f6;
     padding: 5px 10px;
-    display: inline;
     color: #de245c;
 }
 
+ul.active_users_platform li{
+    padding: 5px;
+    margin-bottom: 5px;
+    background: red;
+}
 
 /* create/update app form */
 #app-create-form input,

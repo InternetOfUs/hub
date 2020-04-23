@@ -24,11 +24,10 @@
             <span> | </span>
             <?php
                 if($app->status == WenetApp::STATUS_NOT_ACTIVE){
-                    echo '<span class="status_icon"><i class="fa fa-pause-circle-o" aria-hidden="true"></i></span>';
+                    echo '<span class="status_icon not_active"><i class="fa fa-pause-circle-o" aria-hidden="true"></i> '.Yii::t('app', 'In development').'</span>';
                 } else if($app->status == WenetApp::STATUS_ACTIVE){
-                    echo '<span class="status_icon"><i class="fa fa-check-circle-o" aria-hidden="true"></i></span>';
+                    echo '<span class="status_icon active"><i class="fa fa-check-circle-o" aria-hidden="true"></i> '.Yii::t('app', 'Live').'</span>';
                 }
-                echo '<span class="status_span"> '.Yii::t('app', 'status') . '</span>';
             ?>
         </h1>
 
@@ -48,21 +47,43 @@
 <div class="row" style="margin-top:20px;">
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="box_container">
-            <p>placeholder testo</p>
-            <div class="attribute_container">
-                <span>id:</span>
-                <pre><?php echo $app->id; ?></pre>
-            </div>
-            <div class="attribute_container">
-                <span>token:</span>
-                <pre><?php echo $app->token; ?></pre>
-            </div>
+            <h3><?php echo Yii::t('app', 'Data ingestion'); ?></h3>
+            <p><?php echo Yii::t('app', 'To authenticate requests, you will need to include the following parameters in the header of each call:'); ?></p>
+            <table class="attribute_container">
+                <tr>
+                    <td>
+                        <span>id:</span>
+                    </td>
+                    <td>
+                        <pre><?php echo $app->id; ?></pre>
+                    </td>
+                </tr>
+            </table>
+            <table class="attribute_container">
+                <tr>
+                    <td>
+                        <span>token:</span>
+                    </td>
+                    <td>
+                        <pre><?php echo $app->token; ?></pre>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="box_container">
-            utenti
-            <!-- TODO numero utenti attivi per piattaforma -->
+            <h3><?php echo Yii::t('app', 'Active users for platform'); ?></h3>
+            <?php
+            // TODO
+                if(count($app->platforms()) >= 1){
+                    echo '<ul class="active_users_platform">';
+                    foreach ($app->platforms() as $platform) {
+                        echo '<li>'.$platform->type.'<li>';
+                    }
+                    echo '</ul>';
+                }
+            ?>
         </div>
     </div>
 </div>
