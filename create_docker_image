@@ -1,11 +1,29 @@
 #!/bin/bash
 
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-DEFAULT_VERSION="latest"
 
-# Identifying build version
 
-VERSION=$1
+SAVE_IMAGE_TO_TARGZ=0
+
+args=`getopt s $*`
+if [ $? != 0 ]
+then
+  echo 'Usage: ...'
+  exit 2
+fi
+
+set -- $args
+for i do
+  case "$i" in
+     -s)
+       SAVE_IMAGE_TO_TARGZ=1
+       shift;;
+  esac
+done
+
+DEFAULT_VERSION=latest
+VERSION=$2
+
 if [ -z "${VERSION}" ]; then
     VERSION=${DEFAULT_VERSION}
     echo "Build version not specified: building with default version [${VERSION}]"
