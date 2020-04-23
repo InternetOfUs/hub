@@ -168,6 +168,8 @@ class WenetappController extends Controller {
     public function actionIndexDeveloper(){
         $userApps = WenetApp::find()
             ->where(['owner_id' => Yii::$app->user->id])
+            ->andWhere(['status' => WenetApp::STATUS_NOT_ACTIVE])
+            ->orWhere(['status' => WenetApp::STATUS_ACTIVE])
             ->all();
 
         $provider = new ArrayDataProvider([
@@ -188,7 +190,7 @@ class WenetappController extends Controller {
     public function actionDetailsDeveloper($id) {
 		$app = WenetApp::find()->where(["id" => $id])->one();
 
-        if(!$app){
+        if(!$app || $app->status == WenetApp::STATUS_DELETED){
             throw new NotFoundHttpException('The specified app cannot be found.');
 		} else {
 			return $this->render('details_developer', array(
@@ -209,7 +211,7 @@ class WenetappController extends Controller {
             } else {
                 // TODO
                 // Yii::error('Could not create new Wenet APP', '');
-                Yii::$app->session->setFlash('error', 'Could not create app.');
+                Yii::$app->session->setFlash('error', Yii::t('app', 'Could not create app.'));
             }
         }
 
@@ -228,12 +230,15 @@ class WenetappController extends Controller {
         return $this->render('update', ['app' => $app ]);
     }
 
-    // TODO davvero?
     public function actionDelete($id) {
         $model = WenetApp::find()->where(["id" => $id])->one();
-        $model->delete();
-
-        return $this->redirect(['index-developer']);
+        $model->status = WenetApp::STATUS_DELETED;
+        if ($model->save()) {
+            Yii::$app->session->setFlash('success', Yii::t('app', 'App successfully deleted.'));
+            return $this->redirect(['index-developer']);
+        } else {
+            Yii::$app->session->setFlash('error', Yii::t('app', 'Could not delete app.'));
+        }
     }
 
 }

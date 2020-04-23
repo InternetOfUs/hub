@@ -24,9 +24,9 @@
             'format' => 'raw',
             'value' => function ($data) {
                 if($data->status == WenetApp::STATUS_NOT_ACTIVE){
-                    return '<span class="status_icon"><i class="fa fa-pause-circle-o" aria-hidden="true"></i></span>';
+                    return '<span class="status_icon not_active"><i class="fa fa-pause-circle-o" aria-hidden="true"></i> '.Yii::t('app', 'In development').'</span>';
                 } else if($data->status == WenetApp::STATUS_ACTIVE){
-                    return '<span class="status_icon"><i class="fa fa-check-circle-o" aria-hidden="true"></i></span>';
+                    return '<span class="status_icon active"><i class="fa fa-check-circle-o" aria-hidden="true"></i> '.Yii::t('app', 'Live').'</span>';
                 }
             },
         ],
@@ -37,20 +37,18 @@
             'value' => function ($data) {
                 return '<ul class="tags_list">' . implode(array_map(function($category){
                     return '<li>' . $category . '</li>';
-                }, $data->associatedCategories), ', ') . '</ul>';
+                }, $data->associatedCategories), '') . '</ul>';
             },
         ],
         [
             'attribute' => 'platforms',
             'format' => 'raw',
             'value' => function ($data) {
-                return '<ul class="tags_list">' . implode(array_map(function($platform){
-                    return '<li>' . $platform->type . '</li>';
-                }, $data->platforms()), ', ') . '</ul>';
+                return '<ul class="platform_icons">' . implode(array_map(function($platform){
+                    return '<li><div class="image_container" style="align-self: flex-end"><img src="'.Url::base().'/images/platforms/'.$platform->type.'.png" alt="'. Yii::t('title', 'platform icon') .'"></div></li>';
+                }, $data->platforms()), '') . '</ul>';
             },
         ],
-        // 'metadata', // TODO how to visualize?
-        // TODO add platforms
         [
             'headerOptions' => [
                 'class' => 'action-column',

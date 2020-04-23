@@ -235,16 +235,16 @@ div.appsContainer a.app h2{
 
 div.appsContainer a.app p{color: #888;}
 
-div.appsContainer a.app ul{margin: 0px;}
+div.appsContainer a.app ul.platform_icons{margin: 0px;}
 
-div.appsContainer a.app ul li{
+ul.platform_icons li{
     display: inline-block;
     margin-right: 10px;
 }
 
-div.appsContainer a.app ul li div.image_container{height: 30px;}
+ul.platform_icons li div.image_container{height: 30px;}
 
-div.appsContainer a.app ul li div.image_container img{
+ul.platform_icons li div.image_container img{
     display: block;
     height: 100%;
     width: auto;
@@ -336,11 +336,14 @@ button#logoutTelegramBtn:hover{
 }
 
 /* developer pages */
-div.developer_apps_grid table tr td:last-of-type{width: 200px;}
+table tr td{vertical-align: middle !important;}
+span.status_icon{font-size: 13px;}
+span.status_icon.not_active{color:#F5C402;}
+span.status_icon.active{color:#0FA053;}
+span.status_icon i{font-size: 20px;}
 
-span.status_icon{font-size: 20px;}
-span.status_icon i.fa-pause-circle-o{color:#F5C402;}
-span.status_icon i.fa-check-circle-o{color:#0FA053;}
+table tr td ul{margin: 0px !important;}
+table tr td ul.platform_icons li div.image_container{height: 33px;}
 
 a span.actionColumn_btn{
     background-color: #eee;
