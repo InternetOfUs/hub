@@ -224,7 +224,7 @@ class WenetappController extends Controller {
         $app = WenetApp::find()->where(["id" => $id])->one();
         if ($app->load(Yii::$app->request->post())) {
             if ($app->save()) {
-                return $this->redirect(['details-developer']);
+                return $this->redirect(['details-developer', "id" => $id]);
             }
         }
         return $this->render('update', ['app' => $app ]);

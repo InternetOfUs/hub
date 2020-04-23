@@ -1,5 +1,6 @@
 <?php
     use yii\widgets\ActiveForm;
+    use kartik\select2\Select2;
     use yii\helpers\Html;
 
     $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Create new app');
@@ -11,7 +12,7 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <?php
             $form = ActiveForm::begin([
-                'id' => 'wenetApp-form',
+                'id' => 'app-create-form',
                 'options' => ['class' => ''],
             ])
         ?>
@@ -30,8 +31,13 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                    metedata / categories
-                    <!-- dropdown con scelta multipla? o check box? -->
+                    <?php echo $form->field($model, 'associatedCategories')->widget(Select2::classname(), [
+                        'data' => ['puppa' => 'prova'],
+                        'options' => ['placeholder' => Yii::t('app', 'Select tags ...')],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]); ?>
                     <!-- https://demos.krajee.com/widget-details/select2 -->
                 </div>
             </div>

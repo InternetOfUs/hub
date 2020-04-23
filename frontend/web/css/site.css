@@ -150,6 +150,10 @@ ul.breadcrumb li a{color: #00a3b6;}
 }
 
 /* forms */
+div.required label.control-label::after {
+    content: " * ";
+    color: #cb3434;
+}
 
 div.site-signup,
 div.site-login{
@@ -413,9 +417,19 @@ pre{
 }
 
 
+/* create/update app form */
+#app-create-form input,
+#app-update-form input,
+#app-create-form textarea,
+#app-update-form textarea{
+    font-weight: 200;
+}
 
-
-
+#app-create-form textarea,
+#app-update-form textarea{
+    min-height: 100px;
+    resize: vertical;
+}
 
 
 
