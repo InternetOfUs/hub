@@ -2,6 +2,8 @@
 
 namespace frontend\models;
 
+use Yii;
+
 class AppPlatform extends \yii\db\ActiveRecord {
 
     const TYPE_TELEGRAM = 'telegram';
@@ -40,6 +42,22 @@ class AppPlatform extends \yii\db\ActiveRecord {
 
     function isTelegram() {
         return $this->type == self::TYPE_TELEGRAM;
+    }
+
+    public static function typeLabel($label) {
+        return self::typeLabels()[$label];
+    }
+
+    private static function typeLabels() {
+        return [
+    		self::TYPE_TELEGRAM => Yii::t('app', 'Telegram'),
+    	];
+    }
+
+    public static function getPlatformTypes(){
+        return [
+            self::TYPE_TELEGRAM
+        ];
     }
 
 }

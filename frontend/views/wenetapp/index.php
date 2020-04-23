@@ -1,11 +1,12 @@
 <?php
     use yii\helpers\Url;
     use frontend\models\WenetApp;
+    use frontend\models\AppPlatform;
 
     $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Apps');
     $this->params['breadcrumbs'][] = Yii::t('common', 'Apps');
 
-    $platforms = WenetApp::getPlatforms();
+    $platforms = AppPlatform::getPlatformTypes();
 	asort($platforms);
 
     $tags = WenetApp::getTags();
@@ -49,7 +50,7 @@
 								if (in_array($currentTag, $activePlatformsList)) {
 									$currentClass = "current";
 								}
-								echo '<li><a id="'.$key.'" href="#" data-filter=".'.$currentTag.'" class="'.$currentClass.'" title="'.Yii::t('title', 'Filter for platform').'">'.WenetApp::label($pp).'</a></li>';
+								echo '<li><a id="'.$key.'" href="#" data-filter=".'.$currentTag.'" class="'.$currentClass.'" title="'.Yii::t('title', 'Filter for platform').'">'.AppPlatform::typeLabel($pp).'</a></li>';
 							} ?>
 				  		</ul>
 				    </div>
@@ -62,7 +63,7 @@
 								if (in_array($currentTag, $activeTagsList)) {
 									$currentClass = "current";
 								}
-								echo '<li><a id="'.$key.'" href="#" data-filter=".'.$currentTag.'" class="'.$currentClass.'" title="'.Yii::t('title', 'Filter for tag').'">'.WenetApp::label($tt).'</a></li>';
+								echo '<li><a id="'.$key.'" href="#" data-filter=".'.$currentTag.'" class="'.$currentClass.'" title="'.Yii::t('title', 'Filter for tag').'">'.WenetApp::tagLabel($tt).'</a></li>';
 							} ?>
 				  		</ul>
 				    </div>
@@ -85,8 +86,8 @@
                         $itemPlatforms = [];
                         $availablePlatforms = [];
                         if($app->hasPlatformTelegram()) {
-                            $availablePlatforms[] = WenetApp::PLATFORM_TELEGRAM;
-                            $itemPlatforms[] = 'platform__' . WenetApp::PLATFORM_TELEGRAM;
+                            $availablePlatforms[] = AppPlatform::TYPE_TELEGRAM;
+                            $itemPlatforms[] = 'platform__' . AppPlatform::TYPE_TELEGRAM;
                         }
 
                         $platformsContent = '';

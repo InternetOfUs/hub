@@ -33,8 +33,6 @@ class WenetApp extends \yii\db\ActiveRecord {
     const TAG_SOCIAL = 'social';
     const TAG_ASSISTANCE = 'assistance';
 
-    const PLATFORM_TELEGRAM = 'telegram';
-
     /**
      * {@inheritdoc}
      */
@@ -86,22 +84,15 @@ class WenetApp extends \yii\db\ActiveRecord {
         ];
     }
 
-    public static function label($label) {
-        return self::labels()[$label];
+    public static function tagLabel($label) {
+        return self::tagLabels()[$label];
     }
 
-    public static function labels() {
+    private static function tagLabels() {
         return [
     		self::TAG_SOCIAL => Yii::t('app', 'Social'),
     		self::TAG_ASSISTANCE => Yii::t('app', 'Assistance'),
-    		self::PLATFORM_TELEGRAM => Yii::t('app', 'Telegram'),
     	];
-    }
-
-    public static function getPlatforms(){
-        return [
-            self::PLATFORM_TELEGRAM
-        ];
     }
 
     public static function getTags(){
