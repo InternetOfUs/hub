@@ -40,7 +40,7 @@ build_dev:
 push_dev:
   stage: push
   script:
-    - docker load -i hub_image.tar.gz.tar.gz
+    - docker load -i hub_image.tar.gz
     - docker push registry.u-hopper.com/wenet/hub:latest
   dependencies:
     - build_dev
