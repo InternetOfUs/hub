@@ -17,7 +17,8 @@ use frontend\models\WenetApp;
  *
  * @property WenetApp $app
  */
-class AppPlatformTelegram extends \yii\db\ActiveRecord {
+class AppPlatformTelegram extends AppPlatform {
+
     /**
      * {@inheritdoc}
      */
@@ -64,5 +65,9 @@ class AppPlatformTelegram extends \yii\db\ActiveRecord {
      */
     public function getApp() {
         return $this->hasOne(WenetApp::className(), ['id' => 'app_id']);
+    }
+
+    public function afterFind() {
+        $this->type = self::TYPE_TELEGRAM;
     }
 }

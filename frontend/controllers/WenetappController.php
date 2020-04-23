@@ -33,7 +33,7 @@ class WenetappController extends Controller {
                             'index', 'details', 'associate-user', 'disassociate-user',
                             'index-developer', 'create', 'update', 'details-developer', 'delete'
                         ],
-                        'allow' => true,
+                        'allow' => true, # TODO distinguish access for developers and non-dev
                         'roles' => ['@'],
                     ],
                 ],

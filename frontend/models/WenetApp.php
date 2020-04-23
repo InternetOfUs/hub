@@ -71,6 +71,8 @@ class WenetApp extends \yii\db\ActiveRecord {
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'owner_id' => Yii::t('app', 'Owner ID'),
+            'categories' => Yii::t('app', 'Categories'),
+            'platforms' => Yii::t('app', 'Platforms'),
         ];
     }
 
@@ -119,6 +121,15 @@ class WenetApp extends \yii\db\ActiveRecord {
 
     public static function activeApps() {
         return WenetApp::find()->where(['status' => self::STATUS_ACTIVE])->all();
+    }
+
+    public function platforms() {
+        $platforms = [];
+        $telegramPlatform = $this->getPlatformTelegram();
+        if ($telegramPlatform) {
+            $platforms[] = $telegramPlatform;
+        }
+        return $platforms;
     }
 
     public function hasPlatformTelegram() {

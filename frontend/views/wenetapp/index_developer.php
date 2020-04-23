@@ -31,7 +31,25 @@
             },
         ],
         'name',
-        'metadata', // TODO how to visualize?
+        [
+            'attribute' => 'categories',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return '<ul class="tags_list">' . implode(array_map(function($category){
+                    return '<li>' . $category . '</li>';
+                }, $data->associatedCategories), ', ') . '</ul>';
+            },
+        ],
+        [
+            'attribute' => 'platforms',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return '<ul class="tags_list">' . implode(array_map(function($platform){
+                    return '<li>' . $platform->type . '</li>';
+                }, $data->platforms()), ', ') . '</ul>';
+            },
+        ],
+        // 'metadata', // TODO how to visualize?
         // TODO add platforms
         [
             'headerOptions' => [
