@@ -23,7 +23,7 @@
             'attribute' => 'status',
             'format' => 'raw',
             'value' => function ($data) {
-                if($data->status == WenetApp::STATUS_CREATED){
+                if($data->status == WenetApp::STATUS_NOT_ACTIVE){
                     return '<span class="status_icon"><i class="fa fa-pause-circle-o" aria-hidden="true"></i></span>';
                 } else if($data->status == WenetApp::STATUS_ACTIVE){
                     return '<span class="status_icon"><i class="fa fa-check-circle-o" aria-hidden="true"></i></span>';

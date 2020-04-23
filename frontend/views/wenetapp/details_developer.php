@@ -23,7 +23,7 @@
             <?php echo $app->name; ?>
             <span> | </span>
             <?php
-                if($app->status == WenetApp::STATUS_CREATED){
+                if($app->status == WenetApp::STATUS_NOT_ACTIVE){
                     echo '<span class="status_icon"><i class="fa fa-pause-circle-o" aria-hidden="true"></i></span>';
                 } else if($app->status == WenetApp::STATUS_ACTIVE){
                     echo '<span class="status_icon"><i class="fa fa-check-circle-o" aria-hidden="true"></i></span>';
@@ -40,8 +40,8 @@
                     $categories .= '<li>'.$category.'</li>';
                 }
                 $categories .= '</ul>';
+                echo $categories;
             }
-            echo $categories;
         ?>
     </div>
 </div>

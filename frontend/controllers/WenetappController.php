@@ -209,6 +209,7 @@ class WenetappController extends Controller {
             } else {
                 // TODO
                 // Yii::error('Could not create new Wenet APP', '');
+                Yii::$app->session->setFlash('error', 'Could not create app.');
             }
         }
 

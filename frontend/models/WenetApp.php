@@ -5,6 +5,7 @@ namespace frontend\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use common\models\User;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "app".
@@ -27,7 +28,7 @@ class WenetApp extends \yii\db\ActiveRecord {
     public $allMetadata = [];
     public $associatedCategories = [];
 
-    const STATUS_CREATED = 0;
+    const STATUS_NOT_ACTIVE = 0;
     const STATUS_ACTIVE = 1;
 
     const TAG_SOCIAL = 'social';
@@ -45,7 +46,7 @@ class WenetApp extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['id', 'status', 'metadata', 'owner_id'], 'required'],
+            [['id', 'token', 'status', 'owner_id'], 'required'],
             [['status', 'created_at', 'updated_at', 'owner_id'], 'integer'],
             [['description', 'message_callback_url', 'metadata'], 'string'],
             [['id'], 'string', 'max' => 128],
@@ -185,6 +186,26 @@ class WenetApp extends \yii\db\ActiveRecord {
         }
     }
 
+    public function beforeSave($insert) {
+        if (parent::beforeSave($insert)) {
+            $this->metadata = [
+                'categories' => $this->associatedCategories,
+            ];
+            $this->metadata = JSON::encode($this->metadata);
+
+            if ($this->message_callback_url == '') {
+                $this->message_callback_url = null;
+            }
+            if ($this->description == '') {
+                $this->description = null;
+            }
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Gets query for [[Owner]].
      *
@@ -196,6 +217,24 @@ class WenetApp extends \yii\db\ActiveRecord {
 
     public function getEnabledPlatforms() {
         return $this->hasMany(UserAccountTelegram::className(), ['app_id' => 'id']);
+    }
+
+    public function create() {
+        $this->id = self::generateRandomString(10);
+        $this->token = self::generateRandomString(20);
+        $this->owner_id = Yii::$app->user->id;
+        $this->status = self::STATUS_NOT_ACTIVE;
+        return $this->save();
+    }
+
+    private static function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 
 }
