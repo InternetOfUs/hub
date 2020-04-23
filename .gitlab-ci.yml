@@ -34,8 +34,8 @@ build_dev:
     paths:
       - hub_image.tar.gz
     expire_in: 1 day
-#   only:
-#     - develop
+  only:
+    - develop
 
 push_dev:
   stage: push
@@ -44,8 +44,8 @@ push_dev:
     - docker push registry.u-hopper.com/wenet/hub:latest
   dependencies:
     - build_dev
-#   only:
-#     - develop
+  only:
+    - develop
 
 deploy_dev:
    stage: deploy
@@ -56,5 +56,5 @@ deploy_dev:
      - build_dev
    environment:
      name: testing
-#    only:
-#       - develop
+   only:
+      - develop
