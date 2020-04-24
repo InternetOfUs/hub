@@ -216,6 +216,10 @@ class WenetApp extends \yii\db\ActiveRecord {
 
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
+            print_r($this);
+            exit();
+
+
             $this->metadata = [
                 'categories' => $this->associatedCategories,
             ];

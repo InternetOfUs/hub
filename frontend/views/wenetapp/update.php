@@ -3,13 +3,13 @@
     use kartik\select2\Select2;
     use kartik\switchinput\SwitchInput;
     use yii\helpers\Html;
+    use frontend\models\WenetApp;
 
     $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Update app') . ' - ' . $app->name;
     $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Developer'), 'url' => ['index-developer']];
-    $this->params['breadcrumbs'][] = Yii::t('common', 'Update app') . ' - ' . $app->name;
+    $this->params['breadcrumbs'][] = ['label' => $app->name, 'url' => ['details-developer', 'id' => $app->id]];
+    $this->params['breadcrumbs'][] = Yii::t('common', 'Update app');
 ?>
-
-<!-- se vuoi renderla attiva tutti! i campi devono essere compilati e deve esserci almeno una piattaforma definita -->
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -42,13 +42,21 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                    <?php echo $form->field($app, 'associatedCategories')->widget(Select2::classname(), [
-                        'data' => ['puppa' => 'prova'],
-                        'options' => ['placeholder' => Yii::t('app', 'Select tags ...')],
-                        'pluginOptions' => [
-                            'allowClear' => true
-                        ],
-                    ]); ?>
+                    <?php
+                        $tags = WenetApp::getTags();
+                        $tagData = [];
+                        foreach ($tags as $tag) {
+                            $tagData[$tag] = WenetApp::tagLabel($tag);
+                        }
+
+                        echo $form->field($app, 'associatedCategories')->widget(Select2::classname(), [
+                            'data' => $tagData,
+                            'options' => [
+                                'placeholder' => Yii::t('app', 'Select tags ...'),
+                                'multiple' => true
+                            ],
+                        ]);
+                    ?>
                     <!-- https://demos.krajee.com/widget-details/select2 -->
                 </div>
             </div>
