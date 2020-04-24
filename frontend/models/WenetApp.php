@@ -59,18 +59,20 @@ class WenetApp extends \yii\db\ActiveRecord {
     }
 
     public function statusValidation(){
-        if($this->description == null || $this->message_callback_url == null || count($this->platforms()) == 0){
+        if($this->status == self::STATUS_ACTIVE){
+            if($this->description == null || $this->message_callback_url == null || count($this->platforms()) == 0){
 
-            if($this->description == null){
-                $this->addError('description', Yii::t('app', 'Description cannot be blank.'));
+                if($this->description == null){
+                    $this->addError('description', Yii::t('app', 'Description cannot be blank.'));
+                }
+                if($this->message_callback_url == null){
+                    $this->addError('message_callback_url', Yii::t('app', 'Message Callback Url cannot be blank.'));
+                }
+                if(count($this->platforms()) == 0){
+                    $this->addError('status', Yii::t('app', 'You should enable at least one platform to go live with the app.'));
+                }
+                return false;
             }
-            if($this->message_callback_url == null){
-                $this->addError('message_callback_url', Yii::t('app', 'Message Callback Url cannot be blank.'));
-            }
-            if(count($this->platforms()) == 0){
-                $this->addError('status', Yii::t('app', 'You should enable at least one platform to go live with the app.'));
-            }
-            return false;
         }
         return true;
     }
