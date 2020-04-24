@@ -434,18 +434,31 @@ ul.active_users_platform li{
 }
 
 /* create/update app form */
+#app-create-form .form-group,
+#app-update-form .form-group {margin-bottom: 25px;}
+
 #app-create-form input,
 #app-update-form input,
 #app-create-form textarea,
-#app-update-form textarea{
-    font-weight: 200;
-}
+#app-update-form textarea{font-weight: 200;}
 
 #app-create-form textarea,
 #app-update-form textarea{
     min-height: 100px;
     resize: vertical;
 }
+
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary,
+.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-primary {
+    background: #00a3b6;
+}
+
+
+
+
+
+
+
 
 
 

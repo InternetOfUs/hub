@@ -24,8 +24,12 @@
                     <?php echo $form->field($app, 'name'); ?>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                    <?php echo $form->field($app, 'status')->widget(SwitchInput::classname(), []); ?>
-                    <!-- TODO style! -->
+                    <?php echo $form->field($app, 'status')->widget(SwitchInput::classname(), [
+                        'pluginOptions' => [
+                            'onText' => Yii::t('app', 'Live'),
+                            'offText' => Yii::t('app', 'In development')
+                        ]
+                    ]); ?>
                 </div>
             </div>
             <div class="row">
