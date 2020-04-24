@@ -31,6 +31,7 @@ class AppPlatformTelegram extends AppPlatform {
      */
     public function rules() {
         return [
+            [['bot_username'], 'required'],
             [['created_at', 'updated_at'], 'integer'],
             [['app_id', 'bot_username'], 'string', 'max' => 128],
             [['app_id'], 'exist', 'skipOnError' => true, 'targetClass' => WenetApp::className(), 'targetAttribute' => ['app_id' => 'id']],

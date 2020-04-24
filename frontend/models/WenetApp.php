@@ -122,6 +122,13 @@ class WenetApp extends \yii\db\ActiveRecord {
         ];
     }
 
+    public function numberOfActiveUserForTelegram() {
+        return count(UserAccountTelegram::find()->where([
+            'app_id' => $this->id,
+            'active' => UserAccountTelegram::ACTIVE
+        ])->all());
+    }
+
     public static function numberOfActiveApps() {
         return count(WenetApp::find()->where(['status' => self::STATUS_ACTIVE])->all());
     }

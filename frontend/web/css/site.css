@@ -27,10 +27,28 @@ button{
     font-size: 12px;
 }
 
+.telegram_color{
+    background-color: #54a9eb;
+    border-color: #54a9eb;
+}
+
+.telegram_color:hover{
+    background-color: #4c95ce;
+    border-color: #4c95ce;
+}
+
+a.normal_link{
+    text-decoration: underline;
+    color: #00a3b6;
+}
+
+a.normal_link:hover{color: #4c5363;}
+
 p{font-weight: 300;}
 p.light{color: #888;}
 p a{color: #00a3b6;}
 
+table{width: 100%;}
 ul{list-style-type: none;}
 
 .image_container img{
@@ -405,7 +423,6 @@ div.developer_attributes_container{
 
 div.developer_attributes_container p{margin-bottom: 20px;}
 
-table.attribute_container{width: 100%;}
 table.attribute_container tr td{vertical-align: top !important;}
 
 table.attribute_container tr td:first-child{
@@ -427,11 +444,16 @@ table.attribute_container tr td pre{
     color: #de245c;
 }
 
-ul.active_users_platform li{
-    padding: 5px;
-    margin-bottom: 5px;
-    background: red;
+table.active_users_platform tr td{padding: 10px;}
+table.active_users_platform tr td p{margin: 0px;}
+
+table.active_users_platform tr td:first-child{
+    border-right: 1px solid #ddd;
+    text-align: right;
+    width: 20%;
 }
+
+/* table.active_users_platform tr td:last-child{width: 40%;} */
 
 /* create/update app form */
 #app-create-form .form-group,

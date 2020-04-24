@@ -1,17 +1,19 @@
 <?php
     use yii\helpers\Url;
     use frontend\models\WenetApp;
+    use frontend\models\AppPlatform;
 
     $this->title = Yii::$app->name . ' | ' . $app->name;
     $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Developer'), 'url' => ['index-developer']];
     $this->params['breadcrumbs'][] = $app->name;
 ?>
 
-<!-- TODO -->
-<a href="<?= Url::to('/wenetapp/create'); ?>" class="btn btn-primary pull-right" style="margin: -10px 0 20px 0;">
-    <i class="fa fa-plus" aria-hidden="true"></i>
-    <?php echo Yii::t('app', 'add platform'); ?>
-</a>
+<?php if(!$app->hasPlatformTelegram()){ ?>
+    <a href="<?= Url::to(['/platform/create-telegram', 'id' => $app->id]); ?>" class="btn btn-primary telegram_color pull-right" style="margin: -10px 0 20px 0;">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+        <?php echo Yii::t('app', 'add Telegram'); ?>
+    </a>
+<?php } ?>
 <a href="<?= Url::to(['/wenetapp/update', 'id' => $app->id]); ?>" class="btn btn-primary pull-right" style="margin: -10px 5px 20px 0;">
     <i class="fa fa-pencil" aria-hidden="true"></i>
     <?php echo Yii::t('common', 'edit'); ?>
@@ -30,7 +32,6 @@
                 }
             ?>
         </h1>
-
         <p style="margin:20px 0 0 0;"><?php echo $app->description; ?></p>
         <?php
             if(count($app->associatedCategories) > 0){
@@ -51,50 +52,63 @@
             <p><?php echo Yii::t('app', 'To authenticate requests, you will need to include the following parameters in the header of each call:'); ?></p>
             <table class="attribute_container">
                 <tr>
-                    <td>
-                        <span>id:</span>
-                    </td>
-                    <td>
-                        <pre><?php echo $app->id; ?></pre>
-                    </td>
+                    <td><span>id:</span></td>
+                    <td><pre><?php echo $app->id; ?></pre></td>
                 </tr>
             </table>
             <table class="attribute_container">
                 <tr>
-                    <td>
-                        <span>token:</span>
-                    </td>
-                    <td>
-                        <pre><?php echo $app->token; ?></pre>
-                    </td>
+                    <td><span>token:</span></td>
+                    <td><pre><?php echo $app->token; ?></pre></td>
                 </tr>
             </table>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <div class="box_container">
-            <h3><?php echo Yii::t('app', 'Active users for platform'); ?></h3>
-            <?php
-            // TODO
-                if(count($app->platforms()) >= 1){
-                    echo '<ul class="active_users_platform">';
+    <?php if(count($app->platforms()) >= 1){
+        ?>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="box_container">
+                <h3><?php echo Yii::t('app', 'Active users for platform'); ?></h3>
+                <?php
+                    $content = '<table class="active_users_platform">';
                     foreach ($app->platforms() as $platform) {
-                        echo '<li>'.$platform->type.'<li>';
+                        $content .= '<tr>';
+                            $content .= '<td><p>'.AppPlatform::typeLabel($platform->type).'</p></td>';
+                            if($platform->type == AppPlatform::TYPE_TELEGRAM){
+                                $content .= '<td><p><strong>'.$app->numberOfActiveUserForTelegram().'</strong> '.Yii::t('common', 'active users').'</p></td>';
+                            }
+                        $content .= '</tr>';
                     }
-                    echo '</ul>';
-                }
-            ?>
+                    $content .= '</table>';
+                    echo $content;
+                ?>
+            </div>
+        </div>
+    <?php } ?>
+</div>
+<?php if(count($app->platforms()) >= 1){ ?>
+    <div class="row">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+            <h2 style="margin-bottom: 15px; font-size:20px;"><?php echo Yii::t('app', 'Connected platforms'); ?></h2>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <!-- TODO visualizzazione e btn per aggiungere piattaforme -->
-        <!-- tabella non ha senso! tutti campi diversi -->
-
+    <div class="row">
+        <?php if($app->hasPlatformTelegram()){ ?>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="box_container">
+                    <h3>Telegram</h3>
+                    <p>
+                        <?php echo Yii::t('app', 'Bot Username'); ?>:
+                        <strong><?php $telegram = $app->getPlatformTelegram(); echo $telegram->bot_username;?></strong>
+                    </p>
+                    <hr>
+                    <p><?php echo Yii::t('app', 'Don\'t forget to send the /setdomain command to @Botfather to link your website\'s domain to the bot.'); ?></p>
+                    <a class="normal_link" href="https://core.telegram.org/widgets/login#linking-your-domain-to-the-bot" target="_blank"><?php echo Yii::t('app', 'More info'); ?></a>
+                    <!-- TODO come modifico/elimino? -->
+                    <!-- modifica solo se no utenti?
+                        in caso solo disabilitare e creare nuova? -->
+                </div>
+            </div>
+        <?php } ?>
     </div>
-</div>
-
-
-<!-- aggiungere disclaimer per dominio da aggiungere aggiungere link https://core.telegram.org/widgets/login#linking-your-domain-to-the-bot -->
-<!-- send the /setdomain command to @Botfather to link your website's domain to the bot. -->
+<?php } ?>
