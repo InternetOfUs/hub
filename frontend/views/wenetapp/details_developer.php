@@ -109,7 +109,7 @@
                     </p>
                     <hr>
                     <p><?php echo Yii::t('app', 'Don\'t forget to send the /setdomain command to @Botfather to link {domain} domain to the bot.', [
-                        'domain' => Url::home(true),
+                        'domain' => parse_url(Url::base('https'), PHP_URL_SCHEME) . '://' . parse_url(Url::base('https'), PHP_URL_HOST),
                     ]); ?></p>
                     <a class="normal_link" href="https://core.telegram.org/widgets/login#linking-your-domain-to-the-bot" target="_blank"><?php echo Yii::t('app', 'More info'); ?></a>
                     <hr>

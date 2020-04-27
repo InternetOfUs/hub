@@ -9,7 +9,7 @@
     $this->params['breadcrumbs'][] = Yii::t('common', 'Developer');
 ?>
 
-<a href="<?= Url::to('/wenetapp/create'); ?>" class="btn btn-primary pull-right" style="margin: -10px 0 20px 0;">
+<a href="<?= Url::to(['/wenetapp/create']); ?>" class="btn btn-primary pull-right" style="margin: -10px 0 20px 0;">
     <i class="fa fa-plus" aria-hidden="true"></i>
     <?php echo Yii::t('app', 'Create a new app'); ?>
 </a>
