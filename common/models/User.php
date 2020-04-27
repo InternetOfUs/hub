@@ -18,6 +18,7 @@ use yii\web\IdentityInterface;
  * @property string $email
  * @property string $auth_key
  * @property integer $status
+ * @property int $developer
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
@@ -27,6 +28,9 @@ class User extends ActiveRecord implements IdentityInterface {
     const STATUS_DELETED = 0;
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
+
+    const NOT_DEVELOPER = 0;
+    const DEVELOPER = 1;
 
     /**
      * {@inheritdoc}
@@ -49,9 +53,20 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public function rules() {
         return [
+            [['developer'], 'required'],
+            [['developer'], 'integer'],
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
         ];
+    }
+
+    public static function isDeveloper($id){
+        $user = self::find()->where(['id' => $id, 'developer' => self::DEVELOPER])->one();
+        if($user){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

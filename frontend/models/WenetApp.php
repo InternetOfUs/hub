@@ -5,6 +5,7 @@ namespace frontend\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use common\models\User;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "app".
@@ -27,13 +28,12 @@ class WenetApp extends \yii\db\ActiveRecord {
     public $allMetadata = [];
     public $associatedCategories = [];
 
-    const STATUS_CREATED = 0;
+    const STATUS_NOT_ACTIVE = 0;
     const STATUS_ACTIVE = 1;
+    const STATUS_DELETED = 2;
 
     const TAG_SOCIAL = 'social';
     const TAG_ASSISTANCE = 'assistance';
-
-    const PLATFORM_TELEGRAM = 'telegram';
 
     /**
      * {@inheritdoc}
@@ -47,14 +47,34 @@ class WenetApp extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['id', 'status', 'metadata', 'owner_id'], 'required'],
+            [['id', 'token', 'name', 'status', 'owner_id', 'associatedCategories'], 'required'],
             [['status', 'created_at', 'updated_at', 'owner_id'], 'integer'],
             [['description', 'message_callback_url', 'metadata'], 'string'],
             [['id'], 'string', 'max' => 128],
             [['name', 'token'], 'string', 'max' => 512],
             [['id'], 'unique'],
             [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['owner_id' => 'id']],
+            [['status'], 'statusValidation']
         ];
+    }
+
+    public function statusValidation(){
+        if($this->status == self::STATUS_ACTIVE){
+            if($this->description == null || $this->message_callback_url == null || count($this->platforms()) == 0){
+
+                if($this->description == null){
+                    $this->addError('description', Yii::t('app', 'Description cannot be blank.'));
+                }
+                if($this->message_callback_url == null){
+                    $this->addError('message_callback_url', Yii::t('app', 'Message Callback Url cannot be blank.'));
+                }
+                if(count($this->platforms()) == 0){
+                    $this->addError('status', Yii::t('app', 'You should enable at least one platform to go live with the app.'));
+                }
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -71,6 +91,8 @@ class WenetApp extends \yii\db\ActiveRecord {
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'owner_id' => Yii::t('app', 'Owner ID'),
+            'categories' => Yii::t('app', 'Categories'),
+            'platforms' => Yii::t('app', 'Platforms'),
         ];
     }
 
@@ -84,22 +106,15 @@ class WenetApp extends \yii\db\ActiveRecord {
         ];
     }
 
-    public static function label($label) {
-        return self::labels()[$label];
+    public static function tagLabel($label) {
+        return self::tagLabels()[$label];
     }
 
-    public static function labels() {
+    private static function tagLabels() {
         return [
     		self::TAG_SOCIAL => Yii::t('app', 'Social'),
     		self::TAG_ASSISTANCE => Yii::t('app', 'Assistance'),
-    		self::PLATFORM_TELEGRAM => Yii::t('app', 'Telegram'),
     	];
-    }
-
-    public static function getPlatforms(){
-        return [
-            self::PLATFORM_TELEGRAM
-        ];
     }
 
     public static function getTags(){
@@ -107,6 +122,21 @@ class WenetApp extends \yii\db\ActiveRecord {
             self::TAG_SOCIAL,
             self::TAG_ASSISTANCE
         ];
+    }
+
+    public static function tagsWithLabels() {
+        $tagData = [];
+        foreach (self::getTags() as $tag) {
+            $tagData[$tag] = self::tagLabel($tag);
+        }
+        return $tagData;
+    }
+
+    public function numberOfActiveUserForTelegram() {
+        return count(UserAccountTelegram::find()->where([
+            'app_id' => $this->id,
+            'active' => UserAccountTelegram::ACTIVE
+        ])->all());
     }
 
     public static function numberOfActiveApps() {
@@ -119,6 +149,15 @@ class WenetApp extends \yii\db\ActiveRecord {
 
     public static function activeApps() {
         return WenetApp::find()->where(['status' => self::STATUS_ACTIVE])->all();
+    }
+
+    public function platforms() {
+        $platforms = [];
+        $telegramPlatform = $this->getPlatformTelegram();
+        if ($telegramPlatform) {
+            $platforms[] = $telegramPlatform;
+        }
+        return $platforms;
     }
 
     public function hasPlatformTelegram() {
@@ -134,7 +173,7 @@ class WenetApp extends \yii\db\ActiveRecord {
      * @return AppPlatformTelegram|null
      */
     public function getPlatformTelegram() {
-        $telegramPlatforms = AppPlatformTelegram::find()->where(['app_id' => $this->id])->all();
+        $telegramPlatforms = AppPlatformTelegram::find()->where(['app_id' => $this->id, 'status' => AppPlatform::STATUS_ACTIVE])->all();
         if (count($telegramPlatforms) == 0) {
             return null;
         } else if (count($telegramPlatforms) == 1) {
@@ -183,6 +222,27 @@ class WenetApp extends \yii\db\ActiveRecord {
         }
     }
 
+    public function beforeSave($insert) {
+        if (parent::beforeSave($insert)) {
+
+            $this->metadata = [
+                'categories' => $this->associatedCategories,
+            ];
+            $this->metadata = JSON::encode($this->metadata);
+
+            if ($this->message_callback_url == '') {
+                $this->message_callback_url = null;
+            }
+            if ($this->description == '') {
+                $this->description = null;
+            }
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Gets query for [[Owner]].
      *
@@ -192,9 +252,26 @@ class WenetApp extends \yii\db\ActiveRecord {
         return $this->hasOne(User::className(), ['id' => 'owner_id']);
     }
 
-    public function getEnabledPlatforms()
-    {
+    public function getEnabledPlatforms() {
         return $this->hasMany(UserAccountTelegram::className(), ['app_id' => 'id']);
+    }
+
+    public function create() {
+        $this->id = self::generateRandomString(10);
+        $this->token = self::generateRandomString(20);
+        $this->owner_id = Yii::$app->user->id;
+        $this->status = self::STATUS_NOT_ACTIVE;
+        return $this->save();
+    }
+
+    private static function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 
 }

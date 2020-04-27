@@ -17,15 +17,24 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Add Telegram platform' => '',
     'Apps' => '',
+    'Create new app' => '',
+    'Developer' => '',
     'Email' => '',
     'Home' => '',
     'Login' => '',
     'Logout' => '',
     'Password' => '',
+    'Save' => '',
     'Signup' => '',
+    'Update app' => '',
     'Username' => '',
     'Username or Email' => '',
+    'active users' => '',
+    'delete' => '',
+    'edit' => '',
+    'view' => '',
     'App' => '@@@@',
     'Profile' => '@@@@',
 ];

@@ -8,6 +8,7 @@
     use yii\widgets\Breadcrumbs;
     use frontend\assets\AppAsset;
     use common\widgets\Alert;
+    use common\models\User;
 
     AppAsset::register($this);
 ?>
@@ -41,6 +42,7 @@
             $menuItems = [
                 ['label' => Yii::t('common', 'Home'),  'url' => ['/site/index'], 'visible' => Yii::$app->user->isGuest],
                 ['label' => Yii::t('common', 'Apps'),  'url' => ['/wenetapp/index'], 'visible' => !Yii::$app->user->isGuest],
+                ['label' => Yii::t('common', 'Developer'),  'url' => ['/wenetapp/index-developer'], 'visible' => User::isDeveloper(Yii::$app->user->id)],
                 // ['label' => Yii::t('common', 'Profile'),  'url' => ['#'], 'visible' => !Yii::$app->user->isGuest],
             ];
             if (Yii::$app->user->isGuest) {
