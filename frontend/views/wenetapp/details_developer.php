@@ -108,7 +108,9 @@
                         <strong><?php echo $telegram->bot_username;?></strong>
                     </p>
                     <hr>
-                    <p><?php echo Yii::t('app', 'Don\'t forget to send the /setdomain command to @Botfather to link your website\'s domain to the bot.'); ?></p>
+                    <p><?php echo Yii::t('app', 'Don\'t forget to send the /setdomain command to @Botfather to link {domain} domain to the bot.', [
+                        'domain' => Url::home(true),
+                    ]); ?></p>
                     <a class="normal_link" href="https://core.telegram.org/widgets/login#linking-your-domain-to-the-bot" target="_blank"><?php echo Yii::t('app', 'More info'); ?></a>
                     <hr>
                     <a href="<?= Url::to(['/platform/delete-telegram', 'id' => $telegram->id]); ?>" class="btn delete_btn pull-right" title="<?php echo Yii::t('app', 'Detele platform'); ?>">
