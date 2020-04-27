@@ -189,6 +189,8 @@ div.site-login{
 
 form div.form-group button{margin-top: 15px;}
 
+.select2-container--krajee .select2-selection--multiple .select2-selection__choice__remove {margin: -1px 0 0 8px;}
+
 /* apps */
 span.filter_title{
     text-transform: uppercase;
