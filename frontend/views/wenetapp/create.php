@@ -33,20 +33,14 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <?php
-                        $tags = WenetApp::getTags();
-                        $tagData = [];
-                        foreach ($tags as $tag) {
-                            $tagData[$tag] = WenetApp::tagLabel($tag);
-                        }
-                        echo $form->field($model, 'allMetadata')->widget(Select2::classname(), [
-                            'data' => $tagData,
+                        echo $form->field($model, 'associatedCategories')->widget(Select2::classname(), [
+                            'data' => WenetApp::tagsWithLabels(),
                             'options' => [
                                 'placeholder' => Yii::t('app', 'Select tags ...'),
                                 'multiple' => true
                             ],
                         ]);
                     ?>
-                    <!-- https://demos.krajee.com/widget-details/select2 -->
                 </div>
             </div>
             <div class="row">

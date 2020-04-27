@@ -47,7 +47,7 @@ class WenetApp extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['id', 'token', 'name', 'status', 'owner_id'], 'required'],
+            [['id', 'token', 'name', 'status', 'owner_id', 'associatedCategories'], 'required'],
             [['status', 'created_at', 'updated_at', 'owner_id'], 'integer'],
             [['description', 'message_callback_url', 'metadata'], 'string'],
             [['id'], 'string', 'max' => 128],
@@ -122,6 +122,14 @@ class WenetApp extends \yii\db\ActiveRecord {
             self::TAG_SOCIAL,
             self::TAG_ASSISTANCE
         ];
+    }
+
+    public static function tagsWithLabels() {
+        $tagData = [];
+        foreach (self::getTags() as $tag) {
+            $tagData[$tag] = self::tagLabel($tag);
+        }
+        return $tagData;
     }
 
     public function numberOfActiveUserForTelegram() {
@@ -216,9 +224,6 @@ class WenetApp extends \yii\db\ActiveRecord {
 
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
-            print_r($this);
-            exit();
-
 
             $this->metadata = [
                 'categories' => $this->associatedCategories,
