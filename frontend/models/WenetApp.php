@@ -173,7 +173,7 @@ class WenetApp extends \yii\db\ActiveRecord {
      * @return AppPlatformTelegram|null
      */
     public function getPlatformTelegram() {
-        $telegramPlatforms = AppPlatformTelegram::find()->where(['app_id' => $this->id])->all();
+        $telegramPlatforms = AppPlatformTelegram::find()->where(['app_id' => $this->id, 'status' => AppPlatform::STATUS_ACTIVE])->all();
         if (count($telegramPlatforms) == 0) {
             return null;
         } else if (count($telegramPlatforms) == 1) {

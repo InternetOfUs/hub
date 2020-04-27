@@ -14,6 +14,7 @@ use frontend\models\WenetApp;
  * @property string $bot_username
  * @property int $created_at
  * @property int $updated_at
+ * @property int $status
  *
  * @property WenetApp $app
  */
@@ -31,7 +32,8 @@ class AppPlatformTelegram extends AppPlatform {
      */
     public function rules() {
         return [
-            [['bot_username'], 'required'],
+            [['bot_username', 'status'], 'required'],
+            [['status'], 'integer'],
             [['created_at', 'updated_at'], 'integer'],
             [['app_id', 'bot_username'], 'string', 'max' => 128],
             [['app_id'], 'exist', 'skipOnError' => true, 'targetClass' => WenetApp::className(), 'targetAttribute' => ['app_id' => 'id']],
@@ -46,6 +48,7 @@ class AppPlatformTelegram extends AppPlatform {
             'bot_username' => Yii::t('app', 'Bot Username'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+            'status' => Yii::t('app', 'Status'),
         ];
     }
 

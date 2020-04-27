@@ -6,9 +6,15 @@
     $this->title = Yii::$app->name . ' | ' . $app->name;
     $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Developer'), 'url' => ['index-developer']];
     $this->params['breadcrumbs'][] = $app->name;
+
+    $showTelegram = false;
+    if($app->hasPlatformTelegram()){
+        $showTelegram = true;
+        $telegram = $app->getPlatformTelegram();
+    }
 ?>
 
-<?php if(!$app->hasPlatformTelegram()){ ?>
+<?php if(!$showTelegram){ ?>
     <a href="<?= Url::to(['/platform/create-telegram', 'id' => $app->id]); ?>" class="btn btn-primary telegram_color pull-right" style="margin: -10px 0 20px 0;">
         <i class="fa fa-plus" aria-hidden="true"></i>
         <?php echo Yii::t('app', 'add Telegram'); ?>
@@ -93,20 +99,21 @@
         </div>
     </div>
     <div class="row">
-        <?php if($app->hasPlatformTelegram()){ ?>
+        <?php if($showTelegram){ ?>
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <div class="box_container">
+                <div class="box_container platform_container">
                     <h3>Telegram</h3>
                     <p>
                         <?php echo Yii::t('app', 'Bot Username'); ?>:
-                        <strong><?php $telegram = $app->getPlatformTelegram(); echo $telegram->bot_username;?></strong>
+                        <strong><?php echo $telegram->bot_username;?></strong>
                     </p>
                     <hr>
                     <p><?php echo Yii::t('app', 'Don\'t forget to send the /setdomain command to @Botfather to link your website\'s domain to the bot.'); ?></p>
                     <a class="normal_link" href="https://core.telegram.org/widgets/login#linking-your-domain-to-the-bot" target="_blank"><?php echo Yii::t('app', 'More info'); ?></a>
-                    <!-- TODO come modifico/elimino? -->
-                    <!-- modifica solo se no utenti?
-                        in caso solo disabilitare e creare nuova? -->
+                    <hr>
+                    <a href="<?= Url::to(['/platform/delete-telegram', 'id' => $telegram->id]); ?>" class="btn delete_btn pull-right" title="<?php echo Yii::t('app', 'Detele platform'); ?>">
+                        <i class="fa fa-trash"></i> <?php echo Yii::t('common', 'delete'); ?>
+                    </a>
                 </div>
             </div>
         <?php } ?>
