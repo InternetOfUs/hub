@@ -42,21 +42,24 @@
             $menuItems = [
                 ['label' => Yii::t('common', 'Home'),  'url' => ['/site/index'], 'visible' => Yii::$app->user->isGuest],
                 ['label' => Yii::t('common', 'Apps'),  'url' => ['/wenetapp/index'], 'visible' => !Yii::$app->user->isGuest],
-                ['label' => Yii::t('common', 'Developer'),  'url' => ['/wenetapp/index-developer'], 'visible' => User::isDeveloper(Yii::$app->user->id)],
-                // ['label' => Yii::t('common', 'Profile'),  'url' => ['#'], 'visible' => !Yii::$app->user->isGuest],
+                ['label' => Yii::t('common', 'Developer'),  'url' => ['/wenetapp/index-developer'], 'visible' => User::isDeveloper(Yii::$app->user->id)]
             ];
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => Yii::t('common', 'Login'),  'url' => ['/site/login']];
                 $menuItems[] = ['label' => Yii::t('common', 'Signup'),  'url' => ['/site/signup'], 'options' => ['class'=> 'menu_btn']];
             } else {
-                $menuItems[] = '<li>'
-                    . Html::beginForm(['/site/logout'], 'post')
-                    . Html::submitButton(
-                        Yii::t('common', 'Logout') . ' ('  . Yii::$app->user->identity->username . ')',
-                        ['class' => 'btn btn-link logout']
-                    )
-                    . Html::endForm()
-                    . '</li>';
+                $menuItems[] = [
+                    'label' => Yii::$app->user->identity->username,
+                    'items' => [
+                         // ['label' => Yii::t('common', 'Account'), 'url' => '#'],
+                         ['label' => Yii::t('common', 'Profile'), 'url' => '/profile/view'],
+                         '<li>' . Html::beginForm(['/site/logout'], 'post') . Html::submitButton(
+                             Yii::t('common', 'Logout'), ['class' => 'btn btn-link logout']
+                         )
+                         . Html::endForm()
+                         . '</li>'
+                    ],
+                ];
             }
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
