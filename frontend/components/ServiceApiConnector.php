@@ -5,6 +5,7 @@ namespace frontend\components;
 use Yii;
 use yii\helpers\Json;
 use yii\base\Component;
+use frontend\models\Profile;
 
 class ServiceApiConnector extends Component {
 
@@ -19,6 +20,14 @@ class ServiceApiConnector extends Component {
             $log = 'Something went wrong while initializing empty profile for user ['.$userId.']';
             Yii::error($log);
         }
+    }
+
+    public function getUserProfile($userId) {
+        return new Profile();
+    }
+
+    public function updateUserProfile(Profile $profile) {
+        
     }
 
     public function authHeaders() {
