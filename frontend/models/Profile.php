@@ -16,6 +16,7 @@ class Profile extends Model {
     public $prefix_name;
     public $suffix_name;
 
+    public $birthdate;
     public $bd_year;
     public $bd_month;
     public $bd_day;
@@ -29,9 +30,6 @@ class Profile extends Model {
     const GENDER_O = 'O';
 
     const LANG_EN = 'en-US';
-
-    const STATE_ITALY = "Italiana";
-    const STATE_MEXICO = "Mexican";
 
     /**
     * {@inheritdoc}
@@ -53,6 +51,7 @@ class Profile extends Model {
             'last_name' => Yii::t('profile', 'Last name'),
             'prefix_name' => Yii::t('profile', 'Prefix name'),
             'suffix_name' => Yii::t('profile', 'Suffix name'),
+            'birthdate' => Yii::t('profile', 'Birthdate'),
             'bd_year' => Yii::t('profile', 'Year'),
             'bd_month' => Yii::t('profile', 'Month'),
             'bd_day' => Yii::t('profile', 'Day'),
@@ -74,13 +73,6 @@ class Profile extends Model {
         return [
     		self::LANG_EN => Yii::t('common', 'English')
     	];
-    }
-
-    public static function nationalityLabels() {
-        return [
-            self::STATE_ITALY => self::STATE_ITALY,
-            self::STATE_MEXICO => self::STATE_MEXICO
-        ];
     }
 
 }

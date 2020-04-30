@@ -457,12 +457,14 @@ table.active_users_platform tr td:first-child{
     width: 20%;
 }
 
-/* create/update app form */
+/* forms */
 #app-create-form .form-group,
-#app-update-form .form-group {margin-bottom: 25px;}
+#app-create-form .form-group,
+#profile-form .form-group {margin-bottom: 25px;}
 
 #app-create-form input,
 #app-update-form input,
+#profile-form input,
 #app-create-form textarea,
 #app-update-form textarea{font-weight: 200;}
 
@@ -472,10 +474,89 @@ table.active_users_platform tr td:first-child{
     resize: vertical;
 }
 
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control {background-color: #f5f5f5;}
+
 .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary,
-.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-primary {
-    background: #00a3b6;
+.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-primary {background: #00a3b6;}
+
+.datepicker-inline {
+    background-color: #f5f5f5;
+    padding: 10px;
+    width: auto;
 }
+
+#profile-form div.field-profile-birthdate input{
+    box-shadow: none !important;
+    cursor: no-drop;
+    font-size: 13px;
+    height: 34px;
+}
+
+#profile-form div.field-profile-birthdate input:focus{border-color: #ccc;}
+
+.datepicker .datepicker-switch:hover,
+.datepicker .prev:hover,
+.datepicker .next:hover,
+.datepicker tfoot tr th:hover,
+.datepicker table tr td span:hover,
+.datepicker table tr td span.focused,
+.datepicker table tr td.day:hover,
+.datepicker table tr td.focused {background: #fff;}
+
+.datepicker table tr td span.active:active,
+.datepicker table tr td span.active:hover:active,
+.datepicker table tr td span.active.disabled:active,
+.datepicker table tr td span.active.disabled:hover:active,
+.datepicker table tr td span.active.active,
+.datepicker table tr td span.active:hover.active,
+.datepicker table tr td span.active.disabled.active,
+.datepicker table tr td span.active.disabled:hover.active,
+.datepicker table tr td.active:active,
+.datepicker table tr td.active.highlighted:active,
+.datepicker table tr td.active.active,
+.datepicker table tr td.active.highlighted.active,
+.datepicker table tr td.active:active:hover,
+.datepicker table tr td.active.highlighted:active:hover,
+.datepicker table tr td.active.active:hover,
+.datepicker table tr td.active.highlighted.active:hover,
+.datepicker table tr td.active:active:focus,
+.datepicker table tr td.active.highlighted:active:focus,
+.datepicker table tr td.active.active:focus,
+.datepicker table tr td.active.highlighted.active:focus,
+.datepicker table tr td.active:active.focus,
+.datepicker table tr td.active.highlighted:active.focus,
+.datepicker table tr td.active.active.focus,
+.datepicker table tr td.active.highlighted.active.focus,
+.datepicker table tr td span.active:active:hover,
+.datepicker table tr td span.active:hover:active:hover,
+.datepicker table tr td span.active.disabled:active:hover,
+.datepicker table tr td span.active.disabled:hover:active:hover,
+.datepicker table tr td span.active.active:hover,
+.datepicker table tr td span.active:hover.active:hover,
+.datepicker table tr td span.active.disabled.active:hover,
+.datepicker table tr td span.active.disabled:hover.active:hover,
+.datepicker table tr td span.active:active:focus,
+.datepicker table tr td span.active:hover:active:focus,
+.datepicker table tr td span.active.disabled:active:focus,
+.datepicker table tr td span.active.disabled:hover:active:focus,
+.datepicker table tr td span.active.active:focus,
+.datepicker table tr td span.active:hover.active:focus,
+.datepicker table tr td span.active.disabled.active:focus,
+.datepicker table tr td span.active.disabled:hover.active:focus,
+.datepicker table tr td span.active:active.focus,
+.datepicker table tr td span.active:hover:active.focus,
+.datepicker table tr td span.active.disabled:active.focus,
+.datepicker table tr td span.active.disabled:hover:active.focus,
+.datepicker table tr td span.active.active.focus,
+.datepicker table tr td span.active:hover.active.focus,
+.datepicker table tr td span.active.disabled.active.focus,
+.datepicker table tr td span.active.disabled:hover.active.focus{
+    background-color: #00a3b6;
+    border-color: #00a3b6;
+}
+
 
 
 
@@ -507,7 +588,8 @@ table.active_users_platform tr td:first-child{
 }
 
 /* add sorting icons to gridview sort links */
-a.asc:after, a.desc:after {
+a.asc:after,
+a.desc:after {
     position: relative;
     top: 1px;
     display: inline-block;
