@@ -10,6 +10,8 @@ use yii\base\Model;
  */
 class Profile extends Model {
 
+    public $userId;
+
     public $first_name;
     public $middle_name;
     public $last_name;
@@ -81,6 +83,55 @@ class Profile extends Model {
             self::STATE_ITALY => self::STATE_ITALY,
             self::STATE_MEXICO => self::STATE_MEXICO
         ];
+    }
+
+    public function toRepr() {
+        return [
+            'id' => $this->userId,
+            'name' => [
+                'first' => $this->first_name,
+                'middle' => $this->middle_name,
+                'last' => $this->last_name,
+                'prefix' => $this->prefix_name,
+                'suffix' => $this->suffix_name,
+            ],
+            'dateOfBirth' => [
+                'year' => $this->bd_year,
+                'month' => $this->bd_month,
+                'day' => $this->bd_day,
+            ],
+            'gender' => $this->gender,
+            'email' => null,
+            'phoneNumber' => null,
+            'locale' => $this->locale,
+            'nationality' => $this->nationality,
+            'avatar' => null,
+            'languages' => [],
+            'occupation' => null,
+        ];
+    }
+
+    public static function fromRepr($repr) {
+        $model = new self();
+
+        $model->userId = $repr['id'];
+
+        $model->first_name = $repr['name']['first'];
+        $model->middle_name = $repr['name']['middle'];
+        $model->last_name = $repr['name']['last'];
+        $model->prefix_name = $repr['name']['prefix'];
+        $model->suffix_name = $repr['name']['suffix'];
+
+        # TODO why not converting this directly info a date?
+        $model->bd_day = $repr['dateOfBirth']['day'];
+        $model->bd_month = $repr['dateOfBirth']['month'];
+        $model->bd_year = $repr['dateOfBirth']['year'];
+
+        $model->gender = $repr['gender'];
+        $model->locale = $repr['locale'];
+        $model->nationality = $repr['nationality'];
+
+        return $model;
     }
 
 }
