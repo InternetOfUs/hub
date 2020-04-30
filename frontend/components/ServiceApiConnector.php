@@ -27,7 +27,7 @@ class ServiceApiConnector extends Component {
     }
 
     public function updateUserProfile(Profile $profile) {
-        
+        return true;
     }
 
     public function authHeaders() {

@@ -19,9 +19,6 @@ class Profile extends Model {
     public $suffix_name;
 
     public $birthdate;
-    public $bd_year;
-    public $bd_month;
-    public $bd_day;
 
     public $gender;
     public $locale;
@@ -38,7 +35,7 @@ class Profile extends Model {
     */
     public function rules() {
         return [
-            [['first_name', 'middle_name', 'last_name', 'prefix_name', 'suffix_name', 'gender', 'nationality', 'locale'], 'string'],
+            [['first_name', 'middle_name', 'last_name', 'prefix_name', 'suffix_name', 'gender', 'nationality', 'locale', 'birthdate'], 'string'],
             [['bd_year', 'bd_month', 'bd_day'], 'integer']
         ];
     }
@@ -115,9 +112,15 @@ class Profile extends Model {
         $model->suffix_name = $repr['name']['suffix'];
 
         # TODO why not converting this directly info a date?
-        $model->bd_day = $repr['dateOfBirth']['day'];
-        $model->bd_month = $repr['dateOfBirth']['month'];
-        $model->bd_year = $repr['dateOfBirth']['year'];
+        $day = $repr['dateOfBirth']['day'];
+        $month = $repr['dateOfBirth']['month'];
+        $year = $repr['dateOfBirth']['year'];
+        if ($day && $month && $year) {
+            $dd = new \DateTime();
+            $dd->setDate($year, $month, $day);
+            $model->birthdate = $dd->format('dd-mm-yyyy');
+        }
+
 
         $model->gender = $repr['gender'];
         $model->locale = $repr['locale'];

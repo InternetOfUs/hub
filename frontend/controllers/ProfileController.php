@@ -55,7 +55,15 @@ class ProfileController extends Controller {
     }
 
     public function actionUpdate(){
-        $model = new Profile;
+        $model = Yii::$app->serviceApi->getUserProfile(Yii::$app->user->id);
+
+        if ($model->load(Yii::$app->request->post())) {
+            if (Yii::$app->serviceApi->updateUserProfile($model)) {
+                
+            } else {
+
+            }
+        }
 
         return $this->render('form', array(
             'model' => $model
