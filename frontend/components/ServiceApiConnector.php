@@ -22,9 +22,11 @@ class ServiceApiConnector extends BaseConnector {
     }
 
     public function authHeaders() {
-        return [
-            'apikey: ' . $this->apikey,
-        ];
+        $headers = [];
+        if ($this->apikey) {
+            $headers[] = 'apikey: ' . $this->apikey;
+        }
+        return $headers;
     }
 
 }
