@@ -6,28 +6,9 @@ use Yii;
 use yii\helpers\Json;
 use yii\base\Component;
 
-class ServiceApiConnector extends BaseConnector {
+class BaseConnector extends Component {
 
-    public $baseUrl;
-    public $apikey;
-
-    public function initUserProfile($userId) {
-        $url = $this->baseUrl . '/user/profile/' . $userId;
-        try {
-            $this->post($url, $this->authHeaders());
-        } catch (\Exception $e) {
-            $log = 'Something went wrong while initializing empty profile for user ['.$userId.']';
-            Yii::error($log);
-        }
-    }
-
-    public function authHeaders() {
-        return [
-            'apikey: ' . $this->apikey,
-        ];
-    }
-
-    private function post($url, $headers, $body=null) {
+    protected function post($url, $headers, $body=null) {
         $headers[] = 'Content-Type: application/json';
         try {
             $ch = curl_init();
