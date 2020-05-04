@@ -36,7 +36,6 @@ class Profile extends Model {
     public function rules() {
         return [
             [['first_name', 'middle_name', 'last_name', 'prefix_name', 'suffix_name', 'gender', 'nationality', 'locale', 'birthdate'], 'string'],
-            [['bd_year', 'bd_month', 'bd_day'], 'integer']
         ];
     }
 
@@ -51,9 +50,6 @@ class Profile extends Model {
             'prefix_name' => Yii::t('profile', 'Prefix name'),
             'suffix_name' => Yii::t('profile', 'Suffix name'),
             'birthdate' => Yii::t('profile', 'Birthdate'),
-            'bd_year' => Yii::t('profile', 'Year'),
-            'bd_month' => Yii::t('profile', 'Month'),
-            'bd_day' => Yii::t('profile', 'Day'),
             'gender' => Yii::t('profile', 'Gender'),
             'nationality' => Yii::t('profile', 'Nationality'),
             'locale' => Yii::t('profile', 'Language'),
