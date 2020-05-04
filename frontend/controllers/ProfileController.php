@@ -59,9 +59,9 @@ class ProfileController extends Controller {
 
         if ($model->load(Yii::$app->request->post())) {
             if (Yii::$app->serviceApi->updateUserProfile($model)) {
-                
+                return $this->redirect(['view']);
             } else {
-
+                Yii::$app->session->setFlash('error', Yii::t('app', 'Could not update profile.'));
             }
         }
 

@@ -75,6 +75,19 @@ class Profile extends Model {
     }
 
     public function toRepr() {
+
+        $date = \DateTime::createFromFormat('d-m-Y', $this->birthdate);
+        $db = [
+            'year' => null,
+            'month' => null,
+            'day' => null,
+        ];
+        if ($date) {
+            $db['year'] = $date->format('Y');
+            $db['month'] = $date->format('n');
+            $db['day'] = $date->format('j');
+        }
+
         return [
             'id' => $this->userId,
             'name' => [
@@ -84,11 +97,7 @@ class Profile extends Model {
                 'prefix' => $this->prefix_name,
                 'suffix' => $this->suffix_name,
             ],
-            'dateOfBirth' => [
-                'year' => $this->bd_year,
-                'month' => $this->bd_month,
-                'day' => $this->bd_day,
-            ],
+            'dateOfBirth' => $db,
             'gender' => $this->gender,
             'email' => null,
             'phoneNumber' => null,
@@ -111,14 +120,13 @@ class Profile extends Model {
         $model->prefix_name = $repr['name']['prefix'];
         $model->suffix_name = $repr['name']['suffix'];
 
-        # TODO why not converting this directly info a date?
         $day = $repr['dateOfBirth']['day'];
         $month = $repr['dateOfBirth']['month'];
         $year = $repr['dateOfBirth']['year'];
         if ($day && $month && $year) {
             $dd = new \DateTime();
             $dd->setDate($year, $month, $day);
-            $model->birthdate = $dd->format('dd-mm-yyyy');
+            $model->birthdate = $dd->format('d-m-yy');
         }
 
 
