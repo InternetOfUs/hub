@@ -2,6 +2,7 @@
     /* @var $this \yii\web\View */
     /* @var $content string */
 
+    use yii\helpers\Url;
     use yii\helpers\Html;
     use yii\bootstrap\Nav;
     use yii\bootstrap\NavBar;
@@ -22,6 +23,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic,cyrillic-ext,latin-ext,vietnamese" rel="stylesheet">
+    <link rel="icon" type="image/png" href="<?php echo Url::base().'/images/favicon.ico'; ?>" />
 
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
