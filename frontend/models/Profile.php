@@ -28,7 +28,7 @@ class Profile extends Model {
     const GENDER_F = 'F';
     const GENDER_O = 'O';
 
-    const LANG_EN = 'en-US';
+    const LANG_EN = 'en';
 
     /**
     * {@inheritdoc}
@@ -83,9 +83,9 @@ class Profile extends Model {
             'day' => null,
         ];
         if ($date) {
-            $db['year'] = $date->format('Y');
-            $db['month'] = $date->format('n');
-            $db['day'] = $date->format('j');
+            $db['year'] = intval($date->format('Y'));
+            $db['month'] = intval($date->format('n'));
+            $db['day'] = intval($date->format('j'));
         }
 
         return [
@@ -126,7 +126,7 @@ class Profile extends Model {
         if ($day && $month && $year) {
             $dd = new \DateTime();
             $dd->setDate($year, $month, $day);
-            $model->birthdate = $dd->format('d-m-yy');
+            $model->birthdate = $dd->format('d-m-Y');
         }
 
 
