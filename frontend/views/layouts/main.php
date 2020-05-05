@@ -33,22 +33,30 @@
 <?php $this->beginBody() ?>
     <div class="wrap">
         <?php
+            $brandUrl = Yii::$app->homeUrl;
+            if(!Yii::$app->user->isGuest){
+                if(User::isDeveloper(Yii::$app->user->id)){
+                    $brandUrl = '/wenetapp/index-developer';
+                } else {
+                    $brandUrl = '/wenetapp/index';
+                }
+            }
+
             NavBar::begin([
                 'brandLabel' => Html::img('@web/images/WeNet_logo.png', ['alt'=>Yii::$app->name]),
                 'brandOptions' => ['class' => 'logo'],
-                'brandUrl' => Yii::$app->homeUrl,
+                'brandUrl' => $brandUrl,
                 'options' => [
                     'class' => 'navbar-fixed-top',
                 ],
             ]);
             $menuItems = [
-                ['label' => Yii::t('common', 'Home'),  'url' => ['/site/index'], 'visible' => Yii::$app->user->isGuest],
                 ['label' => Yii::t('common', 'Apps'),  'url' => ['/wenetapp/index'], 'visible' => !Yii::$app->user->isGuest],
                 ['label' => Yii::t('common', 'Developer'),  'url' => ['/wenetapp/index-developer'], 'visible' => User::isDeveloper(Yii::$app->user->id)]
             ];
             if (Yii::$app->user->isGuest) {
-                $menuItems[] = ['label' => Yii::t('common', 'Login'),  'url' => ['/site/login']];
-                $menuItems[] = ['label' => Yii::t('common', 'Signup'),  'url' => ['/site/signup'], 'options' => ['class'=> 'menu_btn']];
+                $menuItems[] = ['label' => Yii::t('common', 'Log in'),  'url' => ['/site/login']];
+                $menuItems[] = ['label' => Yii::t('common', 'Sign up'),  'url' => ['/site/signup'], 'options' => ['class'=> 'menu_btn']];
             } else {
                 $menuItems[] = [
                     'label' => Yii::$app->user->identity->username,

@@ -13,21 +13,20 @@
         -moz-box-shadow: 0px 10px 19px -10px rgba(0,0,0,0.40);
         box-shadow: 0px 10px 19px -10px rgba(0,0,0,0.40);
     }
-
     div.navbar-collapse ul{margin: 10px;}
     div.navbar-collapse ul li{margin: 0 0 15px 0;}
     div.navbar-collapse ul li:last-child{margin:0;}
-
     div.navbar-collapse ul li a,
     div.navbar-collapse ul li > form > button.logout{
         border: 0px !important;
         color: #4c5363;
     }
-
     div.navbar-collapse ul li.active a{
         color: #00a3b6;
         border: none;
     }
+    .navbar-nav > li.dropdown{width: auto;}
+    .navbar-nav > li.dropdown a{text-align: left;}
     .filters_container span.filter_title{
 		border-bottom: 1px solid #ddd;
 		text-align: left !important;

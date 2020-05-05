@@ -6,12 +6,11 @@
     use yii\helpers\Html;
     use yii\bootstrap\ActiveForm;
 
-    $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Login');
-    $this->params['breadcrumbs'][] = Yii::t('common', 'Login');
+    $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Log in');
 ?>
 
 <div class="site-login">
-    <h1><?= Yii::t('common', 'Login'); ?></h1>
+    <h1><?= Yii::t('common', 'Log in'); ?></h1>
 
     <p><?php echo Yii::t('signup', 'Please fill out the following fields to login') ?>:</p>
 

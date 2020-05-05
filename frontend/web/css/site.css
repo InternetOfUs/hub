@@ -98,44 +98,86 @@ ul.navbar-nav li a:focus,
 ul.navbar-nav li a:hover{background-color: transparent;}
 
 ul.navbar-nav li.active a,
-ul.navbar-nav li a:hover{
-    border-bottom: 2px solid #00a3b6;
-    background-color: transparent;
+ul.navbar-nav li.active a:hover{
+    border-bottom: 1px solid #3b4150;
+    color: #3b4150;
 }
 
 ul.navbar-nav li a{
     padding: 10px 15px !important;
-    text-transform: uppercase;
     letter-spacing: 0.015em;
     font-size: 14px;
     color: #00a3b6;
 }
 
 ul.navbar-nav li a:hover{
-    text-transform: uppercase;
+    border-bottom: 1px solid #00a3b6;
     font-size: 14px;
     color: #00a3b6;
 }
 
 ul.navbar-nav li.menu_btn a{
-    border-bottom: 0px !important;
-    padding: 10px 25px !important;
-    background-color: #00a3b6;
-    color: #fff;
+    background-color: transparent;
+    padding: 5px 15px !important;
+    border: 1px solid #00a3b6;
+    border-radius: 20px;
+    margin: 4px 0 0 0;
+    color: #00a3b6;
 }
 
 ul.navbar-nav li.menu_btn.active a,
-ul.navbar-nav li.menu_btn a:hover{background-color: #3b4150;}
+ul.navbar-nav li.menu_btn a:hover{
+    border-color: #3b4150;
+    color: #3b4150;
+}
 
-/* align the logout "link" (button in form) of the navbar */
-.nav li > form > button.logout {
-    color: #00a3b6;
-    padding: 10px;
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+    background-color: transparent;
     border: none;
 }
 
-.nav li > form > button.logout:hover {
-    border-bottom: 2px solid red;
+.navbar-nav > li.dropdown{width: 160px;}
+
+.navbar-nav > li.dropdown a{
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.navbar-nav > li > .dropdown-menu{
+    width: 160px;
+    padding: 0px;
+}
+
+.navbar-nav > li > .dropdown-menu li{margin: 0px;}
+
+.navbar-nav > li > .dropdown-menu li a{
+    letter-spacing: 0.015em;
+    /* text-align: right; */
+    font-size: 13px;
+    color: #00a3b6;
+}
+
+.navbar-nav > li > .dropdown-menu li a:hover{
+    background-color: #f5f5f5;
+    color: #3b4150;
+    border: none;
+}
+
+.navbar-nav > li > .dropdown-menu li button.logout{
+    padding: 10px 15px;
+    /* text-align: right; */
+    color: #00a3b6;
+    width: 100%;
+}
+
+.navbar-nav > li > .dropdown-menu li button.logout:hover{
+    background-color: #f5f5f5;
+    text-decoration: none;
+    border-radius: 0px;
     color: red;
 }
 
