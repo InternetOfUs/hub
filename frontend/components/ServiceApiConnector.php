@@ -5,6 +5,7 @@ namespace frontend\components;
 use Yii;
 use yii\helpers\Json;
 use yii\base\Component;
+use frontend\models\Profile;
 
 class ServiceApiConnector extends BaseConnector {
 
@@ -18,6 +19,30 @@ class ServiceApiConnector extends BaseConnector {
         } catch (\Exception $e) {
             $log = 'Something went wrong while initializing empty profile for user ['.$userId.']';
             Yii::error($log);
+        }
+    }
+
+    public function getUserProfile($userId) {
+        $url = $this->baseUrl . '/user/profile/' . $userId;
+        try {
+            $result = $this->get($url, $this->authHeaders());
+            return Profile::fromRepr($result);
+        } catch (\Exception $e) {
+            $log = 'Something went wrong while getting profile for user ['.$userId.']';
+            Yii::error($log);
+            return null;
+        }
+    }
+
+    public function updateUserProfile(Profile $profile) {
+        $url = $this->baseUrl . '/user/profile/' . $profile->userId;
+        try {
+            $this->put($url, $this->authHeaders(), $profile->toRepr());
+            return true;
+        } catch (\Exception $e) {
+            $log = 'Something went wrong while updating profile for user ['.$profile->userId.']';
+            Yii::error($log);
+            return false;
         }
     }
 

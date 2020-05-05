@@ -98,44 +98,86 @@ ul.navbar-nav li a:focus,
 ul.navbar-nav li a:hover{background-color: transparent;}
 
 ul.navbar-nav li.active a,
-ul.navbar-nav li a:hover{
-    border-bottom: 2px solid #00a3b6;
-    background-color: transparent;
+ul.navbar-nav li.active a:hover{
+    border-bottom: 1px solid #3b4150;
+    color: #3b4150;
 }
 
 ul.navbar-nav li a{
     padding: 10px 15px !important;
-    text-transform: uppercase;
     letter-spacing: 0.015em;
     font-size: 14px;
     color: #00a3b6;
 }
 
 ul.navbar-nav li a:hover{
-    text-transform: uppercase;
+    border-bottom: 1px solid #00a3b6;
     font-size: 14px;
     color: #00a3b6;
 }
 
 ul.navbar-nav li.menu_btn a{
-    border-bottom: 0px !important;
-    padding: 10px 25px !important;
-    background-color: #00a3b6;
-    color: #fff;
+    background-color: transparent;
+    padding: 5px 15px !important;
+    border: 1px solid #00a3b6;
+    border-radius: 20px;
+    margin: 4px 0 0 0;
+    color: #00a3b6;
 }
 
 ul.navbar-nav li.menu_btn.active a,
-ul.navbar-nav li.menu_btn a:hover{background-color: #3b4150;}
+ul.navbar-nav li.menu_btn a:hover{
+    border-color: #3b4150;
+    color: #3b4150;
+}
 
-/* align the logout "link" (button in form) of the navbar */
-.nav li > form > button.logout {
-    color: #00a3b6;
-    padding: 10px;
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+    background-color: transparent;
     border: none;
 }
 
-.nav li > form > button.logout:hover {
-    border-bottom: 2px solid red;
+.navbar-nav > li.dropdown{width: 160px;}
+
+.navbar-nav > li.dropdown a{
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.navbar-nav > li > .dropdown-menu{
+    width: 160px;
+    padding: 0px;
+}
+
+.navbar-nav > li > .dropdown-menu li{margin: 0px;}
+
+.navbar-nav > li > .dropdown-menu li a{
+    letter-spacing: 0.015em;
+    /* text-align: right; */
+    font-size: 13px;
+    color: #00a3b6;
+}
+
+.navbar-nav > li > .dropdown-menu li a:hover{
+    background-color: #f5f5f5;
+    color: #3b4150;
+    border: none;
+}
+
+.navbar-nav > li > .dropdown-menu li button.logout{
+    padding: 10px 15px;
+    /* text-align: right; */
+    color: #00a3b6;
+    width: 100%;
+}
+
+.navbar-nav > li > .dropdown-menu li button.logout:hover{
+    background-color: #f5f5f5;
+    text-decoration: none;
+    border-radius: 0px;
     color: red;
 }
 
@@ -156,6 +198,7 @@ button.navbar-toggle:hover{background-color: #4c5363;}
 /* breadcrumb */
 
 ul.breadcrumb {margin-bottom: 30px;}
+ul.breadcrumb li{color: #777;}
 ul.breadcrumb li a{color: #00a3b6;}
 
 .wrap {
@@ -457,12 +500,14 @@ table.active_users_platform tr td:first-child{
     width: 20%;
 }
 
-/* create/update app form */
+/* forms */
 #app-create-form .form-group,
-#app-update-form .form-group {margin-bottom: 25px;}
+#app-create-form .form-group,
+#profile-form .form-group {margin-bottom: 25px;}
 
 #app-create-form input,
 #app-update-form input,
+#profile-form input,
 #app-create-form textarea,
 #app-update-form textarea{font-weight: 200;}
 
@@ -472,10 +517,89 @@ table.active_users_platform tr td:first-child{
     resize: vertical;
 }
 
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control {background-color: #f5f5f5;}
+
 .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary,
-.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-primary {
-    background: #00a3b6;
+.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-primary {background: #00a3b6;}
+
+.datepicker-inline {
+    background-color: #f5f5f5;
+    padding: 10px;
+    width: auto;
 }
+
+#profile-form div.field-profile-birthdate input{
+    box-shadow: none !important;
+    cursor: no-drop;
+    font-size: 13px;
+    height: 34px;
+}
+
+#profile-form div.field-profile-birthdate input:focus{border-color: #ccc;}
+
+.datepicker .datepicker-switch:hover,
+.datepicker .prev:hover,
+.datepicker .next:hover,
+.datepicker tfoot tr th:hover,
+.datepicker table tr td span:hover,
+.datepicker table tr td span.focused,
+.datepicker table tr td.day:hover,
+.datepicker table tr td.focused {background: #fff;}
+
+.datepicker table tr td span.active:active,
+.datepicker table tr td span.active:hover:active,
+.datepicker table tr td span.active.disabled:active,
+.datepicker table tr td span.active.disabled:hover:active,
+.datepicker table tr td span.active.active,
+.datepicker table tr td span.active:hover.active,
+.datepicker table tr td span.active.disabled.active,
+.datepicker table tr td span.active.disabled:hover.active,
+.datepicker table tr td.active:active,
+.datepicker table tr td.active.highlighted:active,
+.datepicker table tr td.active.active,
+.datepicker table tr td.active.highlighted.active,
+.datepicker table tr td.active:active:hover,
+.datepicker table tr td.active.highlighted:active:hover,
+.datepicker table tr td.active.active:hover,
+.datepicker table tr td.active.highlighted.active:hover,
+.datepicker table tr td.active:active:focus,
+.datepicker table tr td.active.highlighted:active:focus,
+.datepicker table tr td.active.active:focus,
+.datepicker table tr td.active.highlighted.active:focus,
+.datepicker table tr td.active:active.focus,
+.datepicker table tr td.active.highlighted:active.focus,
+.datepicker table tr td.active.active.focus,
+.datepicker table tr td.active.highlighted.active.focus,
+.datepicker table tr td span.active:active:hover,
+.datepicker table tr td span.active:hover:active:hover,
+.datepicker table tr td span.active.disabled:active:hover,
+.datepicker table tr td span.active.disabled:hover:active:hover,
+.datepicker table tr td span.active.active:hover,
+.datepicker table tr td span.active:hover.active:hover,
+.datepicker table tr td span.active.disabled.active:hover,
+.datepicker table tr td span.active.disabled:hover.active:hover,
+.datepicker table tr td span.active:active:focus,
+.datepicker table tr td span.active:hover:active:focus,
+.datepicker table tr td span.active.disabled:active:focus,
+.datepicker table tr td span.active.disabled:hover:active:focus,
+.datepicker table tr td span.active.active:focus,
+.datepicker table tr td span.active:hover.active:focus,
+.datepicker table tr td span.active.disabled.active:focus,
+.datepicker table tr td span.active.disabled:hover.active:focus,
+.datepicker table tr td span.active:active.focus,
+.datepicker table tr td span.active:hover:active.focus,
+.datepicker table tr td span.active.disabled:active.focus,
+.datepicker table tr td span.active.disabled:hover:active.focus,
+.datepicker table tr td span.active.active.focus,
+.datepicker table tr td span.active:hover.active.focus,
+.datepicker table tr td span.active.disabled.active.focus,
+.datepicker table tr td span.active.disabled:hover.active.focus{
+    background-color: #00a3b6;
+    border-color: #00a3b6;
+}
+
 
 
 
@@ -507,7 +631,8 @@ table.active_users_platform tr td:first-child{
 }
 
 /* add sorting icons to gridview sort links */
-a.asc:after, a.desc:after {
+a.asc:after,
+a.desc:after {
     position: relative;
     top: 1px;
     display: inline-block;

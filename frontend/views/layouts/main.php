@@ -2,6 +2,7 @@
     /* @var $this \yii\web\View */
     /* @var $content string */
 
+    use yii\helpers\Url;
     use yii\helpers\Html;
     use yii\bootstrap\Nav;
     use yii\bootstrap\NavBar;
@@ -22,6 +23,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic,cyrillic-ext,latin-ext,vietnamese" rel="stylesheet">
+    <link rel="icon" type="image/png" href="<?php echo Url::base().'/images/favicon.ico'; ?>" />
 
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
@@ -31,32 +33,43 @@
 <?php $this->beginBody() ?>
     <div class="wrap">
         <?php
+            $brandUrl = Yii::$app->homeUrl;
+            if(!Yii::$app->user->isGuest){
+                if(User::isDeveloper(Yii::$app->user->id)){
+                    $brandUrl = Url::base().'/wenetapp/index-developer';
+                } else {
+                    $brandUrl = Url::base().'/wenetapp/index';
+                }
+            }
+
             NavBar::begin([
                 'brandLabel' => Html::img('@web/images/WeNet_logo.png', ['alt'=>Yii::$app->name]),
                 'brandOptions' => ['class' => 'logo'],
-                'brandUrl' => Yii::$app->homeUrl,
+                'brandUrl' => $brandUrl,
                 'options' => [
                     'class' => 'navbar-fixed-top',
                 ],
             ]);
             $menuItems = [
-                ['label' => Yii::t('common', 'Home'),  'url' => ['/site/index'], 'visible' => Yii::$app->user->isGuest],
                 ['label' => Yii::t('common', 'Apps'),  'url' => ['/wenetapp/index'], 'visible' => !Yii::$app->user->isGuest],
-                ['label' => Yii::t('common', 'Developer'),  'url' => ['/wenetapp/index-developer'], 'visible' => User::isDeveloper(Yii::$app->user->id)],
-                // ['label' => Yii::t('common', 'Profile'),  'url' => ['#'], 'visible' => !Yii::$app->user->isGuest],
+                ['label' => Yii::t('common', 'Developer'),  'url' => ['/wenetapp/index-developer'], 'visible' => User::isDeveloper(Yii::$app->user->id)]
             ];
             if (Yii::$app->user->isGuest) {
-                $menuItems[] = ['label' => Yii::t('common', 'Login'),  'url' => ['/site/login']];
-                $menuItems[] = ['label' => Yii::t('common', 'Signup'),  'url' => ['/site/signup'], 'options' => ['class'=> 'menu_btn']];
+                $menuItems[] = ['label' => Yii::t('common', 'Log in'),  'url' => ['/site/login']];
+                $menuItems[] = ['label' => Yii::t('common', 'Sign up'),  'url' => ['/site/signup'], 'options' => ['class'=> 'menu_btn']];
             } else {
-                $menuItems[] = '<li>'
-                    . Html::beginForm(['/site/logout'], 'post')
-                    . Html::submitButton(
-                        Yii::t('common', 'Logout') . ' ('  . Yii::$app->user->identity->username . ')',
-                        ['class' => 'btn btn-link logout']
-                    )
-                    . Html::endForm()
-                    . '</li>';
+                $menuItems[] = [
+                    'label' => Yii::$app->user->identity->username,
+                    'items' => [
+                         // ['label' => Yii::t('common', 'Account'), 'url' => '#'],
+                         ['label' => Yii::t('common', 'Profile'), 'url' => ['/profile/update']],
+                         '<li>' . Html::beginForm(['/site/logout'], 'post') . Html::submitButton(
+                             Yii::t('common', 'Logout'), ['class' => 'btn btn-link logout']
+                         )
+                         . Html::endForm()
+                         . '</li>'
+                    ],
+                ];
             }
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
@@ -66,9 +79,16 @@
         ?>
 
         <div class="container">
-            <?= Breadcrumbs::widget([
-                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-            ]) ?>
+            <?php
+                $homeLink = false;
+                if(Yii::$app->controller->id == 'profile'){
+                    $homeLink = ['label' => Yii::$app->user->identity->username];
+                }
+                echo Breadcrumbs::widget([
+                    'homeLink' => $homeLink,
+                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                ]);
+            ?>
             <?= Alert::widget() ?>
             <?= $content ?>
         </div>

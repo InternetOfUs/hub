@@ -235,10 +235,10 @@ class WenetappController extends Controller {
         $model->status = WenetApp::STATUS_DELETED;
         if ($model->save()) {
             Yii::$app->session->setFlash('success', Yii::t('app', 'App successfully deleted.'));
-            return $this->redirect(['index-developer']);
         } else {
             Yii::$app->session->setFlash('error', Yii::t('app', 'Could not delete app.'));
         }
+        return $this->redirect(['index-developer']);
     }
 
 }

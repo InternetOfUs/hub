@@ -66,5 +66,4 @@ return [
     'add Telegram' => '',
     'all' => '',
     'filters' => '',
-    'bot domain to set' => '@@@@',
 ];
