@@ -63,6 +63,7 @@
                     'items' => [
                          // ['label' => Yii::t('common', 'Account'), 'url' => '#'],
                          ['label' => Yii::t('common', 'Profile'), 'url' => ['/profile/update']],
+                         ['label' => Yii::t('common', 'My Apps'), 'url' => ['/wenetapp/user-apps']],
                          '<li>' . Html::beginForm(['/site/logout'], 'post') . Html::submitButton(
                              Yii::t('common', 'Logout'), ['class' => 'btn btn-link logout']
                          )
@@ -80,12 +81,8 @@
 
         <div class="container">
             <?php
-                $homeLink = false;
-                if(Yii::$app->controller->id == 'profile'){
-                    $homeLink = ['label' => Yii::$app->user->identity->username];
-                }
                 echo Breadcrumbs::widget([
-                    'homeLink' => $homeLink,
+                    'homeLink' => false,
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                 ]);
             ?>

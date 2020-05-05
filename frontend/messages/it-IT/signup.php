@@ -24,11 +24,12 @@ return [
     'Remember me' => '',
     'Sorry, we are unable to resend verification email for the provided email address.' => '',
     'Sorry, we are unable to verify your account with provided token.' => '',
-    'Thank you for registration. Please check your inbox for verification email.' => '',
+    'Thank you for registration.' => '',
     'Verification password' => '',
     'Your email has been confirmed!' => '',
     'If you forgot your password you can' => '@@@@',
     'Need new verification email?' => '@@@@',
     'Resend' => '@@@@',
+    'Thank you for registration. Please check your inbox for verification email.' => '@@@@',
     'reset it' => '@@@@',
 ];

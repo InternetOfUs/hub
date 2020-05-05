@@ -25,12 +25,14 @@ class WenetappController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => [
                     'index', 'details', 'associate-user', 'disassociate-user',
+                    'user-apps',
                     'index-developer', 'create', 'update', 'details-developer', 'delete'
                 ],
                 'rules' => [
                     [
                         'actions' => [
                             'index', 'details', 'associate-user', 'disassociate-user',
+                            'user-apps',
                             'index-developer', 'create', 'update', 'details-developer', 'delete'
                         ],
                         'allow' => true, # TODO distinguish access for developers and non-dev
@@ -92,6 +94,10 @@ class WenetappController extends Controller {
             ));
 		}
 	}
+
+    public function actionUserApps() {
+        return $this->render('user_apps', array());
+    }
 
     public function actionAssociateUser() {
         $data = Yii::$app->request->post();

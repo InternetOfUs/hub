@@ -56,6 +56,7 @@ return [
     'Status' => '',
     'Telegram' => '',
     'Telegram ID' => '',
+    'There are no apps to display.' => '',
     'There is a problem with the Telegram login. Please retry later.' => '',
     'There is a problem with the Telegram logout. Please retry later.' => '',
     'To authenticate requests, you will need to include the following parameters in the header of each call:' => '',
