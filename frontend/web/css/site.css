@@ -156,6 +156,7 @@ button.navbar-toggle:hover{background-color: #4c5363;}
 /* breadcrumb */
 
 ul.breadcrumb {margin-bottom: 30px;}
+ul.breadcrumb li{color: #777;}
 ul.breadcrumb li a{color: #00a3b6;}
 
 .wrap {

@@ -5,9 +5,8 @@
     use frontend\models\Nationality;
     use kartik\date\DatePicker;
 
-    $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Update profile');
-    $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Profile'), 'url' => ['view']];
-    $this->params['breadcrumbs'][] = Yii::t('common', 'Update profile');
+    $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Profile');
+    $this->params['breadcrumbs'][] = Yii::t('common', 'Profile');
 ?>
 
 <div class="row">

@@ -71,9 +71,16 @@
         ?>
 
         <div class="container">
-            <?= Breadcrumbs::widget([
-                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-            ]) ?>
+            <?php
+                $homeLink = false;
+                if(Yii::$app->controller->id == 'profile'){
+                    $homeLink = ['label' => Yii::$app->user->identity->username];
+                }
+                echo Breadcrumbs::widget([
+                    'homeLink' => $homeLink,
+                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                ]);
+            ?>
             <?= Alert::widget() ?>
             <?= $content ?>
         </div>
