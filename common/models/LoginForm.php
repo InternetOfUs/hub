@@ -21,7 +21,7 @@ class LoginForm extends Model {
     public function rules() {
         return [
             // username and password are both required
-            ['password', 'required'],
+            [['password', 'username_or_email'], 'required'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
@@ -32,10 +32,9 @@ class LoginForm extends Model {
 
     public function my_required($attribute_name, $params) {
         if (empty($this->username_or_email)) {
-            $this->addError($attribute_name, Yii::t('signup', 'At least 1 of the field must be filled up properly'));
+            $this->addError($attribute_name, Yii::t('signup', 'At least one of the field must be filled up properly'));
             return false;
         }
-
         return true;
     }
 
