@@ -19,10 +19,10 @@ class ProfileController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['view', 'update'],
+                'only' => ['update'],
                 'rules' => [
                     [
-                        'actions' => ['view', 'update'],
+                        'actions' => ['update'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -50,18 +50,14 @@ class ProfileController extends Controller {
         ];
     }
 
-    public function actionView(){
-        return $this->render('view', array());
-    }
-
     public function actionUpdate(){
         $model = Yii::$app->serviceApi->getUserProfile(Yii::$app->user->id);
 
         if ($model->load(Yii::$app->request->post())) {
             if (Yii::$app->serviceApi->updateUserProfile($model)) {
-                return $this->redirect(['view']);
+                Yii::$app->session->setFlash('success', Yii::t('profile', 'Profile successfully updated.'));
             } else {
-                Yii::$app->session->setFlash('error', Yii::t('app', 'Could not update profile.'));
+                Yii::$app->session->setFlash('error', Yii::t('profile', 'Could not update profile.'));
             }
         }
 

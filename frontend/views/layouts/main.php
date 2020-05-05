@@ -54,7 +54,7 @@
                     'label' => Yii::$app->user->identity->username,
                     'items' => [
                          // ['label' => Yii::t('common', 'Account'), 'url' => '#'],
-                         ['label' => Yii::t('common', 'Profile'), 'url' => '/profile/view'],
+                         ['label' => Yii::t('common', 'Profile'), 'url' => '/profile/update'],
                          '<li>' . Html::beginForm(['/site/logout'], 'post') . Html::submitButton(
                              Yii::t('common', 'Logout'), ['class' => 'btn btn-link logout']
                          )
