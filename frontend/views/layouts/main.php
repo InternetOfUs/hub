@@ -36,9 +36,9 @@
             $brandUrl = Yii::$app->homeUrl;
             if(!Yii::$app->user->isGuest){
                 if(User::isDeveloper(Yii::$app->user->id)){
-                    $brandUrl = '/wenetapp/index-developer';
+                    $brandUrl = Url::base().'/wenetapp/index-developer';
                 } else {
-                    $brandUrl = '/wenetapp/index';
+                    $brandUrl = Url::base().'/wenetapp/index';
                 }
             }
 
@@ -62,7 +62,7 @@
                     'label' => Yii::$app->user->identity->username,
                     'items' => [
                          // ['label' => Yii::t('common', 'Account'), 'url' => '#'],
-                         ['label' => Yii::t('common', 'Profile'), 'url' => '/profile/update'],
+                         ['label' => Yii::t('common', 'Profile'), 'url' => ['/profile/update']],
                          '<li>' . Html::beginForm(['/site/logout'], 'post') . Html::submitButton(
                              Yii::t('common', 'Logout'), ['class' => 'btn btn-link logout']
                          )

@@ -12,6 +12,7 @@ I also provide developers with the toots for managing applications and associate
 
 Environment variables required for this project
 
+* BASE_URL
 * SERVICE_API_BASE_URL
 * SERVICE_API_APIKEY
 
