@@ -6,4 +6,5 @@ function getenvOrDefault($label, $default) {
 
 return [
     'service.api.base.url' => getenv('SERVICE_API_BASE_URL'),
+    'service.api.apikey' => getenv('SERVICE_API_APIKEY'),
 ];

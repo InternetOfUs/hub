@@ -31,7 +31,7 @@ class SignupForm extends Model {
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
 
-            ['password', 'required'],
+            [['password', 'password_repeat'], 'required'],
             ['password', 'string', 'min' => 6],
             [['password', 'password_repeat'], 'checkPassword'],
         ];
@@ -70,6 +70,7 @@ class SignupForm extends Model {
         $user->username = $this->username;
         $user->email = $this->email;
         $user->status = User::STATUS_ACTIVE; // TODO
+        $user->developer = User::NOT_DEVELOPER;
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();

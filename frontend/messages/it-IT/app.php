@@ -66,5 +66,4 @@ return [
     'all' => '',
     'filter_tags' => '',
     'filters' => '',
-    'bot domain to set' => '@@@@',
 ];

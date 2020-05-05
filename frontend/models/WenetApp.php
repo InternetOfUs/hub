@@ -47,14 +47,15 @@ class WenetApp extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['id', 'token', 'name', 'status', 'owner_id', 'associatedCategories'], 'required'],
+            [['id', 'token', 'name', 'status', 'owner_id'], 'required'],
             [['status', 'created_at', 'updated_at', 'owner_id'], 'integer'],
             [['description', 'message_callback_url', 'metadata'], 'string'],
             [['id'], 'string', 'max' => 128],
             [['name', 'token'], 'string', 'max' => 512],
             [['id'], 'unique'],
             [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['owner_id' => 'id']],
-            [['status'], 'statusValidation']
+            [['status'], 'statusValidation'],
+            ['associatedCategories', 'safe'],
         ];
     }
 
