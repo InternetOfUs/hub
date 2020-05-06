@@ -6,6 +6,7 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use frontend\models\UserAccountTelegram;
 
 /**
  * User model
@@ -209,5 +210,15 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public function removePasswordResetToken() {
         $this->password_reset_token = null;
+    }
+
+    public function getApps() {
+        $accounts = UserAccountTelegram::find()->where(['user_id' => $this->id, 'active' => UserAccountTelegram::ACTIVE])->all();
+        return array_map(
+            function($account){
+                return $account->app;
+            },
+            $accounts
+        );
     }
 }

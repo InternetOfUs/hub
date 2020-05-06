@@ -21,8 +21,8 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     		<div class="userAppsContainer">
                 <?php
-                     $apps = WenetApp::find()->all();
-
+                     $apps = Yii::$app->user->getIdentity()->apps;
+                     
                      foreach ($apps as $key => $app) {
                          $availablePlatforms = [];
                          if($app->hasPlatformTelegram()) {
