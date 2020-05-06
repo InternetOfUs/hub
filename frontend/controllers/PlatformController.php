@@ -96,13 +96,13 @@ class PlatformController extends Controller {
 
         if (!$model->save()) {
             $transactionOk = false;
-            // TODO
-            // Yii::error('Could not create new Wenet APP', '');
+            Yii::error('Could not delete telegram platform', 'wenet.platform');
         } else {
             $usersOk = true;
             foreach ($users as $user) {
                 $user->active = UserAccountTelegram::NOT_ACTIVE;
                 if(!$user->save()){
+                    Yii::error('Could not deactivate telegram account for user ['.$user->id.'] and app ['.$app->id.']', 'wenet.platform');
                     $usersOk = false;
                 }
                 if($usersOk == false){
@@ -114,12 +114,11 @@ class PlatformController extends Controller {
             if($appToDevMode){
                 if(!$app->save()){
                     $transactionOk = false;
-                    // TODO
-                    // Yii::error('Could not create new Wenet APP', '');
+                    Yii::error('Could not put app ['.$app->id.'] in dev mode', 'wenet.platform');
                 }
             }
         }
-        
+
         if ($transactionOk) {
             if($appToDevMode){
                 Yii::$app->session->setFlash('warning', Yii::t('app', 'Because there are no platforms available for this app, the app has been automatically setted as "In development" mode.'));
