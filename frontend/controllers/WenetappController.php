@@ -10,6 +10,7 @@ use yii\data\ArrayDataProvider;
 use frontend\models\WenetApp;
 use frontend\models\AppPlatformTelegram;
 use frontend\models\UserAccountTelegram;
+use frontend\components\AppConnector;
 
 /**
  * Site controller
@@ -31,9 +32,15 @@ class WenetappController extends Controller {
                     [
                         'actions' => [
                             'index', 'details', 'associate-user', 'disassociate-user',
+                        ],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => [
                             'index-developer', 'create', 'update', 'details-developer', 'delete'
                         ],
-                        'allow' => true, # TODO distinguish access for developers and non-dev
+                        'allow' => Yii::$app->user->getIdentity()->isDeveloper(),
                         'roles' => ['@'],
                     ],
                 ],
@@ -189,6 +196,9 @@ class WenetappController extends Controller {
 
     public function actionDetailsDeveloper($id) {
 		$app = WenetApp::find()->where(["id" => $id])->one();
+
+        // $connector = new AppConnector();
+        // $connector->newUserForPlatform($app, 'telegram', 1);
 
         if(!$app || $app->status == WenetApp::STATUS_DELETED){
             throw new NotFoundHttpException('The specified app cannot be found.');
