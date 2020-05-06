@@ -42,7 +42,7 @@ class SignupForm extends Model {
             'username' => Yii::t('common', 'Username'),
             'email' => Yii::t('common', 'Email'),
             'password' => Yii::t('common', 'Password'),
-            'password_repeat' => Yii::t('signup', 'Verification password'),
+            'password_repeat' => Yii::t('signup', 'Repeat password'),
 
         ];
     }
@@ -78,6 +78,25 @@ class SignupForm extends Model {
         if ($user->save()) {
             Yii::$app->serviceApi->initUserProfile($user->id);
             // $this->sendEmail($user);
+            return $user;
+        } else {
+            return null;
+        }
+    }
+
+    public function changePassword() {
+        $user = User::find()->where(['id' => Yii::$app->user->id])->one();
+        $user->username = Yii::$app->user->identity->username;
+        $user->email = Yii::$app->user->identity->email;
+        $user->setPassword($this->password);
+
+        // validate?
+
+        // print_r($user);
+        // exit();
+
+
+        if ($user->save()) {
             return $user;
         } else {
             return null;

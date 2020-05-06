@@ -28,7 +28,7 @@ class SiteController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'only' => ['logout', 'signup', 'change-password'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -36,7 +36,7 @@ class SiteController extends Controller {
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'change-password'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -167,6 +167,17 @@ class SiteController extends Controller {
         }
 
         return $this->render('signup', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionChangePassword(){
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->request->post()) && $model->changePassword()) {
+            Yii::$app->session->setFlash('success', Yii::t('signup', 'Password successfully changed.'));
+        } 
+
+        return $this->render('changePassword', [
             'model' => $model,
         ]);
     }
