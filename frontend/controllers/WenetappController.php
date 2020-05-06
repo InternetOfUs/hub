@@ -10,6 +10,7 @@ use yii\data\ArrayDataProvider;
 use frontend\models\WenetApp;
 use frontend\models\AppPlatformTelegram;
 use frontend\models\UserAccountTelegram;
+use frontend\components\AppConnector;
 
 /**
  * Site controller
@@ -31,9 +32,15 @@ class WenetappController extends Controller {
                     [
                         'actions' => [
                             'index', 'details', 'associate-user', 'disassociate-user',
+                        ],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => [
                             'index-developer', 'create', 'update', 'details-developer', 'delete'
                         ],
-                        'allow' => true, # TODO distinguish access for developers and non-dev
+                        'allow' => Yii::$app->user->getIdentity()->isDeveloper(),
                         'roles' => ['@'],
                     ],
                 ],
@@ -114,6 +121,8 @@ class WenetappController extends Controller {
             $account->active = UserAccountTelegram::ACTIVE;
 
             if ($account->save()) {
+                $connector = new AppConnector();
+                $connector->newUserForPlatform($account->app, 'telegram', Yii::$app->user->id);
                 return [
                     'message' => 'saved',
                 ];
