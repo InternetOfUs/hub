@@ -121,6 +121,8 @@ class WenetappController extends Controller {
             $account->active = UserAccountTelegram::ACTIVE;
 
             if ($account->save()) {
+                $connector = new AppConnector();
+                $connector->newUserForPlatform($account->app, 'telegram', Yii::$app->user->id);
                 return [
                     'message' => 'saved',
                 ];
@@ -196,9 +198,6 @@ class WenetappController extends Controller {
 
     public function actionDetailsDeveloper($id) {
 		$app = WenetApp::find()->where(["id" => $id])->one();
-
-        // $connector = new AppConnector();
-        // $connector->newUserForPlatform($app, 'telegram', 1);
 
         if(!$app || $app->status == WenetApp::STATUS_DELETED){
             throw new NotFoundHttpException('The specified app cannot be found.');
