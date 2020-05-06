@@ -52,7 +52,7 @@
             ]);
             $menuItems = [
                 ['label' => Yii::t('common', 'Apps'),  'url' => ['/wenetapp/index'], 'visible' => !Yii::$app->user->isGuest],
-                ['label' => Yii::t('common', 'Developer'),  'url' => ['/wenetapp/index-developer'], 'visible' => Yii::$app->user->getIdentity()->isDeveloper()]
+                ['label' => Yii::t('common', 'Developer'),  'url' => ['/wenetapp/index-developer'], 'visible' => !Yii::$app->user->isGuest && Yii::$app->user->getIdentity()->isDeveloper()]
             ];
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => Yii::t('common', 'Log in'),  'url' => ['/site/login']];
