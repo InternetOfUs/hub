@@ -156,11 +156,11 @@ ul.navbar-nav li.menu_btn a:hover{
 
 .navbar-nav > li > .dropdown-menu li a{
     letter-spacing: 0.015em;
-    /* text-align: right; */
     font-size: 13px;
     color: #00a3b6;
 }
 
+.navbar-nav > li > .dropdown-menu li.active a,
 .navbar-nav > li > .dropdown-menu li a:hover{
     background-color: #f5f5f5;
     color: #3b4150;
@@ -169,7 +169,6 @@ ul.navbar-nav li.menu_btn a:hover{
 
 .navbar-nav > li > .dropdown-menu li button.logout{
     padding: 10px 15px;
-    /* text-align: right; */
     color: #00a3b6;
     width: 100%;
 }
@@ -279,7 +278,19 @@ span.filter_title span{
 	color: #fff;
 }
 
-div.appsContainer a.app{
+div.userAppsContainer{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+a.user_apps{
+    margin: 0 0 20px 0 !important;
+    width: 32% !important;
+}
+
+a.app{
     border: 1px solid #ddd;
     text-decoration: none;
     border-radius: 5px;
@@ -288,28 +299,27 @@ div.appsContainer a.app{
     width: 31%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 }
 
-div.appsContainer a.app:nth-child(3n+1),
-div.appsContainer a.app:nth-child(3n+2){margin-right: 2%;}
+a.app:nth-child(3n+1),
+a.app:nth-child(3n+2){margin-right: 2%;}
 
-div.appsContainer a.app:hover{
+a.app:hover{
     background-color: rgba(0,163,182, 0.3);
     border-color: rgba(0,163,182, 0.6);
 }
 
-div.appsContainer a.app:hover *{color: #666 !important;}
+a.app:hover *{color: #666 !important;}
 
-div.appsContainer a.app h2{
+a.app h2{
     font-size: 20px;
     margin-top: 5px;
     color: #00a3b6;
 }
 
-div.appsContainer a.app p{color: #888;}
+a.app p{color: #888;}
 
-div.appsContainer a.app ul.platform_icons{margin: 0px;}
+a.app ul.platform_icons{margin: 0px;}
 
 ul.platform_icons li{
     display: inline-block;

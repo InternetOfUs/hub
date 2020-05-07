@@ -26,12 +26,14 @@ class WenetappController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => [
                     'index', 'details', 'associate-user', 'disassociate-user',
+                    'user-apps',
                     'index-developer', 'create', 'update', 'details-developer', 'delete'
                 ],
                 'rules' => [
                     [
                         'actions' => [
                             'index', 'details', 'associate-user', 'disassociate-user',
+                            'user-apps',
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -99,6 +101,10 @@ class WenetappController extends Controller {
             ));
 		}
 	}
+
+    public function actionUserApps() {
+        return $this->render('user_apps', array());
+    }
 
     public function actionAssociateUser() {
         $data = Yii::$app->request->post();
@@ -176,9 +182,8 @@ class WenetappController extends Controller {
 
     public function actionIndexDeveloper(){
         $userApps = WenetApp::find()
-            ->where(['owner_id' => Yii::$app->user->id])
-            ->andWhere(['status' => WenetApp::STATUS_NOT_ACTIVE])
-            ->orWhere(['status' => WenetApp::STATUS_ACTIVE])
+            ->andwhere(['owner_id' => Yii::$app->user->id])
+            ->andWhere(['status' => [WenetApp::STATUS_NOT_ACTIVE, WenetApp::STATUS_ACTIVE]])
             ->all();
 
         $provider = new ArrayDataProvider([

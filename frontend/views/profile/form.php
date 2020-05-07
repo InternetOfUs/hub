@@ -6,6 +6,7 @@
     use kartik\date\DatePicker;
 
     $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Profile');
+    $this->params['breadcrumbs'][] = Yii::$app->user->identity->username;
     $this->params['breadcrumbs'][] = Yii::t('common', 'Profile');
 ?>
 

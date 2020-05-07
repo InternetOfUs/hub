@@ -29,6 +29,7 @@ return [
     'Login' => '',
     'Logout' => '',
     'Male' => '',
+    'My Apps' => '',
     'Other' => '',
     'Password' => '',
     'Profile' => '',
