@@ -159,6 +159,7 @@ class SiteController extends Controller {
      */
     public function actionSignup() {
         $model = new SignupForm();
+        $model->scenario = SignupForm::SCENARIO_CREATE;
         if ($model->load(Yii::$app->request->post()) && $model->signup()) {
             // TODO after fixed email send
             // Yii::$app->session->setFlash('success', Yii::t('signup', 'Thank you for registration. Please check your inbox for verification email.'));
@@ -173,9 +174,10 @@ class SiteController extends Controller {
 
     public function actionChangePassword(){
         $model = new SignupForm();
+        $model->scenario = SignupForm::SCENARIO_UPDATE_PASSWORD;
         if ($model->load(Yii::$app->request->post()) && $model->changePassword()) {
             Yii::$app->session->setFlash('success', Yii::t('signup', 'Password successfully changed.'));
-        } 
+        }
 
         return $this->render('changePassword', [
             'model' => $model,
