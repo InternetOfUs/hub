@@ -17,19 +17,21 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Check your email for further instructions.' => '',
     'Password does not match.' => '',
+    'Password successfully changed.' => '',
     'Please fill out the following fields to login' => '',
     'Please fill out the following fields to signup' => '',
     'Remember me' => '',
-    'Sorry, we are unable to resend verification email for the provided email address.' => '',
-    'Sorry, we are unable to verify your account with provided token.' => '',
+    'Repeat password' => '',
     'Thank you for registration.' => '',
-    'Verification password' => '',
-    'Your email has been confirmed!' => '',
+    'Check your email for further instructions.' => '@@@@',
     'If you forgot your password you can' => '@@@@',
     'Need new verification email?' => '@@@@',
     'Resend' => '@@@@',
+    'Sorry, we are unable to resend verification email for the provided email address.' => '@@@@',
+    'Sorry, we are unable to verify your account with provided token.' => '@@@@',
     'Thank you for registration. Please check your inbox for verification email.' => '@@@@',
+    'Verification password' => '@@@@',
+    'Your email has been confirmed!' => '@@@@',
     'reset it' => '@@@@',
 ];

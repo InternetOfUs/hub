@@ -17,10 +17,15 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Account info' => '',
+    'Become a developer' => '',
     'Birthdate' => '',
     'Could not update profile.' => '',
+    'Developer' => '',
+    'Email' => '',
     'First name' => '',
     'Gender' => '',
+    'ID' => '',
     'Language' => '',
     'Last name' => '',
     'Middle name' => '',
@@ -31,4 +36,6 @@ return [
     'Select language ...' => '',
     'Select nationality ...' => '',
     'Suffix name' => '',
+    'Username' => '',
+    'explanation' => '',
 ];

@@ -17,8 +17,11 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Account' => '',
+    'Account & Profile' => '',
     'Add Telegram platform' => '',
     'Apps' => '',
+    'Change password' => '',
     'Create new app' => '',
     'Developer' => '',
     'Email' => '',
@@ -39,6 +42,7 @@ return [
     'Update app' => '',
     'Username' => '',
     'Username or Email' => '',
+    'Yes' => '',
     'active users' => '',
     'delete' => '',
     'edit' => '',

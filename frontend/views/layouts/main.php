@@ -61,9 +61,8 @@
                 $menuItems[] = [
                     'label' => Yii::$app->user->identity->username,
                     'items' => [
-                         ['label' => Yii::t('common', 'Change password'), 'url' => ['/user/change-password']],
-                         ['label' => Yii::t('common', 'Profile'), 'url' => ['/user/profile']],
-                         ['label' => Yii::t('common', 'My Apps'), 'url' => ['/user/user-apps']],
+                        ['label' => Yii::t('common', 'Account & Profile'), 'url' => ['/user/account']],
+                        ['label' => Yii::t('common', 'My Apps'), 'url' => ['/user/user-apps']],
                          '<li>' . Html::beginForm(['/user/logout'], 'post') . Html::submitButton(
                              Yii::t('common', 'Logout'), ['class' => 'btn btn-link logout']
                          )

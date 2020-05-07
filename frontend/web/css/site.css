@@ -169,6 +169,7 @@ ul.navbar-nav li.menu_btn a:hover{
 
 .navbar-nav > li > .dropdown-menu li button.logout{
     padding: 10px 15px;
+    font-size: 13px;
     color: #00a3b6;
     width: 100%;
 }
@@ -215,6 +216,35 @@ ul.breadcrumb li a{color: #00a3b6;}
     padding-top: 20px;
     height: 60px;
 }
+
+/* menu sx */
+div.menu{
+    border-right: 1px solid #ddd;
+    margin-right: 20px;
+    padding: 0 50px 50px 0;
+}
+
+div.menu ul li.title{
+    margin-bottom: 10px;
+    font-weight: bold;
+    padding-left: 0px;
+}
+
+div.menu ul li a{
+    padding: 10px 0 10px 15px;
+    display: inline-block;
+    color: #00a3b6;
+    margin: 5px 0;
+    width: 100%;
+}
+
+div.menu ul li.active a,
+div.menu ul li a:hover{
+    background-color: #f5f5f5;
+    text-decoration: none;
+    color: #3b4150;
+}
+
 
 /* forms */
 div.required label.control-label::after {
@@ -513,10 +543,12 @@ table.active_users_platform tr td:first-child{
 /* forms */
 #app-create-form .form-group,
 #app-update-form .form-group,
+#form-change-password .form-group,
 #profile-form .form-group {margin-bottom: 25px;}
 
 #app-create-form input,
 #app-update-form input,
+#form-change-password input,
 #profile-form input,
 #app-create-form textarea,
 #app-update-form textarea{font-weight: 200;}

@@ -26,7 +26,7 @@ class UserController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup', 'change-password', 'user-apps', 'profile'],
+                'only' => ['logout', 'signup', 'change-password', 'user-apps', 'profile', 'account'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -34,7 +34,7 @@ class UserController extends Controller {
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout', 'change-password', 'user-apps', 'profile'],
+                        'actions' => ['logout', 'change-password', 'user-apps', 'profile', 'account'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -62,6 +62,10 @@ class UserController extends Controller {
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
+    }
+
+    public function actionAccount() {
+        return $this->render('account', array());
     }
 
     public function actionProfile(){
