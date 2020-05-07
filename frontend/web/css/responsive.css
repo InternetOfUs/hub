@@ -51,6 +51,7 @@
     }
     div.connections div:nth-child(2){margin-right: 0px;}
     div.connections div:nth-child(3){margin-right: 1%;}
+    a.user_apps{width: 48% !important;}
 }
 
 @media screen and (max-width: 480px){
@@ -62,4 +63,5 @@
         margin: 0 0 20px 0 !important;
         width: 100%;
     }
+    a.user_apps{width: 100% !important;}
 }

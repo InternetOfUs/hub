@@ -10,6 +10,7 @@ use yii\data\ArrayDataProvider;
 use frontend\models\WenetApp;
 use frontend\models\AppPlatformTelegram;
 use frontend\models\UserAccountTelegram;
+use frontend\components\AppConnector;
 
 /**
  * Site controller
@@ -25,15 +26,23 @@ class WenetappController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => [
                     'index', 'details', 'associate-user', 'disassociate-user',
+                    'user-apps',
                     'index-developer', 'create', 'update', 'details-developer', 'delete'
                 ],
                 'rules' => [
                     [
                         'actions' => [
                             'index', 'details', 'associate-user', 'disassociate-user',
+                            'user-apps',
+                        ],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => [
                             'index-developer', 'create', 'update', 'details-developer', 'delete'
                         ],
-                        'allow' => true, # TODO distinguish access for developers and non-dev
+                        'allow' => Yii::$app->user->getIdentity()->isDeveloper(),
                         'roles' => ['@'],
                     ],
                 ],
@@ -93,6 +102,10 @@ class WenetappController extends Controller {
 		}
 	}
 
+    public function actionUserApps() {
+        return $this->render('user_apps', array());
+    }
+
     public function actionAssociateUser() {
         $data = Yii::$app->request->post();
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -114,6 +127,8 @@ class WenetappController extends Controller {
             $account->active = UserAccountTelegram::ACTIVE;
 
             if ($account->save()) {
+                $connector = new AppConnector();
+                $connector->newUserForPlatform($account->app, 'telegram', Yii::$app->user->id);
                 return [
                     'message' => 'saved',
                 ];
@@ -167,9 +182,8 @@ class WenetappController extends Controller {
 
     public function actionIndexDeveloper(){
         $userApps = WenetApp::find()
-            ->where(['owner_id' => Yii::$app->user->id])
-            ->andWhere(['status' => WenetApp::STATUS_NOT_ACTIVE])
-            ->orWhere(['status' => WenetApp::STATUS_ACTIVE])
+            ->andwhere(['owner_id' => Yii::$app->user->id])
+            ->andWhere(['status' => [WenetApp::STATUS_NOT_ACTIVE, WenetApp::STATUS_ACTIVE]])
             ->all();
 
         $provider = new ArrayDataProvider([

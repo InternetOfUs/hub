@@ -82,7 +82,7 @@ class SiteController extends Controller {
      */
     public function actionLogin() {
         if (!Yii::$app->user->isGuest) {
-            if(User::isDeveloper(Yii::$app->user->id)){
+            if(Yii::$app->user->getIdentity()->isDeveloper()){
                 return $this->redirect(['wenetapp/index-developer']);
             } else {
                 return $this->redirect(['wenetapp/index']);
@@ -91,7 +91,7 @@ class SiteController extends Controller {
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            if(User::isDeveloper(Yii::$app->user->id)){
+            if(Yii::$app->user->getIdentity()->isDeveloper()){
                 return $this->redirect(['wenetapp/index-developer']);
             } else {
                 return $this->redirect(['wenetapp/index']);

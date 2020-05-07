@@ -3,8 +3,15 @@
     use yii\helpers\Url;
 
     $this->title = Yii::$app->name . ' | ' . $app->name;
-    $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Apps'), 'url' => ['index']];
-    $this->params['breadcrumbs'][] = $app->name;
+
+    if(Yii::$app->request->get('back') == "index"){
+        $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Apps'), 'url' => ['index']];
+        $this->params['breadcrumbs'][] = $app->name;
+    } else if(Yii::$app->request->get('back') == 'profile'){
+        $this->params['breadcrumbs'][] = Yii::$app->user->identity->username;
+        $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'My Apps'), 'url' => ['user-apps']];
+        $this->params['breadcrumbs'][] = $app->name;
+    }
 ?>
 
 <div class="row">

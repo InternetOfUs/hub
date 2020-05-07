@@ -6,6 +6,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use frontend\models\AppPlatformTelegram;
+use frontend\models\UserAccountTelegram;
 use frontend\models\WenetApp;
 use frontend\models\AppPlatform;
 use yii\db\Query;
@@ -84,6 +85,8 @@ class PlatformController extends Controller {
         $model = AppPlatformTelegram::find()->where(["id" => $id])->one();
         $model->status = AppPlatform::STATUS_DELETED;
 
+        $users = UserAccountTelegram::find()->where(['app_id' => $model->app_id, 'active' => UserAccountTelegram::ACTIVE ])->all();
+
         $app = WenetApp::find()->where(['id' => $model->app_id])->one();
         $appPlatforms = $app->platforms();
         if ($app->status == WenetApp::STATUS_ACTIVE && count($appPlatforms) == 1) {
@@ -93,18 +96,29 @@ class PlatformController extends Controller {
 
         if (!$model->save()) {
             $transactionOk = false;
-            // TODO
-            // Yii::error('Could not create new Wenet APP', '');
+            Yii::error('Could not delete telegram platform', 'wenet.platform');
         } else {
+            $usersOk = true;
+            foreach ($users as $user) {
+                $user->active = UserAccountTelegram::NOT_ACTIVE;
+                if(!$user->save()){
+                    Yii::error('Could not deactivate telegram account for user ['.$user->id.'] and app ['.$app->id.']', 'wenet.platform');
+                    $usersOk = false;
+                }
+                if($usersOk == false){
+                    $transactionOk = false;
+                    break;
+                }
+            }
+
             if($appToDevMode){
                 if(!$app->save()){
                     $transactionOk = false;
-                    // TODO
-                    // Yii::error('Could not create new Wenet APP', '');
+                    Yii::error('Could not put app ['.$app->id.'] in dev mode', 'wenet.platform');
                 }
             }
         }
-        // $transactionOk = false;
+
         if ($transactionOk) {
             if($appToDevMode){
                 Yii::$app->session->setFlash('warning', Yii::t('app', 'Because there are no platforms available for this app, the app has been automatically setted as "In development" mode.'));

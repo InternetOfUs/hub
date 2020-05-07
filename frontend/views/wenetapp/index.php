@@ -16,8 +16,9 @@
 <?php if (!WenetApp::thereAreActiveApps()) { ?>
     <div class="row">
     	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            non ci sono app da mostrare
-            <!-- TODO -->
+            <p style="text-align:center; font-weight:400;">
+                <?php echo Yii::t('app', 'There are no apps to display.'); ?>
+            </p>
         </div>
     </div>
 <?php } else { ?>
@@ -105,7 +106,7 @@
                             $platformsContent .= '';
                         }
 
-                        $content = '<a href="'. Url::to(['/wenetapp/details', 'id' => $app->id]) .'" class="'.implode($itemTags, ' '). ' '.implode($itemPlatforms, ' ').' app appId__'.$app->id.'">';
+                        $content = '<a href="'. Url::to(['/wenetapp/details', 'id' => $app->id, 'back' => 'index']) .'" class="'.implode($itemTags, ' '). ' '.implode($itemPlatforms, ' ').' app appId__'.$app->id.'">';
                             $content .= '<h2>'. $app->name .'</h2>';
                             $content .= '<p>'. $app->description .'</p>';
                             $content .= $platformsContent;
