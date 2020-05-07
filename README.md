@@ -8,13 +8,52 @@ I also provide developers with the toots for managing applications and associate
 
 ## Setup & configuration
 
-## Usage
+This project is based on a _Yii advanced template_.
+In order to set it up it is necessary to:
 
-Environment variables required for this project
+1. install Composer
+
+```bash
+curl -sS https://getcomposer.org/installer | php
+```
+
+2. install required packages
+
+```bash
+php composer.phar install
+```
+
+3. initialise the project and select the preferred environment (development or production)
+
+```bash
+php init
+```
+
+4. run the database migrations
+
+```bash
+php yii migrate/up
+```
+
+You are all set and ready to go!
+
+Custom environment configurations can be accessed in the `frontend/config/params-local.php` and `frontend/config/main-local.php`. These files are not tracked in git and their content can be freely changed accordingly to the local custom configurations.
+
+Optionally, configurations can also be set by setting the value of the following environment variables:
 
 * BASE_URL
 * SERVICE_API_BASE_URL
 * SERVICE_API_APIKEY
+
+## Usage
+
+The project can be run by taking advantage of the built-in php server.
+
+```bash
+php yii serve --port=8888 --docroot @frontend/web
+```
+
+This will make the project available at `http://localhost:8888/`.
 
 
 ## CI/CD

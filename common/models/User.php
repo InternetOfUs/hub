@@ -62,13 +62,8 @@ class User extends ActiveRecord implements IdentityInterface {
         ];
     }
 
-    public static function isDeveloper($id){
-        $user = self::find()->where(['id' => $id, 'developer' => self::DEVELOPER])->one();
-        if($user){
-            return true;
-        } else {
-            return false;
-        }
+    public function isDeveloper(){
+        return $this->developer == 1;
     }
 
     /**

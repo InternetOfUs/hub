@@ -35,7 +35,7 @@
         <?php
             $brandUrl = Yii::$app->homeUrl;
             if(!Yii::$app->user->isGuest){
-                if(User::isDeveloper(Yii::$app->user->id)){
+                if(Yii::$app->user->getIdentity()->isDeveloper()){
                     $brandUrl = Url::base().'/wenetapp/index-developer';
                 } else {
                     $brandUrl = Url::base().'/wenetapp/index';
@@ -52,7 +52,7 @@
             ]);
             $menuItems = [
                 ['label' => Yii::t('common', 'Apps'),  'url' => ['/wenetapp/index'], 'visible' => !Yii::$app->user->isGuest],
-                ['label' => Yii::t('common', 'Developer'),  'url' => ['/wenetapp/index-developer'], 'visible' => User::isDeveloper(Yii::$app->user->id)]
+                ['label' => Yii::t('common', 'Developer'),  'url' => ['/wenetapp/index-developer'], 'visible' => !Yii::$app->user->isGuest && Yii::$app->user->getIdentity()->isDeveloper()]
             ];
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => Yii::t('common', 'Log in'),  'url' => ['/site/login']];
