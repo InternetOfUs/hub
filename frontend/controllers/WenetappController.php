@@ -173,9 +173,8 @@ class WenetappController extends Controller {
 
     public function actionIndexDeveloper(){
         $userApps = WenetApp::find()
-            ->where(['owner_id' => Yii::$app->user->id])
-            ->andWhere(['status' => WenetApp::STATUS_NOT_ACTIVE])
-            ->orWhere(['status' => WenetApp::STATUS_ACTIVE])
+            ->andwhere(['owner_id' => Yii::$app->user->id])
+            ->andWhere(['status' => [WenetApp::STATUS_NOT_ACTIVE, WenetApp::STATUS_ACTIVE]])
             ->all();
 
         $provider = new ArrayDataProvider([
