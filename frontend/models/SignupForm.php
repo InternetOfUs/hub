@@ -15,24 +15,32 @@ class SignupForm extends Model {
     public $password;
     public $password_repeat;
 
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE_PASSWORD = 'update_password';
+
+    public function scenarios() {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_CREATE] = ['username', 'email', 'password', 'password_repeat'];
+        $scenarios[self::SCENARIO_UPDATE_PASSWORD] = ['password', 'password_repeat'];
+        return $scenarios;
+    }
+
     /**
      * {@inheritdoc}
      */
     public function rules() {
         return [
-            ['username', 'trim'],
-            ['username', 'required'],
+            [['username', 'email'], 'trim'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
-
-            ['email', 'trim'],
-            ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
-
-            [['password', 'password_repeat'], 'required'],
             ['password', 'string', 'min' => 6],
+
+            [['username', 'email', 'password', 'password_repeat'], 'required', 'on' => self::SCENARIO_CREATE],
+            [['password', 'password_repeat'], 'required', 'on' => self::SCENARIO_UPDATE_PASSWORD],
+
             [['password', 'password_repeat'], 'checkPassword'],
         ];
     }
@@ -42,7 +50,7 @@ class SignupForm extends Model {
             'username' => Yii::t('common', 'Username'),
             'email' => Yii::t('common', 'Email'),
             'password' => Yii::t('common', 'Password'),
-            'password_repeat' => Yii::t('signup', 'Verification password'),
+            'password_repeat' => Yii::t('signup', 'Repeat password'),
 
         ];
     }
@@ -78,6 +86,21 @@ class SignupForm extends Model {
         if ($user->save()) {
             Yii::$app->serviceApi->initUserProfile($user->id);
             // $this->sendEmail($user);
+            return $user;
+        } else {
+            return null;
+        }
+    }
+
+    public function changePassword() {
+        if (!$this->validate()) {
+            return null;
+        }
+
+        $user = User::find()->where(['id' => Yii::$app->user->id])->one();
+        $user->setPassword($this->password);
+
+        if ($user->save()) {
             return $user;
         } else {
             return null;

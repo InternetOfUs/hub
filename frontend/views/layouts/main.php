@@ -61,7 +61,7 @@
                 $menuItems[] = [
                     'label' => Yii::$app->user->identity->username,
                     'items' => [
-                         // ['label' => Yii::t('common', 'Account'), 'url' => '#'],
+                         ['label' => Yii::t('common', 'Change password'), 'url' => ['/site/change-password']],
                          ['label' => Yii::t('common', 'Profile'), 'url' => ['/profile/update']],
                          ['label' => Yii::t('common', 'My Apps'), 'url' => ['/wenetapp/user-apps']],
                          '<li>' . Html::beginForm(['/site/logout'], 'post') . Html::submitButton(

@@ -42,7 +42,7 @@ class WenetappController extends Controller {
                         'actions' => [
                             'index-developer', 'create', 'update', 'details-developer', 'delete'
                         ],
-                        'allow' => Yii::$app->user->getIdentity()->isDeveloper(),
+                        'allow' => !Yii::$app->user->isGuest && Yii::$app->user->getIdentity()->isDeveloper(),
                         'roles' => ['@'],
                     ],
                 ],
