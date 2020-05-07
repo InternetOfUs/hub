@@ -512,7 +512,7 @@ table.active_users_platform tr td:first-child{
 
 /* forms */
 #app-create-form .form-group,
-#app-create-form .form-group,
+#app-update-form .form-group,
 #profile-form .form-group {margin-bottom: 25px;}
 
 #app-create-form input,

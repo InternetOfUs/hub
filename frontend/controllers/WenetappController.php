@@ -13,7 +13,7 @@ use frontend\models\UserAccountTelegram;
 use frontend\components\AppConnector;
 
 /**
- * Site controller
+ * Wenetapp controller
  */
 class WenetappController extends Controller {
 
@@ -26,14 +26,12 @@ class WenetappController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => [
                     'index', 'details', 'associate-user', 'disassociate-user',
-                    'user-apps',
                     'index-developer', 'create', 'update', 'details-developer', 'delete'
                 ],
                 'rules' => [
                     [
                         'actions' => [
                             'index', 'details', 'associate-user', 'disassociate-user',
-                            'user-apps',
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -101,10 +99,6 @@ class WenetappController extends Controller {
             ));
 		}
 	}
-
-    public function actionUserApps() {
-        return $this->render('user_apps', array());
-    }
 
     public function actionAssociateUser() {
         $data = Yii::$app->request->post();
@@ -196,7 +190,7 @@ class WenetappController extends Controller {
             ],
         ]);
 
-        return $this->render('index_developer', array(
+        return $this->render('/developer/index', array(
             'provider' => $provider
 		));
     }
@@ -207,13 +201,12 @@ class WenetappController extends Controller {
         if(!$app || $app->status == WenetApp::STATUS_DELETED){
             throw new NotFoundHttpException('The specified app cannot be found.');
 		} else {
-			return $this->render('details_developer', array(
+			return $this->render('/developer/details', array(
                 'app' => $app
             ));
 		}
 
-        return $this->render('details_developer', array(
-		));
+        return $this->render('/developer/details', array());
     }
 
     public function actionCreate(){
@@ -229,7 +222,7 @@ class WenetappController extends Controller {
             }
         }
 
-        return $this->render('create', array(
+        return $this->render('/developer/create', array(
             'model' => $model
         ));
     }
@@ -241,7 +234,7 @@ class WenetappController extends Controller {
                 return $this->redirect(['details-developer', "id" => $id]);
             }
         }
-        return $this->render('update', ['app' => $app ]);
+        return $this->render('/developer/update', ['app' => $app ]);
     }
 
     public function actionDelete($id) {
