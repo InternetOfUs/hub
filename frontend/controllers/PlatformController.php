@@ -62,7 +62,7 @@ class PlatformController extends Controller {
         $model->status = AppPlatform::STATUS_ACTIVE;
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
-                return $this->redirect(['/wenetapp/details-developer', 'id' => $id]);
+                return $this->redirect(['/developer/details', 'id' => $id]);
             } else {
                 // TODO
                 // Yii::error('Could not create new Wenet APP', '');
@@ -129,7 +129,7 @@ class PlatformController extends Controller {
             Yii::$app->session->setFlash('error', Yii::t('app', 'Could not delete platform.'));
             $transaction->rollback();
         }
-        return $this->redirect(['/wenetapp/details-developer', 'id' => $model->app_id]);
+        return $this->redirect(['/developer/details', 'id' => $model->app_id]);
     }
 
 }

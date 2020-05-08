@@ -9,7 +9,7 @@
     $this->params['breadcrumbs'][] = Yii::t('common', 'Developer');
 ?>
 
-<a href="<?= Url::to(['/wenetapp/create']); ?>" class="btn btn-primary pull-right" style="margin: -10px 0 20px 0;">
+<a href="<?= Url::to(['/developer/create']); ?>" class="btn btn-primary pull-right" style="margin: -10px 0 20px 0;">
     <i class="fa fa-plus" aria-hidden="true"></i>
     <?php echo Yii::t('app', 'Create a new app'); ?>
 </a>
@@ -57,19 +57,19 @@
             'template' => '{view} {update} {delete}',
             'buttons'=>[
                 'view' => function ($url, $model) {
-                    $url = Url::to(['/wenetapp/details-developer', 'id' => $model->id]);
+                    $url = Url::to(['/developer/details', 'id' => $model->id]);
                     return Html::a('<span class="actionColumn_btn"><i class="fa fa-eye"></i></span>', $url, [
                         'title' => Yii::t('common', 'view'),
                     ]);
                 },
                 'update' => function ($url, $model) {
-                    $url = Url::to(['/wenetapp/update', 'id' => $model->id]);
+                    $url = Url::to(['/developer/update', 'id' => $model->id]);
                     return Html::a('<span class="actionColumn_btn"><i class="fa fa-pencil"></i></span>', $url, [
                         'title' => Yii::t('common', 'edit'),
                     ]);
                 },
                 'delete' => function ($url, $model) {
-                    $url = Url::to(['/wenetapp/delete', 'id' => $model->id]);
+                    $url = Url::to(['/developer/delete', 'id' => $model->id]);
                     return Html::a('<span class="actionColumn_btn delete_btn"><i class="fa fa-trash"></i></span>', $url, [
                         'title' => Yii::t('common', 'delete'),
                     ]);

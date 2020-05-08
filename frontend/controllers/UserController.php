@@ -96,7 +96,7 @@ class UserController extends Controller {
     public function actionLogin() {
         if (!Yii::$app->user->isGuest) {
             if(Yii::$app->user->getIdentity()->isDeveloper()){
-                return $this->redirect(['wenetapp/index-developer']);
+                return $this->redirect(['developer/index']);
             } else {
                 return $this->redirect(['wenetapp/index']);
             }
@@ -105,7 +105,7 @@ class UserController extends Controller {
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             if(Yii::$app->user->getIdentity()->isDeveloper()){
-                return $this->redirect(['wenetapp/index-developer']);
+                return $this->redirect(['developer/index']);
             } else {
                 return $this->redirect(['wenetapp/index']);
             }
