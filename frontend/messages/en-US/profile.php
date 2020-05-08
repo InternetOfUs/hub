@@ -17,8 +17,12 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Account info' => '',
+    'Become a developer' => '',
     'Birthdate' => '',
     'Could not update profile.' => '',
+    'Developer' => '',
+    'Email' => '',
     'First name' => '',
     'Gender' => '',
     'Language' => '',
@@ -31,4 +35,8 @@ return [
     'Select language ...' => '',
     'Select nationality ...' => '',
     'Suffix name' => '',
+    'User ID' => '',
+    'Username' => '',
+    'explanation' => 'Do you want to create your own app? Become a developer and start building your own!<br>Remember, to become developer you should set your first name, last name and birthdate in your profile.',
+    'ID' => '@@@@',
 ];

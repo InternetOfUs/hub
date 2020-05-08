@@ -6,14 +6,13 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use yii\data\ArrayDataProvider;
 use frontend\models\WenetApp;
 use frontend\models\AppPlatformTelegram;
 use frontend\models\UserAccountTelegram;
 use frontend\components\AppConnector;
 
 /**
- * Site controller
+ * Wenetapp controller
  */
 class WenetappController extends Controller {
 
@@ -26,23 +25,13 @@ class WenetappController extends Controller {
                 'class' => AccessControl::className(),
                 'only' => [
                     'index', 'details', 'associate-user', 'disassociate-user',
-                    'user-apps',
-                    'index-developer', 'create', 'update', 'details-developer', 'delete'
                 ],
                 'rules' => [
                     [
                         'actions' => [
                             'index', 'details', 'associate-user', 'disassociate-user',
-                            'user-apps',
                         ],
                         'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                    [
-                        'actions' => [
-                            'index-developer', 'create', 'update', 'details-developer', 'delete'
-                        ],
-                        'allow' => !Yii::$app->user->isGuest && Yii::$app->user->getIdentity()->isDeveloper(),
                         'roles' => ['@'],
                     ],
                 ],
@@ -101,10 +90,6 @@ class WenetappController extends Controller {
             ));
 		}
 	}
-
-    public function actionUserApps() {
-        return $this->render('user_apps', array());
-    }
 
     public function actionAssociateUser() {
         $data = Yii::$app->request->post();
@@ -178,81 +163,6 @@ class WenetappController extends Controller {
                 'message' => 'unsupported platform',
             ];
         }
-    }
-
-    public function actionIndexDeveloper(){
-        $userApps = WenetApp::find()
-            ->andwhere(['owner_id' => Yii::$app->user->id])
-            ->andWhere(['status' => [WenetApp::STATUS_NOT_ACTIVE, WenetApp::STATUS_ACTIVE]])
-            ->all();
-
-        $provider = new ArrayDataProvider([
-            'allModels' => $userApps,
-            'pagination' => [
-                'pageSize' => 15,
-            ],
-            'sort' => [
-                'attributes' => [],
-            ],
-        ]);
-
-        return $this->render('index_developer', array(
-            'provider' => $provider
-		));
-    }
-
-    public function actionDetailsDeveloper($id) {
-		$app = WenetApp::find()->where(["id" => $id])->one();
-
-        if(!$app || $app->status == WenetApp::STATUS_DELETED){
-            throw new NotFoundHttpException('The specified app cannot be found.');
-		} else {
-			return $this->render('details_developer', array(
-                'app' => $app
-            ));
-		}
-
-        return $this->render('details_developer', array(
-		));
-    }
-
-    public function actionCreate(){
-        $model = new WenetApp;
-        $model->owner_id = Yii::$app->user->id;
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->create()) {
-                return $this->redirect(['index-developer']);
-            } else {
-                // TODO
-                // Yii::error('Could not create new Wenet APP', '');
-                Yii::$app->session->setFlash('error', Yii::t('app', 'Could not create app.'));
-            }
-        }
-
-        return $this->render('create', array(
-            'model' => $model
-        ));
-    }
-
-    public function actionUpdate($id) {
-        $app = WenetApp::find()->where(["id" => $id])->one();
-        if ($app->load(Yii::$app->request->post())) {
-            if ($app->save()) {
-                return $this->redirect(['details-developer', "id" => $id]);
-            }
-        }
-        return $this->render('update', ['app' => $app ]);
-    }
-
-    public function actionDelete($id) {
-        $model = WenetApp::find()->where(["id" => $id])->one();
-        $model->status = WenetApp::STATUS_DELETED;
-        if ($model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'App successfully deleted.'));
-        } else {
-            Yii::$app->session->setFlash('error', Yii::t('app', 'Could not delete app.'));
-        }
-        return $this->redirect(['index-developer']);
     }
 
 }

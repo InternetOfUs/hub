@@ -3,8 +3,8 @@
     use yii\helpers\Html;
 
     $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Add Telegram platform');
-    $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Developer'), 'url' => ['/wenetapp/index-developer']];
-    $this->params['breadcrumbs'][] = ['label' => $app->name, 'url' => ['/wenetapp/details-developer', 'id' => $app->id]];
+    $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Developer'), 'url' => ['/developer/index']];
+    $this->params['breadcrumbs'][] = ['label' => $app->name, 'url' => ['/developer/details', 'id' => $app->id]];
     $this->params['breadcrumbs'][] = Yii::t('common', 'Add Telegram platform');
 ?>
 

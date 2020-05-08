@@ -23,6 +23,7 @@ return [
     'App successfully deleted.' => '',
     'Assistance' => '',
     'Because there are no platforms available for this app, the app has been automatically setted as "In development" mode.' => '',
+    'Become a developer' => '',
     'Bot Username' => '',
     'Categories' => '',
     'Connected platforms' => '',

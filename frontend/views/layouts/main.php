@@ -36,7 +36,7 @@
             $brandUrl = Yii::$app->homeUrl;
             if(!Yii::$app->user->isGuest){
                 if(Yii::$app->user->getIdentity()->isDeveloper()){
-                    $brandUrl = Url::base().'/wenetapp/index-developer';
+                    $brandUrl = Url::base().'/developer/index';
                 } else {
                     $brandUrl = Url::base().'/wenetapp/index';
                 }
@@ -52,19 +52,18 @@
             ]);
             $menuItems = [
                 ['label' => Yii::t('common', 'Apps'),  'url' => ['/wenetapp/index'], 'visible' => !Yii::$app->user->isGuest],
-                ['label' => Yii::t('common', 'Developer'),  'url' => ['/wenetapp/index-developer'], 'visible' => !Yii::$app->user->isGuest && Yii::$app->user->getIdentity()->isDeveloper()]
+                ['label' => Yii::t('common', 'Developer'),  'url' => ['/developer/index'], 'visible' => !Yii::$app->user->isGuest && Yii::$app->user->getIdentity()->isDeveloper()]
             ];
             if (Yii::$app->user->isGuest) {
-                $menuItems[] = ['label' => Yii::t('common', 'Log in'),  'url' => ['/site/login']];
-                $menuItems[] = ['label' => Yii::t('common', 'Sign up'),  'url' => ['/site/signup'], 'options' => ['class'=> 'menu_btn']];
+                $menuItems[] = ['label' => Yii::t('common', 'Log in'),  'url' => ['/user/login']];
+                $menuItems[] = ['label' => Yii::t('common', 'Sign up'),  'url' => ['/user/signup'], 'options' => ['class'=> 'menu_btn']];
             } else {
                 $menuItems[] = [
                     'label' => Yii::$app->user->identity->username,
                     'items' => [
-                         ['label' => Yii::t('common', 'Change password'), 'url' => ['/site/change-password']],
-                         ['label' => Yii::t('common', 'Profile'), 'url' => ['/profile/update']],
-                         ['label' => Yii::t('common', 'My Apps'), 'url' => ['/wenetapp/user-apps']],
-                         '<li>' . Html::beginForm(['/site/logout'], 'post') . Html::submitButton(
+                        ['label' => Yii::t('common', 'Account & Profile'), 'url' => ['/user/account']],
+                        ['label' => Yii::t('common', 'My Apps'), 'url' => ['/user/user-apps']],
+                         '<li>' . Html::beginForm(['/user/logout'], 'post') . Html::submitButton(
                              Yii::t('common', 'Logout'), ['class' => 'btn btn-link logout']
                          )
                          . Html::endForm()

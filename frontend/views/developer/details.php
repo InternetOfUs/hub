@@ -4,7 +4,7 @@
     use frontend\models\AppPlatform;
 
     $this->title = Yii::$app->name . ' | ' . $app->name;
-    $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Developer'), 'url' => ['index-developer']];
+    $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Developer'), 'url' => ['developer/index']];
     $this->params['breadcrumbs'][] = $app->name;
 
     $showTelegram = false;
@@ -20,7 +20,7 @@
         <?php echo Yii::t('app', 'add Telegram'); ?>
     </a>
 <?php } ?>
-<a href="<?= Url::to(['/wenetapp/update', 'id' => $app->id]); ?>" class="btn btn-primary pull-right" style="margin: -10px 5px 20px 0;">
+<a href="<?= Url::to(['/developer/update', 'id' => $app->id]); ?>" class="btn btn-primary pull-right" style="margin: -10px 5px 20px 0;">
     <i class="fa fa-pencil" aria-hidden="true"></i>
     <?php echo Yii::t('common', 'edit'); ?>
 </a>
