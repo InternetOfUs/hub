@@ -2,19 +2,17 @@
 
 namespace frontend\assets;
 
+use Yii;
 use yii\web\AssetBundle;
 
 /**
  * Main frontend application asset bundle.
  */
-class AppAsset extends AssetBundle
-{
+class AppAsset extends AssetBundle {
+
     public $basePath = '@webroot';
     public $baseUrl = '@web';
-    public $css = [
-        'css/site.css',
-        'css/responsive.css',
-    ];
+    public $css = [];
     public $js = [
         'js/isotope.pkgd.min.js'
     ];
@@ -26,4 +24,29 @@ class AppAsset extends AssetBundle
         'yii\bootstrap\BootstrapAsset',
         'frontend\assets\FontAwesomeAsset',
     ];
+
+    private $localCss = [
+        'css/site.css',
+        'css/responsive.css',
+    ];
+
+    private $localJs = [];
+
+    public function init() {
+    	parent::init();
+
+    	if (Yii::$app->request->isAjax || Yii::$app->request->isPjax) {
+        	$this->js = [];
+        	$this->css = [];
+            return ;
+    	}
+
+        foreach ($this->localCss as $css) {
+            $this->css[] = $css . '?v=' . Yii::$app->params['hub.version'];
+        }
+
+        foreach ($this->localJs as $js) {
+            $this->js[] = $js . '?v=' . Yii::$app->params['hub.version'];
+        }
+	}
 }

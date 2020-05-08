@@ -12,7 +12,7 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
-    'language' => 'en',
+    'language' => 'en-US',
     'sourceLanguage' => 'en-US',
     'components' => [
         'i18n' => [
