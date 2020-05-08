@@ -17,18 +17,22 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'explanation' => 'Do you want to create your own app? Become a developer and start building your own!<br>Remember, to become developer you should set your first name, last name and birthdate in your profile.',
     'Account info' => '',
     'Become a developer' => '',
     'Birthdate' => '',
     'Could not update profile.' => '',
     'Developer' => '',
     'Email' => '',
+    'Example +393401234567 ...' => '',
     'First name' => '',
     'Gender' => '',
     'Language' => '',
     'Last name' => '',
     'Middle name' => '',
     'Nationality' => '',
+    'Phone number' => '',
+    'Phone number format is not correct. Example: +393401234567' => '',
     'Prefix name' => '',
     'Profile successfully updated.' => '',
     'Select gender ...' => '',
@@ -37,6 +41,4 @@ return [
     'Suffix name' => '',
     'User ID' => '',
     'Username' => '',
-    'explanation' => 'Do you want to create your own app? Become a developer and start building your own!<br>Remember, to become developer you should set your first name, last name and birthdate in your profile.',
-    'ID' => '@@@@',
 ];

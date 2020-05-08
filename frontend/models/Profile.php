@@ -24,6 +24,8 @@ class Profile extends Model {
     public $locale;
     public $nationality;
 
+    public $phone_number;
+
     const GENDER_M = 'M';
     const GENDER_F = 'F';
     const GENDER_O = 'O';
@@ -35,8 +37,21 @@ class Profile extends Model {
     */
     public function rules() {
         return [
-            [['first_name', 'middle_name', 'last_name', 'prefix_name', 'suffix_name', 'gender', 'nationality', 'locale', 'birthdate'], 'string'],
+            [['first_name', 'middle_name', 'last_name', 'prefix_name', 'suffix_name','gender','nationality', 'locale','birthdate','phone_number'], 'string'],
+            [['phone_number'], 'phoneNumberValidation'],
         ];
+    }
+
+    public function phoneNumberValidation(){
+        $pn = str_replace(' ', '', $this->phone_number);
+        $re = '/^\+?[1-9]\d{1,14}$/';
+        preg_match($re, $pn, $matches, PREG_OFFSET_CAPTURE);
+
+        if(count($matches) < 1){
+            $this->addError('phone_number', Yii::t('profile', 'Phone number format is not correct. Example: +393401234567'));
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -53,6 +68,7 @@ class Profile extends Model {
             'gender' => Yii::t('profile', 'Gender'),
             'nationality' => Yii::t('profile', 'Nationality'),
             'locale' => Yii::t('profile', 'Language'),
+            'phone_number' => Yii::t('profile', 'Phone number'),
         ];
     }
 
@@ -71,7 +87,6 @@ class Profile extends Model {
     }
 
     public function toRepr() {
-
         $date = \DateTime::createFromFormat('d-m-Y', $this->birthdate);
         $db = [
             'year' => null,
@@ -83,6 +98,8 @@ class Profile extends Model {
             $db['month'] = intval($date->format('n'));
             $db['day'] = intval($date->format('j'));
         }
+
+        $pn = str_replace(' ', '', $this->phone_number);
 
         return [
             'id' => $this->userId,
@@ -96,7 +113,7 @@ class Profile extends Model {
             'dateOfBirth' => $db,
             'gender' => $this->gender,
             'email' => null,
-            'phoneNumber' => null,
+            'phoneNumber' => $pn,
             'locale' => $this->locale,
             'nationality' => $this->nationality,
             'avatar' => null,
@@ -125,10 +142,11 @@ class Profile extends Model {
             $model->birthdate = $dd->format('d-m-Y');
         }
 
-
         $model->gender = $repr['gender'];
         $model->locale = $repr['locale'];
         $model->nationality = $repr['nationality'];
+
+        $model->phone_number = $repr['phoneNumber'];
 
         return $model;
     }

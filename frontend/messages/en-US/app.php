@@ -41,6 +41,7 @@ return [
     'Description cannot be blank.' => '',
     'Detele platform' => '',
     'Disconnect my account' => '',
+    'Error, please retry later.' => '',
     'In development' => '',
     'Live' => '',
     'Message Callback Url' => '',

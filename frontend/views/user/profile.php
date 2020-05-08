@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                     <div class="row">
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                             <?php echo $form->field($model, 'prefix_name'); ?>
@@ -50,10 +50,20 @@
                                     Profile::genderLabels(),
                                     ['prompt' => Yii::t('profile', 'Select gender ...')]
                                 );
+                            ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                            <?php
                                 echo $form->field($model, 'locale')->dropDownList(
                                     Profile::languageLabels(),
                                     ['prompt' => Yii::t('profile', 'Select language ...')]
                                 );
+                            ?>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                            <?php
                                 echo $form->field($model, 'nationality')->dropDownList(
                                     Nationality::nationalityLabels(),
                                     ['prompt' => Yii::t('profile', 'Select nationality ...')]
@@ -61,8 +71,13 @@
                             ?>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <?php echo $form->field($model, 'phone_number')->textInput(['placeholder' => Yii::t('profile', 'Example +393401234567 ...')]); ?>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                     <?php
                         echo $form->field($model, 'birthdate')->widget(DatePicker::classname(), [
                             'value' => '',

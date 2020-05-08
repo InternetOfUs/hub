@@ -20,6 +20,7 @@ return [
     'Account' => '',
     'Account & Profile' => '',
     'Add Telegram platform' => '',
+    'All Rights reserved' => '',
     'Apps' => '',
     'Change password' => '',
     'Create new app' => '',

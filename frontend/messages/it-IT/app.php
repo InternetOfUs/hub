@@ -17,7 +17,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'filter_platform' => 'puppa',
+    'filter_platform' => '',
     'Active users for platform' => '',
     'App ID' => '',
     'App successfully deleted.' => '',
@@ -40,6 +40,7 @@ return [
     'Detele platform' => '',
     'Disconnect my account' => '',
     'Don\'t forget to send the /setdomain command to @Botfather to link {domain} domain to the bot.' => '',
+    'Error, please retry later.' => '',
     'In development' => '',
     'Live' => '',
     'Message Callback Url' => '',
