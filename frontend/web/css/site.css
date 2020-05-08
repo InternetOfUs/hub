@@ -264,6 +264,8 @@ ul.breadcrumb li a{color: #00a3b6;}
     height: 60px;
 }
 
+.footer p{font-size: 12px;}
+
 /* forms */
 div.required label.control-label::after {
     content: " * ";

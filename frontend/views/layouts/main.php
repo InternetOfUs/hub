@@ -96,7 +96,9 @@
 
     <footer class="footer">
         <div class="container">
-            <p class="pull-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
+            <p>
+                 <?php echo '&copy; ' . Yii::t('common', 'All Rights reserved') . ' | 2019 - ' . date('Y') . ' | v. '. Yii::$app->params['hub.version']; ?>
+            </p>
         </div>
     </footer>
 
