@@ -3,7 +3,7 @@
 ## Introduction
 
 The WeNet HUB component is responsible for allowing WeNet users to manage their profile and application.
-I also provide developers with the toots for managing applications and associated platform.
+It also provides developers with the toots for managing applications and associated platform.
 
 
 ## Setup & configuration
@@ -43,7 +43,10 @@ Optionally, configurations can also be set by setting the value of the following
 
 * BASE_URL
 * SERVICE_API_BASE_URL
-* SERVICE_API_APIKEY
+* SERVICE_API_APIKEY (optional, should be specified only when communicating directly with the service api component and not when using the project forwarder Kong)
+* REDIS_HOST
+* REDIS_PORT (default to *6379*)
+* REDIS_DB (default to *1* for development mode and to *0* for production mode)
 
 ## Usage
 
