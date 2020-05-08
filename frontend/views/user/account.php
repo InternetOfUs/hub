@@ -1,6 +1,5 @@
 <?php
-
-    use yii\widgets\Menu;
+    use yii\helpers\Url;
 
     $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Account');
     $this->params['breadcrumbs'][] = Yii::$app->user->identity->username;
@@ -16,9 +15,8 @@
         <div class="account_boxes">
             <div class="box_container">
                 <h3><?php echo Yii::t('profile', 'Account info'); ?></h3>
-                <br>
                 <p>
-                    <?php echo Yii::t('profile', 'ID'); ?>:
+                    <?php echo Yii::t('profile', 'User ID'); ?>:
                     <strong><?php echo Yii::$app->user->identity->id; ?></strong>
                 </p>
                 <p>
@@ -37,7 +35,7 @@
                 <?php } ?>
             </div>
             <?php if(!Yii::$app->user->getIdentity()->isDeveloper()) { ?>
-                <div class="box_container">
+                <div class="box_container developer_container">
                     <h3><?php echo Yii::t('profile', 'Become a developer'); ?></h3>
                     <p><?php echo Yii::t('profile', 'explanation'); ?></p>
                     <button class="btn btn-primary" onclick="becomeDeveloper()" type="button">
@@ -50,4 +48,15 @@
 </div>
 
 <script type="text/javascript">
+
+    function becomeDeveloper() {
+        $.post( "<?php echo Url::base(); ?>/user/become-developer", {}).done(function(response) {
+            console.log( "saved: " + response.message );
+        }).fail(function(response) {
+            console.log( 'error: ' + response.message );
+            var content = '<p>' + response.message + '<p>';
+            $('.developer_container').append(content);
+        });
+    }
+
 </script>

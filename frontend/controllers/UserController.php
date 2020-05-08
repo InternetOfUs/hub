@@ -26,7 +26,7 @@ class UserController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup', 'change-password', 'user-apps', 'profile', 'account'],
+                'only' => ['logout', 'signup', 'change-password', 'user-apps', 'profile', 'account', 'become-developer'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -34,7 +34,7 @@ class UserController extends Controller {
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout', 'change-password', 'user-apps', 'profile', 'account'],
+                        'actions' => ['logout', 'change-password', 'user-apps', 'profile', 'account', 'become-developer'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -158,6 +158,34 @@ class UserController extends Controller {
         return $this->render('changePassword', [
             'model' => $model,
         ]);
+    }
+
+    public function actionBecomeDeveloper() {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        $model = Yii::$app->serviceApi->getUserProfile(Yii::$app->user->id);
+        if(trim($model->first_name) != '' && trim($model->last_name) != '' && trim($model->birthdate) != ''){
+            $user = User::find()->where(["id" => Yii::$app->user->id])->one();
+            $user->developer = User::DEVELOPER;
+
+            if ($user->save()) {
+                return [
+                    'message' => 'saved',
+                ];
+            } else {
+                Yii::warning('Could not save user as developer');
+                Yii::$app->response->statusCode = 400;
+                return [
+                    'message' => Yii::t('user', 'There is a problem setting your account as developer. Please retry later.'),
+                ];
+            }
+        } else {
+            Yii::warning('Incomplete profile');
+            Yii::$app->response->statusCode = 400;
+            return [
+                'message' => 'Incomplete profile',
+            ];
+        }
     }
 
     /**
