@@ -2,10 +2,12 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+use common\models\User;
 use frontend\models\SignupForm;
 // use yii\base\InvalidArgumentException;
 // use yii\web\BadRequestHttpException;
@@ -65,6 +67,30 @@ class UserController extends Controller {
     }
 
     public function actionAccount() {
+        if(Yii::$app->request->get('becomeDev') == 1){
+
+            $model = Yii::$app->serviceApi->getUserProfile(Yii::$app->user->id);
+            if($model->first_name != null && $model->last_name != null && $model->birthdate != null){
+                $user = User::find()->where(["id" => Yii::$app->user->id])->one();
+                $user->developer = User::DEVELOPER;
+
+                if ($user->save()) {
+                    Yii::$app->session->setFlash('success',  Yii::t('user', 'Now you are a developer.'));
+                    return $this->redirect(['account']);
+                } else {
+                    Yii::warning('Could not save user as developer');
+                    Yii::$app->session->setFlash('error', Yii::t('user', 'There is a problem setting your account as developer. Please retry later.'));
+                    return $this->redirect(['account']);
+                }
+            } else {
+                Yii::warning('Incomplete profile');
+                $content = Yii::t('user', 'Your profile is incomplete. Complete it ');
+                $content .= "<a style='color:#a94442; text-decoration:underline;' href='".Url::to(['/user/profile'])."'>".Yii::t('user', 'here')."</a>";
+                Yii::$app->session->setFlash('error', $content);
+                return $this->redirect(['account']);
+            }
+
+        }
         return $this->render('account', array());
     }
 
@@ -158,34 +184,6 @@ class UserController extends Controller {
         return $this->render('changePassword', [
             'model' => $model,
         ]);
-    }
-
-    public function actionBecomeDeveloper() {
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-        $model = Yii::$app->serviceApi->getUserProfile(Yii::$app->user->id);
-        if(trim($model->first_name) != '' && trim($model->last_name) != '' && trim($model->birthdate) != ''){
-            $user = User::find()->where(["id" => Yii::$app->user->id])->one();
-            $user->developer = User::DEVELOPER;
-
-            if ($user->save()) {
-                return [
-                    'message' => 'saved',
-                ];
-            } else {
-                Yii::warning('Could not save user as developer');
-                Yii::$app->response->statusCode = 400;
-                return [
-                    'message' => Yii::t('user', 'There is a problem setting your account as developer. Please retry later.'),
-                ];
-            }
-        } else {
-            Yii::warning('Incomplete profile');
-            Yii::$app->response->statusCode = 400;
-            return [
-                'message' => 'Incomplete profile',
-            ];
-        }
     }
 
     /**

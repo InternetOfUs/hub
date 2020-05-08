@@ -25,7 +25,6 @@ return [
     'Email' => '',
     'First name' => '',
     'Gender' => '',
-    'ID' => '',
     'Language' => '',
     'Last name' => '',
     'Middle name' => '',
@@ -36,6 +35,8 @@ return [
     'Select language ...' => '',
     'Select nationality ...' => '',
     'Suffix name' => '',
+    'User ID' => '',
     'Username' => '',
-    'explanation' => '',
+    'explanation' => 'Do you want to create your own app? Become a developer and start building your own!<br>Remember, to become developer you should set your first name, last name and birthdate in your profile.',
+    'ID' => '@@@@',
 ];

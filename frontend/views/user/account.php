@@ -38,25 +38,11 @@
                 <div class="box_container developer_container">
                     <h3><?php echo Yii::t('profile', 'Become a developer'); ?></h3>
                     <p><?php echo Yii::t('profile', 'explanation'); ?></p>
-                    <button class="btn btn-primary" onclick="becomeDeveloper()" type="button">
+                    <a class="btn btn-primary" href="<?= Url::to(['/user/account', 'becomeDev' => '1']); ?>">
                         <?php echo Yii::t('app', 'Become a developer'); ?>
-                    </button>
+                    </a>
                 </div>
             <?php } ?>
         </div>
 	</div>
 </div>
-
-<script type="text/javascript">
-
-    function becomeDeveloper() {
-        $.post( "<?php echo Url::base(); ?>/user/become-developer", {}).done(function(response) {
-            console.log( "saved: " + response.message );
-        }).fail(function(response) {
-            console.log( 'error: ' + response.message );
-            var content = '<p>' + response.message + '<p>';
-            $('.developer_container').append(content);
-        });
-    }
-
-</script>
