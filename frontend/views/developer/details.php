@@ -39,6 +39,10 @@
             ?>
         </h1>
         <p style="margin:20px 0 0 0;"><?php echo $app->description; ?></p>
+        <p style="margin:20px 0 0 0;">
+            <?php echo Yii::t('app', 'Message Callback Url'); ?>:
+            <strong><?php echo $app->message_callback_url;?></strong>
+        </p>
         <?php
             if(count($app->associatedCategories) > 0){
                 $categories = '<ul class="tags_list">';

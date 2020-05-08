@@ -18,7 +18,7 @@
     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
         <h1><?php echo $app->name; ?></h1>
         <p style="margin:20px 0;"><?php echo $app->description; ?></p>
-        <p><strong><?php echo Yii::t('app', 'Creator'); ?>:</strong> <?php echo $app->owner->email; ?></p>
+        <p><strong><?php echo Yii::t('app', 'Creator'); ?>:</strong> <?php echo $app->getOwnerShortName(); ?></p>
         <?php
             if(count($app->associatedCategories) > 0){
                 $categories = '<ul class="tags_list">';
@@ -86,17 +86,17 @@
             "userId": <?php echo Yii::$app->user->id; ?>,
             "platformId": user.id
         };
-        $.post( "<?php echo Url::base(); ?>/wenetapp/associate-user", data).done(function(response) {
+        $.post( "<?php echo Url::base(); ?>/wenetapp/associate-telegram-user", data).done(function(response) {
             // console.log( "saved" );
             $('#login_telegram').css('display', 'none');
             $('#logoutTelegramBtn').css('display', 'block');
             $('#openChatTelegramBtn').css('display', 'inline-block');
         }).fail(function(response) {
-            // console.log( "error: " + response.message );
+            // console.log( "error: " + response.responseJSON.message );
             $('#login_telegram').css('display', 'none');
             $('#logoutTelegramBtn').css('display', 'none');
             $('#openChatTelegramBtn').css('display', 'none');
-            var content = '<p>' + response.message + '<p>';
+            var content = '<p>' + response.responseJSON.message + '<p>';
             $('#telegram_container').append(content);
         });
     }
@@ -107,17 +107,17 @@
             "platform": "telegram",
             "userId": <?php echo Yii::$app->user->id; ?>
         };
-        $.post( "<?php echo Url::base(); ?>/wenetapp/disassociate-user", data).done(function(response) {
+        $.post( "<?php echo Url::base(); ?>/wenetapp/disassociate-telegram-user", data).done(function(response) {
             // console.log( "saved" );
             $('#login_telegram').css('display', 'block');
             $('#logoutTelegramBtn').css('display', 'none');
             $('#openChatTelegramBtn').css('display', 'none');
         }).fail(function(response) {
-            // console.log( "error: " + response.message );
+            // console.log( "error: " + response.responseJSON.message );
             $('#login_telegram').css('display', 'none');
             $('#logoutTelegramBtn').css('display', 'none');
             $('#openChatTelegramBtn').css('display', 'none');
-            var content = '<p>' + response.message + '<p>';
+            var content = '<p>' + response.responseJSON.message + '<p>';
             $('#telegram_container').append(content);
         });
     }

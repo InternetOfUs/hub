@@ -253,6 +253,14 @@ class WenetApp extends \yii\db\ActiveRecord {
         return $this->hasOne(User::className(), ['id' => 'owner_id']);
     }
 
+    public function getOwnerShortName(){
+        $ownerId = $this->owner->id;
+        $owner = Yii::$app->serviceApi->getUserProfile($ownerId);
+
+        $shortName = substr($owner->first_name, 0, 1) .'. '. $owner->last_name;
+        return $shortName;
+    }
+
     public function getEnabledPlatforms() {
         return $this->hasMany(UserAccountTelegram::className(), ['app_id' => 'id']);
     }

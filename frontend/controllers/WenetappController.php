@@ -24,12 +24,12 @@ class WenetappController extends Controller {
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => [
-                    'index', 'details', 'associate-user', 'disassociate-user',
+                    'index', 'details', 'associate-telegram-user', 'disassociate-telegram-user',
                 ],
                 'rules' => [
                     [
                         'actions' => [
-                            'index', 'details', 'associate-user', 'disassociate-user',
+                            'index', 'details', 'associate-telegram-user', 'disassociate-telegram-user',
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -91,7 +91,7 @@ class WenetappController extends Controller {
 		}
 	}
 
-    public function actionAssociateUser() {
+    public function actionAssociateTelegramUser() {
         $data = Yii::$app->request->post();
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
@@ -128,12 +128,12 @@ class WenetappController extends Controller {
             Yii::warning('Unsupported platform provided');
             Yii::$app->response->statusCode = 400;
             return [
-                'message' => 'unsupported platform',
+                'message' => Yii::t('app', 'Error, please retry later.'),
             ];
         }
     }
 
-    public function actionDisassociateUser() {
+    public function actionDisassociateTelegramUser() {
         $data = Yii::$app->request->post();
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
@@ -160,7 +160,7 @@ class WenetappController extends Controller {
             Yii::warning('Unsupported platform provided');
             Yii::$app->response->statusCode = 400;
             return [
-                'message' => 'unsupported platform',
+                'message' => Yii::t('app', 'Error, please retry later.'),
             ];
         }
     }
