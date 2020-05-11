@@ -112,7 +112,7 @@ class Profile extends Model {
             ],
             'dateOfBirth' => $db,
             'gender' => $this->gender,
-            'email' => null,
+            'email' => Yii::$app->user->getIdentity()->email,
             'phoneNumber' => $pn,
             'locale' => $this->locale,
             'nationality' => $this->nationality,
