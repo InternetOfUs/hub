@@ -20,6 +20,8 @@ variables:
   DOCKER_HOST: "tcp://docker:2375"
   GIT_SUBMODULE_STRATEGY: recursive
 
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
 
 stages:
   - build
@@ -29,7 +31,7 @@ stages:
 build_dev:
   stage: build
   script:
-    - apk add --update curl php7
+    - apk add --update curl php7 php7-phar php7-json php7-iconv php7-openssl
     - curl --show-error --silent https://getcomposer.org/installer | php
     - php composer.phar install # --no-dev
     - ./create_docker_image -s
