@@ -10,9 +10,6 @@ RUN a2enmod rewrite
 RUN rm -fr /var/www && ln -s /app /var/www
 ADD / /app
 
-RUN rm -rf /app/vendor
-RUN cd /app && php composer.phar install # --no-dev
-
 # copy .htaccess files with correct aliases
 ADD docker_support/.htaccess /.htaccess
 RUN cp -f /.htaccess /app/frontend/web
