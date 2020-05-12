@@ -31,10 +31,9 @@ stages:
 build_dev:
   stage: build
   script:
-    - apk add --update curl php7 php7-phar php7-json php7-iconv php7-openssl php7-mbstring php7-zip php7-xml
+    - apk add --update curl php7 php7-phar php7-json php7-iconv php7-openssl
     - curl --show-error --silent https://getcomposer.org/installer | php
-    - php composer.phar install # --no-dev
-    - ./create_docker_image -s
+    - ./create_docker_image -si
   artifacts:
     paths:
       - hub_image.tar.gz
