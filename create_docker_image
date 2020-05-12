@@ -42,7 +42,7 @@ if [[ ${PULL_IMAGE} == 1 ]]; then
   docker pull ${REGISTRY}/${IMAGE_NAME} || true
 fi
 
-docker build -t ${IMAGE_NAME} .
+docker build --cache-from ${REGISTRY}/${IMAGE_NAME} -t ${IMAGE_NAME} .
 
 if [ $? == 0 ]; then
     echo "Build successful: ${IMAGE_NAME}"
