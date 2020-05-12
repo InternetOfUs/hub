@@ -29,8 +29,7 @@ stages:
 build_dev:
   stage: build
   script:
-    - apt-get update
-    - apt-get install -y curl php7.4
+    - apk add --update -y curl php7.4
     - curl --show-error --silent https://getcomposer.org/installer | php
     - php composer.phar install # --no-dev
     - ./create_docker_image -s
