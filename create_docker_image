@@ -4,8 +4,9 @@ SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 
 SAVE_IMAGE_TO_TARGZ=0
+PULL_IMAGE=0
 
-args=`getopt s $*`
+args=`getopt si $*`
 if [ $? != 0 ]
 then
   echo 'Usage: ...'
@@ -17,6 +18,9 @@ for i do
   case "$i" in
      -s)
        SAVE_IMAGE_TO_TARGZ=1
+       shift;;
+     -i)
+       PULL_IMAGE=1
        shift;;
   esac
 done
@@ -31,9 +35,14 @@ else
     echo "Building with specified version [${VERSION}]"
 fi
 
+REGISTRY="registry.u-hopper.com"
 IMAGE_NAME="wenet/hub:$VERSION"
 
-docker build -t ${IMAGE_NAME} .
+if [[ ${PULL_IMAGE} == 1 ]]; then
+  docker pull ${REGISTRY}/${IMAGE_NAME} || true
+fi
+
+docker build --cache-from ${REGISTRY}/${IMAGE_NAME} -t ${IMAGE_NAME} .
 
 if [ $? == 0 ]; then
     echo "Build successful: ${IMAGE_NAME}"
@@ -41,13 +50,13 @@ if [ $? == 0 ]; then
     # Tagging images for registry
 
     echo "Tagging image for push to registry.u-hopper.com"
-    docker tag ${IMAGE_NAME} registry.u-hopper.com/${IMAGE_NAME}
+    docker tag ${IMAGE_NAME} ${REGISTRY}/${IMAGE_NAME}
     if [ $SAVE_IMAGE_TO_TARGZ == 1 ]; then
       echo " - saving image ${IMAGE_NAME} to tar.gz"
-      docker save registry.u-hopper.com/${IMAGE_NAME} | gzip > hub_image.tar.gz
+      docker save ${REGISTRY}/${IMAGE_NAME} | gzip > hub_image.tar.gz
     fi
     echo "Image can be pushed with:"
-    echo "- docker push registry.u-hopper.com/${IMAGE_NAME}"
+    echo "- docker push ${REGISTRY}/${IMAGE_NAME}"
 
 else
     echo "Build failed!"

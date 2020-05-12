@@ -8,10 +8,14 @@ RUN a2enmod rewrite
 
 # Configure /app folder with the app
 RUN rm -fr /var/www && ln -s /app /var/www
-ADD / /app
 
-RUN rm -rf /app/vendor
-RUN cd /app && php composer.phar install # --no-dev
+RUN mkdir /app
+
+ADD composer.json /app
+ADD composer.phar /app
+RUN cd /app && php composer.phar install --no-dev
+
+ADD / /app
 
 # copy .htaccess files with correct aliases
 ADD docker_support/.htaccess /.htaccess
