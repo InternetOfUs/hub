@@ -1,0 +1,75 @@
+@media screen and (max-width: 991px){
+    div.appsContainer a.app{width: 48%;}
+    div.appsContainer a.app:nth-child(3n+1),
+    div.appsContainer a.app:nth-child(3n+2){margin-right: 0%;}
+    div.appsContainer a.app:nth-child(2n+1){margin-right: 2%;}
+    div.menu {
+        margin-right: 0px;
+        padding: 0px 15px 50px 0;
+    }
+}
+
+@media screen and (max-width: 767px){
+    div.navbar-collapse{
+        background-color: #fff;
+        border-top: 1px solid #ddd;
+        -webkit-box-shadow: 0px 10px 19px -10px rgba(0,0,0,0.40);
+        -moz-box-shadow: 0px 10px 19px -10px rgba(0,0,0,0.40);
+        box-shadow: 0px 10px 19px -10px rgba(0,0,0,0.40);
+    }
+    div.navbar-collapse ul{margin: 10px;}
+    div.navbar-collapse ul li{margin: 0 0 15px 0;}
+    div.navbar-collapse ul li:last-child{margin:0;}
+    div.navbar-collapse ul li a,
+    div.navbar-collapse ul li > form > button.logout{
+        border: 0px !important;
+        color: #4c5363;
+    }
+    div.navbar-collapse ul li.active a{
+        color: #00a3b6;
+        border: none;
+    }
+    .navbar-nav > li.dropdown{width: auto;}
+    .navbar-nav > li.dropdown a{text-align: left;}
+    .filters_container span.filter_title{
+		border-bottom: 1px solid #ddd;
+		text-align: left !important;
+		padding: 0 0 10px 0;
+		margin-right: 0px;
+		cursor: pointer;
+	}
+	.filters_container span.filter_title span#open_div{display: block;}
+	div.accordion{
+		overflow: hidden;
+		height: 0px;
+        margin-bottom: 10px;
+	}
+    .filters ul li{
+        display: inline-block;
+        margin-right: 5px;
+        margin-bottom: 10px;
+    }
+    div.connections div{
+        margin: 0 1% 20px 0;
+        width: 49%;
+    }
+    div.connections div:nth-child(2){margin-right: 0px;}
+    div.connections div:nth-child(3){margin-right: 1%;}
+    a.user_apps{width: 48% !important;}
+    div.menu{
+        padding: 0px 0 15px 0;
+        border:none;
+    }
+}
+
+@media screen and (max-width: 480px){
+    div.appsContainer a.app{
+        margin-right: 0%;
+        width: 100%;
+    }
+    div.connections div{
+        margin: 0 0 20px 0 !important;
+        width: 100%;
+    }
+    a.user_apps{width: 100% !important;}
+}

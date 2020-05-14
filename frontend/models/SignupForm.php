@@ -8,33 +8,60 @@ use common\models\User;
 /**
  * Signup form
  */
-class SignupForm extends Model
-{
+class SignupForm extends Model {
+
     public $username;
     public $email;
     public $password;
+    public $password_repeat;
 
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE_PASSWORD = 'update_password';
+
+    public function scenarios() {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_CREATE] = ['username', 'email', 'password', 'password_repeat'];
+        $scenarios[self::SCENARIO_UPDATE_PASSWORD] = ['password', 'password_repeat'];
+        return $scenarios;
+    }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            ['username', 'trim'],
-            ['username', 'required'],
+            [['username', 'email'], 'trim'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
-
-            ['email', 'trim'],
-            ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
-
-            ['password', 'required'],
             ['password', 'string', 'min' => 6],
+
+            [['username', 'email', 'password', 'password_repeat'], 'required', 'on' => self::SCENARIO_CREATE],
+            [['password', 'password_repeat'], 'required', 'on' => self::SCENARIO_UPDATE_PASSWORD],
+
+            [['password', 'password_repeat'], 'checkPassword'],
         ];
+    }
+
+    public function attributeLabels() {
+        return [
+            'username' => Yii::t('common', 'Username'),
+            'email' => Yii::t('common', 'Email'),
+            'password' => Yii::t('common', 'Password'),
+            'password_repeat' => Yii::t('signup', 'Repeat password'),
+
+        ];
+    }
+
+    public function checkPassword($attribute, $params) {
+        if($this->password == $this->password_repeat){
+            return true;
+        } else {
+            $this->addError($attribute, Yii::t('signup', 'Password does not match.'));
+            $this->addError('password_repeat', Yii::t('signup', 'Password does not match.'));
+        }
     }
 
     /**
@@ -42,20 +69,42 @@ class SignupForm extends Model
      *
      * @return bool whether the creating new account was successful and email was sent
      */
-    public function signup()
-    {
+    public function signup() {
         if (!$this->validate()) {
             return null;
         }
-        
+
         $user = new User();
         $user->username = $this->username;
         $user->email = $this->email;
+        $user->status = User::STATUS_ACTIVE; // TODO
+        $user->developer = User::NOT_DEVELOPER;
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
-        return $user->save() && $this->sendEmail($user);
 
+        if ($user->save()) {
+            Yii::$app->serviceApi->initUserProfile($user->id);
+            // $this->sendEmail($user);
+            return $user;
+        } else {
+            return null;
+        }
+    }
+
+    public function changePassword() {
+        if (!$this->validate()) {
+            return null;
+        }
+
+        $user = User::find()->where(['id' => Yii::$app->user->id])->one();
+        $user->setPassword($this->password);
+
+        if ($user->save()) {
+            return $user;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -63,8 +112,7 @@ class SignupForm extends Model
      * @param User $user user model to with email should be send
      * @return bool whether the email was sent
      */
-    protected function sendEmail($user)
-    {
+    protected function sendEmail($user) {
         return Yii::$app
             ->mailer
             ->compose(

@@ -17,11 +17,10 @@ nbproject
 # windows thumbnail cache
 Thumbs.db
 
+composer.phar
+
 # composer vendor dir
 /vendor
-
-# composer itself is not needed
-composer.phar
 
 # Mac DS_Store Files
 .DS_Store
@@ -33,6 +32,9 @@ phpunit.phar
 
 # vagrant runtime
 /.vagrant
+
+# local configuration
+/frontend/web/.htaccess
 
 # ignore generated files
 /frontend/web/index.php

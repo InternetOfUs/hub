@@ -1,60 +1,71 @@
-<p align="center">
-    <a href="https://github.com/yiisoft" target="_blank">
-        <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">
-    </a>
-    <h1 align="center">Yii 2 Advanced Project Template</h1>
-    <br>
-</p>
+# WeNet HUB
 
-Yii 2 Advanced Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
-developing complex Web applications with multiple tiers.
+## Introduction
 
-The template includes three tiers: front end, back end, and console, each of which
-is a separate Yii application.
+The WeNet HUB component is responsible for allowing WeNet users to manage their profile and application.
+It also provides developers with the toots for managing applications and associated platform.
 
-The template is designed to work in a team development environment. It supports
-deploying the application in different environments.
 
-Documentation is at [docs/guide/README.md](docs/guide/README.md).
+## Setup & configuration
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/yiisoft/yii2-app-advanced.svg)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![Total Downloads](https://img.shields.io/packagist/dt/yiisoft/yii2-app-advanced.svg)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![Build Status](https://travis-ci.com/yiisoft/yii2-app-advanced.svg?branch=master)](https://travis-ci.com/yiisoft/yii2-app-advanced)
+This project is based on a _Yii advanced template_.
+In order to set it up it is necessary to:
 
-DIRECTORY STRUCTURE
--------------------
+1. install Composer
 
+```bash
+curl -sS https://getcomposer.org/installer | php
 ```
-common
-    config/              contains shared configurations
-    mail/                contains view files for e-mails
-    models/              contains model classes used in both backend and frontend
-    tests/               contains tests for common classes    
-console
-    config/              contains console configurations
-    controllers/         contains console controllers (commands)
-    migrations/          contains database migrations
-    models/              contains console-specific model classes
-    runtime/             contains files generated during runtime
-backend
-    assets/              contains application assets such as JavaScript and CSS
-    config/              contains backend configurations
-    controllers/         contains Web controller classes
-    models/              contains backend-specific model classes
-    runtime/             contains files generated during runtime
-    tests/               contains tests for backend application    
-    views/               contains view files for the Web application
-    web/                 contains the entry script and Web resources
-frontend
-    assets/              contains application assets such as JavaScript and CSS
-    config/              contains frontend configurations
-    controllers/         contains Web controller classes
-    models/              contains frontend-specific model classes
-    runtime/             contains files generated during runtime
-    tests/               contains tests for frontend application
-    views/               contains view files for the Web application
-    web/                 contains the entry script and Web resources
-    widgets/             contains frontend widgets
-vendor/                  contains dependent 3rd-party packages
-environments/            contains environment-based overrides
+
+2. install required packages
+
+```bash
+php composer.phar install
 ```
+
+3. initialise the project and select the preferred environment (development or production)
+
+```bash
+php init
+```
+
+4. run the database migrations
+
+```bash
+php yii migrate/up
+```
+
+You are all set and ready to go!
+
+Custom environment configurations can be accessed in the `frontend/config/params-local.php` and `frontend/config/main-local.php`. These files are not tracked in git and their content can be freely changed accordingly to the local custom configurations.
+
+Optionally, configurations can also be set by setting the value of the following environment variables:
+
+* BASE_URL
+* SERVICE_API_BASE_URL
+* SERVICE_API_APIKEY (optional, should be specified only when communicating directly with the service api component and not when using the project forwarder Kong)
+* REDIS_HOST
+* REDIS_PORT (default to *6379*)
+* REDIS_DB (default to *1* for development mode and to *0* for production mode)
+
+## Usage
+
+The project can be run by taking advantage of the built-in php server.
+
+```bash
+php yii serve --port=8888 --docroot @frontend/web
+```
+
+This will make the project available at `http://localhost:8888/`.
+
+
+## CI/CD
+
+This project includes the support for Gitlab CI/CD pipelines.
+In order to take advantage of the Gitlab CI/CD integration, the following CI/CD variables should be setup in the Gitlab repository configuration.
+
+* DEPLOYMENT_SERVER_IP - the ip of the server hosting the deployment instances
+* DEPLOYMENT_TEST_DIR - the directly with the docker configuration of the test instance
+* GITLAB_SSH_KEY - the ssh key allowing the connection to the server
+* REGISTRY_USERNAME - the username used for authorizing with the registry
+* REGISTRY_PASSWORD - the password used for authorizing with the registry
