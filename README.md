@@ -5,6 +5,30 @@
 The WeNet HUB component is responsible for allowing WeNet users to manage their profile and application.
 It also provides developers with the toots for managing applications and associated platform.
 
+In order to use a WeNet application a Wenet user should have been created. 
+This is possibile via the WeNet HUB. Any WeNet application will redirect its users to the HUB if a WeNet user can not be identified.
+
+Once registered and authenticated, a user can take advantage of the HUB for:
+
+* managing his profile information (this include general demographic details);
+* browsing available WeNet applications;
+* enabling the WeNet applications of interest in order to start using them;
+* managing enabled applications.
+
+The WeNet HUB is also the place where new Wenet applications can be created and configured.
+Any user can create his own WeNet application by becoming a *developer*. 
+This can be done by enabling the *developer mode* in the user account settings. 
+A few profile information will need to be set in order to complete this process.
+
+Once developer, a user has access to a dedicated section of the HUB where it is possibile to configure applications from a technical point of view.
+A WeNet application requires all the configuration to be completed in order to be publicly discoverable by other users.
+In particular, some technical details need to be defined:
+
+* at least one platform through which the application is going to be available (currently the Telegram platform is supported);
+* the *callback url* where the messages generated from the WeNet platform are going to be forwarded so that the application can present them to its users.
+
+In the application configuration section, the developer has also the possibility of knowing how many users have enabled the application and have been trying it out.
+
 
 ## Setup & configuration
 
