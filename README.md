@@ -47,6 +47,9 @@ Optionally, configurations can also be set by setting the value of the following
 * REDIS_HOST
 * REDIS_PORT (default to *6379*)
 * REDIS_DB (default to *1* for development mode and to *0* for production mode)
+* KONG_URL
+* KONG_PROVISION_KEY
+
 
 ## Usage
 

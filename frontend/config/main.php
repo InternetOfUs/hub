@@ -66,6 +66,12 @@ return [
             'baseUrl' => $params['service.api.base.url'],
             'apikey' => $params['service.api.apikey'],
         ],
+        'kongConnector' => [
+            'class' => 'frontend\components\KongConnector',
+            'baseUrl' => $params['kong.url'],
+            'provisionKey' => $params['kong.provision.key'],
+            // 'consumerId' => $params['kong.consumer.id'],
+        ]
     ],
     'params' => $params,
 ];
