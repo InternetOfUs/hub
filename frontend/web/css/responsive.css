@@ -39,7 +39,7 @@
 		cursor: pointer;
 	}
 	.filters_container span.filter_title span#open_div{display: block;}
-	div.accordion{
+	div.filters_container div.accordion{
 		overflow: hidden;
 		height: 0px;
         margin-bottom: 10px;

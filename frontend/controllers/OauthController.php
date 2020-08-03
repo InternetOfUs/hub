@@ -8,6 +8,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
 use frontend\models\AuthorisationForm;
+use frontend\models\SignupForm;
 
 class OauthController extends Controller {
 
@@ -18,10 +19,10 @@ class OauthController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['login', 'authorise'],
+                'only' => ['login', 'signup', 'authorise'],
                 'rules' => [
                     [
-                        'actions' => ['login'],
+                        'actions' => ['login', 'signup'],
                         'allow' => true,
                         'roles' => ['?', '@'],
                     ],
@@ -57,6 +58,7 @@ class OauthController extends Controller {
     }
 
     public function actionLogin($client_id, $scope=null) {
+        $this->layout = "easy.php";
         if (!Yii::$app->user->isGuest) {
             return $this->redirect(['oauth/authorise', 'client_id' => $client_id, 'scope' => $scope]);
         }
@@ -69,11 +71,32 @@ class OauthController extends Controller {
 
             return $this->render('login', [
                 'model' => $model,
+                'client_id' => $client_id,
+                'scope' => $scope
             ]);
         }
     }
 
+    public function actionSignup($client_id, $scope=null) {
+        $this->layout = "easy.php";
+        $model = new SignupForm();
+        $model->scenario = SignupForm::SCENARIO_CREATE;
+        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+            // TODO after fixed email send
+            // Yii::$app->session->setFlash('success', Yii::t('signup', 'Thank you for registration. Please check your inbox for verification email.'));
+            Yii::$app->session->setFlash('success', Yii::t('signup', 'Thank you for registration.'));
+            return $this->redirect(['login', 'client_id' => $client_id, 'scope' => $scope]);
+        }
+
+        return $this->render('signup', [
+            'model' => $model,
+            'client_id' => $client_id,
+            'scope' => $scope
+        ]);
+    }
+
     public function actionAuthorise($client_id, $scope=null) {
+        $this->layout = "easy.php";
         $model = new AuthorisationForm();
         $model->appId = $client_id;
         if (isset($scope)) {
@@ -89,7 +112,7 @@ class OauthController extends Controller {
                 $this->redirect($redirectUri);
             } else {
                 # TODO show error page - something went wrong during authorisation
-                print('error');
+                print_r('error');
                 exit();
             }
         }

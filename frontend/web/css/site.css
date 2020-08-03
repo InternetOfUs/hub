@@ -73,6 +73,11 @@ div.box_container h3{
 
 div.box_container p{margin: 0 0 15px 0;}
 
+div.easy_layout div.alert{
+    margin: 30px auto 0 auto;
+    max-width: 400px;
+}
+
 /*  header */
 nav{
     background-color: #fff;
@@ -243,6 +248,12 @@ div.site-index{
     color: #3b4150;
 }
 
+div.easy_layout div.image_container{
+    padding: 30px 0 0 0;
+    margin: 0 auto;
+    width: 150px;
+}
+
 /* breadcrumb */
 ul.breadcrumb {margin-bottom: 30px;}
 ul.breadcrumb li{color: #777;}
@@ -256,6 +267,13 @@ ul.breadcrumb li a{color: #00a3b6;}
 }
 
 .wrap > .container {padding: 90px 15px 20px;}
+
+.wrap.easy_layout {
+    margin: 0 auto;
+    padding: 0px;
+}
+
+.wrap.easy_layout > .container {padding: 0px;}
 
 .footer {
     background-color: #f5f5f5;
@@ -307,7 +325,30 @@ div.site-login{
     margin: 0 auto;
 }
 
+div.easy_layout div.site-signup,
+div.easy_layout div.site-login,
+div.easy_layout div.site-authorisation{
+    background-color: #fff;
+    padding: 20px 0 0 0;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
 form div.form-group button{margin-top: 15px;}
+div.easy_layout form div.form-group button{margin-top: 0px;}
+
+div.easy_layout div h5 button{
+    width: 100%;
+    text-decoration: none !important;
+}
+
+div.easy_layout input[type="checkbox"]{margin: 4px 8px 0 0 !important;}
+
+div.easy_layout label{
+    font-weight: normal;
+    font-size: 12px;
+}
 
 .select2-container--krajee .select2-selection--multiple .select2-selection__choice__remove {margin: -1px 0 0 8px;}
 
