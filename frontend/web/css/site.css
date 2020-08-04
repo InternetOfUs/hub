@@ -343,7 +343,7 @@ div.easy_layout div h5 button{
     text-decoration: none !important;
 }
 
-div.easy_layout input[type="checkbox"]{margin: 4px 8px 0 0 !important;}
+/* div.easy_layout input[type="checkbox"]{margin: 4px 8px 0 0 !important;} */
 
 div.easy_layout label{
     font-weight: normal;

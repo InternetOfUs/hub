@@ -15,7 +15,9 @@ class AuthorisationForm extends Model {
 
     public $userId;
 
-    public $allowedScope;  # once the fom is submitted, it should be a list of scope keys
+    public $allowedPublicScope;
+    public $allowedWriteScope;
+    public $allowedReadScope;
 
     /**
      * {@inheritdoc}
@@ -23,6 +25,7 @@ class AuthorisationForm extends Model {
     public function rules() {
         return [
             [['appId', 'scope', 'userId'], 'required'],
+            [['allowedPublicScope', 'allowedWriteScope', 'allowedReadScope'], 'safe']
         ];
     }
 

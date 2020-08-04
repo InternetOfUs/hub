@@ -99,6 +99,7 @@ class OauthController extends Controller {
         $this->layout = "easy.php";
         $model = new AuthorisationForm();
         $model->appId = $client_id;
+        $model->userId = Yii::$app->user->id;
         if (isset($scope)) {
             $model->withSpecifiedScope(explode(',', $scope));
         } else {
@@ -106,8 +107,15 @@ class OauthController extends Controller {
         }
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->allowedScope = ['phone'];  # TODO remove, only here for testing
-            $redirectUri = Yii::$app->kongConnector->createAuthenticatedUser($model->appId, $model->userId, implode(',', $model->allowedScope));
+            if($model->allowedReadScope == "" || $model->allowedReadScope == null){
+                $model->allowedReadScope = [];
+            }
+            if($model->allowedWriteScope == "" || $model->allowedWriteScope == null){
+                $model->allowedWriteScope = [];
+            }
+            $allowedScope = array_merge($model->allowedPublicScope, $model->allowedReadScope, $model->allowedWriteScope);
+
+            $redirectUri = Yii::$app->kongConnector->createAuthenticatedUser($model->appId, $model->userId, implode(',', $allowedScope));
             if (isset($redirectUri)) {
                 $this->redirect($redirectUri);
             } else {

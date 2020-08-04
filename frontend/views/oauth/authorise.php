@@ -6,8 +6,8 @@
     $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Authorise');
     $app = $model->app();
     $user = $model->user();
-    print_r($app);
-    print_r($user);
+    // print_r($app);
+    // print_r($user);
 ?>
 
 <div class="site-authorisation">
@@ -20,35 +20,23 @@
             $items = [];
 
             if (count($model->publicScope) > 0) {
-                $content = '';
-                foreach ($model->publicScope as $key => $value) {
-                    $content .=  '<input type="checkbox" id="'.$key.'" name="'.$key.'" value="'.$value.'" checked disabled><label for="'.$key.'">'.$value.'</label><br>';
-                }
                 $items[] = [
                     'label' => Yii::t('authorisation', 'access your public profile info'),
-                    'content' => $content
+                    'content' => $form->field($model, 'allowedPublicScope[]')->checkboxList($model->publicScope, ['itemOptions' => ['checked' => 'checked', 'disabled' => 'disabled']])
                 ];
             }
 
             if (count($model->readScope) > 0) {
-                $content = '';
-                foreach ($model->readScope as $key => $value) {
-                    $content .=  '<input type="checkbox" id="'.$key.'" name="'.$key.'" value="'.$value.'" checked><label for="'.$key.'">'.$value.'</label><br>';
-                }
                 $items[] = [
                     'label' => Yii::t('authorisation', 'access your profile data'),
-                    'content' => $content
+                    'content' => $form->field($model, 'allowedReadScope[]')->checkboxList($model->readScope, ['itemOptions' => ['checked' => 'checked']])
                 ];
             }
 
             if (count($model->writeScope) > 0) {
-                $content = '';
-                foreach ($model->writeScope as $key => $value) {
-                    $content .=  '<input type="checkbox" id="'.$key.'" name="'.$key.'" value="'.$value.'" checked><label for="'.$key.'">'.$value.'</label><br>';
-                }
                 $items[] = [
                     'label' => Yii::t('authorisation', 'write your profile data'),
-                    'content' => $content
+                    'content' => $form->field($model, 'allowedWriteScope[]')->checkboxList($model->writeScope, ['itemOptions' => ['checked' => 'checked']])
                 ];
             }
 
