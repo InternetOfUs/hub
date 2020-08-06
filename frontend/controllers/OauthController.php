@@ -9,6 +9,7 @@ use yii\filters\AccessControl;
 use common\models\LoginForm;
 use frontend\models\AuthorisationForm;
 use frontend\models\SignupForm;
+use frontend\models\WenetApp;
 
 class OauthController extends Controller {
 
@@ -57,7 +58,19 @@ class OauthController extends Controller {
         ];
     }
 
+    private function verifyAppExistance($clientId) {
+        if (WenetApp::findOne($client_id) == NULL) {
+            # TODO error : provided client id is not valid
+            # should render here error page
+            exit();
+        }
+    }
+
     public function actionLogin($client_id, $scope=null) {
+        $this->verifyAppExistance($client_id);
+
+        // Yii::$app->kongConnector->createOAuthCredentials('1', 'secret', 'https://www.google.com');
+
         $this->layout = "easy.php";
         if (!Yii::$app->user->isGuest) {
             return $this->redirect(['oauth/authorise', 'client_id' => $client_id, 'scope' => $scope]);
@@ -78,6 +91,8 @@ class OauthController extends Controller {
     }
 
     public function actionSignup($client_id, $scope=null) {
+        $this->verifyAppExistance($client_id);
+
         $this->layout = "easy.php";
         $model = new SignupForm();
         $model->scenario = SignupForm::SCENARIO_CREATE;
@@ -113,9 +128,9 @@ class OauthController extends Controller {
             if($model->allowedWriteScope == "" || $model->allowedWriteScope == null){
                 $model->allowedWriteScope = [];
             }
-            $allowedScope = array_merge($model->allowedPublicScope, $model->allowedReadScope, $model->allowedWriteScope);
+            $allowedScope = array_merge(array_keys($model->publicScope()), $model->allowedReadScope, $model->allowedWriteScope);
 
-            $redirectUri = Yii::$app->kongConnector->createAuthenticatedUser($model->appId, $model->userId, implode(',', $allowedScope));
+            $redirectUri = Yii::$app->kongConnector->createAuthenticatedUser($model->appId, $model->userId, implode(' ', $allowedScope));
             if (isset($redirectUri)) {
                 $this->redirect($redirectUri);
             } else {

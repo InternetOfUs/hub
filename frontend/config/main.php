@@ -68,9 +68,10 @@ return [
         ],
         'kongConnector' => [
             'class' => 'frontend\components\KongConnector',
-            'baseUrl' => $params['kong.url'],
+            'internalBaseUrl' => $params['kong.internal.url'],
+            'externalBaseUrl' => $params['kong.external.url'],
             'provisionKey' => $params['kong.provision.key'],
-            // 'consumerId' => $params['kong.consumer.id'],
+            'consumerId' => $params['kong.consumer.id'],
         ]
     ],
     'params' => $params,

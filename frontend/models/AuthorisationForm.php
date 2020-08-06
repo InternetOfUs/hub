@@ -37,7 +37,7 @@ class AuthorisationForm extends Model {
         ];
     }
 
-    private static function publicScope() {
+    public static function publicScope() {
         return [
             'id' => Yii::t('write_feed', 'User ID'),
         ];
