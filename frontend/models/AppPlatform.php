@@ -7,6 +7,7 @@ use Yii;
 class AppPlatform extends \yii\db\ActiveRecord {
 
     const TYPE_TELEGRAM = 'telegram';
+    const TYPE_SOCIAL_LOGIN = 'social_login';
 
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 1;
@@ -54,12 +55,14 @@ class AppPlatform extends \yii\db\ActiveRecord {
     private static function typeLabels() {
         return [
     		self::TYPE_TELEGRAM => Yii::t('app', 'Telegram'),
+    		self::TYPE_SOCIAL_LOGIN => Yii::t('app', 'Social login'),
     	];
     }
 
     public static function getPlatformTypes(){
         return [
-            self::TYPE_TELEGRAM
+            self::TYPE_TELEGRAM,
+            self::TYPE_SOCIAL_LOGIN
         ];
     }
 

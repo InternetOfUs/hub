@@ -12,14 +12,14 @@
         $showTelegram = true;
         $telegram = $app->getPlatformTelegram();
     }
+
+    $showSocialLogin = false;
+    if($app->hasSocialLogin()){
+        $showSocialLogin = true;
+        $socialLogin = $app->getSocialLogin();
+    }
 ?>
 
-<?php if(!$showTelegram){ ?>
-    <a href="<?= Url::to(['/platform/create-telegram', 'id' => $app->id]); ?>" class="btn btn-primary telegram_color pull-right" style="margin: -10px 0 20px 0;">
-        <i class="fa fa-plus" aria-hidden="true"></i>
-        <?php echo Yii::t('app', 'add Telegram'); ?>
-    </a>
-<?php } ?>
 <a href="<?= Url::to(['/developer/update', 'id' => $app->id]); ?>" class="btn btn-primary pull-right" style="margin: -10px 5px 20px 0;">
     <i class="fa fa-pencil" aria-hidden="true"></i>
     <?php echo Yii::t('common', 'edit'); ?>
@@ -96,6 +96,25 @@
         </div>
     <?php } ?>
 </div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <hr>
+        <?php if(!$showTelegram){ ?>
+            <a href="<?= Url::to(['/platform/create-telegram', 'id' => $app->id]); ?>" class="btn btn-primary telegram_color pull-right" style="margin:0 0 0 10px;">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                <?php echo Yii::t('app', 'add Telegram'); ?>
+            </a>
+        <?php } ?>
+        <?php if(!$showSocialLogin){ ?>
+            <a href="<?= Url::to(['/platform/create-social-login', 'id' => $app->id]); ?>" class="btn btn-primary telegram_color pull-right" style="margin:0 0 0 10px;">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                <?php echo Yii::t('app', 'add Wenet social login'); ?>
+            </a>
+        <?php } ?>
+    </div>
+</div>
+
 <?php if(count($app->platforms()) >= 1){ ?>
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
@@ -119,6 +138,24 @@
                     <hr>
                     <a href="<?= Url::to(['/platform/delete-telegram', 'id' => $telegram->id]); ?>" class="btn delete_btn pull-right" title="<?php echo Yii::t('app', 'Detele platform'); ?>">
                         <i class="fa fa-trash"></i> <?php echo Yii::t('common', 'delete'); ?>
+                    </a>
+                </div>
+            </div>
+        <?php } ?>
+        <?php if($showSocialLogin){ ?>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                <div class="box_container platform_container">
+                    <h3>WeNet Social Login</h3>
+                    <p>
+                        <?php echo Yii::t('app', 'Callback Url'); ?>:
+                        <strong><?php echo $socialLogin->callback_url   ;?></strong>
+                    </p>
+                    <hr>
+                    <a href="<?= Url::to(['/platform/delete-social-login', 'id' => $socialLogin->id]); ?>" class="btn delete_btn pull-right" title="<?php echo Yii::t('app', 'Detele platform'); ?>">
+                        <i class="fa fa-trash"></i> <?php echo Yii::t('common', 'delete'); ?>
+                    </a>
+                    <a href="<?= Url::to(['/platform/update-social-login', 'id' => $socialLogin->id]); ?>" style="margin-right:10px;" class="btn btn-primary pull-right" title="<?php echo Yii::t('common', 'edit'); ?>">
+                        <i class="fa fa-pencil"></i> <?php echo Yii::t('common', 'edit'); ?>
                     </a>
                 </div>
             </div>

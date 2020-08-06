@@ -3,6 +3,9 @@
 namespace frontend\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use frontend\models\WenetApp;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "app_social_login".
@@ -15,46 +18,68 @@ use Yii;
  * @property int $updated_at
  * @property int $status
  *
- * @property App $app
+ * @property WenetApp $app
  */
-class AppSocialLogin extends \yii\db\ActiveRecord
-{
+class AppSocialLogin extends AppPlatform {
+
+    public $allowedPublicScope;
+    public $allowedWriteScope;
+    public $allowedReadScope;
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'app_social_login';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['callback_url', 'scope', 'created_at', 'updated_at', 'status'], 'required'],
+            [['callback_url', 'scope', 'status'], 'required'],
             [['callback_url', 'scope'], 'string'],
             [['created_at', 'updated_at', 'status'], 'integer'],
             [['app_id'], 'string', 'max' => 128],
-            [['app_id'], 'exist', 'skipOnError' => true, 'targetClass' => App::className(), 'targetAttribute' => ['app_id' => 'id']],
+            [['app_id'], 'exist', 'skipOnError' => true, 'targetClass' => WenetApp::className(), 'targetAttribute' => ['app_id' => 'id']],
+            [['allowedPublicScope', 'allowedWriteScope', 'allowedReadScope'], 'safe']
         ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
-            'id' => 'ID',
-            'callback_url' => 'Callback Url',
-            'scope' => 'Scope',
-            'app_id' => 'App ID',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-            'status' => 'Status',
+            'id' => Yii::t('app', 'ID'),
+            'callback_url' => Yii::t('app', 'Callback Url'),
+            'scope' => Yii::t('app', 'Scope'),
+            'app_id' => Yii::t('app', 'App ID'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
+            'status' => Yii::t('app', 'Status'),
         ];
+    }
+
+    public function behaviors() {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+            ],
+        ];
+    }
+
+    public function afterFind() {
+        $this->type = self::TYPE_SOCIAL_LOGIN;
+
+        if ($this->scope) {
+            $this->scope = json_decode($this->scope, true);
+        } else {
+            $this->scope = array();
+        }
     }
 
     /**
@@ -62,8 +87,7 @@ class AppSocialLogin extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getApp()
-    {
-        return $this->hasOne(App::className(), ['id' => 'app_id']);
+    public function getApp() {
+        return $this->hasOne(WenetApp::className(), ['id' => 'app_id']);
     }
 }
