@@ -161,6 +161,7 @@ class PlatformController extends Controller {
                 'scope' => array_merge($model->allowedPublicScope, $model->allowedReadScope, $model->allowedWriteScope)
             ];
 
+            Yii::$app->kongConnector->createConsumer($app->id);
             $oauth2_id = Yii::$app->kongConnector->createOAuthCredentials($app->id, $app->token, $model->callback_url);
             $model->oauth_app_id = $oauth2_id;
             if ($model->save()) {
@@ -186,7 +187,7 @@ class PlatformController extends Controller {
         // TODO gestire checkboxes!
 
         if ($model->load(Yii::$app->request->post())) {
-            Yii::$app->kongConnector->deleteOAuthCredentials($model->oauth_app_id);
+            Yii::$app->kongConnector->deleteOAuthCredentials($app->id, $model->oauth_app_id);
             $model->oauth_app_id = Yii::$app->kongConnector->createOAuthCredentials($app->id, $app->token, $model->callback_url);
             print_r($model->oauth_app_id);
             if ($model->save()) {
@@ -203,7 +204,10 @@ class PlatformController extends Controller {
     }
 
     public function actionDeleteSocialLogin($id) {
-
+        # TODO
+        $model = AppSocialLogin::find()->where(["id" => $id])->one();
+        Yii::$app->kongConnector->deleteConsumer($model->app_id);
+        $model->delete();
     }
 
 }

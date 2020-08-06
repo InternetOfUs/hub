@@ -14,10 +14,44 @@ class KongConnector extends BaseConnector {
 
     const RESPONSE_TYPE = 'code';
 
-    public function createOAuthCredentials($clientId, $clientSecret, $redirectUrl) {
-        $url = $this->internalBaseUrl . '/consumers/' . $this->consumerId . '/oauth2';
+    private static function consumerUsername($appId) {
+        return 'app_' . $appId;
+    }
+
+    public function createConsumer($appId) {
+        $url = $this->internalBaseUrl . '/consumers/';
         $data = [
-            'name' => 'app_' . $clientId,
+            'username' => self::consumerUsername($appId),
+        ];
+        try {
+            $result = $this->post($url, $this->authHeaders(), $data);
+            $response = Json::decode($result);
+            if (isset($response['id'])) {
+                return $response['id'];
+            } else {
+                return null;  # TODO throw exception
+            }
+        } catch (\Exception $e) {
+            $log = 'Something went wrong while creating consumer for app ['. $appId.']';
+            Yii::error($log);
+            throw $e;
+        }
+    }
+
+    public function deleteConsumer($appId) {
+        $url = $this->internalBaseUrl . '/consumers/'.self::consumerUsername($appId);
+        try {
+            $this->delete($url, $this->authHeaders());
+        } catch (\Exception $e) {
+            $log = 'Something went wrong while deleting consumer for app ['.$appId.']';
+            Yii::error($log);
+        }
+    }
+
+    public function createOAuthCredentials($clientId, $clientSecret, $redirectUrl) {
+        $url = $this->internalBaseUrl . '/consumers/' . self::consumerUsername($clientId) . '/oauth2';
+        $data = [
+            'name' => 'oauth2_' . $clientId,
             'client_id' => $clientId,
             'client_secret' => $clientSecret,
             'redirect_uris' => [$redirectUrl],
@@ -37,16 +71,10 @@ class KongConnector extends BaseConnector {
         }
     }
 
-    public function deleteOAuthCredentials($id) {
-        $url = $this->internalBaseUrl . '/consumers/' . $this->consumerId . '/oauth2/'. $id;
+    public function deleteOAuthCredentials($appId, $id) {
+        $url = $this->internalBaseUrl . '/consumers/' . self::consumerUsername($appId) . '/oauth2/'. $id;
         try {
-            $result = $this->delete($url, $this->authHeaders());
-            $response = Json::decode($result);
-            if (isset($response['redirect_uri'])) {
-                return $response['redirect_uri'];
-            } else {
-                return null;  # TODO throw exception
-            }
+            $this->delete($url, $this->authHeaders());
         } catch (\Exception $e) {
             $log = 'Something went wrong while deleting oauth credentials for ['.$id.']';
             Yii::error($log);
