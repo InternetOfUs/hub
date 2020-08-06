@@ -9,7 +9,6 @@ class KongConnector extends BaseConnector {
 
     public $internalBaseUrl;
     public $externalBaseUrl;
-    public $consumerId;
     public $provisionKey;
 
     const RESPONSE_TYPE = 'code';

@@ -71,7 +71,6 @@ return [
             'internalBaseUrl' => $params['kong.internal.url'],
             'externalBaseUrl' => $params['kong.external.url'],
             'provisionKey' => $params['kong.provision.key'],
-            'consumerId' => $params['kong.consumer.id'],
         ]
     ],
     'params' => $params,

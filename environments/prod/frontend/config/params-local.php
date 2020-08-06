@@ -11,5 +11,4 @@ return [
 	'kong.internal.url' => getenv('KONG_INTERNAL_URL'),
 	'kong.external.url' => getenv('KONG_EXTERNAL_URL'),
 	'kong.provision.key' => getenv('KONG_PROVISION_KEY'),
-	'kong.consumer.id' => getenv('KONG_CONSUMER_ID'),
 ];
