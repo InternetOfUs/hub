@@ -158,11 +158,23 @@ class WenetApp extends \yii\db\ActiveRecord {
         if ($telegramPlatform) {
             $platforms[] = $telegramPlatform;
         }
+        $socailLoginPlatform = $this->getSocialLogin();
+        if ($socailLoginPlatform) {
+            $platforms[] = $socailLoginPlatform;
+        }
         return $platforms;
     }
 
     public function hasPlatformTelegram() {
         if ($this->getPlatformTelegram()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function hasSocialLogin() {
+        if ($this->getSocialLogin()) {
             return true;
         } else {
             return false;
@@ -206,6 +218,18 @@ class WenetApp extends \yii\db\ActiveRecord {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public function getSocialLogin() {
+        $socialLogins = AppSocialLogin::find()->where(['app_id' => $this->id, 'status' => AppPlatform::STATUS_ACTIVE])->all();
+        if (count($socialLogins) == 0) {
+            return null;
+        } else if (count($socialLogins) == 1) {
+            return $socialLogins[0];
+        } else {
+            Yii::warning('App ['.$this->id.'] should not have more that one social logins configured');
+            return $socialLogins[0];
         }
     }
 

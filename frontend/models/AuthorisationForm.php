@@ -43,11 +43,11 @@ class AuthorisationForm extends Model {
         ];
     }
 
-    private static function readScope() {
+    public static function readScope() {
         return Profile::instance()->attributeLabels();
     }
 
-    private static function writeScope() {
+    public static function writeScope() {
         return [
             'write_feed' => Yii::t('write_feed', 'Write data feed'),  # TODO find better name
         ];
