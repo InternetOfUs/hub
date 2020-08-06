@@ -24,6 +24,12 @@ class KongConnector extends BaseConnector {
         ];
         try {
             $result = $this->post($url, $this->authHeaders(), $data);
+            $response = Json::decode($result);
+            if (isset($response['id'])) {
+                return $response['id'];
+            } else {
+                return null;  # TODO throw exception
+            }
         } catch (\Exception $e) {
             $log = 'Something went wrong while creating oauth2 credentials for app ['. $clientId.']';
             Yii::error($log);
@@ -31,8 +37,20 @@ class KongConnector extends BaseConnector {
         }
     }
 
-    public function deleteOAuthCredentials() {
-        # TODO
+    public function deleteOAuthCredentials($id) {
+        $url = $this->internalBaseUrl . '/consumers/' . $this->consumerId . '/oauth2/'. $id;
+        try {
+            $result = $this->delete($url, $this->authHeaders());
+            $response = Json::decode($result);
+            if (isset($response['redirect_uri'])) {
+                return $response['redirect_uri'];
+            } else {
+                return null;  # TODO throw exception
+            }
+        } catch (\Exception $e) {
+            $log = 'Something went wrong while deleting oauth credentials for ['.$id.']';
+            Yii::error($log);
+        }
     }
 
     public function createAuthenticatedUser($appId, $userId, $scope) {

@@ -38,8 +38,8 @@ class AppSocialLogin extends AppPlatform {
      */
     public function rules() {
         return [
-            [['callback_url', 'scope', 'status'], 'required'],
-            [['callback_url', 'scope'], 'string'],
+            [['callback_url', 'scope', 'status', 'oauth_app_id'], 'required'],
+            [['callback_url'], 'string'],
             [['created_at', 'updated_at', 'status'], 'integer'],
             [['app_id'], 'string', 'max' => 128],
             [['app_id'], 'exist', 'skipOnError' => true, 'targetClass' => WenetApp::className(), 'targetAttribute' => ['app_id' => 'id']],
@@ -76,9 +76,19 @@ class AppSocialLogin extends AppPlatform {
         $this->type = self::TYPE_SOCIAL_LOGIN;
 
         if ($this->scope) {
-            $this->scope = json_decode($this->scope, true);
+            $this->scope = JSON::decode($this->scope);
         } else {
             $this->scope = array();
+        }
+    }
+
+    public function beforeSave($insert) {
+        if (parent::beforeSave($insert)) {
+            $this->scope = JSON::encode($this->scope);
+
+            return true;
+        } else {
+            return false;
         }
     }
 

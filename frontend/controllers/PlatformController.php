@@ -160,8 +160,9 @@ class PlatformController extends Controller {
             $model->scope = [
                 'scope' => array_merge($model->allowedPublicScope, $model->allowedReadScope, $model->allowedWriteScope)
             ];
-            $model->scope = JSON::encode($model->scope);
 
+            $oauth2_id = Yii::$app->kongConnector->createOAuthCredentials($app->id, $app->token, $model->callback_url);
+            $model->oauth_app_id = $oauth2_id;
             if ($model->save()) {
                 return $this->redirect(['/developer/details', 'id' => $id]);
             } else {
@@ -178,25 +179,31 @@ class PlatformController extends Controller {
     }
 
     public function actionUpdateSocialLogin($id){
-        $socialLogin = AppSocialLogin::find()->where(["id" => $id])->one();
-        $app = WenetApp::find()->where(["id" => $id])->one();
-        // print_r($socialLogin);
+        $model = AppSocialLogin::find()->where(["id" => $id])->one();
+        $app = WenetApp::find()->where(["id" => $model->app_id])->one();
+        // print_r($model);
         // exit();
         // TODO gestire checkboxes!
 
-        if ($socialLogin->load(Yii::$app->request->post())) {
-            if ($socialLogin->save()) {
-                return $this->redirect(['details', "id" => $socialLogin->app_id]);
+        if ($model->load(Yii::$app->request->post())) {
+            Yii::$app->kongConnector->deleteOAuthCredentials($model->oauth_app_id);
+            $model->oauth_app_id = Yii::$app->kongConnector->createOAuthCredentials($app->id, $app->token, $model->callback_url);
+            print_r($model->oauth_app_id);
+            if ($model->save()) {
+                return $this->redirect(['/developer/details', "id" => $model->app_id]);
+            } else {
+                print_r($model);
+                exit();
             }
         }
         return $this->render('create_social_login', [
-            'model' => $socialLogin,
+            'model' => $model,
             'app' => $app
         ]);
     }
 
     public function actionDeleteSocialLogin($id) {
-        
+
     }
 
 }

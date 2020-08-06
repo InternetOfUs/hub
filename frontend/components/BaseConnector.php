@@ -91,7 +91,29 @@ class BaseConnector extends Component {
             Yii::error($log);
             throw $e;
         }
-        return $headers;
+    }
+
+    public function delete($url, $headers) {
+        try {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+            $result = curl_exec($ch);
+            $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            if ($status == 200) {
+                return $result;
+            } else {
+                $log = 'Received error response with ['.$status.'] for DELETE query to ['.$url.']: '.$result;
+                Yii::warning($log);
+                throw new \Exception($log);
+            }
+        } catch(\Exception $e) {
+            $log = 'Something went wrong while running DELETE query to ['.$url.']';
+            Yii::error($log);
+            throw $e;
+        }
     }
 
 }
