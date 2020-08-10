@@ -59,7 +59,7 @@ class OauthController extends Controller {
     }
 
     private function verifyAppExistance($clientId) {
-        if (WenetApp::findOne($client_id) == NULL) {
+        if (WenetApp::findOne($clientId) == NULL) {
             # TODO error : provided client id is not valid
             # should render here error page
             exit();
