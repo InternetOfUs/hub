@@ -26,6 +26,16 @@ class AppSocialLogin extends AppPlatform {
     public $allowedWriteScope;
     public $allowedReadScope;
 
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
+
+    public function scenarios() {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_CREATE] = ['callback_url', 'scope', 'status', 'oauth_app_id'];
+        $scenarios[self::SCENARIO_UPDATE] = ['callback_url', 'scope', 'oauth_app_id'];
+        return $scenarios;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -38,12 +48,14 @@ class AppSocialLogin extends AppPlatform {
      */
     public function rules() {
         return [
-            [['callback_url', 'scope', 'status', 'oauth_app_id'], 'required'],
+            [['callback_url', 'status', 'oauth_app_id'], 'required', 'on' => self::SCENARIO_CREATE],
+            [['callback_url'], 'required', 'on' => self::SCENARIO_UPDATE],
+
             [['callback_url'], 'string'],
             [['created_at', 'updated_at', 'status'], 'integer'],
             [['app_id'], 'string', 'max' => 128],
             [['app_id'], 'exist', 'skipOnError' => true, 'targetClass' => WenetApp::className(), 'targetAttribute' => ['app_id' => 'id']],
-            [['allowedPublicScope', 'allowedWriteScope', 'allowedReadScope'], 'safe']
+            // [['allowedPublicScope', 'allowedWriteScope', 'allowedReadScope'], 'safe']
         ];
     }
 
@@ -74,7 +86,6 @@ class AppSocialLogin extends AppPlatform {
 
     public function afterFind() {
         $this->type = self::TYPE_SOCIAL_LOGIN;
-
         if ($this->scope) {
             $this->scope = JSON::decode($this->scope);
         } else {
@@ -85,7 +96,6 @@ class AppSocialLogin extends AppPlatform {
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
             $this->scope = JSON::encode($this->scope);
-
             return true;
         } else {
             return false;

@@ -69,8 +69,6 @@ class OauthController extends Controller {
     public function actionLogin($client_id, $scope=null) {
         $this->verifyAppExistance($client_id);
 
-        // Yii::$app->kongConnector->createOAuthCredentials('1', 'secret', 'https://www.google.com');
-
         $this->layout = "easy.php";
         if (!Yii::$app->user->isGuest) {
             return $this->redirect(['oauth/authorise', 'client_id' => $client_id, 'scope' => $scope]);
@@ -130,7 +128,11 @@ class OauthController extends Controller {
             }
             $allowedScope = array_merge(array_keys($model->publicScope()), $model->allowedReadScope, $model->allowedWriteScope);
 
-            $redirectUri = Yii::$app->kongConnector->createAuthenticatedUser($model->appId, $model->userId, implode(' ', $allowedScope));
+            if (isset(Yii::$app->params['kong.ignore']) && Yii::$app->params['kong.ignore']) {
+                $redirectUri = 'http://google.com';
+            } else {
+                $redirectUri = Yii::$app->kongConnector->createAuthenticatedUser($model->appId, $model->userId, implode(' ', $allowedScope));
+            }
             if (isset($redirectUri)) {
                 $this->redirect($redirectUri);
             } else {

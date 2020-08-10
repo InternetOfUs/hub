@@ -10,6 +10,7 @@ use frontend\models\AppSocialLogin;
 use frontend\models\UserAccountTelegram;
 use frontend\models\WenetApp;
 use frontend\models\AppPlatform;
+use frontend\models\AuthorisationForm;
 use yii\db\Query;
 use yii\helpers\Json;
 
@@ -146,24 +147,39 @@ class PlatformController extends Controller {
         $model = new AppSocialLogin;
         $model->app_id = $id;
         $model->status = AppPlatform::STATUS_ACTIVE;
-        if ($model->load(Yii::$app->request->post())) {
+        $model->scenario = AppSocialLogin::SCENARIO_CREATE;
 
-            if($model->allowedPublicScope == "" || $model->allowedPublicScope == null){
+        $post = Yii::$app->request->post();
+
+        if ($model->load($post)) {
+            if($post['AppSocialLogin']['allowedPublicScope'] == "" || $post['AppSocialLogin']['allowedPublicScope'] == null){
                 $model->allowedPublicScope = [];
+            } else {
+                $model->allowedPublicScope = $post['AppSocialLogin']['allowedPublicScope'];
             }
-            if($model->allowedReadScope == "" || $model->allowedReadScope == null){
+
+            if($post['AppSocialLogin']['allowedReadScope'] == "" || $post['AppSocialLogin']['allowedReadScope'] == null){
                 $model->allowedReadScope = [];
+            } else {
+                $model->allowedReadScope = $post['AppSocialLogin']['allowedReadScope'];
             }
-            if($model->allowedWriteScope == "" || $model->allowedWriteScope == null){
+
+            if($post['AppSocialLogin']['allowedWriteScope'] == "" || $post['AppSocialLogin']['allowedWriteScope'] == null){
                 $model->allowedWriteScope = [];
+            } else {
+                $model->allowedWriteScope = $post['AppSocialLogin']['allowedWriteScope'];
             }
+
             $model->scope = [
                 'scope' => array_merge($model->allowedPublicScope, $model->allowedReadScope, $model->allowedWriteScope)
             ];
 
-            Yii::$app->kongConnector->createConsumer($app->id);
-            $oauth2_id = Yii::$app->kongConnector->createOAuthCredentials($app->id, $app->token, $model->callback_url);
-            $model->oauth_app_id = $oauth2_id;
+            if (isset(Yii::$app->params['kong.ignore']) && Yii::$app->params['kong.ignore']) {
+                $model->oauth_app_id = 'oauthId';
+            } else {
+                Yii::$app->kongConnector->createConsumer($app->id);
+                $model->oauth_app_id = Yii::$app->kongConnector->createOAuthCredentials($app->id, $app->token, $model->callback_url);
+            }
             if ($model->save()) {
                 return $this->redirect(['/developer/details', 'id' => $id]);
             } else {
@@ -182,14 +198,32 @@ class PlatformController extends Controller {
     public function actionUpdateSocialLogin($id){
         $model = AppSocialLogin::find()->where(["id" => $id])->one();
         $app = WenetApp::find()->where(["id" => $model->app_id])->one();
-        // print_r($model);
-        // exit();
+
         // TODO gestire checkboxes!
+        $model->scenario = AppSocialLogin::SCENARIO_UPDATE;
+
+        foreach ($model->scope['scope'] as $scopeItem) {
+            if(in_array($scopeItem, AuthorisationForm::writeScope())){
+                $model->allowedWriteScope[] = $scopeItem;
+            }
+
+            if(in_array($scopeItem, AuthorisationForm::readScope())){
+                $model->allowedReadScope[] = $scopeItem;
+            }
+        }
+
+        print_r($model);
+        exit();
+
 
         if ($model->load(Yii::$app->request->post())) {
-            Yii::$app->kongConnector->deleteOAuthCredentials($app->id, $model->oauth_app_id);
-            $model->oauth_app_id = Yii::$app->kongConnector->createOAuthCredentials($app->id, $app->token, $model->callback_url);
-            print_r($model->oauth_app_id);
+            if (isset(Yii::$app->params['kong.ignore']) && Yii::$app->params['kong.ignore']) {
+                $model->oauth_app_id = 'oauthId';
+            } else {
+                Yii::$app->kongConnector->deleteOAuthCredentials($app->id, $model->oauth_app_id);
+                $model->oauth_app_id = Yii::$app->kongConnector->createOAuthCredentials($app->id, $app->token, $model->callback_url);
+            }
+
             if ($model->save()) {
                 return $this->redirect(['/developer/details', "id" => $model->app_id]);
             } else {
@@ -204,10 +238,52 @@ class PlatformController extends Controller {
     }
 
     public function actionDeleteSocialLogin($id) {
-        # TODO
+        $connection = \Yii::$app->db;
+        $transaction = $connection->beginTransaction();
+        $transactionOk = true;
+        $appToDevMode = false;
+
         $model = AppSocialLogin::find()->where(["id" => $id])->one();
-        Yii::$app->kongConnector->deleteConsumer($model->app_id);
-        $model->delete();
+        $model->status = AppPlatform::STATUS_DELETED;
+
+        $app = WenetApp::find()->where(['id' => $model->app_id])->one();
+        $appPlatforms = $app->platforms();
+        if ($app->status == WenetApp::STATUS_ACTIVE && count($appPlatforms) == 1) {
+            $app->status = WenetApp::STATUS_NOT_ACTIVE;
+            $appToDevMode = true;
+        }
+
+        if (!$model->save()) {
+            $transactionOk = false;
+            Yii::error('Could not delete social login', 'wenet.platform');
+        } else {
+            if($appToDevMode){
+                if(!$app->save()){
+                    $transactionOk = false;
+                    Yii::error('Could not put app ['.$app->id.'] in dev mode', 'wenet.platform');
+                }
+            }
+        }
+
+        if ($transactionOk) {
+            if($appToDevMode){
+                Yii::$app->session->setFlash('warning', Yii::t('app', 'Because there are no platforms available for this app, the app has been automatically setted as "In development" mode.'));
+            }
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Social login successfully deleted.'));
+            $transaction->commit();
+
+            // TODO includ ein transaction!
+            if (isset(Yii::$app->params['kong.ignore']) && Yii::$app->params['kong.ignore']) {
+                # nothing to do
+            } else {
+                Yii::$app->kongConnector->deleteConsumer($model->app_id);
+            }
+
+        } else {
+            Yii::$app->session->setFlash('error', Yii::t('app', 'Could not delete social login.'));
+            $transaction->rollback();
+        }
+        return $this->redirect(['/developer/details', 'id' => $model->app_id]);
     }
 
 }
