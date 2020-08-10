@@ -127,7 +127,7 @@
                 <div class="box_container platform_container">
                     <h3>Telegram</h3>
                     <p>
-                        <?php echo Yii::t('app', 'Bot Username'); ?>:
+                        <?php echo Yii::t('app', 'Bot Username'); # TODO use model label ?>:
                         <strong><?php echo $telegram->bot_username;?></strong>
                     </p>
                     <hr>
@@ -147,7 +147,7 @@
                 <div class="box_container platform_container">
                     <h3>WeNet Social Login</h3>
                     <p>
-                        <?php echo Yii::t('app', 'Callback Url'); ?>:
+                        <?php echo Yii::t('app', 'OAuth2 Callback Url');  # TODO use model label ?>:
                         <strong><?php echo $socialLogin->callback_url   ;?></strong>
                     </p>
                     <hr>

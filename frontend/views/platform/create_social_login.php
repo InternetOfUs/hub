@@ -13,7 +13,7 @@
     if($model->scenario == AppSocialLogin::SCENARIO_CREATE){
         $itemOptions = ['checked' => 'checked'];
     }
-    
+
 ?>
 
 <div class="row">
@@ -28,9 +28,9 @@
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <?php
                         echo $form->field($model, 'callback_url');
-                        echo $form->field($model, 'allowedPublicScope[]')->checkboxList(AuthorisationForm::publicScope(), ['itemOptions' => ['checked' => 'checked', 'disabled' => 'disabled']]);
-                        echo $form->field($model, 'allowedReadScope[]')->checkboxList(AuthorisationForm::readScope(), ['itemOptions' => $itemOptions]);
-                        echo $form->field($model, 'allowedWriteScope[]')->checkboxList(AuthorisationForm::writeScope(), ['itemOptions' => $itemOptions]);
+                        // echo $form->field($model, 'allowedPublicScope[]')->checkboxList(AuthorisationForm::publicScope(), ['itemOptions' => ['checked' => 'checked', 'disabled' => 'disabled']]);
+                        // echo $form->field($model, 'allowedReadScope[]')->checkboxList(AuthorisationForm::readScope(), ['itemOptions' => $itemOptions]);
+                        // echo $form->field($model, 'allowedWriteScope[]')->checkboxList(AuthorisationForm::writeScope(), ['itemOptions' => $itemOptions]);
                     ?>
                 </div>
             </div>

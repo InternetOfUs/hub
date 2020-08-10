@@ -152,27 +152,27 @@ class PlatformController extends Controller {
         $post = Yii::$app->request->post();
 
         if ($model->load($post)) {
-            if($post['AppSocialLogin']['allowedPublicScope'] == "" || $post['AppSocialLogin']['allowedPublicScope'] == null){
-                $model->allowedPublicScope = [];
-            } else {
-                $model->allowedPublicScope = $post['AppSocialLogin']['allowedPublicScope'];
-            }
-
-            if($post['AppSocialLogin']['allowedReadScope'] == "" || $post['AppSocialLogin']['allowedReadScope'] == null){
-                $model->allowedReadScope = [];
-            } else {
-                $model->allowedReadScope = $post['AppSocialLogin']['allowedReadScope'];
-            }
-
-            if($post['AppSocialLogin']['allowedWriteScope'] == "" || $post['AppSocialLogin']['allowedWriteScope'] == null){
-                $model->allowedWriteScope = [];
-            } else {
-                $model->allowedWriteScope = $post['AppSocialLogin']['allowedWriteScope'];
-            }
-
-            $model->scope = [
-                'scope' => array_merge($model->allowedPublicScope, $model->allowedReadScope, $model->allowedWriteScope)
-            ];
+            // if($post['AppSocialLogin']['allowedPublicScope'] == "" || $post['AppSocialLogin']['allowedPublicScope'] == null){
+            //     $model->allowedPublicScope = [];
+            // } else {
+            //     $model->allowedPublicScope = $post['AppSocialLogin']['allowedPublicScope'];
+            // }
+            //
+            // if($post['AppSocialLogin']['allowedReadScope'] == "" || $post['AppSocialLogin']['allowedReadScope'] == null){
+            //     $model->allowedReadScope = [];
+            // } else {
+            //     $model->allowedReadScope = $post['AppSocialLogin']['allowedReadScope'];
+            // }
+            //
+            // if($post['AppSocialLogin']['allowedWriteScope'] == "" || $post['AppSocialLogin']['allowedWriteScope'] == null){
+            //     $model->allowedWriteScope = [];
+            // } else {
+            //     $model->allowedWriteScope = $post['AppSocialLogin']['allowedWriteScope'];
+            // }
+            //
+            // $model->scope = [
+            //     'scope' => array_merge($model->allowedPublicScope, $model->allowedReadScope, $model->allowedWriteScope)
+            // ];
 
             if (isset(Yii::$app->params['kong.ignore']) && Yii::$app->params['kong.ignore']) {
                 $model->oauth_app_id = 'oauthId';
@@ -202,21 +202,21 @@ class PlatformController extends Controller {
         // TODO gestire checkboxes!
         $model->scenario = AppSocialLogin::SCENARIO_UPDATE;
 
-        foreach ($model->scope['scope'] as $scopeItem) {
-            if(in_array($scopeItem, AuthorisationForm::writeScope())){
-                $model->allowedWriteScope[] = $scopeItem;
-            }
+        // foreach ($model->scope['scope'] as $scopeItem) {
+        //     if(in_array($scopeItem, array_keys(AuthorisationForm::writeScope()))){
+        //         $model->allowedWriteScope[] = $scopeItem;
+        //     } else if(in_array($scopeItem, array_keys(AuthorisationForm::readScope()))){
+        //         $model->allowedReadScope[] = $scopeItem;
+        //     }
+        // }
 
-            if(in_array($scopeItem, AuthorisationForm::readScope())){
-                $model->allowedReadScope[] = $scopeItem;
-            }
-        }
-
-        print_r($model);
-        exit();
+        // print_r($model);
+        // exit();
 
 
         if ($model->load(Yii::$app->request->post())) {
+            // print_r($model);
+            // exit();
             if (isset(Yii::$app->params['kong.ignore']) && Yii::$app->params['kong.ignore']) {
                 $model->oauth_app_id = 'oauthId';
             } else {
