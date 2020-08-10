@@ -8,6 +8,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\data\ArrayDataProvider;
 use frontend\models\WenetApp;
+use frontend\models\AppDeveloper;
 
 /**
  * Developer controller
@@ -57,10 +58,14 @@ class DeveloperController extends Controller {
     }
 
     public function actionIndex(){
-        $userApps = WenetApp::find()
-            ->andwhere(['owner_id' => Yii::$app->user->id])
-            ->andWhere(['status' => [WenetApp::STATUS_NOT_ACTIVE, WenetApp::STATUS_ACTIVE]])
-            ->all();
+        $appDevelopers = AppDeveloper::find()->where(['user_id' => Yii::$app->user->id])->all();
+        $userApps = [];
+        foreach ($appDevelopers as $appDeveloper) {
+            $app = $appDeveloper->app;
+            if (\in_array($app->status, [WenetApp::STATUS_NOT_ACTIVE, WenetApp::STATUS_ACTIVE])) {
+                $userApps[] = $app;
+            }
+        }
 
         $provider = new ArrayDataProvider([
             'allModels' => $userApps,
@@ -96,6 +101,10 @@ class DeveloperController extends Controller {
         $model->owner_id = Yii::$app->user->id;
         if ($model->load(Yii::$app->request->post())) {
             if ($model->create()) {
+                $appDeveloper = new AppDeveloper;
+                $appDeveloper->app_id = $model->id;
+                $appDeveloper->user_id = $model->owner_id;
+                $appDeveloper->save();
                 return $this->redirect(['index']);
             } else {
                 // TODO
