@@ -66,17 +66,17 @@ class OauthController extends Controller {
         }
     }
 
-    public function actionLogin($client_id, $scope=null) {
+    public function actionLogin($client_id, $scope=null, $external_id=null) {
         $this->verifyAppExistance($client_id);
 
         $this->layout = "easy.php";
         if (!Yii::$app->user->isGuest) {
-            return $this->redirect(['oauth/authorise', 'client_id' => $client_id, 'scope' => $scope]);
+            return $this->redirect(['oauth/authorise', 'client_id' => $client_id, 'scope' => $scope, 'external_id' => $external_id]);
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->redirect(['oauth/authorise', 'client_id' => $client_id, 'scope' => $scope]);
+            return $this->redirect(['oauth/authorise', 'client_id' => $client_id, 'scope' => $scope, 'external_id' => $external_id]);
         } else {
             $model->password = '';
 
@@ -88,7 +88,7 @@ class OauthController extends Controller {
         }
     }
 
-    public function actionSignup($client_id, $scope=null) {
+    public function actionSignup($client_id, $scope=null, $external_id=null) {
         $this->verifyAppExistance($client_id);
 
         $this->layout = "easy.php";
@@ -98,7 +98,7 @@ class OauthController extends Controller {
             // TODO after fixed email send
             // Yii::$app->session->setFlash('success', Yii::t('signup', 'Thank you for registration. Please check your inbox for verification email.'));
             Yii::$app->session->setFlash('success', Yii::t('signup', 'Thank you for registration.'));
-            return $this->redirect(['login', 'client_id' => $client_id, 'scope' => $scope]);
+            return $this->redirect(['login', 'client_id' => $client_id, 'scope' => $scope, 'external_id' => $external_id]);
         }
 
         return $this->render('signup', [
@@ -108,7 +108,7 @@ class OauthController extends Controller {
         ]);
     }
 
-    public function actionAuthorise($client_id, $scope=null) {
+    public function actionAuthorise($client_id, $scope=null, $external_id=null) {
         $this->layout = "easy.php";
         $model = new AuthorisationForm();
         $model->appId = $client_id;
@@ -129,11 +129,14 @@ class OauthController extends Controller {
             $allowedScope = array_merge(array_keys($model->publicScope()), $model->allowedReadScope, $model->allowedWriteScope);
 
             if (isset(Yii::$app->params['kong.ignore']) && Yii::$app->params['kong.ignore']) {
-                $redirectUri = 'http://google.com';
+                $redirectUri = 'http://google.com?code=123';
             } else {
                 $redirectUri = Yii::$app->kongConnector->createAuthenticatedUser($model->appId, $model->userId, implode(' ', $allowedScope));
             }
             if (isset($redirectUri)) {
+                if ($external_id) {
+                    $redirectUri = $redirectUri . '&external_id=' . $external_id;
+                }
                 $this->redirect($redirectUri);
             } else {
                 # TODO show error page - something went wrong during authorisation

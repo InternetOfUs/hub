@@ -68,7 +68,7 @@
             </table>
             <table class="attribute_container">
                 <tr>
-                    <td><span>token:</span></td>
+                    <td><span>secret:</span></td>
                     <td><pre><?php echo $app->token; ?></pre></td>
                 </tr>
             </table>
