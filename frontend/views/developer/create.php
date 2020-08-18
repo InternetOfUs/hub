@@ -18,20 +18,17 @@
             ])
         ?>
             <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <?php echo $form->field($model, 'name'); ?>
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <?php echo $form->field($model, 'description')->textarea(); ?>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                    <?php echo $form->field($model, 'message_callback_url')->textarea(); ?>
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <?php
                         echo $form->field($model, 'associatedCategories')->widget(Select2::classname(), [
                             'data' => WenetApp::tagsWithLabels(),

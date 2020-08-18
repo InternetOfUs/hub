@@ -105,7 +105,8 @@ class DeveloperController extends Controller {
                 $appDeveloper->app_id = $model->id;
                 $appDeveloper->user_id = $model->owner_id;
                 $appDeveloper->save();
-                return $this->redirect(['index']);
+
+                return $this->redirect(['oauth/create-oauth', 'id' => $model->id]);
             } else {
                 // TODO
                 // Yii::error('Could not create new Wenet APP', '');
