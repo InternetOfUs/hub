@@ -7,12 +7,6 @@
     $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Developer'), 'url' => ['developer/index']];
     $this->params['breadcrumbs'][] = $app->name;
 
-    $showTelegram = false;
-    if($app->hasPlatformTelegram()){
-        $showTelegram = true;
-        $telegram = $app->getPlatformTelegram();
-    }
-
     $showSocialLogin = false;
     if($app->hasSocialLogin()){
         $showSocialLogin = true;
@@ -20,13 +14,35 @@
     }
 ?>
 
-<a href="<?= Url::to(['/developer/update', 'id' => $app->id]); ?>" class="btn btn-primary pull-right" style="margin: -10px 5px 20px 0;">
-    <i class="fa fa-pencil" aria-hidden="true"></i>
-    <?php echo Yii::t('common', 'edit'); ?>
-</a>
+<?php if(!$showSocialLogin){ ?>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="alert alert-warning" role="alert" style="margin-top:-15px;">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> WARNING - Applications require OAuth2 to go live!
+            </div>
+        </div>
+    </div>
+<?php } ?>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <?php if(!$showSocialLogin){ ?>
+            <a href="<?= Url::to(['/oauth/create-oauth', 'id' => $app->id]); ?>" class="btn btn-warning pull-right" style="margin:0 0 0 0;">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                <?php echo Yii::t('app', 'configure OAuth2'); ?>
+            </a>
+        <?php } ?>
+        <a href="<?= Url::to(['/developer/update', 'id' => $app->id]); ?>" class="btn btn-primary pull-right" style="margin: 0 5px 0 0;">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <?php echo Yii::t('common', 'edit app'); ?>
+        </a>
+    </div>
+</div>
 
 <div class="row">
-    <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="app_icon big_icon">
+            <span><?php echo strtoupper($app->name[0]); ?></span>
+        </div>
         <h1>
             <?php echo $app->name; ?>
             <span> | </span>
@@ -38,11 +54,11 @@
                 }
             ?>
         </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
         <p style="margin:20px 0 0 0;"><?php echo $app->description; ?></p>
-        <p style="margin:20px 0 0 0;">
-            <?php echo Yii::t('app', 'Message Callback Url'); ?>:
-            <strong><?php echo $app->message_callback_url;?></strong>
-        </p>
         <?php
             if(count($app->associatedCategories) > 0){
                 $categories = '<ul class="tags_list">';
@@ -58,7 +74,7 @@
 <div class="row" style="margin-top:20px;">
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="box_container">
-            <h3><?php echo Yii::t('app', 'Data ingestion'); ?></h3>
+            <h3><?php echo Yii::t('app', 'App Details'); ?></h3>
             <p><?php echo Yii::t('app', 'To authenticate requests, you will need to include the following parameters in the header of each call:'); ?></p>
             <table class="attribute_container">
                 <tr>
@@ -74,24 +90,21 @@
             </table>
         </div>
     </div>
-    <?php if(count($app->platforms()) >= 1){
-        ?>
+    <?php if($showSocialLogin){ ?>
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
             <div class="box_container">
-                <h3><?php echo Yii::t('app', 'Active users for platform'); ?></h3>
-                <?php
-                    $content = '<table class="active_users_platform">';
-                    foreach ($app->platforms() as $platform) {
-                        $content .= '<tr>';
-                            $content .= '<td><p>'.AppPlatform::typeLabel($platform->type).'</p></td>';
-                            if($platform->type == AppPlatform::TYPE_TELEGRAM){
-                                $content .= '<td><p><strong>'.$app->numberOfActiveUserForTelegram().'</strong> '.Yii::t('common', 'active users').'</p></td>';
-                            }
-                        $content .= '</tr>';
-                    }
-                    $content .= '</table>';
-                    echo $content;
-                ?>
+                <h3>OAuth2 Settings</h3>
+                <p>
+                    <?php echo Yii::t('app', 'Callback Url');  # TODO use model label ?>:
+                    <pre><?php echo $socialLogin->callback_url;?></pre>
+                </p>
+                <hr>
+                <a href="<?= Url::to(['/oauth/delete-oauth', 'id' => $socialLogin->id]); ?>" class="btn delete_btn pull-right" title="<?php echo Yii::t('app', 'Detele OAuth'); ?>">
+                    <i class="fa fa-trash"></i> <?php echo Yii::t('common', 'delete'); ?>
+                </a>
+                <a href="<?= Url::to(['/oauth/update-oauth', 'id' => $socialLogin->id]); ?>" style="margin-right:10px;" class="btn btn-primary pull-right" title="<?php echo Yii::t('common', 'edit'); ?>">
+                    <i class="fa fa-pencil"></i> <?php echo Yii::t('common', 'edit'); ?>
+                </a>
             </div>
         </div>
     <?php } ?>

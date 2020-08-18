@@ -222,7 +222,7 @@ class WenetApp extends \yii\db\ActiveRecord {
     }
 
     public function getSocialLogin() {
-        $socialLogins = AppSocialLogin::find()->where(['app_id' => $this->id, 'status' => AppPlatform::STATUS_ACTIVE])->all();
+        $socialLogins = AppSocialLogin::find()->where(['app_id' => $this->id, 'status' => AppSocialLogin::STATUS_ACTIVE])->all();
         if (count($socialLogins) == 0) {
             return null;
         } else if (count($socialLogins) == 1) {

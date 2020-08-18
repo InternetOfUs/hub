@@ -73,6 +73,8 @@ div.box_container h3{
 
 div.box_container p{margin: 0 0 15px 0;}
 
+div.box_container hr{margin: 15px 0;}
+
 div.easy_layout div.alert{
     margin: 30px auto 0 auto;
     max-width: 400px;
@@ -584,6 +586,36 @@ a span.actionColumn_btn.delete_btn:hover,
     border: 1px solid #d62546;
     color: #fff;
 }
+
+div.app_icon{
+    background-color: #00a3b6;
+    display: inline-block;
+    border-radius: 50%;
+    margin-right: 10px;
+    text-align: center;
+}
+
+div.app_icon span{
+    display: inline-block;
+    margin-top: 4px;
+    color: #fff;
+}
+
+div.big_icon{
+    height: 50px;
+    width: 50px;
+}
+
+div.big_icon span{font-size: 30px;}
+
+div.small_icon{
+    height: 30px;
+    width: 30px;
+}
+
+div.small_icon span{font-size: 16px;}
+
+h1{display: inline-block;}
 
 h1 span{
     font-weight: 200;

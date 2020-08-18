@@ -30,7 +30,15 @@
                 }
             },
         ],
-        'name',
+        [
+            'attribute' => 'name',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return '<div class="app_icon small_icon">
+                            <span>' . strtoupper($data->name[0]) .'</span>
+                        </div>' . $data->name;
+            },
+        ],
         [
             'attribute' => 'categories',
             'format' => 'raw',
@@ -41,12 +49,14 @@
             },
         ],
         [
-            'attribute' => 'platforms',
+            'attribute' => 'OAuth',
             'format' => 'raw',
             'value' => function ($data) {
-                return '<ul class="platform_icons">' . implode(array_map(function($platform){
-                    return '<li><div class="image_container" style="align-self: flex-end"><img src="'.Url::base().'/images/platforms/'.$platform->type.'.png" alt="'. Yii::t('title', 'platform icon') .'"></div></li>';
-                }, $data->platforms()), '') . '</ul>';
+                if($data->hasSocialLogin()){
+                    return '<i class="fa fa-check" aria-hidden="true"></i>';
+                } else {
+                    return Yii::t('app', 'to be configured');
+                }
             },
         ],
         [
