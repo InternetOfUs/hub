@@ -5,41 +5,23 @@
     use frontend\models\AuthorisationForm;
     use frontend\models\AppSocialLogin;
 
-    $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'OAuth configuration');
+    $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Conversational Connector');
     $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Developer'), 'url' => ['/developer/index']];
     $this->params['breadcrumbs'][] = ['label' => $app->name, 'url' => ['/developer/details', 'id' => $app->id]];
-    $this->params['breadcrumbs'][] = Yii::t('common', 'OAuth configuration');
-
-    $itemOptions = [];
-    if($model->scenario == AppSocialLogin::SCENARIO_CREATE){
-        $itemOptions = ['checked' => 'checked'];
-    }
+    $this->params['breadcrumbs'][] = Yii::t('common', 'Conversational Connector');
 ?>
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <?php
             $form = ActiveForm::begin([
-                'id' => 'create-oauth-form',
+                'id' => 'conversational-connector-form',
                 'options' => ['class' => ''],
             ])
         ?>
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <?php echo $form->field($model, 'callback_url'); ?>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <?php
-                        echo $form->field($model, 'allowedScopes')->widget(Select2::classname(), [
-                            'data' => AuthorisationForm::scope(),
-                            'options' => [
-                                'placeholder' => Yii::t('app', 'Select permissions ...'),
-                                'multiple' => true
-                            ],
-                        ]);
-                    ?>
+                    <?php echo $form->field($app, 'message_callback_url'); ?>
                 </div>
             </div>
             <div class="row">

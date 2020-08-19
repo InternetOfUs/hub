@@ -95,7 +95,7 @@
             <div class="box_container">
                 <h3>OAuth2 Settings</h3>
                 <p>
-                    <?php echo Yii::t('app', 'Callback Url'); ?>:
+                    <strong><?php echo Yii::t('app', 'Callback Url'); ?>:</strong>
                     <pre><?php echo $socialLogin->callback_url;?></pre>
                 </p>
                 <hr>
@@ -110,46 +110,16 @@
     <?php } ?>
 </div>
 
-<!-- connectors -->
 <?php if($showSocialLogin){ ?>
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <hr>
-            <h4 class="oauth_info_title" style="margin-bottom:20px;"><?php echo Yii::t('app', 'Connectors'); ?></h4>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-            <div class="box_container">
-                <h3>Conversational</h3>
-                <p>
-                    text placeholder
-                    <?php //echo Yii::t('app', '...'); ?>
-                </p>
-                message_callback_url
-                <hr>
-                <a href="<?= Url::to(['/oauth/update-conversational-connector', 'id' => $socialLogin->id]); ?>" style="margin-right:10px;" class="btn btn-primary pull-right" title="<?php echo Yii::t('common', 'edit'); ?>">
-                    <i class="fa fa-pencil"></i> <?php echo Yii::t('common', 'edit'); ?>
-                </a>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-            <div class="box_container">
-                <h3>Data</h3>
-                <p>
-                    text placeholder
-                    <?php //echo Yii::t('app', '...'); ?>
-                </p>
-                switch per abilitare
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <hr>
-        </div>
-    </div>
+    <!-- connectors -->
+    <?php echo Yii::$app->controller->renderPartial('_connectors', ['app' => $app]); ?>
 
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <hr>
+        </div>
+    </div>
+    
     <!-- OAuth - guiding steps -->
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

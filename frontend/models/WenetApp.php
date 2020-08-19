@@ -12,6 +12,9 @@ use yii\helpers\Json;
  *
  * @property string $id
  * @property int $status
+ * @property int $data_connector
+ * @property int $conversational_connector
+ * @property int $status
  * @property string $name
  * @property string|null $description
  * @property string $token
@@ -32,8 +35,19 @@ class WenetApp extends \yii\db\ActiveRecord {
     const STATUS_ACTIVE = 1;
     const STATUS_DELETED = 2;
 
+    const NOT_ACTIVE_CONNECTOR = 0;
+    const ACTIVE_CONNECTOR = 1;
+
     const TAG_SOCIAL = 'social';
     const TAG_ASSISTANCE = 'assistance';
+
+    const SCENARIO_CONVERSATIONAL = 'conversational';
+
+    public function scenarios() {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_CONVERSATIONAL] = ['message_callback_url'];
+        return $scenarios;
+    }
 
     /**
      * {@inheritdoc}
@@ -47,8 +61,10 @@ class WenetApp extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
+            [['message_callback_url'], 'required', 'on' => self::SCENARIO_CONVERSATIONAL],
+
             [['id', 'token', 'name', 'status', 'owner_id'], 'required'],
-            [['status', 'created_at', 'updated_at', 'owner_id'], 'integer'],
+            [['status', 'created_at', 'updated_at', 'owner_id', 'data_connector', 'conversational_connector'], 'integer'],
             [['description', 'message_callback_url', 'metadata'], 'string'],
             [['id'], 'string', 'max' => 128],
             [['name', 'token'], 'string', 'max' => 512],
@@ -94,6 +110,8 @@ class WenetApp extends \yii\db\ActiveRecord {
             'owner_id' => Yii::t('app', 'Owner ID'),
             'categories' => Yii::t('app', 'Categories'),
             'platforms' => Yii::t('app', 'Platforms'),
+            'data_connector' => Yii::t('app', 'Data connector'),
+            'conversational_connector' => Yii::t('app', 'Conversational connector'),
         ];
     }
 

@@ -35,7 +35,7 @@ class OauthController extends Controller {
                         'actions' => [
                             'authorise', 'create-oauth', 'update-oauth', 'delete-oauth'
                         ],
-                        'allow' => true,
+                        'allow' => !Yii::$app->user->isGuest && Yii::$app->user->getIdentity()->isDeveloper(),
                         'roles' => ['@'],
                     ],
                 ],
@@ -254,5 +254,6 @@ class OauthController extends Controller {
         }
         return $this->redirect(['/developer/details', 'id' => $model->app_id]);
     }
+
 
 }
