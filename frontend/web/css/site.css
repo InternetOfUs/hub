@@ -45,8 +45,18 @@ a.normal_link{
 a.normal_link:hover{color: #4c5363;}
 
 p{font-weight: 300;}
+
 p.light{color: #888;}
 p a{color: #00a3b6;}
+
+ol{margin: 30px 0 0 15px;}
+
+ol li{
+    margin-bottom: 10px;
+    font-weight: 300;
+}
+
+ol li pre{margin: 10px 0 20px 0;}
 
 table{width: 100%;}
 ul{list-style-type: none;}

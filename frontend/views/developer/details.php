@@ -95,11 +95,11 @@
             <div class="box_container">
                 <h3>OAuth2 Settings</h3>
                 <p>
-                    <?php echo Yii::t('app', 'Callback Url');  # TODO use model label ?>:
+                    <?php echo Yii::t('app', 'Callback Url'); ?>:
                     <pre><?php echo $socialLogin->callback_url;?></pre>
                 </p>
                 <hr>
-                <a href="<?= Url::to(['/oauth/delete-oauth', 'id' => $socialLogin->id]); ?>" class="btn delete_btn pull-right" title="<?php echo Yii::t('app', 'Detele OAuth'); ?>">
+                <a href="<?= Url::to(['/oauth/delete-oauth', 'id' => $socialLogin->id]); ?>" class="btn delete_btn pull-right" title="<?php echo Yii::t('app', 'Detele OAuth2'); ?>">
                     <i class="fa fa-trash"></i> <?php echo Yii::t('common', 'delete'); ?>
                 </a>
                 <a href="<?= Url::to(['/oauth/update-oauth', 'id' => $socialLogin->id]); ?>" style="margin-right:10px;" class="btn btn-primary pull-right" title="<?php echo Yii::t('common', 'edit'); ?>">
@@ -110,68 +110,125 @@
     <?php } ?>
 </div>
 
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <hr>
-        <?php if(!$showTelegram){ ?>
-            <a href="<?= Url::to(['/platform/create-telegram', 'id' => $app->id]); ?>" class="btn btn-primary telegram_color pull-right" style="margin:0 0 0 10px;">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-                <?php echo Yii::t('app', 'add Telegram'); ?>
-            </a>
-        <?php } ?>
-        <?php if(!$showSocialLogin){ ?>
-            <a href="<?= Url::to(['/platform/create-social-login', 'id' => $app->id]); ?>" class="btn btn-primary telegram_color pull-right" style="margin:0 0 0 10px;">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-                <?php echo Yii::t('app', 'add Wenet social login'); ?>
-            </a>
-        <?php } ?>
-    </div>
-</div>
-
-<?php if(count($app->platforms()) >= 1){ ?>
+<!-- connectors -->
+<?php if($showSocialLogin){ ?>
     <div class="row">
-        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-            <h2 style="margin-bottom: 15px; font-size:20px;"><?php echo Yii::t('app', 'Connected platforms'); ?></h2>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <hr>
+            <h4 class="oauth_info_title" style="margin-bottom:20px;"><?php echo Yii::t('app', 'Connectors'); ?></h4>
         </div>
     </div>
     <div class="row">
-        <?php if($showTelegram){ ?>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <div class="box_container platform_container">
-                    <h3>Telegram</h3>
-                    <p>
-                        <?php echo Yii::t('app', 'Bot Username'); # TODO use model label ?>:
-                        <strong><?php echo $telegram->bot_username;?></strong>
-                    </p>
-                    <hr>
-                    <p><?php echo Yii::t('app', 'Don\'t forget to send the /setdomain command to @Botfather to link {domain} domain to the bot.', [
-                        'domain' => parse_url(Url::base('https'), PHP_URL_SCHEME) . '://' . parse_url(Url::base('https'), PHP_URL_HOST),
-                    ]); ?></p>
-                    <a class="normal_link" href="https://core.telegram.org/widgets/login#linking-your-domain-to-the-bot" target="_blank"><?php echo Yii::t('app', 'More info'); ?></a>
-                    <hr>
-                    <a href="<?= Url::to(['/platform/delete-telegram', 'id' => $telegram->id]); ?>" class="btn delete_btn pull-right" title="<?php echo Yii::t('app', 'Detele platform'); ?>">
-                        <i class="fa fa-trash"></i> <?php echo Yii::t('common', 'delete'); ?>
-                    </a>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="box_container">
+                <h3>Conversational</h3>
+                <p>
+                    text placeholder
+                    <?php //echo Yii::t('app', '...'); ?>
+                </p>
+                message_callback_url
+                <hr>
+                <a href="<?= Url::to(['/oauth/update-conversational-connector', 'id' => $socialLogin->id]); ?>" style="margin-right:10px;" class="btn btn-primary pull-right" title="<?php echo Yii::t('common', 'edit'); ?>">
+                    <i class="fa fa-pencil"></i> <?php echo Yii::t('common', 'edit'); ?>
+                </a>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="box_container">
+                <h3>Data</h3>
+                <p>
+                    text placeholder
+                    <?php //echo Yii::t('app', '...'); ?>
+                </p>
+                switch per abilitare
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <hr>
+        </div>
+    </div>
+
+    <!-- OAuth - guiding steps -->
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="box_container">
+                <h3 class="oauth_info_title">
+                    <?php echo Yii::t('app', 'Configuration of the WeNet OAuth2 - guiding steps'); ?>
+                    <i class="fa fa-chevron-down" aria-hidden="true" style="float:right;"></i>
+                </h3>
+                <div class="oauth_info_content">
+                    <p><?php echo Yii::t('app', 'In order to complete the integration of WeNet OAuth2 in your application you need to:'); ?></p>
+                    <ol>
+                        <li>
+                            <?php echo Yii::t('app', 'Redirect your users to link to'); ?>
+                            <pre><?php echo Url::home(true) . 'oauth/login?client_id=' . $app->id; ?></pre>
+                        </li>
+                        <li>
+                            <?php echo Yii::t('app', 'Prepare a dedicated endpoint in your application backend where the {OAuth2_code} for your users will be provided', [
+                                'OAuth2_code' => '<strong>OAuth2 code</strong>'
+                            ]); ?>
+                        </li>
+                        <li>
+                            <?php echo Yii::t('app', 'Use the {code} for requesting the user {token} and {refresh_token} (you can complete this step by taking advantage of your preferred OAuth2 client) to link to', [
+                                'code' => '<strong>code</strong>',
+                                'token' => '<strong>token</strong>',
+                                'refresh_token' => '<strong>refresh_token</strong>'
+                            ]); ?>
+                            <pre><?php echo Yii::$app->params['api.base.url'] . '/oauth2/token'; ?></pre>
+                            <span>Example with your application data:</span>
+                            <pre>curl -X POST \
+      --url "https://wenet.u-hopper.com/prod/api/oauth/token" \
+      --data "grant_type=authorization_code" \
+      --data "client_id=<?php echo $app->id; ?>" \
+      --data "client_secret=<?php echo $app->token; ?>" \
+      --data "code=<strong>&lt;the code you got in step 2&gt;</strong>"</pre>
+                        </li>
+                        <li>
+                            <?php echo Yii::t('app', 'Upon successful authentication, you can optionally redirect your user to the WeNet OAuth2 complete page'); ?>
+                            <pre><?php echo Url::home(true) . 'oauth/complete'; ?></pre>
+                        </li>
+                        <li>
+                            <?php echo Yii::t('app', 'Include the token in your requests to the platform in the header:'); ?>
+                            <pre>--header "Authorization: bearer <strong>&lt;access token&gt;</strong>"</pre>
+                        </li>
+                        <li>
+                            <?php echo Yii::t('app', 'Upon token expiration, take advantage of the refresh token or redirect the user through the social login flow again to get a new valid token'); ?>
+                        </li>
+                    </ol>
                 </div>
             </div>
-        <?php } ?>
-        <?php if($showSocialLogin){ ?>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <div class="box_container platform_container">
-                    <h3>WeNet Social Login</h3>
-                    <p>
-                        <?php echo Yii::t('app', 'OAuth2 Callback Url');  # TODO use model label ?>:
-                        <strong><?php echo $socialLogin->callback_url   ;?></strong>
-                    </p>
-                    <hr>
-                    <a href="<?= Url::to(['/platform/delete-social-login', 'id' => $socialLogin->id]); ?>" class="btn delete_btn pull-right" title="<?php echo Yii::t('app', 'Detele platform'); ?>">
-                        <i class="fa fa-trash"></i> <?php echo Yii::t('common', 'delete'); ?>
-                    </a>
-                    <a href="<?= Url::to(['/platform/update-social-login', 'id' => $socialLogin->id]); ?>" style="margin-right:10px;" class="btn btn-primary pull-right" title="<?php echo Yii::t('common', 'edit'); ?>">
-                        <i class="fa fa-pencil"></i> <?php echo Yii::t('common', 'edit'); ?>
-                    </a>
-                </div>
-            </div>
-        <?php } ?>
+        </div>
     </div>
 <?php } ?>
+
+<script type="text/javascript">
+
+    $('.oauth_info_title').click(function() {
+        if($('.oauth_info_content').hasClass('show')){
+            $('.oauth_info_content').removeClass('show');
+        } else {
+            $('.oauth_info_content').addClass('show');
+        }
+    });
+
+</script>
+
+<style media="screen">
+
+    div.box_container h3.oauth_info_title{
+        margin-bottom: 0px !important;
+        cursor: pointer;
+    }
+
+    .oauth_info_content{
+        overflow: hidden;
+        height: 0px;
+    }
+
+    .oauth_info_content.show{
+        padding-top: 10px;
+        height: auto;
+    }
+</style>
