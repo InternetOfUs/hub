@@ -157,6 +157,8 @@ class OauthController extends Controller {
     public function actionCreateOauth($id){
         $app = WenetApp::find()->where(["id" => $id])->one();
 
+        // TODO check if there are other active social_login!!! non dovrebbe succedere (almeno non da interfaccia ma non si sa mai!)
+
         $model = new AppSocialLogin;
         $model->app_id = $id;
         $model->status = AppSocialLogin::STATUS_ACTIVE;
@@ -242,18 +244,23 @@ class OauthController extends Controller {
         $connection = \Yii::$app->db;
         $transaction = $connection->beginTransaction();
         $transactionOk = true;
-        $appToDevMode = false;
+        $appToDevMode = true;
 
         $model = AppSocialLogin::find()->where(["id" => $id])->one();
+        $app = WenetApp::find()->where(["id" => $model->app_id])->one();
         $model->status = AppSocialLogin::STATUS_NOT_ACTIVE;
-
-        // TODO disabilitare anche i connettori
 
         if (!$model->save()) {
             $transactionOk = false;
             Yii::error('Could not delete oauth', 'wenet.platform');
         } else {
             if($appToDevMode){
+                if($app->conversational_connector == WenetApp::ACTIVE_CONNECTOR){
+                    $app->conversational_connector = WenetApp::NOT_ACTIVE_CONNECTOR;
+                }
+                if($app->data_connector == WenetApp::ACTIVE_CONNECTOR){
+                    $app->data_connector = WenetApp::NOT_ACTIVE_CONNECTOR;
+                }
                 if(!$app->save()){
                     $transactionOk = false;
                     Yii::error('Could not put app ['.$app->id.'] in dev mode', 'wenet.platform');
