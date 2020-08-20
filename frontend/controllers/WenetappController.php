@@ -7,8 +7,6 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use frontend\models\WenetApp;
-use frontend\models\AppPlatformTelegram;
-use frontend\models\UserAccountTelegram;
 use frontend\components\AppConnector;
 
 /**
@@ -24,12 +22,12 @@ class WenetappController extends Controller {
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => [
-                    'index', 'details', 'associate-telegram-user', 'disassociate-telegram-user',
+                    'index', 'details'
                 ],
                 'rules' => [
                     [
                         'actions' => [
-                            'index', 'details', 'associate-telegram-user', 'disassociate-telegram-user',
+                            'index', 'details'
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -59,6 +57,7 @@ class WenetappController extends Controller {
     }
 
     public function actionIndex($platforms=null, $tags=null) {
+        // TODO remove platforms?
         $activePlatformsList = array();
 		$activeTagsList = array();
 
@@ -84,85 +83,10 @@ class WenetappController extends Controller {
         if(!$app){
             throw new NotFoundHttpException('The specified app cannot be found.');
 		} else {
-            $telegramPlatforms = AppPlatformTelegram::find()->where(['app_id' => $app->id])->all();
 			return $this->render('details', array(
                 'app' => $app
             ));
 		}
 	}
-
-    public function actionAssociateTelegramUser() {
-        $data = Yii::$app->request->post();
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-        if ($data['platform'] == 'telegram') {
-            $account = UserAccountTelegram::find()->where([
-                'app_id' => $data['appId'],
-                'user_id' => $data['userId'],
-                'telegram_id' => $data['platformId'],
-            ])->one();
-
-            if (!$account) {
-                $account = new UserAccountTelegram();
-                $account->user_id = $data['userId'];
-                $account->app_id = $data['appId'];
-                $account->telegram_id = $data['platformId'];
-            }
-
-            $account->active = UserAccountTelegram::ACTIVE;
-
-            if ($account->save()) {
-                $connector = new AppConnector();
-                $connector->newUserForPlatform($account->app, 'telegram', Yii::$app->user->id);
-                return [
-                    'message' => 'saved',
-                ];
-            } else {
-                Yii::warning('Could not save new telegram account');
-                Yii::$app->response->statusCode = 400;
-                return [
-                    'message' => Yii::t('app', 'There is a problem with the Telegram login. Please retry later.'),
-                ];
-            }
-        } else {
-            Yii::warning('Unsupported platform provided');
-            Yii::$app->response->statusCode = 400;
-            return [
-                'message' => Yii::t('app', 'Error, please retry later.'),
-            ];
-        }
-    }
-
-    public function actionDisassociateTelegramUser() {
-        $data = Yii::$app->request->post();
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-        if ($data['platform'] == 'telegram') {
-            $account = UserAccountTelegram::find()->where([
-                'app_id' => $data['appId'],
-                'user_id' => $data['userId'],
-            ])->one();
-
-            $account->active = UserAccountTelegram::NOT_ACTIVE;
-
-            if ($account->save()) {
-                return [
-                    'message' => 'disabled',
-                ];
-            } else {
-                Yii::warning('Could not disable telegram account');
-                Yii::$app->response->statusCode = 400;
-                return [
-                    'message' => Yii::t('app', 'There is a problem with the Telegram logout. Please retry later.'),
-                ];
-            }
-        } else {
-            Yii::warning('Unsupported platform provided');
-            Yii::$app->response->statusCode = 400;
-            return [
-                'message' => Yii::t('app', 'Error, please retry later.'),
-            ];
-        }
-    }
 
 }

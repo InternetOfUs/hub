@@ -111,7 +111,6 @@ class WenetApp extends \yii\db\ActiveRecord {
             'updated_at' => Yii::t('app', 'Updated At'),
             'owner_id' => Yii::t('app', 'Owner ID'),
             'categories' => Yii::t('app', 'Categories'),
-            'platforms' => Yii::t('app', 'Platforms'),
             'data_connector' => Yii::t('app', 'Data connector'),
             'conversational_connector' => Yii::t('app', 'Conversational connector'),
         ];

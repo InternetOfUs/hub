@@ -1,7 +1,6 @@
 <?php
     use yii\helpers\Url;
     use frontend\models\WenetApp;
-    use frontend\models\AppPlatform;
 
     $this->title = Yii::$app->name . ' | ' . $app->name;
     $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Developer'), 'url' => ['developer/index']];
