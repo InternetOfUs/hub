@@ -270,7 +270,7 @@ class OauthController extends Controller {
 
         if ($transactionOk) {
             if($appToDevMode){
-                Yii::$app->session->setFlash('warning', Yii::t('app', 'Because OAuth2 is required for the app, the app has been automatically setted as "In development" mode.'));
+                Yii::$app->session->setFlash('warning', Yii::t('app', 'Because OAuth2 is required for the app, the app has been automatically set as "In development" mode.'));
             }
             Yii::$app->session->setFlash('success', Yii::t('app', 'OAuth2 successfully deleted.'));
             $transaction->commit();

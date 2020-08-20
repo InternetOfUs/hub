@@ -23,7 +23,7 @@
 <div class="row">
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="box_container">
-            <h3>Conversational</h3>
+            <h3><?php echo Yii::t('app', 'Conversational'); ?></h3>
             <?php if($app->message_callback_url === null) { ?>
                 <hr>
                 <a
@@ -71,10 +71,10 @@
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="box_container">
-            <h3>Data</h3>
+            <h3><?php echo Yii::t('app', 'Data'); ?></h3>
             <?php if(!$app->hasWritePermit()){ ?>
                 <div class="alert alert-warning" role="alert">
-                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> WARNING - The data pusher connector require at least one write permit to be requested during the OAuth2 authentication phase!
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <?php echo Yii::t('app', 'WARNING - The data pusher connector require at least one write permit to be requested during the OAuth2 authentication phase!'); ?>
                 </div>
             <?php } else {?>
                 <hr>

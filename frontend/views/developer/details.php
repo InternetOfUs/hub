@@ -17,7 +17,7 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="alert alert-warning" role="alert" style="margin-top:-15px;">
-                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> WARNING - Applications require OAuth2 to go live!
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <?php echo Yii::t('app', 'WARNING - Applications require OAuth2 to go live!'); ?>
             </div>
         </div>
     </div>
@@ -92,7 +92,7 @@
     <?php if($showSocialLogin){ ?>
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
             <div class="box_container">
-                <h3>OAuth2 Settings</h3>
+                <h3><?php echo Yii::t('app', 'OAuth2 Settings'); ?></h3>
                 <p>
                     <strong><?php echo Yii::t('app', 'Callback Url'); ?>:</strong>
                     <pre><?php echo $socialLogin->callback_url;?></pre>
@@ -118,7 +118,7 @@
             <hr>
         </div>
     </div>
-    
+
     <!-- OAuth - guiding steps -->
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -146,7 +146,7 @@
                                 'refresh_token' => '<strong>refresh_token</strong>'
                             ]); ?>
                             <pre><?php echo Yii::$app->params['api.base.url'] . '/oauth2/token'; ?></pre>
-                            <span>Example with your application data:</span>
+                            <span><?php echo Yii::t('app', 'Example with your application data'); ?>:</span>
                             <pre>curl -X POST \
       --url "https://wenet.u-hopper.com/prod/api/oauth/token" \
       --data "grant_type=authorization_code" \

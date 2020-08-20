@@ -49,7 +49,7 @@
             },
         ],
         [
-            'label' => 'OAuth2',
+            'label' => Yii::t('app', 'OAuth2'),
             'format' => 'raw',
             'value' => function ($data) {
                 if($data->hasSocialLogin()){
