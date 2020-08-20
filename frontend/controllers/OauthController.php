@@ -22,12 +22,12 @@ class OauthController extends Controller {
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => [
-                    'login', 'signup', 'authorise',
+                    'login', 'signup', 'authorise', 'complete',
                     'create-oauth', 'update-oauth', 'delete-oauth'
                 ],
                 'rules' => [
                     [
-                        'actions' => ['login', 'signup'],
+                        'actions' => ['login', 'signup', 'complete'],
                         'allow' => true,
                         'roles' => ['?', '@'],
                     ],
@@ -151,6 +151,23 @@ class OauthController extends Controller {
 
         return $this->render('authorise', [
             'model' => $model,
+        ]);
+    }
+
+    public function actionComplete($redirect_url=null, $error_message=null) {
+        $this->layout = "easy.php";
+
+        if(!isset($redirect_url)){
+            $redirect_url = "";
+        }
+
+        if(!isset($error_message)){
+            $error_message = false;
+        }
+
+        return $this->render('complete', [
+            'redirect_url' => $redirect_url,
+            'error_message' => $error_message
         ]);
     }
 
