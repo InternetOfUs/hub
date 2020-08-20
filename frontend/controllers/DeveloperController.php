@@ -114,8 +114,7 @@ class DeveloperController extends Controller {
 
                 return $this->redirect(['oauth/create-oauth', 'id' => $model->id]);
             } else {
-                // TODO
-                // Yii::error('Could not create new Wenet APP', '');
+                // TODO Yii::error('Could not create new Wenet APP', '');
                 Yii::$app->session->setFlash('error', Yii::t('app', 'Could not create app.'));
             }
         }

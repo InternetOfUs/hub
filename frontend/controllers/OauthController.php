@@ -172,8 +172,7 @@ class OauthController extends Controller {
             if ($model->save()) {
                 return $this->redirect(['/developer/details', 'id' => $id]);
             } else {
-                // TODO
-                // Yii::error('Could not add social login', '');
+                // TODO Yii::error('Could not add social login', '');
                 Yii::$app->session->setFlash('error', Yii::t('app', 'Could not add social login.'));
             }
         }
@@ -185,9 +184,13 @@ class OauthController extends Controller {
     }
 
     public function actionUpdateOauth($id){
+        $connection = \Yii::$app->db;
+        $transaction = $connection->beginTransaction();
+        $transactionOk = true;
+        $dataConnectorDisable = false;
+
         $model = AppSocialLogin::find()->where(["id" => $id])->one();
         $app = WenetApp::find()->where(["id" => $model->app_id])->one();
-
         $model->scenario = AppSocialLogin::SCENARIO_UPDATE;
 
         if ($model->load(Yii::$app->request->post())) {
@@ -198,12 +201,36 @@ class OauthController extends Controller {
                 $model->oauth_app_id = Yii::$app->kongConnector->createOAuthCredentials($app->id, $app->token, $model->callback_url);
             }
 
-            if ($model->save()) {
-                return $this->redirect(['/developer/details', "id" => $model->app_id]);
+            if (!$model->save()) {
+                $transactionOk = false;
+                Yii::error('Could not update oauth', 'wenet.platform');
             } else {
-                print_r($model);
-                exit();
+                if(!$app->hasWritePermit() && $app->data_connector == WenetApp::ACTIVE_CONNECTOR){
+                    $dataConnectorDisable = true;
+                    $app->data_connector = WenetApp::NOT_ACTIVE_CONNECTOR;
+                }
+
+                if($dataConnectorDisable){
+                    if(!$app->save()){
+                        $transactionOk = false;
+                        Yii::error('Could not disable data connector', 'wenet.platform');
+                    }
+                }
             }
+
+            if ($transactionOk) {
+                if($dataConnectorDisable){
+                    Yii::$app->session->setFlash('warning', Yii::t('app', 'Data connector disabled'));
+                }
+                Yii::$app->session->setFlash('success', Yii::t('app', 'OAuth2 successfully updated.'));
+                $transaction->commit();
+            } else {
+                Yii::$app->session->setFlash('error', Yii::t('app', 'Error'));
+                $transaction->rollback();
+            }
+
+            return $this->redirect(['/developer/details', "id" => $model->app_id]);
+
         }
         return $this->render('create_oauth', [
             'model' => $model,
@@ -236,9 +263,9 @@ class OauthController extends Controller {
 
         if ($transactionOk) {
             if($appToDevMode){
-                Yii::$app->session->setFlash('warning', Yii::t('app', 'Because OAuth is required for the app, the app has been automatically setted as "In development" mode.'));
+                Yii::$app->session->setFlash('warning', Yii::t('app', 'Because OAuth2 is required for the app, the app has been automatically setted as "In development" mode.'));
             }
-            Yii::$app->session->setFlash('success', Yii::t('app', 'OAuth successfully deleted.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'OAuth2 successfully deleted.'));
             $transaction->commit();
 
             // TODO include in transaction!
@@ -249,7 +276,7 @@ class OauthController extends Controller {
             }
 
         } else {
-            Yii::$app->session->setFlash('error', Yii::t('app', 'Could not delete OAuth.'));
+            Yii::$app->session->setFlash('error', Yii::t('app', 'Could not delete OAuth2.'));
             $transaction->rollback();
         }
         return $this->redirect(['/developer/details', 'id' => $model->app_id]);

@@ -5,7 +5,13 @@
     use frontend\models\WenetApp;
 
     $class = 'hidden_content';
-    if($app->conversational_connector === WenetApp::ACTIVE_CONNECTOR){ $class = ''; }
+    $display = 'none';
+    if($app->conversational_connector === WenetApp::ACTIVE_CONNECTOR){
+        $class = '';
+        $display = 'block';
+    }
+
+    if($app->conversational_connector === WenetApp::ACTIVE_CONNECTOR){ $disabled = ''; }
 ?>
 
 <div class="row">
@@ -20,7 +26,12 @@
             <h3>Conversational</h3>
             <?php if($app->message_callback_url === null) { ?>
                 <hr>
-                <a href="<?= Url::to(['/developer/conversational-connector', 'id' => $app->id]); ?>" style="margin-right:10px;" class="btn btn-primary pull-right" title="<?php echo Yii::t('common', 'add'); ?>">
+                <a
+                    href="<?= Url::to(['/developer/conversational-connector', 'id' => $app->id]); ?>"
+                    style="margin-right:10px;"
+                    class="btn btn-primary pull-right"
+                    title="<?php echo Yii::t('common', 'add'); ?>"
+                >
                     <i class="fa fa-plus"></i> <?php echo Yii::t('common', 'add'); ?>
                 </a>
             <?php } else { ?>
@@ -47,7 +58,12 @@
                         ]
                     ])->label(false); ?>
                 <?php ActiveForm::end() ?>
-                <a href="<?= Url::to(['/developer/conversational-connector', 'id' => $app->id]); ?>" style="margin-right:10px;" class="btn btn-primary pull-right" title="<?php echo Yii::t('common', 'edit'); ?>">
+                <a
+                    href="<?= Url::to(['/developer/conversational-connector', 'id' => $app->id]); ?>"
+                    style="margin-bottom:10px; display: <?php echo $display; ?>"
+                    class="edit_conversational btn btn-primary pull-right"
+                    title="<?php echo Yii::t('common', 'edit'); ?>"
+                >
                     <i class="fa fa-pencil"></i> <?php echo Yii::t('common', 'edit'); ?>
                 </a>
             <?php } ?>
@@ -56,23 +72,29 @@
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="box_container">
             <h3>Data</h3>
-            <hr>
-            <?php
-                $form = ActiveForm::begin([
-                    'id' => 'switch-form',
-                    'options' => ['class' => ''],
-                ])
-            ?>
-                <?php echo $form->field($app, 'data_connector')->widget(SwitchInput::classname(), [
-                    'pluginEvents' => [
-                        'switchChange.bootstrapSwitch' => "function(e){sendDataRequest(e.currentTarget.checked);}"
-                    ],
-                    'pluginOptions' => [
-                        'onText' => Yii::t('app', 'Enabled'),
-                        'offText' => Yii::t('app', 'Disabled')
-                    ]
-                ])->label(false); ?>
-            <?php ActiveForm::end() ?>
+            <?php if(!$app->hasWritePermit()){ ?>
+                <div class="alert alert-warning" role="alert">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> WARNING - The data pusher connector require at least one write permit to be requested during the OAuth2 authentication phase!
+                </div>
+            <?php } else {?>
+                <hr>
+                <?php
+                    $form = ActiveForm::begin([
+                        'id' => 'switch-form',
+                        'options' => ['class' => ''],
+                    ])
+                ?>
+                    <?php echo $form->field($app, 'data_connector')->widget(SwitchInput::classname(), [
+                        'pluginEvents' => [
+                            'switchChange.bootstrapSwitch' => "function(e){sendDataRequest(e.currentTarget.checked);}"
+                        ],
+                        'pluginOptions' => [
+                            'onText' => Yii::t('app', 'Enabled'),
+                            'offText' => Yii::t('app', 'Disabled')
+                        ]
+                    ])->label(false); ?>
+                <?php ActiveForm::end() ?>
+            <?php } ?>
         </div>
     </div>
 </div>
@@ -91,8 +113,10 @@
             success:function(data){
                 if($('.disabler').hasClass('hidden_content')){
                     $('.disabler').removeClass('hidden_content');
+                    $( ".edit_conversational" ).css( "display", "block" );
                 } else {
                     $('.disabler').addClass('hidden_content');
+                    $( ".edit_conversational" ).css( "display", "none" );
                 }
             },
             error:function(jqXhr,status,error){
@@ -125,5 +149,5 @@
 
     #switch-form{float: left;}
     div.disabler.hidden_content{opacity: 0.5;}
-    
+
 </style>

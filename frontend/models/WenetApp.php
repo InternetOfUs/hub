@@ -4,6 +4,7 @@ namespace frontend\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use frontend\models\AuthorisationForm;
 use common\models\User;
 use yii\helpers\Json;
 
@@ -85,6 +86,7 @@ class WenetApp extends \yii\db\ActiveRecord {
                 if($this->message_callback_url == null){
                     $this->addError('message_callback_url', Yii::t('app', 'Message Callback Url cannot be blank.'));
                 }
+                //  TODO fix the controls
                 if(count($this->platforms()) == 0){
                     $this->addError('status', Yii::t('app', 'You should enable at least one platform to go live with the app.'));
                 }
@@ -151,13 +153,6 @@ class WenetApp extends \yii\db\ActiveRecord {
         return $tagData;
     }
 
-    public function numberOfActiveUserForTelegram() {
-        return count(UserAccountTelegram::find()->where([
-            'app_id' => $this->id,
-            'active' => UserAccountTelegram::ACTIVE
-        ])->all());
-    }
-
     public static function numberOfActiveApps() {
         return count(WenetApp::find()->where(['status' => self::STATUS_ACTIVE])->all());
     }
@@ -170,69 +165,8 @@ class WenetApp extends \yii\db\ActiveRecord {
         return WenetApp::find()->where(['status' => self::STATUS_ACTIVE])->all();
     }
 
-    public function platforms() {
-        $platforms = [];
-        $telegramPlatform = $this->getPlatformTelegram();
-        if ($telegramPlatform) {
-            $platforms[] = $telegramPlatform;
-        }
-        $socailLoginPlatform = $this->getSocialLogin();
-        if ($socailLoginPlatform) {
-            $platforms[] = $socailLoginPlatform;
-        }
-        return $platforms;
-    }
-
-    public function hasPlatformTelegram() {
-        if ($this->getPlatformTelegram()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public function hasSocialLogin() {
         if ($this->getSocialLogin()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Get the enabled telegram platform, if defined.
-     * @return AppPlatformTelegram|null
-     */
-    public function getPlatformTelegram() {
-        $telegramPlatforms = AppPlatformTelegram::find()->where(['app_id' => $this->id, 'status' => AppPlatform::STATUS_ACTIVE])->all();
-        if (count($telegramPlatforms) == 0) {
-            return null;
-        } else if (count($telegramPlatforms) == 1) {
-            return $telegramPlatforms[0];
-        } else {
-            Yii::warning('App ['.$this->id.'] should not have more that one telegram platform configured');
-            return $telegramPlatforms[0];
-        }
-    }
-
-    public function getTelegramUser() {
-        $userId = Yii::$app->user->id;
-        $telegramUser =  UserAccountTelegram::find()->where([
-            'app_id' => $this->id,
-            'user_id' => $userId
-        ])->one();
-
-        if($telegramUser){
-            return $telegramUser;
-        } else {
-            return null;
-        }
-    }
-
-
-    public function telegramUserIsActive() {
-        $user = $this->getTelegramUser();
-        if ($user !== null && $user->active == UserAccountTelegram::ACTIVE) {
             return true;
         } else {
             return false;
@@ -248,6 +182,27 @@ class WenetApp extends \yii\db\ActiveRecord {
         } else {
             Yii::warning('App ['.$this->id.'] should not have more that one social logins configured');
             return $socialLogins[0];
+        }
+    }
+
+    public function hasConversationalConnector() {
+        $app = WenetApp::find()->where(['id' => $this->id, 'conversational_connector' => WenetApp::ACTIVE_CONNECTOR])->one();
+        if($app){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function hasWritePermit() {
+        $socialLogin = AppSocialLogin::find()->where(['app_id' => $this->id, 'status' => AppSocialLogin::STATUS_ACTIVE])->one();
+        $socialLogin->scope = json_decode($socialLogin->scope, true);
+
+        $result = array_intersect($socialLogin->scope['scope'], array_keys(AuthorisationForm::writeScope()));
+        if(count($result) > 0){
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -267,7 +222,6 @@ class WenetApp extends \yii\db\ActiveRecord {
 
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
-
             $this->metadata = [
                 'categories' => $this->associatedCategories,
             ];
@@ -301,10 +255,6 @@ class WenetApp extends \yii\db\ActiveRecord {
 
         $shortName = substr($owner->first_name, 0, 1) .'. '. $owner->last_name;
         return $shortName;
-    }
-
-    public function getEnabledPlatforms() {
-        return $this->hasMany(UserAccountTelegram::className(), ['app_id' => 'id']);
     }
 
     public function create() {

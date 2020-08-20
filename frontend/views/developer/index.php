@@ -49,7 +49,7 @@
             },
         ],
         [
-            'attribute' => 'OAuth',
+            'label' => 'OAuth2',
             'format' => 'raw',
             'value' => function ($data) {
                 if($data->hasSocialLogin()){
