@@ -13,7 +13,7 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'language' => 'en-US',
-    'sourceLanguage' => 'en-US',
+    'sourceLanguage' => 'en',
     'components' => [
         'i18n' => [
             'translations' => [
