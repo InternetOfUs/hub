@@ -105,6 +105,9 @@ class DeveloperController extends Controller {
     public function actionCreate(){
         $model = new WenetApp;
         $model->owner_id = Yii::$app->user->id;
+        $model->conversational_connector = WenetApp::NOT_ACTIVE_CONNECTOR;
+        $model->data_connector = WenetApp::NOT_ACTIVE_CONNECTOR;
+
         if ($model->load(Yii::$app->request->post())) {
             if ($model->create()) {
                 $appDeveloper = new AppDeveloper;
@@ -168,10 +171,16 @@ class DeveloperController extends Controller {
         $app = WenetApp::find()->where(["id" => $id])->one();
         $app->conversational_connector = WenetApp::NOT_ACTIVE_CONNECTOR;
 
+        if($app->data_connector == WenetApp::NOT_ACTIVE_CONNECTOR && $app->status == WenetApp::STATUS_ACTIVE){
+            $app->status = WenetApp::STATUS_NOT_ACTIVE;
+            // TODO without the refresh of the page is impossible to see this message, find solution
+            Yii::$app->session->setFlash('warning', Yii::t('app', 'Because a connector is required for the app to be live, the app has been automatically set as "In development" mode.'));
+        }
+
         if ($app->save()) {
-            echo 'ok';
+            return 'ok';
         } else {
-            echo 'no';
+            return 'no';
         }
     }
 
@@ -180,9 +189,9 @@ class DeveloperController extends Controller {
         $app->conversational_connector = WenetApp::ACTIVE_CONNECTOR;
 
         if ($app->save()) {
-            echo 'ok';
+            return 'ok';
         } else {
-            echo 'no';
+            return 'no';
         }
     }
 
@@ -190,10 +199,16 @@ class DeveloperController extends Controller {
         $app = WenetApp::find()->where(["id" => $id])->one();
         $app->data_connector = WenetApp::NOT_ACTIVE_CONNECTOR;
 
+        if($app->conversational_connector == WenetApp::NOT_ACTIVE_CONNECTOR && $app->status == WenetApp::STATUS_ACTIVE){
+            $app->status = WenetApp::STATUS_NOT_ACTIVE;
+            // TODO without the refresh of the page is impossible to see this message, find solution
+            Yii::$app->session->setFlash('warning', Yii::t('app', 'Because a connector is required for the app to be live, the app has been automatically set as "In development" mode.'));
+        }
+
         if ($app->save()) {
-            echo 'ok';
+            return 'ok';
         } else {
-            echo 'no';
+            return 'no';
         }
     }
 
@@ -202,9 +217,9 @@ class DeveloperController extends Controller {
         $app->data_connector = WenetApp::ACTIVE_CONNECTOR;
 
         if ($app->save()) {
-            echo 'ok';
+            return 'ok';
         } else {
-            echo 'no';
+            return 'no';
         }
     }
 
