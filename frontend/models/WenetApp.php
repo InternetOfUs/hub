@@ -198,7 +198,11 @@ class WenetApp extends \yii\db\ActiveRecord {
         $socialLogin = AppSocialLogin::find()->where(['app_id' => $this->id, 'status' => AppSocialLogin::STATUS_ACTIVE])->one();
         $socialLogin->scope = json_decode($socialLogin->scope, true);
 
-        $result = array_intersect($socialLogin->scope['scope'], array_keys(AuthorisationForm::writeScope()));
+        $scopeToMerge = [];
+        if ($scopeToMerge && isset($socialLogin->scope['scope'])) {
+            $scopeToMerge = $socialLogin->scope['scope'];
+        }
+        $result = array_intersect($scopeToMerge, array_keys(AuthorisationForm::writeScope()));
         if(count($result) > 0){
             return true;
         } else {

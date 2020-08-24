@@ -71,5 +71,5 @@ In order to take advantage of the Gitlab CI/CD integration, the following CI/CD 
 * DEPLOYMENT_SERVER_IP - the ip of the server hosting the deployment instances
 * DEPLOYMENT_TEST_DIR - the directly with the docker configuration of the test instance
 * GITLAB_SSH_KEY - the ssh key allowing the connection to the server
-* REGISTRY_USERNAME - the username used for authorizing with the registry
-* REGISTRY_PASSWORD - the password used for authorizing with the registry
+* REGISTRY_USERNAME - the username used for authorising with the registry
+* REGISTRY_PASSWORD - the password used for authorising with the registry

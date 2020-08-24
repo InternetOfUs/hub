@@ -131,12 +131,12 @@
                     <p><?php echo Yii::t('app', 'In order to complete the integration of WeNet OAuth2 in your application you need to:'); ?></p>
                     <ol>
                         <li>
-                            <?php echo Yii::t('app', 'Redirect your users to link to'); ?>
+                            <?php echo Yii::t('app', 'Redirect your users to'); ?>
                             <pre><?php echo Url::home(true) . 'oauth/login?client_id=' . $app->id; ?></pre>
                         </li>
                         <li>
-                            <?php echo Yii::t('app', 'Prepare a dedicated endpoint in your application backend where the {OAuth2_code} for your users will be provided', [
-                                'OAuth2_code' => '<strong>OAuth2 code</strong>'
+                            <?php echo Yii::t('app', 'Prepare a dedicated endpoint in your application backend where the {OAuth2_code} for your users will be provided as a query param (named code)', [
+                                'OAuth2_code' => '<strong>OAuth2 code</strong>',
                             ]); ?>
                         </li>
                         <li>
@@ -145,10 +145,10 @@
                                 'token' => '<strong>token</strong>',
                                 'refresh_token' => '<strong>refresh_token</strong>'
                             ]); ?>
-                            <pre><?php echo Yii::$app->params['api.base.url'] . '/oauth2/token'; ?></pre>
+                            <pre><?php echo Yii::$app->params['authorisation.api.base.url'] . '/oauth2/token'; ?></pre>
                             <span><?php echo Yii::t('app', 'Example with your application data'); ?>:</span>
                             <pre>curl -X POST \
-      --url "https://wenet.u-hopper.com/prod/api/oauth/token" \
+      --url "<?php echo Yii::$app->params['authorisation.api.base.url'] . '/oauth2/token'; ?>" \
       --data "grant_type=authorization_code" \
       --data "client_id=<?php echo $app->id; ?>" \
       --data "client_secret=<?php echo $app->token; ?>" \
