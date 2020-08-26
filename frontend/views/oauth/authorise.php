@@ -6,14 +6,12 @@
     $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Authorise');
     $app = $model->app();
     $user = $model->user();
-    // print_r($app);
-    // print_r($user);
 ?>
 
 <div class="site-authorisation">
+     <!-- TODO include app logo  -->
     <p style="text-align:center; margin-top:10px; font-size:16px;">
-        <strong><?php echo "App name "; ?></strong>
-        <?php echo Yii::t('authorisation', 'app text') ?>:
+        <?php echo Yii::t('authorisation', 'The application {app_name} will be able to', ['app_name' => '<strong>'.$app->name.'</strong>']) ?>:
     </p>
     <?php $form = ActiveForm::begin(['id' => 'authorisation-form']); ?>
         <?php
