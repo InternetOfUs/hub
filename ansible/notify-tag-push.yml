@@ -1,0 +1,20 @@
+---
+  - hosts: localhost
+    vars:
+      slack_token: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          64376537333965623439623666663365646664653165666361666261353166656336333765383932
+          3139646432316265393030353833653761306366643030610a333330386465613232626565636264
+          30386131353062616334626237383762356366616163633134653935373532623833633831663464
+          3136303931633864380a383462616337613333323362343363353362336636306131333563613561
+          36356664663732343362653063636233393035633064316138613136633234623237666231306163
+          6136303064333839663636353631303330326532323062313864
+      release_tag: "{{ lookup('env', 'CI_COMMIT_TAG') }}"
+    tasks:
+      - name: Build and push of production succeeded
+        slack:
+          token: "{{ slack_token }}"
+          msg: "Build `{{ release_tag }}` completed :rocket:"
+          attachments:
+            - text: "<https://lab.u-hopper.com/wenet/wenet-frontend | WeNet / Hub> :point_right: A new versio is available, you can now manually  <https://lab.u-hopper.com/devops/deployments/wenet-deployment/pipelines | Initialise the deployment> :unicorn_face:"
+              color: "#2eb887"

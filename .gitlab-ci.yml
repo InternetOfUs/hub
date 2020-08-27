@@ -22,6 +22,7 @@ stages:
   - build
   - push
   - trigger-deploy
+  - notify
 
 build_dev:
   stage: build
@@ -55,27 +56,35 @@ deploy_dev:
   only:
     - develop
 
-# build_prod:
-#   stage: build
-#   script:
-#     - apk add --update curl php7 php7-phar php7-json php7-iconv php7-openssl
-#     - curl --show-error --silent https://getcomposer.org/installer | php
-#     - ./create_docker_image -si $CI_COMMIT_TAG
-#   artifacts:
-#     paths:
-#       - hub_image.tar.gz
-#     expire_in: 1 day
-#   only:
-#     - triggers
-#     - ${RELEASE_TAG}
-#
-# push_prod:
-#   stage: push
-#   script:
-#     - docker load -i hub_image.tar.gz
-#     - docker push registry.u-hopper.com/wenet/hub:$CI_COMMIT_TAG
-#   dependencies:
-#     - build_prod
-#   only:
-#     - triggers
-#     - ${RELEASE_TAG}
+build_prod:
+  stage: build
+  script:
+    - apk add --update curl php7 php7-phar php7-json php7-iconv php7-openssl
+    - curl --show-error --silent https://getcomposer.org/installer | php
+    - ./create_docker_image -si $CI_COMMIT_TAG
+  artifacts:
+    paths:
+      - hub_image.tar.gz
+    expire_in: 1 day
+  only:
+    - tags
+
+push_prod:
+  stage: push
+  script:
+    - docker load -i hub_image.tar.gz
+    - docker push registry.u-hopper.com/wenet/hub:$CI_COMMIT_TAG
+  dependencies:
+    - build_prod
+  only:
+    - tags
+
+notify:
+  stage: notify
+  script:
+    - echo $ANSIBLE_VAULT_PASSWORD > ansible/password_file
+    - ansible-playbook --vault-password_file ansible/password_file notify-tag-push.yml
+  dependencies:
+    - push_prod
+  only:
+    - tags
