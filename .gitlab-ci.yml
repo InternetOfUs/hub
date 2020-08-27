@@ -83,7 +83,7 @@ notify:
   stage: notify
   script:
     - echo $ANSIBLE_VAULT_PASSWORD > ansible/password_file
-    - ansible-playbook --vault-password_file ansible/password_file notify-tag-push.yml
+    - ansible-playbook --vault-password-file ansible/password_file notify-tag-push.yml
   dependencies:
     - push_prod
   only:

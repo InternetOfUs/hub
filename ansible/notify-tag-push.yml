@@ -16,5 +16,5 @@
           token: "{{ slack_token }}"
           msg: "Build `{{ release_tag }}` completed :rocket:"
           attachments:
-            - text: "<https://lab.u-hopper.com/wenet/wenet-frontend | WeNet / Hub> :point_right: A new versio is available, you can now manually  <https://lab.u-hopper.com/devops/deployments/wenet-deployment/pipelines | Initialise the deployment> :unicorn_face:"
+            - text: "<https://lab.u-hopper.com/wenet/wenet-frontend | WeNet / Hub> :point_right: A new version is available, you can now manually  <https://lab.u-hopper.com/devops/deployments/wenet-deployment/pipelines | Initialise the deployment> :unicorn_face:"
               color: "#2eb887"
