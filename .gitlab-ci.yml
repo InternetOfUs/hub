@@ -28,7 +28,7 @@ build_dev:
   script:
     - apk add --update curl php7 php7-phar php7-json php7-iconv php7-openssl
     - curl --show-error --silent https://getcomposer.org/installer | php
-    - ./create_docker_image -si
+    - ./create_docker_image -sid
   artifacts:
     paths:
       - hub_image.tar.gz
