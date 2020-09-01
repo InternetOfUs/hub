@@ -199,10 +199,11 @@ class WenetApp extends \yii\db\ActiveRecord {
         $socialLogin->scope = json_decode($socialLogin->scope, true);
 
         $scopeToMerge = [];
-        if ($scopeToMerge && isset($socialLogin->scope['scope'])) {
+        if ($socialLogin->scope && isset($socialLogin->scope['scope']) && is_array($socialLogin->scope['scope'])) {
             $scopeToMerge = $socialLogin->scope['scope'];
         }
         $result = array_intersect($scopeToMerge, array_keys(AuthorisationForm::writeScope()));
+        
         if(count($result) > 0){
             return true;
         } else {

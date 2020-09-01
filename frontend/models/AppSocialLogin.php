@@ -103,6 +103,10 @@ class AppSocialLogin extends \yii\db\ActiveRecord {
 
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
+            if($this->allowedScopes == ""){
+                $this->allowedScopes = [];
+            }
+
             $this->scope = [
                 'scope' => $this->allowedScopes,
             ];
