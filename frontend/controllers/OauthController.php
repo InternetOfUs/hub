@@ -154,8 +154,9 @@ class OauthController extends Controller {
         ]);
     }
 
-    public function actionComplete($redirect_url=null, $error_message=null) {
+    public function actionComplete($app_id, $redirect_url=null, $error_message=null) {
         $this->layout = "easy.php";
+        $app = WenetApp::find()->where(["id" => $app_id])->one();
 
         if(!isset($redirect_url)){
             $redirect_url = "";
@@ -167,7 +168,8 @@ class OauthController extends Controller {
 
         return $this->render('complete', [
             'redirect_url' => $redirect_url,
-            'error_message' => $error_message
+            'error_message' => $error_message,
+            'app' => $app
         ]);
     }
 
@@ -243,13 +245,13 @@ class OauthController extends Controller {
                 }
                 Yii::$app->session->setFlash('success', Yii::t('app', 'OAuth2 successfully updated.'));
                 $transaction->commit();
+
+                return $this->redirect(['/developer/details', "id" => $model->app_id]);
             } else {
-                Yii::$app->session->setFlash('error', Yii::t('app', 'Error'));
+                Yii::$app->session->setFlash('error', Yii::t('app', 'Error updating the OAuth2'));
                 $transaction->rollback();
             }
-
-            return $this->redirect(['/developer/details', "id" => $model->app_id]);
-
+            
         }
         return $this->render('create_oauth', [
             'model' => $model,

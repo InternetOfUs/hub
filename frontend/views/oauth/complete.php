@@ -11,6 +11,12 @@
 ?>
 
 <div class="site-login">
+    <div class="app_icon big_icon centered_icon">
+        <span><?php echo strtoupper($app->name[0]); ?></span>
+    </div>
+   <p style="text-align:center; margin-top:10px; font-size:16px;">
+       <?php echo $app->name; ?>
+   </p>
     <h1 style="text-align:center; display:block;"><?php echo $title; ?></h1>
     <?php
         if($error_message != false){

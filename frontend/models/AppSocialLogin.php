@@ -57,8 +57,15 @@ class AppSocialLogin extends \yii\db\ActiveRecord {
             [['created_at', 'updated_at', 'status'], 'integer'],
             [['app_id'], 'string', 'max' => 128],
             [['app_id'], 'exist', 'skipOnError' => true, 'targetClass' => WenetApp::className(), 'targetAttribute' => ['app_id' => 'id']],
+            [['callback_url'], 'linksValidation'],
             [['allowedScopes'], 'safe']
         ];
+    }
+
+    public function linksValidation(){
+        if($this->callback_url != null && substr($this->callback_url, 0, 4) != "http"){
+            $this->addError('callback_url', Yii::t('app', 'Link should be an absolute link (add http:// or https://).'));
+        }
     }
 
     /**

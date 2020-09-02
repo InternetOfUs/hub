@@ -615,6 +615,11 @@ div.app_icon span{
     color: #fff;
 }
 
+div.centered_icon{
+    display: block;
+    margin: 0 auto;
+}
+
 div.big_icon{
     height: 50px;
     width: 50px;

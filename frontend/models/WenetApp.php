@@ -82,7 +82,9 @@ class WenetApp extends \yii\db\ActiveRecord {
             [['name', 'token'], 'string', 'max' => 512],
             [['id'], 'unique'],
             [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['owner_id' => 'id']],
+            [['slFacebook', 'slTelegram', 'slAndroid', 'slIos', 'slWebApp'], 'linksValidation'],
             [['status'], 'statusValidation'],
+            [['message_callback_url'], 'messageLinkValidation'],
             [['associatedCategories', 'slFacebook', 'slTelegram', 'slAndroid', 'slIos', 'slWebApp'], 'safe'],
         ];
     }
@@ -114,6 +116,30 @@ class WenetApp extends \yii\db\ActiveRecord {
             }
         }
         return true;
+    }
+
+    public function linksValidation(){
+        if($this->slFacebook != null && substr($this->slFacebook, 0, 4) != "http"){
+            $this->addError('slFacebook', Yii::t('app', 'Link should be an absolute link (add http:// or https://).'));
+        }
+        if($this->slTelegram != null && substr($this->slTelegram, 0, 4) != "http"){
+            $this->addError('slTelegram', Yii::t('app', 'Link should be an absolute link (add http:// or https://).'));
+        }
+        if($this->slAndroid != null && substr($this->slAndroid, 0, 4) != "http"){
+            $this->addError('slAndroid', Yii::t('app', 'Link should be an absolute link (add http:// or https://).'));
+        }
+        if($this->slIos != null && substr($this->slIos, 0, 4) != "http"){
+            $this->addError('slIos', Yii::t('app', 'Link should be an absolute link (add http:// or https://).'));
+        }
+        if($this->slWebApp != null && substr($this->slWebApp, 0, 4) != "http"){
+            $this->addError('slWebApp', Yii::t('app', 'Link should be an absolute link (add http:// or https://).'));
+        }
+    }
+
+    public function messageLinkValidation(){
+        if($this->message_callback_url != null && substr($this->message_callback_url, 0, 4) != "http"){
+            $this->addError('message_callback_url', Yii::t('app', 'Link should be an absolute link (add http:// or https://).'));
+        }
     }
 
     /**

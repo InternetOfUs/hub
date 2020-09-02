@@ -158,9 +158,6 @@ class DeveloperController extends Controller {
 
             if ($app->save()) {
                 return $this->redirect(['/developer/details', "id" => $id]);
-            } else {
-                print_r($app);
-                exit();
             }
         }
         return $this->render('conversational_connector', [
@@ -188,7 +185,7 @@ class DeveloperController extends Controller {
         } else {
             return JSON::encode([
                 'message' => Yii::t('app', 'Error, please retry later.'),
-                'alert_type' => 'error'
+                'alert_type' => 'danger'
             ]);
         }
     }
@@ -205,7 +202,7 @@ class DeveloperController extends Controller {
         } else {
             return JSON::encode([
                 'message' => Yii::t('app', 'Error, please retry later.'),
-                'alert_type' => 'error'
+                'alert_type' => 'danger'
             ]);
         }
     }
@@ -230,7 +227,7 @@ class DeveloperController extends Controller {
         } else {
             return JSON::encode([
                 'message' => Yii::t('app', 'Error, please retry later.'),
-                'alert_type' => 'error'
+                'alert_type' => 'danger'
             ]);
         }
     }
@@ -247,7 +244,7 @@ class DeveloperController extends Controller {
         } else {
             return JSON::encode([
                 'message' => Yii::t('app', 'Error, please retry later.'),
-                'alert_type' => 'error'
+                'alert_type' => 'danger'
             ]);
         }
     }

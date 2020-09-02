@@ -2,6 +2,7 @@
     use yii\widgets\ActiveForm;
     use kartik\select2\Select2;
     use yii\helpers\Html;
+    use yii\helpers\Url;
     use frontend\models\AuthorisationForm;
     use frontend\models\AppSocialLogin;
 
@@ -45,7 +46,8 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="form-group">
-                        <?= Html::submitButton(Yii::t('common', 'Save'), ['class' => 'btn btn-primary']) ?>
+                        <?= Html::submitButton(Yii::t('common', 'Save'), ['class' => 'btn btn-primary', 'style' => 'float:left;']) ?>
+                        <a href="<?php echo Url::to(['/developer/details', 'id' => $app->id]); ?>" style="font-size: 13px; color: #444; margin: 20px 0 0 10px; display: block; float: left;"><?php echo Yii::t('app', 'Skip OAuth2 configuration'); ?></a>
                     </div>
                 </div>
             </div>
