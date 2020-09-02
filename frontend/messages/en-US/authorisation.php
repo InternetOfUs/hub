@@ -17,12 +17,13 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'app text' => 'will be able to',
+    'The application {app_name} will be able to' => '',
     'access your profile data' => '',
     'access your public profile info' => '',
     'cancel' => '',
     'write your profile data' => '',
     '?' => '@@@@',
+    'app text' => '@@will be able to@@',
     'public profile info' => '@@@@',
     'read' => '@@@@',
     'write' => '@@@@',

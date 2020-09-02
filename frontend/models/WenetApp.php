@@ -31,6 +31,11 @@ class WenetApp extends \yii\db\ActiveRecord {
 
     public $allMetadata = [];
     public $associatedCategories = [];
+    public $slFacebook = '';
+    public $slTelegram = '';
+    public $slAndroid = '';
+    public $slIos = '';
+    public $slWebApp = '';
 
     const STATUS_NOT_ACTIVE = 0;
     const STATUS_ACTIVE = 1;
@@ -41,6 +46,12 @@ class WenetApp extends \yii\db\ActiveRecord {
 
     const TAG_SOCIAL = 'social';
     const TAG_ASSISTANCE = 'assistance';
+
+    const SL_FACEBOOK = 'facebook';
+    const SL_TELEGRAM = 'telegram';
+    const SL_ANDROID = 'android';
+    const SL_IOS = 'ios';
+    const SL_WEB_APP = 'web_app';
 
     const SCENARIO_CONVERSATIONAL = 'conversational';
 
@@ -72,19 +83,27 @@ class WenetApp extends \yii\db\ActiveRecord {
             [['id'], 'unique'],
             [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['owner_id' => 'id']],
             [['status'], 'statusValidation'],
-            ['associatedCategories', 'safe'],
+            [['associatedCategories', 'slFacebook', 'slTelegram', 'slAndroid', 'slIos', 'slWebApp'], 'safe'],
         ];
     }
 
     public function statusValidation(){
         if($this->status == self::STATUS_ACTIVE){
 
-            if($this->description == null || $this->associatedCategories == "" || !$this->hasSocialLogin() || ($this->conversational_connector == WenetApp::NOT_ACTIVE_CONNECTOR && $this->data_connector == WenetApp::NOT_ACTIVE_CONNECTOR)){
+            if( $this->description == null ||
+                $this->associatedCategories == "" ||
+                ($this->slFacebook == null && $this->slTelegram == null && $this->slAndroid == null && $this->slIos == null && $this->slWebApp == null) ||
+                !$this->hasSocialLogin() ||
+                ($this->conversational_connector == WenetApp::NOT_ACTIVE_CONNECTOR && $this->data_connector == WenetApp::NOT_ACTIVE_CONNECTOR)
+            ){
                 if($this->description == null){
                     $this->addError('description', Yii::t('app', 'Description cannot be blank.'));
                 }
                 if($this->associatedCategories == ""){
                     $this->addError('associatedCategories', Yii::t('app', 'Select at least one tag.'));
+                }
+                if($this->slFacebook == null && $this->slTelegram == null && $this->slAndroid == null && $this->slIos == null && $this->slWebApp == null){
+                    $this->addError('slFacebook', Yii::t('app', 'Set up at least one link.'));
                 }
                 if(!$this->hasSocialLogin() && $this->conversational_connector == WenetApp::NOT_ACTIVE_CONNECTOR && $this->data_connector == WenetApp::NOT_ACTIVE_CONNECTOR){
                     $this->addError('status', Yii::t('app', 'You should configure OAuth2 and enable at least one connector to go live with the app.'));
@@ -114,6 +133,11 @@ class WenetApp extends \yii\db\ActiveRecord {
             'categories' => Yii::t('app', 'Categories'),
             'data_connector' => Yii::t('app', 'Data connector'),
             'conversational_connector' => Yii::t('app', 'Conversational connector'),
+            'slFacebook' => Yii::t('app', 'Facebook'),
+            'slTelegram' => Yii::t('app', 'Telegram'),
+            'slAndroid' => Yii::t('app', 'Android app'),
+            'slIos' => Yii::t('app', 'iOS app'),
+            'slWebApp' => Yii::t('app', 'Web app'),
         ];
     }
 
@@ -203,9 +227,37 @@ class WenetApp extends \yii\db\ActiveRecord {
             $scopeToMerge = $socialLogin->scope['scope'];
         }
         $result = array_intersect($scopeToMerge, array_keys(AuthorisationForm::writeScope()));
-        
+
         if(count($result) > 0){
             return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function hasActiveSourceLinksForApp() {
+        if ($this->getActiveSourceLinksForApp()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getActiveSourceLinksForApp() {
+        $app = WenetApp::find()->where(['id' => $this->id])->one();
+        $app->metadata = json_decode($this->metadata, true);
+
+        $activeSourceLinks = [];
+        if (isset($app->metadata['source_links']) && is_array($app->metadata['source_links'])) {
+            if($app->metadata['source_links'][self::SL_FACEBOOK] != null){$activeSourceLinks[] = self::SL_FACEBOOK;}
+            if($app->metadata['source_links'][self::SL_TELEGRAM] != null){$activeSourceLinks[] = self::SL_TELEGRAM;}
+            if($app->metadata['source_links'][self::SL_ANDROID] != null){$activeSourceLinks[] = self::SL_ANDROID;}
+            if($app->metadata['source_links'][self::SL_IOS] != null){$activeSourceLinks[] = self::SL_IOS;}
+            if($app->metadata['source_links'][self::SL_WEB_APP] != null){$activeSourceLinks[] = self::SL_WEB_APP;}
+        }
+
+        if(count($activeSourceLinks) > 0){
+            return $activeSourceLinks;
         } else {
             return false;
         }
@@ -220,6 +272,14 @@ class WenetApp extends \yii\db\ActiveRecord {
             } else {
                 $this->associatedCategories = [];
             }
+
+            if (isset($this->allMetadata['source_links']) && is_array($this->allMetadata['source_links'])) {
+                if($this->allMetadata['source_links'][self::SL_FACEBOOK] != null){$this->slFacebook = $this->allMetadata['source_links'][self::SL_FACEBOOK];}
+                if($this->allMetadata['source_links'][self::SL_TELEGRAM] != null){$this->slTelegram = $this->allMetadata['source_links'][self::SL_TELEGRAM];}
+                if($this->allMetadata['source_links'][self::SL_ANDROID] != null){$this->slAndroid = $this->allMetadata['source_links'][self::SL_ANDROID];}
+                if($this->allMetadata['source_links'][self::SL_IOS] != null){$this->slIos = $this->allMetadata['source_links'][self::SL_IOS];}
+                if($this->allMetadata['source_links'][self::SL_WEB_APP] != null){$this->slWebApp = $this->allMetadata['source_links'][self::SL_WEB_APP];}
+            }
         } else {
             $this->associatedCategories = array();
         }
@@ -227,9 +287,27 @@ class WenetApp extends \yii\db\ActiveRecord {
 
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
+            if($this->associatedCategories == ""){
+                $this->associatedCategories = [];
+            }
+
+            if($this->slFacebook == ""){ $this->slFacebook = null; }
+            if($this->slTelegram == ""){ $this->slTelegram = null; }
+            if($this->slAndroid == ""){ $this->slAndroid = null; }
+            if($this->slIos == ""){ $this->slIos = null; }
+            if($this->slWebApp == ""){ $this->slWebApp = null; }
+
             $this->metadata = [
                 'categories' => $this->associatedCategories,
+                'source_links' => [
+                    self::SL_FACEBOOK => $this->slFacebook,
+                    self::SL_TELEGRAM => $this->slTelegram,
+                    self::SL_ANDROID => $this->slAndroid,
+                    self::SL_IOS => $this->slIos,
+                    self::SL_WEB_APP => $this->slWebApp
+                ]
             ];
+
             $this->metadata = JSON::encode($this->metadata);
 
             if ($this->message_callback_url == '') {

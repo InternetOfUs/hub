@@ -57,6 +57,17 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <hr style="margin-top:0px;">
+                    <p><?php echo Yii::t('app', 'Insert here the links where the end user can find the application'); ?>:</p>
+                    <?php echo $form->field($app, 'slFacebook'); ?>
+                    <?php echo $form->field($app, 'slTelegram'); ?>
+                    <?php echo $form->field($app, 'slAndroid'); ?>
+                    <?php echo $form->field($app, 'slIos'); ?>
+                    <?php echo $form->field($app, 'slWebApp'); ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="form-group">
                         <?= Html::submitButton(Yii::t('common', 'Save'), ['class' => 'btn btn-primary']) ?>
                     </div>

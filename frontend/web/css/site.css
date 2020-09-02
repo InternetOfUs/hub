@@ -37,6 +37,12 @@ button{
     border-color: #4c95ce;
 }
 
+span.not_set{
+    font-style: italic;
+    font-size: 13px;
+    color: #d62546;
+}
+
 a.normal_link{
     text-decoration: underline;
     color: #00a3b6;
@@ -450,20 +456,18 @@ a.app h2{
 
 a.app p{color: #888;}
 
-a.app ul.platform_icons{margin: 0px;}
+ul.source_links_list{margin-top: 15px;}
 
-ul.platform_icons li{
+ul.source_links_list li{
     display: inline-block;
-    margin-right: 10px;
+    margin-right: 8px;
+    height: 40px;
 }
 
-ul.platform_icons li div.image_container{height: 30px;}
+ul.source_links_list.table_view li{height: 30px;}
 
-ul.platform_icons li div.image_container img{
-    display: block;
-    height: 100%;
-    width: auto;
-}
+ul.source_links_list li img{ height: 100%; }
+
 
 ul.tags_list{margin-top: 30px;}
 

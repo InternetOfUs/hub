@@ -108,6 +108,7 @@ class DeveloperController extends Controller {
         $model->conversational_connector = WenetApp::NOT_ACTIVE_CONNECTOR;
         $model->data_connector = WenetApp::NOT_ACTIVE_CONNECTOR;
 
+
         if ($model->load(Yii::$app->request->post())) {
             if ($model->create()) {
                 $appDeveloper = new AppDeveloper;

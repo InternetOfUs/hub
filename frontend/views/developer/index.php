@@ -40,6 +40,19 @@
             },
         ],
         [
+            'label' => Yii::t('app', 'Links'),
+            'format' => 'raw',
+            'value' => function ($data) {
+                if($data->getActiveSourceLinksForApp()){
+                    return '<ul class="source_links_list table_view">' . implode(array_map(function($sl){
+                        return '<li><img src="'.Url::base().'/images/platforms/'.$sl.'.png" alt="'.Yii::t('app', 'Source link image').'"></li>';
+                    }, $data->getActiveSourceLinksForApp()), '') . '</ul>';
+                } else {
+                    return '<span class="not_set">'.Yii::t('app', 'to be configured').'</span>';
+                }
+            },
+        ],
+        [
             'attribute' => 'categories',
             'format' => 'raw',
             'value' => function ($data) {
@@ -55,7 +68,7 @@
                 if($data->hasSocialLogin()){
                     return '<i class="fa fa-check" aria-hidden="true"></i>';
                 } else {
-                    return Yii::t('app', 'to be configured');
+                    return '<span class="not_set">'.Yii::t('app', 'to be configured').'</span>';
                 }
             },
         ],
