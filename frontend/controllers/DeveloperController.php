@@ -9,6 +9,7 @@ use yii\filters\AccessControl;
 use yii\data\ArrayDataProvider;
 use frontend\models\WenetApp;
 use frontend\models\AppDeveloper;
+use yii\helpers\Json;
 
 /**
  * Developer controller
@@ -118,7 +119,6 @@ class DeveloperController extends Controller {
 
                 return $this->redirect(['oauth/create-oauth', 'id' => $model->id]);
             } else {
-                // TODO Yii::error('Could not create new Wenet APP', '');
                 Yii::$app->session->setFlash('error', Yii::t('app', 'Could not create app.'));
             }
         }
@@ -172,16 +172,24 @@ class DeveloperController extends Controller {
         $app = WenetApp::find()->where(["id" => $id])->one();
         $app->conversational_connector = WenetApp::NOT_ACTIVE_CONNECTOR;
 
+        $message = Yii::t('app', 'Connector succesfully disabled.');
+        $alert_type = 'success';
         if($app->data_connector == WenetApp::NOT_ACTIVE_CONNECTOR && $app->status == WenetApp::STATUS_ACTIVE){
             $app->status = WenetApp::STATUS_NOT_ACTIVE;
-            // TODO without the refresh of the page is impossible to see this message, find solution
-            Yii::$app->session->setFlash('warning', Yii::t('app', 'Because a connector is required for the app to be live, the app has been automatically set as "In development" mode.'));
+            $message = Yii::t('app', 'Because a connector is required for the app to be live, the app has been automatically set as "In development" mode.');
+            $alert_type = 'warning';
         }
 
         if ($app->save()) {
-            return 'ok';
+            return JSON::encode([
+                'message' => $message,
+                'alert_type' => $alert_type
+            ]);
         } else {
-            return 'no';
+            return JSON::encode([
+                'message' => Yii::t('app', 'Error, please retry later.'),
+                'alert_type' => 'error'
+            ]);
         }
     }
 
@@ -190,9 +198,15 @@ class DeveloperController extends Controller {
         $app->conversational_connector = WenetApp::ACTIVE_CONNECTOR;
 
         if ($app->save()) {
-            return 'ok';
+            return JSON::encode([
+                'message' => Yii::t('app', 'Connector succesfully enabled.'),
+                'alert_type' => 'success'
+            ]);
         } else {
-            return 'no';
+            return JSON::encode([
+                'message' => Yii::t('app', 'Error, please retry later.'),
+                'alert_type' => 'error'
+            ]);
         }
     }
 
@@ -200,16 +214,24 @@ class DeveloperController extends Controller {
         $app = WenetApp::find()->where(["id" => $id])->one();
         $app->data_connector = WenetApp::NOT_ACTIVE_CONNECTOR;
 
+        $message = Yii::t('app', 'Connector succesfully disabled.');
+        $alert_type = 'success';
         if($app->conversational_connector == WenetApp::NOT_ACTIVE_CONNECTOR && $app->status == WenetApp::STATUS_ACTIVE){
             $app->status = WenetApp::STATUS_NOT_ACTIVE;
-            // TODO without the refresh of the page is impossible to see this message, find solution
-            Yii::$app->session->setFlash('warning', Yii::t('app', 'Because a connector is required for the app to be live, the app has been automatically set as "In development" mode.'));
+            $message = Yii::t('app', 'Because a connector is required for the app to be live, the app has been automatically set as "In development" mode.');
+            $alert_type = 'warning';
         }
 
         if ($app->save()) {
-            return 'ok';
+            return JSON::encode([
+                'message' => $message,
+                'alert_type' => $alert_type
+            ]);
         } else {
-            return 'no';
+            return JSON::encode([
+                'message' => Yii::t('app', 'Error, please retry later.'),
+                'alert_type' => 'error'
+            ]);
         }
     }
 
@@ -218,9 +240,15 @@ class DeveloperController extends Controller {
         $app->data_connector = WenetApp::ACTIVE_CONNECTOR;
 
         if ($app->save()) {
-            return 'ok';
+            return JSON::encode([
+                'message' => Yii::t('app', 'Connector succesfully enabled.'),
+                'alert_type' => 'success'
+            ]);
         } else {
-            return 'no';
+            return JSON::encode([
+                'message' => Yii::t('app', 'Error, please retry later.'),
+                'alert_type' => 'error'
+            ]);
         }
     }
 

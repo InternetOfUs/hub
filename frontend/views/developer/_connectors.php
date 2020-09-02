@@ -111,6 +111,7 @@
             method:'post',
             data:{status:status},
             success:function(data){
+                data = JSON.parse(data);
                 if($('.disabler').hasClass('hidden_content')){
                     $('.disabler').removeClass('hidden_content');
                     $( ".edit_conversational" ).css( "display", "block" );
@@ -118,10 +119,10 @@
                     $('.disabler').addClass('hidden_content');
                     $( ".edit_conversational" ).css( "display", "none" );
                 }
+                $('ul.breadcrumb').after('<div class="alert-'+data["alert_type"]+' alert fade in">'+data["message"]+'</div>');
             },
             error:function(jqXhr,status,error){
-                // console.log(error);
-                //  TODO ???
+                $('ul.breadcrumb').after('<div class="alert-error alert fade in"><?php echo Yii::t('app', 'Error, please retry later.'); ?></div>');
             }
         });
     }
@@ -135,10 +136,12 @@
             url: url,
             method:'post',
             data:{status:status},
-            success:function(data){},
+            success:function(data){
+                data = JSON.parse(data);
+                $('ul.breadcrumb').after('<div class="alert-'+data["alert_type"]+' alert fade in">'+data["message"]+'</div>');
+            },
             error:function(jqXhr,status,error){
-                // console.log(error);
-                //  TODO ???
+                $('ul.breadcrumb').after('<div class="alert-error alert fade in"><?php echo Yii::t('app', 'Error, please retry later.'); ?></div>');
             }
         });
     }
