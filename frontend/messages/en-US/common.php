@@ -17,6 +17,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Process succefully completed' => '',
     'Account' => '',
     'Account & Profile' => '',
     'All Rights reserved' => '',
@@ -39,7 +40,6 @@ return [
     'OAuth2 configuration' => '',
     'Other' => '',
     'Password' => '',
-    'Process succefully completed' => '',
     'Profile' => '',
     'Save' => '',
     'Sign up' => '',
@@ -54,7 +54,5 @@ return [
     'delete' => '',
     'edit' => '',
     'edit app' => '',
-    'view' => '',
-    'Add Telegram platform' => '@@@@',
-    'active users' => '@@@@',
+    'view' => ''
 ];

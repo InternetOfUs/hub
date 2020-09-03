@@ -162,10 +162,6 @@ class OauthController extends Controller {
             $redirect_url = "";
         }
 
-        if(!isset($error_message)){
-            $error_message = false;
-        }
-
         return $this->render('complete', [
             'redirect_url' => $redirect_url,
             'error_message' => $error_message,
@@ -251,7 +247,7 @@ class OauthController extends Controller {
                 Yii::$app->session->setFlash('error', Yii::t('app', 'Error updating the OAuth2'));
                 $transaction->rollback();
             }
-            
+
         }
         return $this->render('create_oauth', [
             'model' => $model,
