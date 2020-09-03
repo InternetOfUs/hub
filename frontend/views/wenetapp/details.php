@@ -1,5 +1,4 @@
 <?php
-    use frontend\models\AppPlatformTelegram;
     use yii\helpers\Url;
 
     $this->title = Yii::$app->name . ' | ' . $app->name;
@@ -28,98 +27,8 @@
                 $categories .= '</ul>';
                 echo $categories;
             }
+
+            // TODO show platforms icons + link where to download or use the service
         ?>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="connections">
-            <?php
-                $telegramPlatform = $app->getPlatformTelegram();
-
-                if( $telegramPlatform ){
-
-                    $loginIsVisible = 'none';
-                    $logoutIsVisible = 'none';
-                    $openChatIsVisible = 'none';
-                    if( $app->telegramUserIsActive() ){
-                        $logoutIsVisible = 'block';
-                        $openChatIsVisible = 'inline-block';
-                    } else {
-                        $loginIsVisible = 'block';
-                    }
-            ?>
-                <div id="telegram_container">
-                    <h2>Telegram</h2>
-                    <!-- login -->
-                    <div id="login_telegram" style="display:<?php echo $loginIsVisible; ?>">
-                        <script async src="https://telegram.org/js/telegram-widget.js?8"
-                            data-telegram-login="<?php echo $telegramPlatform->bot_username; ?>"
-                            data-size="large"
-                            data-onauth="onTelegramAuth(user)"
-                            data-request-access="write">
-                        </script>
-                    </div>
-                    <!-- open chat -->
-                    <a id="openChatTelegramBtn" style="display:<?php echo $openChatIsVisible; ?>"
-                        href="https://t.me/<?php echo $telegramPlatform->bot_username; ?>" target="_blank">
-                        <span class="icon"></span>
-                        <?php echo Yii::t('app', 'Open chat'); ?>
-                    </a>
-                    <!-- logout -->
-                    <button id="logoutTelegramBtn" style="display:<?php echo $logoutIsVisible; ?>"
-                        onclick="disabletelegram()"
-                        type="button">
-                        <span class="icon"></span>
-                        <?php echo Yii::t('app', 'Disconnect my account'); ?>
-                    </button>
-                </div>
-            <?php } ?>
-        </div>
-    </div>
 </div>
-
-<script type="text/javascript">
-
-    function onTelegramAuth(user) {
-        var data = {
-            "appId": "<?php echo $app->id; ?>",
-            "platform": "telegram",
-            "userId": <?php echo Yii::$app->user->id; ?>,
-            "platformId": user.id
-        };
-        $.post( "<?php echo Url::base(); ?>/wenetapp/associate-telegram-user", data).done(function(response) {
-            // console.log( "saved" );
-            $('#login_telegram').css('display', 'none');
-            $('#logoutTelegramBtn').css('display', 'block');
-            $('#openChatTelegramBtn').css('display', 'inline-block');
-        }).fail(function(response) {
-            // console.log( "error: " + response.responseJSON.message );
-            $('#login_telegram').css('display', 'none');
-            $('#logoutTelegramBtn').css('display', 'none');
-            $('#openChatTelegramBtn').css('display', 'none');
-            var content = '<p>' + response.responseJSON.message + '<p>';
-            $('#telegram_container').append(content);
-        });
-    }
-
-    function disabletelegram() {
-        var data = {
-            "appId": "<?php echo $app->id; ?>",
-            "platform": "telegram",
-            "userId": <?php echo Yii::$app->user->id; ?>
-        };
-        $.post( "<?php echo Url::base(); ?>/wenetapp/disassociate-telegram-user", data).done(function(response) {
-            // console.log( "saved" );
-            $('#login_telegram').css('display', 'block');
-            $('#logoutTelegramBtn').css('display', 'none');
-            $('#openChatTelegramBtn').css('display', 'none');
-        }).fail(function(response) {
-            // console.log( "error: " + response.responseJSON.message );
-            $('#login_telegram').css('display', 'none');
-            $('#logoutTelegramBtn').css('display', 'none');
-            $('#openChatTelegramBtn').css('display', 'none');
-            var content = '<p>' + response.responseJSON.message + '<p>';
-            $('#telegram_container').append(content);
-        });
-    }
-
-</script>

@@ -10,6 +10,7 @@ use common\models\LoginForm;
 use frontend\models\AuthorisationForm;
 use frontend\models\SignupForm;
 use frontend\models\WenetApp;
+use frontend\models\AppSocialLogin;
 
 class OauthController extends Controller {
 
@@ -20,25 +21,28 @@ class OauthController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['login', 'signup', 'authorise'],
+                'only' => [
+                    'login', 'signup', 'authorise', 'complete',
+                    'create-oauth', 'update-oauth', 'delete-oauth'
+                ],
                 'rules' => [
                     [
-                        'actions' => ['login', 'signup'],
+                        'actions' => ['login', 'signup', 'complete'],
                         'allow' => true,
                         'roles' => ['?', '@'],
                     ],
                     [
-                        'actions' => ['authorise'],
-                        'allow' => true,
+                        'actions' => [
+                            'authorise', 'create-oauth', 'update-oauth', 'delete-oauth'
+                        ],
+                        'allow' => !Yii::$app->user->isGuest && Yii::$app->user->getIdentity()->isDeveloper(),
                         'roles' => ['@'],
                     ],
                 ],
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
-                'actions' => [
-                    // 'logout' => ['post'],
-                ],
+                'actions' => [],
             ],
         ];
     }
@@ -149,4 +153,156 @@ class OauthController extends Controller {
             'model' => $model,
         ]);
     }
+
+    public function actionComplete($app_id, $redirect_url=null, $error_message=null) {
+        $this->layout = "easy.php";
+        $app = WenetApp::find()->where(["id" => $app_id])->one();
+
+        if(!isset($redirect_url)){
+            $redirect_url = "";
+        }
+
+        return $this->render('complete', [
+            'redirect_url' => $redirect_url,
+            'error_message' => $error_message,
+            'app' => $app
+        ]);
+    }
+
+    public function actionCreateOauth($id){
+        $app = WenetApp::find()->where(["id" => $id])->one();
+
+        // TODO check if there are other active social_login!!! non dovrebbe succedere (almeno non da interfaccia ma non si sa mai!)
+
+        $model = new AppSocialLogin;
+        $model->app_id = $id;
+        $model->status = AppSocialLogin::STATUS_ACTIVE;
+        $model->scenario = AppSocialLogin::SCENARIO_CREATE;
+
+        if ($model->load(Yii::$app->request->post())) {
+            if (isset(Yii::$app->params['kong.ignore']) && Yii::$app->params['kong.ignore']) {
+                $model->oauth_app_id = 'oauthId';
+            } else {
+                Yii::$app->kongConnector->createConsumer($app->id);
+                $model->oauth_app_id = Yii::$app->kongConnector->createOAuthCredentials($app->id, $app->token, $model->callback_url);
+            }
+            if ($model->save()) {
+                return $this->redirect(['/developer/details', 'id' => $id]);
+            } else {
+                // TODO Yii::error('Could not add social login', '');
+                Yii::$app->session->setFlash('error', Yii::t('app', 'Could not add social login.'));
+            }
+        }
+
+        return $this->render('create_oauth', array(
+            'model' => $model,
+            'app' => $app
+        ));
+    }
+
+    public function actionUpdateOauth($id){
+        $connection = \Yii::$app->db;
+        $transaction = $connection->beginTransaction();
+        $transactionOk = true;
+        $dataConnectorDisable = false;
+
+        $model = AppSocialLogin::find()->where(["id" => $id])->one();
+        $app = WenetApp::find()->where(["id" => $model->app_id])->one();
+        $model->scenario = AppSocialLogin::SCENARIO_UPDATE;
+
+        if ($model->load(Yii::$app->request->post())) {
+            if (isset(Yii::$app->params['kong.ignore']) && Yii::$app->params['kong.ignore']) {
+                $model->oauth_app_id = 'oauthId';
+            } else {
+                Yii::$app->kongConnector->deleteOAuthCredentials($app->id, $model->oauth_app_id);
+                $model->oauth_app_id = Yii::$app->kongConnector->createOAuthCredentials($app->id, $app->token, $model->callback_url);
+            }
+
+            if (!$model->save()) {
+                $transactionOk = false;
+                Yii::error('Could not update oauth', 'wenet.platform');
+            } else {
+                if(!$app->hasWritePermit() && $app->data_connector == WenetApp::ACTIVE_CONNECTOR){
+                    $dataConnectorDisable = true;
+                    $app->data_connector = WenetApp::NOT_ACTIVE_CONNECTOR;
+                }
+
+                if($dataConnectorDisable){
+                    if(!$app->save()){
+                        $transactionOk = false;
+                        Yii::error('Could not disable data connector', 'wenet.platform');
+                    }
+                }
+            }
+
+            if ($transactionOk) {
+                if($dataConnectorDisable){
+                    Yii::$app->session->setFlash('warning', Yii::t('app', 'Data connector disabled'));
+                }
+                Yii::$app->session->setFlash('success', Yii::t('app', 'OAuth2 successfully updated.'));
+                $transaction->commit();
+
+                return $this->redirect(['/developer/details', "id" => $model->app_id]);
+            } else {
+                Yii::$app->session->setFlash('error', Yii::t('app', 'Error updating the OAuth2'));
+                $transaction->rollback();
+            }
+
+        }
+        return $this->render('create_oauth', [
+            'model' => $model,
+            'app' => $app
+        ]);
+    }
+
+    public function actionDeleteOauth($id) {
+        $connection = \Yii::$app->db;
+        $transaction = $connection->beginTransaction();
+        $transactionOk = true;
+        $appToDevMode = true;
+
+        $model = AppSocialLogin::find()->where(["id" => $id])->one();
+        $app = WenetApp::find()->where(["id" => $model->app_id])->one();
+        $model->status = AppSocialLogin::STATUS_NOT_ACTIVE;
+
+        if (!$model->save()) {
+            $transactionOk = false;
+            Yii::error('Could not delete oauth', 'wenet.platform');
+        } else {
+            if($appToDevMode){
+                if($app->conversational_connector == WenetApp::ACTIVE_CONNECTOR){
+                    $app->conversational_connector = WenetApp::NOT_ACTIVE_CONNECTOR;
+                }
+                if($app->data_connector == WenetApp::ACTIVE_CONNECTOR){
+                    $app->data_connector = WenetApp::NOT_ACTIVE_CONNECTOR;
+                }
+                if(!$app->save()){
+                    $transactionOk = false;
+                    Yii::error('Could not put app ['.$app->id.'] in dev mode', 'wenet.platform');
+                }
+            }
+        }
+
+        if ($transactionOk) {
+            if($appToDevMode){
+                Yii::$app->session->setFlash('warning', Yii::t('app', 'Because OAuth2 is required for the app, the app has been automatically set as "In development" mode.'));
+            }
+            Yii::$app->session->setFlash('success', Yii::t('app', 'OAuth2 successfully deleted.'));
+            $transaction->commit();
+
+            // TODO include in transaction!
+            if (isset(Yii::$app->params['kong.ignore']) && Yii::$app->params['kong.ignore']) {
+                # nothing to do
+            } else {
+                Yii::$app->kongConnector->deleteConsumer($model->app_id);
+            }
+
+        } else {
+            Yii::$app->session->setFlash('error', Yii::t('app', 'Could not delete OAuth2.'));
+            $transaction->rollback();
+        }
+        return $this->redirect(['/developer/details', 'id' => $model->app_id]);
+    }
+
+
 }

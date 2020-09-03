@@ -42,6 +42,7 @@ Custom environment configurations can be accessed in the `frontend/config/params
 Optionally, configurations can also be set by setting the value of the following environment variables:
 
 * BASE_URL
+* API_BASE_URL
 * SERVICE_API_BASE_URL
 * SERVICE_API_APIKEY (optional, should be specified only when communicating directly with the service api component and not when using the project forwarder Kong)
 * REDIS_HOST
@@ -70,5 +71,5 @@ In order to take advantage of the Gitlab CI/CD integration, the following CI/CD 
 * DEPLOYMENT_SERVER_IP - the ip of the server hosting the deployment instances
 * DEPLOYMENT_TEST_DIR - the directly with the docker configuration of the test instance
 * GITLAB_SSH_KEY - the ssh key allowing the connection to the server
-* REGISTRY_USERNAME - the username used for authorizing with the registry
-* REGISTRY_PASSWORD - the password used for authorizing with the registry
+* REGISTRY_USERNAME - the username used for authorising with the registry
+* REGISTRY_PASSWORD - the password used for authorising with the registry

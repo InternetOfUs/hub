@@ -30,7 +30,28 @@
                 }
             },
         ],
-        'name',
+        [
+            'attribute' => 'name',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return '<div class="app_icon small_icon">
+                            <span>' . strtoupper($data->name[0]) .'</span>
+                        </div>' . $data->name;
+            },
+        ],
+        [
+            'label' => Yii::t('app', 'Links'),
+            'format' => 'raw',
+            'value' => function ($data) {
+                if($data->getActiveSourceLinksForApp()){
+                    return '<ul class="source_links_list table_view">' . implode(array_map(function($sl){
+                        return '<li><img src="'.Url::base().'/images/platforms/'.$sl.'.png" alt="'.Yii::t('app', 'Source link image').'"></li>';
+                    }, $data->getActiveSourceLinksForApp()), '') . '</ul>';
+                } else {
+                    return '<span class="not_set">'.Yii::t('app', 'to be configured').'</span>';
+                }
+            },
+        ],
         [
             'attribute' => 'categories',
             'format' => 'raw',
@@ -41,12 +62,14 @@
             },
         ],
         [
-            'attribute' => 'platforms',
+            'label' => Yii::t('app', 'OAuth2'),
             'format' => 'raw',
             'value' => function ($data) {
-                return '<ul class="platform_icons">' . implode(array_map(function($platform){
-                    return '<li><div class="image_container" style="align-self: flex-end"><img src="'.Url::base().'/images/platforms/'.$platform->type.'.png" alt="'. Yii::t('title', 'platform icon') .'"></div></li>';
-                }, $data->platforms()), '') . '</ul>';
+                if($data->hasSocialLogin()){
+                    return '<i class="fa fa-check" aria-hidden="true"></i>';
+                } else {
+                    return '<span class="not_set">'.Yii::t('app', 'to be configured').'</span>';
+                }
             },
         ],
         [

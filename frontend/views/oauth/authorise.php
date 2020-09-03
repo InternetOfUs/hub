@@ -4,16 +4,17 @@
     use yii\bootstrap4\Accordion;
 
     $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Authorise');
-    $app = $model->app();
     $user = $model->user();
-    // print_r($app);
-    // print_r($user);
+    $app = $model->app();
+    $socialLogin = $app->getSocialLogin();
 ?>
 
 <div class="site-authorisation">
+     <div class="app_icon big_icon centered_icon">
+         <span><?php echo strtoupper($app->name[0]); ?></span>
+     </div>
     <p style="text-align:center; margin-top:10px; font-size:16px;">
-        <strong><?php echo "App name "; ?></strong>
-        <?php echo Yii::t('authorisation', 'app text') ?>:
+        <?php echo Yii::t('authorisation', 'The application {app_name} will be able to', ['app_name' => '<strong>'.$app->name.'</strong>']) ?>:
     </p>
     <?php $form = ActiveForm::begin(['id' => 'authorisation-form']); ?>
         <?php
@@ -49,7 +50,7 @@
         </div>
     <?php ActiveForm::end(); ?>
     <hr>
-    <?= Html::a( Yii::t('authorisation', 'cancel')); ?>
+    <a style="color:#444;" href="<?php echo $socialLogin->callback_url ?>"><?php echo Yii::t('authorisation', 'cancel'); ?></a>
 </div>
 
 <script type="text/javascript">

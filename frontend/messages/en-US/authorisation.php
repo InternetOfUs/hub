@@ -17,13 +17,11 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'app text' => 'will be able to',
+    'Congratulations! You successfully activated the {app_name} application.' => '',
+    'Ooops! Something went wrong while activating the {app_name} application.' => '',
+    'The application {app_name} will be able to' => '',
     'access your profile data' => '',
     'access your public profile info' => '',
     'cancel' => '',
     'write your profile data' => '',
-    '?' => '@@@@',
-    'public profile info' => '@@@@',
-    'read' => '@@@@',
-    'write' => '@@@@',
 ];

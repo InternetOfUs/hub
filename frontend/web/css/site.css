@@ -37,6 +37,12 @@ button{
     border-color: #4c95ce;
 }
 
+span.not_set{
+    font-style: italic;
+    font-size: 13px;
+    color: #d62546;
+}
+
 a.normal_link{
     text-decoration: underline;
     color: #00a3b6;
@@ -45,8 +51,18 @@ a.normal_link{
 a.normal_link:hover{color: #4c5363;}
 
 p{font-weight: 300;}
+
 p.light{color: #888;}
 p a{color: #00a3b6;}
+
+ol{margin: 30px 0 0 15px;}
+
+ol li{
+    margin-bottom: 10px;
+    font-weight: 300;
+}
+
+ol li pre{margin: 10px 0 20px 0;}
 
 table{width: 100%;}
 ul{list-style-type: none;}
@@ -72,6 +88,8 @@ div.box_container h3{
 }
 
 div.box_container p{margin: 0 0 15px 0;}
+
+div.box_container hr{margin: 15px 0;}
 
 div.easy_layout div.alert{
     margin: 30px auto 0 auto;
@@ -438,20 +456,18 @@ a.app h2{
 
 a.app p{color: #888;}
 
-a.app ul.platform_icons{margin: 0px;}
+ul.source_links_list{margin-top: 15px;}
 
-ul.platform_icons li{
+ul.source_links_list li{
     display: inline-block;
-    margin-right: 10px;
+    margin-right: 8px;
+    height: 40px;
 }
 
-ul.platform_icons li div.image_container{height: 30px;}
+ul.source_links_list.table_view li{height: 30px;}
 
-ul.platform_icons li div.image_container img{
-    display: block;
-    height: 100%;
-    width: auto;
-}
+ul.source_links_list li img{ height: 100%; }
+
 
 ul.tags_list{margin-top: 30px;}
 
@@ -584,6 +600,41 @@ a span.actionColumn_btn.delete_btn:hover,
     border: 1px solid #d62546;
     color: #fff;
 }
+
+div.app_icon{
+    background-color: #00a3b6;
+    display: inline-block;
+    border-radius: 50%;
+    margin-right: 10px;
+    text-align: center;
+}
+
+div.app_icon span{
+    display: inline-block;
+    margin-top: 4px;
+    color: #fff;
+}
+
+div.centered_icon{
+    display: block;
+    margin: 0 auto;
+}
+
+div.big_icon{
+    height: 50px;
+    width: 50px;
+}
+
+div.big_icon span{font-size: 30px;}
+
+div.small_icon{
+    height: 30px;
+    width: 30px;
+}
+
+div.small_icon span{font-size: 16px;}
+
+h1{display: inline-block;}
 
 h1 span{
     font-weight: 200;

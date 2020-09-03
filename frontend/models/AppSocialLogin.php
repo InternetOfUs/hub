@@ -20,19 +20,21 @@ use yii\helpers\Json;
  *
  * @property WenetApp $app
  */
-class AppSocialLogin extends AppPlatform {
+class AppSocialLogin extends \yii\db\ActiveRecord {
 
-    public $allowedPublicScope;
-    public $allowedWriteScope;
-    public $allowedReadScope;
+    public $allMetadata = [];
+    public $allowedScopes = [];
 
     const SCENARIO_CREATE = 'create';
     const SCENARIO_UPDATE = 'update';
 
+    const STATUS_NOT_ACTIVE = 0;
+    const STATUS_ACTIVE = 1;
+
     public function scenarios() {
         $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_CREATE] = ['callback_url', 'scope', 'status', 'oauth_app_id'];
-        $scenarios[self::SCENARIO_UPDATE] = ['callback_url', 'scope', 'oauth_app_id'];
+        $scenarios[self::SCENARIO_CREATE] = ['callback_url', 'scope', 'allowedScopes', 'status', 'oauth_app_id'];
+        $scenarios[self::SCENARIO_UPDATE] = ['callback_url', 'scope', 'allowedScopes', 'oauth_app_id'];
         return $scenarios;
     }
 
@@ -55,8 +57,15 @@ class AppSocialLogin extends AppPlatform {
             [['created_at', 'updated_at', 'status'], 'integer'],
             [['app_id'], 'string', 'max' => 128],
             [['app_id'], 'exist', 'skipOnError' => true, 'targetClass' => WenetApp::className(), 'targetAttribute' => ['app_id' => 'id']],
-            // [['allowedPublicScope', 'allowedWriteScope', 'allowedReadScope'], 'safe']
+            [['callback_url'], 'linksValidation'],
+            [['allowedScopes'], 'safe']
         ];
+    }
+
+    public function linksValidation(){
+        if($this->callback_url != null && substr($this->callback_url, 0, 4) != "http"){
+            $this->addError('callback_url', Yii::t('app', 'Link should be an absolute link (add http:// or https://).'));
+        }
     }
 
     /**
@@ -71,6 +80,7 @@ class AppSocialLogin extends AppPlatform {
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'status' => Yii::t('app', 'Status'),
+            'allowedScopes' => Yii::t('app', 'Permissions')
         ];
     }
 
@@ -85,17 +95,30 @@ class AppSocialLogin extends AppPlatform {
     }
 
     public function afterFind() {
-        $this->type = self::TYPE_SOCIAL_LOGIN;
         if ($this->scope) {
-            $this->scope = JSON::decode($this->scope);
+            $this->allMetadata = json_decode($this->scope, true);
+
+            if (isset($this->allMetadata['scope']) && is_array($this->allMetadata['scope'])) {
+                $this->allowedScopes = $this->allMetadata['scope'];
+            } else {
+                $this->allowedScopes = [];
+            }
         } else {
-            $this->scope = array();
+            $this->allowedScopes = array();
         }
     }
 
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
+            if($this->allowedScopes == ""){
+                $this->allowedScopes = [];
+            }
+
+            $this->scope = [
+                'scope' => $this->allowedScopes,
+            ];
             $this->scope = JSON::encode($this->scope);
+
             return true;
         } else {
             return false;
