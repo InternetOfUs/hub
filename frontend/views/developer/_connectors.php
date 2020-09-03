@@ -102,9 +102,9 @@
 <script type="text/javascript">
 
     function sendConversationalRequest(status){
-        var url = '<?php echo Url::to("/developer/disable-conversational-connector?id=" . $app->id); ?>';
+        var url = '<?php echo Url::base() . "/developer/disable-conversational-connector?id=" . $app->id; ?>';
         if(status){
-            url = '<?php echo Url::to("/developer/enable-conversational-connector?id=" . $app->id); ?>';
+            url = '<?php echo Url::base() . "/developer/enable-conversational-connector?id=" . $app->id; ?>';
         }
         $.ajax({
             url: url,
@@ -122,15 +122,15 @@
                 $('ul.breadcrumb').after('<div class="alert-'+data["alert_type"]+' alert fade in">'+data["message"]+'</div>');
             },
             error:function(jqXhr,status,error){
-                $('ul.breadcrumb').after('<div class="alert-error alert fade in"><?php echo Yii::t('app', 'Error, please retry later.'); ?></div>');
+                $('ul.breadcrumb').after('<div class="alert-'+data["alert_type"]+' alert fade in"><?php echo Yii::t('app', 'Error, please retry later.'); ?></div>');
             }
         });
     }
 
     function sendDataRequest(status){
-        var url = '<?php echo Url::to("/developer/disable-data-connector?id=" . $app->id); ?>';
+        var url = '<?php echo Url::base() . "/developer/disable-data-connector?id=" . $app->id; ?>';
         if(status){
-            url = '<?php echo Url::to("/developer/enable-data-connector?id=" . $app->id); ?>';
+            url = '<?php echo Url::base() . "/developer/enable-data-connector?id=" . $app->id; ?>';
         }
         $.ajax({
             url: url,
@@ -141,7 +141,7 @@
                 $('ul.breadcrumb').after('<div class="alert-'+data["alert_type"]+' alert fade in">'+data["message"]+'</div>');
             },
             error:function(jqXhr,status,error){
-                $('ul.breadcrumb').after('<div class="alert-error alert fade in"><?php echo Yii::t('app', 'Error, please retry later.'); ?></div>');
+                $('ul.breadcrumb').after('<div class="alert-'+data["alert_type"]+' alert fade in"><?php echo Yii::t('app', 'Error, please retry later.'); ?></div>');
             }
         });
     }
