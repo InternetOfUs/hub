@@ -8,6 +8,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\data\ArrayDataProvider;
 use frontend\models\WenetApp;
+use common\models\User;
 use frontend\models\AppDeveloper;
 use yii\helpers\Json;
 
@@ -24,7 +25,9 @@ class DeveloperController extends Controller {
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => [
-                    'index', 'create', 'update', 'details', 'delete',
+                    'index', 'create', 'update', 'details',
+                    'developers', 'delete-developer',
+                    'delete',
                     'conversational-connector',
                     'disable-conversational-connector', 'enable-conversational-connector',
                     'disable-data-connector', 'enable-data-connector'
@@ -32,7 +35,9 @@ class DeveloperController extends Controller {
                 'rules' => [
                     [
                         'actions' => [
-                            'index', 'create', 'update', 'details', 'delete',
+                            'index', 'create', 'update', 'details',
+                            'developers', 'delete-developer',
+                            'delete',
                             'conversational-connector',
                             'disable-conversational-connector', 'enable-conversational-connector',
                             'disable-data-connector', 'enable-data-connector'
@@ -101,6 +106,62 @@ class DeveloperController extends Controller {
 		}
 
         return $this->render('details', array());
+    }
+
+    public function actionDevelopers($id){
+		$app = WenetApp::find()->where(["id" => $id])->one();
+        $appDeveloper = new AppDeveloper;
+
+        $provider = new ArrayDataProvider([
+            'allModels' => AppDeveloper::find()->where(['app_id' => $id])->all(),
+            'pagination' => [
+                'pageSize' => 15,
+            ],
+            'sort' => [
+                'attributes' => [],
+            ],
+        ]);
+
+        if ($appDeveloper->load(Yii::$app->request->post())) {
+            foreach ($appDeveloper->user_id as $user) {
+                if(!AppDeveloper::find()->where(["user_id" => $user, "app_id" => $id])->one()){
+                    $model = new AppDeveloper;
+                    $model->app_id = $id;
+                    $model->user_id = $user;
+                    $model->save();
+                }
+            }
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Developers successfully added.'));
+            return $this->redirect(['developers', 'id' => $id]);
+        }
+
+        return $this->render('developers', array(
+            'provider' => $provider,
+            'app' => $app,
+            'appDeveloper' => $appDeveloper
+		));
+    }
+
+    public function actionDeveloperList($app_id, $q = null, $id = null) {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'username' => '', 'email' => '']];
+
+        if (!is_null($q)) {
+            $sql = 'SELECT * FROM user WHERE developer = :developer AND ( user.email LIKE :emailQuery OR user.username LIKE :usernameQuery ) AND user.id NOT IN (SELECT user.id FROM user INNER JOIN app_developer ON app_developer.user_id = user.id WHERE app_id = :app_id )';
+            $developers = User::findBySql($sql, [':emailQuery' => '%'.$q.'%', ':usernameQuery' => '%'.$q.'%', ':developer' => User::DEVELOPER, 'app_id' => $app_id])->all();
+            $out['results'] = array_map(function($e){return ['email' => $e->email, 'id' => $e->id, 'username' => $e->username];}, $developers);
+        }
+        return $out;
+    }
+
+    public function actionDeleteDeveloper($app_id, $user_id) {
+        $model = AppDeveloper::find()->where(['app_id' => $app_id, 'user_id' => $user_id])->one();
+        if ($model->delete()) {
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Developer successfully deleted.'));
+        } else {
+            Yii::$app->session->setFlash('error', Yii::t('app', 'Could not delete developer.'));
+        }
+        return $this->redirect(['developers', 'id' => $app_id]);
     }
 
     public function actionCreate(){

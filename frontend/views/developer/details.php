@@ -34,6 +34,10 @@
             <i class="fa fa-pencil" aria-hidden="true"></i>
             <?php echo Yii::t('common', 'edit app'); ?>
         </a>
+        <a href="<?= Url::to(['/developer/developers', 'id' => $app->id]); ?>" class="btn btn-secondary pull-right" style="margin: 0 5px 0 0; font-size:12px;">
+            <i class="fa fa-user" aria-hidden="true"></i>
+            <?php echo Yii::t('common', 'manage developers'); ?>
+        </a>
     </div>
 </div>
 
