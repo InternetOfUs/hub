@@ -17,8 +17,7 @@ class AppDeveloper extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'app_developer';
     }
 
@@ -52,7 +51,7 @@ class AppDeveloper extends \yii\db\ActiveRecord
     {
         return [
             'app_id' => 'App ID',
-            'user_id' => 'User ID',
+            'user_id' => Yii::t('app', 'Developers'),
             'created_at' => 'Created At',
         ];
     }

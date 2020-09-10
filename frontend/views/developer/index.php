@@ -77,7 +77,23 @@
                 'class' => 'action-column',
             ],
             'class' => ActionColumn::className(),
-            'template' => '{view} {update} {delete}',
+            'template' => '{view} {update} {developers} {delete}',
+            'visibleButtons' => [
+                'developers' => function ($data) {
+                    if($data->owner_id == Yii::$app->user->id){
+                        return true;
+                    } else {
+                        return false;
+                    }
+                },
+                'delete' => function ($data) {
+                    if($data->owner_id == Yii::$app->user->id){
+                        return true;
+                    } else {
+                        return false;
+                    }
+                },
+            ],
             'buttons'=>[
                 'view' => function ($url, $model) {
                     $url = Url::to(['/developer/details', 'id' => $model->id]);
@@ -89,6 +105,12 @@
                     $url = Url::to(['/developer/update', 'id' => $model->id]);
                     return Html::a('<span class="actionColumn_btn"><i class="fa fa-pencil"></i></span>', $url, [
                         'title' => Yii::t('common', 'edit'),
+                    ]);
+                },
+                'developers' => function ($url, $model) {
+                    $url = Url::to(['/developer/developers', 'id' => $model->id]);
+                    return Html::a('<span class="actionColumn_btn"><i class="fa fa-user"></i></span>', $url, [
+                        'title' => Yii::t('common', 'manage developers'),
                     ]);
                 },
                 'delete' => function ($url, $model) {

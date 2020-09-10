@@ -358,6 +358,10 @@ class WenetApp extends \yii\db\ActiveRecord {
         return $this->hasOne(User::className(), ['id' => 'owner_id']);
     }
 
+    public function isOwner($user_id) {
+        return WenetApp::find()->where(['id' => $this->id, 'owner_id' => $user_id])->one();
+    }
+
     public function getOwnerShortName(){
         $ownerId = $this->owner->id;
         $owner = Yii::$app->serviceApi->getUserProfile($ownerId);

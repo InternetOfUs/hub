@@ -564,7 +564,8 @@ span.status_icon i{font-size: 20px;}
 table tr td ul{margin: 0px !important;}
 table tr td ul.platform_icons li div.image_container{height: 33px;}
 
-a span.actionColumn_btn{
+a span.actionColumn_btn,
+a.btn-secondary{
     background-color: #eee;
     border: 1px solid #ddd;
     text-decoration: none;
