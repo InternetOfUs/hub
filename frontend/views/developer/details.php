@@ -178,7 +178,7 @@
                         </li>
                         <li>
                             <?php echo Yii::t('app', 'Upon successful authentication, you can optionally redirect your user to the WeNet OAuth2 complete page'); ?>
-                            <pre><?php echo Url::home(true) . 'oauth/complete'; ?></pre>
+                            <pre><?php echo Url::home(true) . 'oauth/complete?app_id='. $app->id; ?></pre>
                         </li>
                         <li>
                             <?php echo Yii::t('app', 'Include the token in your requests to the platform in the header:'); ?>

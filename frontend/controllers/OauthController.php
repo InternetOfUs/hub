@@ -27,13 +27,13 @@ class OauthController extends Controller {
                 ],
                 'rules' => [
                     [
-                        'actions' => ['login', 'signup', 'complete'],
+                        'actions' => ['authorise', 'login', 'signup', 'complete'],
                         'allow' => true,
                         'roles' => ['?', '@'],
                     ],
                     [
                         'actions' => [
-                            'authorise', 'create-oauth', 'update-oauth', 'delete-oauth'
+                            'create-oauth', 'update-oauth', 'delete-oauth',
                         ],
                         'allow' => !Yii::$app->user->isGuest && Yii::$app->user->getIdentity()->isDeveloper(),
                         'roles' => ['@'],
