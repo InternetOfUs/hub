@@ -117,7 +117,7 @@ class DeveloperController extends Controller {
                 $appDeveloper->user_id = $model->owner_id;
                 $appDeveloper->save();
 
-                return $this->redirect(['oauth/create-oauth', 'id' => $model->id]);
+                return $this->redirect(['oauth/create-oauth', 'id' => $model->id, 'skip' => true]);
             } else {
                 Yii::$app->session->setFlash('error', Yii::t('app', 'Could not create app.'));
             }

@@ -169,7 +169,7 @@ class OauthController extends Controller {
         ]);
     }
 
-    public function actionCreateOauth($id){
+    public function actionCreateOauth($id, $skip=false){
         $app = WenetApp::find()->where(["id" => $id])->one();
 
         // TODO check if there are other active social_login!!! non dovrebbe succedere (almeno non da interfaccia ma non si sa mai!)
@@ -196,7 +196,8 @@ class OauthController extends Controller {
 
         return $this->render('create_oauth', array(
             'model' => $model,
-            'app' => $app
+            'app' => $app,
+            'skipConfiguration' => $skip,
         ));
     }
 
@@ -251,7 +252,8 @@ class OauthController extends Controller {
         }
         return $this->render('create_oauth', [
             'model' => $model,
-            'app' => $app
+            'app' => $app,
+            'skipConfiguration' => false,
         ]);
     }
 

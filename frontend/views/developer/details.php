@@ -142,10 +142,19 @@
                         <li>
                             <?php echo Yii::t('app', 'Redirect your users to'); ?>
                             <pre><?php echo Url::home(true) . 'oauth/login?client_id=' . $app->id; ?></pre>
+                            <?php echo Yii::t('app', 'You can optionally include two additional parameters: {external_id} allows to specify the 3-rd party user id and {scope} allows to define the subset of permissions that should be requested to the user (among the ones activated in this application OAuth2 settings).', [
+                                'external_id' => '<strong>external_id</strong>',
+                                'scope' => '<strong>scope</strong>',
+                            ]); ?>
                         </li>
                         <li>
-                            <?php echo Yii::t('app', 'Prepare a dedicated endpoint in your application backend where the {OAuth2_code} for your users will be provided as a query param (named code)', [
+                            <?php echo Yii::t('app', 'The {OAuth2_code} will be made available to the defined callback a query param (named {code})', [
                                 'OAuth2_code' => '<strong>OAuth2 code</strong>',
+                                'code' => '<strong>code</strong>',
+                            ]); ?>
+                            <pre><?php echo $socialLogin->callback_url . '?code=ouath2_code' ; ?></pre>
+                            <?php echo Yii::t('app', 'If the parameter {external_id} has been specified in step 1. it will be made available in this callback.', [
+                                'external_id' => '<strong>external_id</strong>',
                             ]); ?>
                         </li>
                         <li>
@@ -161,7 +170,7 @@
       --data "grant_type=authorization_code" \
       --data "client_id=<?php echo $app->id; ?>" \
       --data "client_secret=<?php echo $app->token; ?>" \
-      --data "code=<strong>&lt;the code you got in step 2&gt;</strong>"</pre>
+      --data "code=<strong>ouath2_code</strong>"</pre>
                         </li>
                         <li>
                             <?php echo Yii::t('app', 'Upon successful authentication, you can optionally redirect your user to the WeNet OAuth2 complete page'); ?>
