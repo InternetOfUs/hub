@@ -81,7 +81,7 @@ class WenetappController extends Controller {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if ($app) {
             $developers = AppDeveloper::find()->where(['app_id' => $appId])->all();
-            return array_map(function($d) { return $d->user_id; }, $developers);
+            return array_map(function($d) { return ''.$d->user_id; }, $developers);
         } else {
             Yii::$app->response->statusCode = 404;
             return new \stdClass();
@@ -93,7 +93,7 @@ class WenetappController extends Controller {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if ($app) {
             $users = AppUser::find()->where(['app_id' => $appId])->all();
-            return array_map(function($d) { return $d->user_id; }, $users);
+            return array_map(function($d) { return ''.$d->user_id; }, $users);
         } else {
             Yii::$app->response->statusCode = 404;
             return new \stdClass();
