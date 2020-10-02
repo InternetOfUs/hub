@@ -6,19 +6,23 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 
 /**
- * This is the model class for table "app_developer".
+ * This is the model class for table "app_user".
  *
  * @property string $app_id
  * @property int $user_id
  * @property int $created_at
+ *
+ * @property App $app
+ * @property User $user
  */
-class AppDeveloper extends \yii\db\ActiveRecord
+class AppUser extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
-    public static function tableName() {
-        return 'app_developer';
+    public static function tableName()
+    {
+        return 'app_user';
     }
 
     /**
@@ -53,9 +57,19 @@ class AppDeveloper extends \yii\db\ActiveRecord
     {
         return [
             'app_id' => 'App ID',
-            'user_id' => Yii::t('app', 'Developers'),
+            'user_id' => 'User ID',
             'created_at' => 'Created At',
         ];
+    }
+
+    /**
+     * Gets query for [[App]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getApp()
+    {
+        return $this->hasOne(App::className(), ['id' => 'app_id']);
     }
 
     /**
@@ -66,15 +80,5 @@ class AppDeveloper extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    /**
-     * Gets query for [[App]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getApp()
-    {
-        return $this->hasOne(WenetApp::className(), ['id' => 'app_id']);
     }
 }

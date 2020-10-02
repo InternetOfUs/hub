@@ -11,6 +11,7 @@ use frontend\models\AuthorisationForm;
 use frontend\models\SignupForm;
 use frontend\models\WenetApp;
 use frontend\models\AppSocialLogin;
+use frontend\models\AppUser;
 
 class OauthController extends Controller {
 
@@ -112,6 +113,23 @@ class OauthController extends Controller {
         ]);
     }
 
+    private function saveAppUserAssociation($appId, $userId) {
+        $association = AppUser::find()->where([
+            'app_id' => $appId,
+            'user_id' => $userId,
+        ])->one();
+
+        if (!$association) {
+            $association = new AppUser();
+            $association->app_id = $appId;
+            $association->user_id = $userId;
+            if (!$association->save()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public function actionAuthorise($client_id, $scope=null, $external_id=null) {
         $this->layout = "easy.php";
         $model = new AuthorisationForm();
@@ -141,6 +159,7 @@ class OauthController extends Controller {
                 if ($external_id) {
                     $redirectUri = $redirectUri . '&external_id=' . $external_id;
                 }
+                $result = $this->saveAppUserAssociation($client_id, Yii::$app->user->id);
                 $this->redirect($redirectUri);
             } else {
                 # TODO show error page - something went wrong during authorisation
