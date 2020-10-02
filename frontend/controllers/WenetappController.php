@@ -7,6 +7,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use frontend\models\WenetApp;
+use frontend\models\AppDeveloper;
+use frontend\models\AppUser;
 use frontend\components\AppConnector;
 
 /**
@@ -22,9 +24,16 @@ class WenetappController extends Controller {
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => [
-                    'index', 'details'
+                    'index', 'details', 'json-details', 'developer-list', 'user-list',
                 ],
                 'rules' => [
+                    [
+                        'actions' => [
+                            'json-details', 'developer-list', 'user-list',
+                        ],
+                        'allow' => true,
+                        'roles' => ['?', '@'],
+                    ],
                     [
                         'actions' => [
                             'index', 'details'
@@ -54,6 +63,41 @@ class WenetappController extends Controller {
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
+    }
+
+    public function actionJsonDetails($appId) {
+        $app = WenetApp::find()->where(['id' => $appId])->one();
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if ($app) {
+            return $app->toRepr();
+        } else {
+            Yii::$app->response->statusCode = 404;
+            return new \stdClass();
+        }
+    }
+
+    public function actionDeveloperList($appId) {
+        $app = WenetApp::find()->where(['id' => $appId])->one();
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if ($app) {
+            $developers = AppDeveloper::find()->where(['app_id' => $appId])->all();
+            return array_map(function($d) { return $d->user_id; }, $developers);
+        } else {
+            Yii::$app->response->statusCode = 404;
+            return new \stdClass();
+        }
+    }
+
+    public function actionUserList($appId) {
+        $app = WenetApp::find()->where(['id' => $appId])->one();
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if ($app) {
+            $users = AppUser::find()->where(['app_id' => $appId])->all();
+            return array_map(function($d) { return $d->user_id; }, $users);
+        } else {
+            Yii::$app->response->statusCode = 404;
+            return new \stdClass();
+        }
     }
 
     public function actionIndex($platforms=null, $tags=null) {

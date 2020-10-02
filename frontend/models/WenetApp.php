@@ -89,6 +89,20 @@ class WenetApp extends \yii\db\ActiveRecord {
         ];
     }
 
+    public function toRepr() {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'status' => $this->status,
+            'ownerId' => $this->owner_id,
+            'ownerId' => $this->owner_id,
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at,
+            'metadata' => $this->allMetadata,
+            'messageCallbackUrl' => $this->message_callback_url,
+        ];
+    }
+
     public function statusValidation(){
         if($this->status == self::STATUS_ACTIVE){
 

@@ -56,6 +56,19 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                [
+                    'pattern' => 'data/app/<appId>',
+                    'route' => 'wenetapp/json-details',
+                ],
+                [
+                    'pattern' => 'data/app/<appId>/developer',
+                    'route' => 'wenetapp/developer-list',
+                ],
+                [
+                    'pattern' => 'data/app/<appId>/user',
+                    'route' => 'wenetapp/user-list',
+                ],
+
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
