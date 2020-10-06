@@ -64,11 +64,13 @@ class OauthController extends Controller {
     }
 
     private function verifyAppExistance($clientId) {
-        if (WenetApp::findOne($clientId) == NULL) {
+        $app = WenetApp::findOne($clientId);
+        if ($app == NULL) {
             # TODO error : provided client id is not valid
             # should render here error page
             exit();
         }
+        return $app;
     }
 
     public function actionLogin($client_id, $scope=null, $external_id=null) {
@@ -135,10 +137,13 @@ class OauthController extends Controller {
         $model = new AuthorisationForm();
         $model->appId = $client_id;
         $model->userId = Yii::$app->user->id;
+        $app = $this->verifyAppExistance($client_id);
+
         if (isset($scope)) {
             $model->withSpecifiedScope(explode(',', $scope));
         } else {
-            $model->withCompleteScope();
+            $socialLogin = $app->getSocialLogin();
+            $model->withSpecifiedScope($socialLogin->allowedScopes);
         }
 
         if ($model->load(Yii::$app->request->post())) {
