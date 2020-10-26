@@ -74,6 +74,9 @@ class SignupForm extends Model {
             return null;
         }
 
+        $connection = \Yii::$app->db;
+        $transaction = $connection->beginTransaction();
+
         $user = new User();
         $user->username = $this->username;
         $user->email = $this->email;
@@ -84,9 +87,14 @@ class SignupForm extends Model {
         $user->generateEmailVerificationToken();
 
         if ($user->save()) {
-            Yii::$app->serviceApi->initUserProfile($user->id);
-            // $this->sendEmail($user);
-            return $user;
+            if (!Yii::$app->serviceApi->initUserProfile($user->id)) {
+                $transaction->rollBack();
+                return null;
+            } else {
+                // $this->sendEmail($user);
+                $transaction->commit();
+                return $user;
+            }
         } else {
             return null;
         }
