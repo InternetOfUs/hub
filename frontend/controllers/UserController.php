@@ -97,6 +97,10 @@ class UserController extends Controller {
     public function actionProfile(){
         $model = Yii::$app->serviceApi->getUserProfile(Yii::$app->user->id);
 
+        if (!$model) {
+            # TODO show error page: error getting user profile
+        }
+
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if (Yii::$app->serviceApi->updateUserProfile($model)) {
                 Yii::$app->session->setFlash('success', Yii::t('profile', 'Profile successfully updated.'));

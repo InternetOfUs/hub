@@ -117,7 +117,6 @@ class Profile extends Model {
             'locale' => $this->locale,
             'nationality' => $this->nationality,
             'avatar' => null,
-            'languages' => [],
             'occupation' => null,
         ];
     }
@@ -133,9 +132,10 @@ class Profile extends Model {
         $model->prefix_name = $repr['name']['prefix'];
         $model->suffix_name = $repr['name']['suffix'];
 
-        $day = $repr['dateOfBirth']['day'];
-        $month = $repr['dateOfBirth']['month'];
-        $year = $repr['dateOfBirth']['year'];
+        $day = isset($repr['dateOfBirth']['day']) ? $repr['dateOfBirth']['day'] : null;
+        $month = isset($repr['dateOfBirth']['month']) ? $repr['dateOfBirth']['month'] : null;
+        $year = isset($repr['dateOfBirth']['year']) ? $repr['dateOfBirth']['year'] : null;
+
         if ($day && $month && $year) {
             $dd = new \DateTime();
             $dd->setDate($year, $month, $day);
