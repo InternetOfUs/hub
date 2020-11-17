@@ -17,9 +17,9 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Process succefully completed' => '',
     'Account' => '',
     'Account & Profile' => '',
+    'Add a developers to the app' => '',
     'All Rights reserved' => '',
     'Apps' => '',
     'Authorise' => '',
@@ -36,10 +36,12 @@ return [
     'Login' => '',
     'Logout' => '',
     'Male' => '',
+    'Manage developers' => '',
     'My Apps' => '',
     'OAuth2 configuration' => '',
     'Other' => '',
     'Password' => '',
+    'Process succefully completed' => '',
     'Profile' => '',
     'Save' => '',
     'Sign up' => '',
@@ -52,7 +54,9 @@ return [
     'close' => '',
     'continue' => '',
     'delete' => '',
+    'delete developer' => '',
     'edit' => '',
     'edit app' => '',
+    'manage developers' => '',
     'view' => '',
 ];
