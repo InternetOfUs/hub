@@ -448,6 +448,15 @@ a.app:hover{
 
 a.app:hover *{color: #666 !important;}
 
+a.app div.big_icon{
+    margin-bottom: 10px;
+    height: 35px;
+    width: 35px;
+}
+
+a.app div.big_icon span{font-size: 20px;}
+a.app:hover div.big_icon span{color:#fff !important;}
+
 a.app h2{
     font-size: 20px;
     margin-top: 5px;
