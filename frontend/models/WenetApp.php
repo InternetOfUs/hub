@@ -95,7 +95,6 @@ class WenetApp extends \yii\db\ActiveRecord {
             'name' => $this->name,
             'status' => $this->status,
             'ownerId' => $this->owner_id,
-            'ownerId' => $this->owner_id,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'metadata' => $this->allMetadata,

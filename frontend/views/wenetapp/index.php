@@ -85,33 +85,26 @@
 							}
 						}
 
+                        $activeSourceLinks = '';
+                        if($app->getActiveSourceLinksForApp()){
+                            $activeSourceLinks .= '<ul class="source_links_list table_view">' . implode(array_map(function($sl){
+                                return '<li><img src="'.Url::base().'/images/platforms/'.$sl.'.png" alt="'.Yii::t('app', 'Source link image').'"></li>';
+                            }, $app->getActiveSourceLinksForApp()), '') . '</ul>';
+                        }
+
                         // $itemPlatforms = [];
                         // $availablePlatforms = [];
                         // if($app->hasPlatformTelegram()) {
                         //     $availablePlatforms[] = AppPlatform::TYPE_TELEGRAM;
                         //     $itemPlatforms[] = 'platform__' . AppPlatform::TYPE_TELEGRAM;
                         // }
-                        //
-                        // $platformsContent = '';
-                        // if(count($availablePlatforms) > 0){
-                        //     $platformsContent .= '<ul class="platform_icons">';
-                        //     foreach ($availablePlatforms as $key => $ap) {
-                        //         $platformsContent .= '<li>';
-                        //             $platformsContent .= '<div class="image_container" style="align-self: flex-end">';
-                        //                 $platformsContent .= '<img src="'.Url::base().'/images/platforms/'.$ap.'.png" alt="'. Yii::t('title', 'platform icon') .'">';
-                        //             $platformsContent .= '</div>';
-                        //         $platformsContent .= '</li>';
-                        //     }
-                        //     $platformsContent .= '</ul>';
-                        // } else {
-                        //     $platformsContent .= '';
-                        // }
+
 
                         // $content = '<a href="'. Url::to(['/wenetapp/details', 'id' => $app->id, 'back' => 'index']) .'" class="'.implode($itemTags, ' '). ' '.implode($itemPlatforms, ' ').' app appId__'.$app->id.'">';
                         $content = '<a href="'. Url::to(['/wenetapp/details', 'id' => $app->id, 'back' => 'index']) .'" class="'.implode($itemTags, ' ').' app appId__'.$app->id.'">';
                             $content .= '<h2>'. $app->name .'</h2>';
                             $content .= '<p>'. $app->description .'</p>';
-                            // $content .= $platformsContent;
+                            $content .= $activeSourceLinks;
                         $content .= '</a>';
 
                         echo $content;
