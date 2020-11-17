@@ -185,6 +185,14 @@
                             <pre>--header "Authorization: bearer <strong>&lt;access token&gt;</strong>"</pre>
                         </li>
                         <li>
+                            <?php echo Yii::t('app', 'It is possible to request the token details by performing a GET request to:'); ?>
+                            <pre><?php echo Yii::$app->params['authorisation.api.base.url'] . '/service/token'; ?></pre>
+                        </li>
+                        <li>
+                            <?php echo Yii::t('app', 'The user profile can now be easily requested performing a get request to:'); ?>
+                            <pre><?php echo Yii::$app->params['authorisation.api.base.url'] . '/service/user/profile'; ?></pre>
+                        </li>
+                        <li>
                             <?php echo Yii::t('app', 'Upon token expiration, take advantage of the refresh token or redirect the user through the social login flow again to get a new valid token'); ?>
                         </li>
                     </ol>
