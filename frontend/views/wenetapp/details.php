@@ -20,7 +20,9 @@
         </div>
         <h1><?php echo $app->name; ?></h1>
         <p style="margin:20px 0;"><?php echo $app->description; ?></p>
-        <p><strong><?php echo Yii::t('app', 'Creator'); ?>:</strong> <?php echo $app->getOwnerShortName(); ?></p>
+        <?php if($app->getOwnerShortName() != null){ ?>
+            <p><strong><?php echo Yii::t('app', 'Creator'); ?>:</strong> <?php echo $app->getOwnerShortName(); ?></p>
+        <?php } ?>
         <p><strong><?php echo Yii::t('app', 'Available platforms (for download or direct use)'); ?>:</strong></p>
         <?php
             $activeSourceLinks = '<ul class="source_links_list details_view">';

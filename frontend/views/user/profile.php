@@ -17,10 +17,13 @@
 	</div>
     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
         <?php
-            $form = ActiveForm::begin([
-                'id' => 'profile-form',
-                'options' => ['class' => ''],
-            ])
+            if($errorGettingUserProfile){
+                echo '<div class="alert-warning alert">'.Yii::t('profile', 'Error visualizing your profile, try later.').'</div>';
+            } else {
+                $form = ActiveForm::begin([
+                    'id' => 'profile-form',
+                    'options' => ['class' => ''],
+                ])
         ?>
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
@@ -103,6 +106,7 @@
                     </div>
                 </div>
             </div>
-        <?php ActiveForm::end() ?>
+        <?php ActiveForm::end();
+        } ?>
     </div>
 </div>
