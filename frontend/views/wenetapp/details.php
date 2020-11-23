@@ -15,6 +15,9 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+        <div class="app_icon big_icon">
+            <span><?php echo strtoupper($app->name[0]); ?></span>
+        </div>
         <h1><?php echo $app->name; ?></h1>
         <p style="margin:20px 0;"><?php echo $app->description; ?></p>
         <p><strong><?php echo Yii::t('app', 'Creator'); ?>:</strong> <?php echo $app->getOwnerShortName(); ?></p>

@@ -428,11 +428,11 @@ a.user_apps{
 }
 
 a.app{
+    padding: 15px 15px 5px 15px;
     border: 1px solid #ddd;
     text-decoration: none;
-    border-radius: 5px;
     margin-bottom: 15px;
-    padding: 15px;
+    border-radius: 5px;
     width: 31%;
     display: flex;
     flex-direction: column;
@@ -448,6 +448,15 @@ a.app:hover{
 
 a.app:hover *{color: #666 !important;}
 
+a.app div.big_icon{
+    margin-bottom: 10px;
+    height: 35px;
+    width: 35px;
+}
+
+a.app div.big_icon span{font-size: 20px;}
+a.app:hover div.big_icon span{color:#fff !important;}
+
 a.app h2{
     font-size: 20px;
     margin-top: 5px;
@@ -456,10 +465,14 @@ a.app h2{
 
 a.app p{color: #888;}
 
-ul.source_links_list{margin-top: 15px;}
+ul.source_links_list{
+    margin-bottom: 0px;
+    margin-top: 15px;
+}
 
 ul.source_links_list li{
     display: inline-block;
+    margin-bottom: 10px;
     margin-right: 8px;
     height: 40px;
 }

@@ -107,6 +107,7 @@ return [
     'You should enable at least one connector to go live with the app.' => '',
     'all' => '',
     'configure OAuth2' => '',
+    'filter_platform' => 'Platforms',
     'filters' => '',
     'iOS app' => '',
     'to be configured' => '',

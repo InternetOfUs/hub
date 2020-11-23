@@ -5,9 +5,8 @@
     $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Apps');
     $this->params['breadcrumbs'][] = Yii::t('common', 'Apps');
 
-    //  TODO change the source for platforms
-    // $platforms = AppPlatform::getPlatformTypes();
-	// asort($platforms);
+    $platforms = WenetApp::getSourceLinks();
+	asort($platforms);
 
     $tags = WenetApp::getTags();
 	asort($tags);
@@ -42,20 +41,20 @@
 							?>
 				  		</ul>
 				    </div>
-                    <!-- <div class="filters platforms">
-						<p><?php //echo Yii::t('app', 'filter_platform'); ?>:</p>
+                    <div class="filters platforms">
+						<p><?php echo Yii::t('app', 'filter_platform'); ?>:</p>
 						<ul>
 							<?php
-                            //foreach ($platforms as $key => $pp) {
-							// 	$currentClass = "";
-							// 	$currentTag = 'platform__'.$pp;
-							// 	if (in_array($currentTag, $activePlatformsList)) {
-							// 		$currentClass = "current";
-							// 	}
-							// 	echo '<li><a id="'.$key.'" href="#" data-filter=".'.$currentTag.'" class="'.$currentClass.'" title="'.Yii::t('title', 'Filter for platform').'">'.AppPlatform::typeLabel($pp).'</a></li>';
-							// } ?>
+                            foreach ($platforms as $key => $pp) {
+								$currentClass = "";
+								$currentTag = 'platform__'.$pp;
+								if (in_array($currentTag, $activePlatformsList)) {
+									$currentClass = "current";
+								}
+								echo '<li><a id="'.$key.'" href="#" data-filter=".'.$currentTag.'" class="'.$currentClass.'" title="'.Yii::t('title', 'Filter for platform').'">'.WenetApp::sourceLinksLabel($pp).'</a></li>';
+							} ?>
 				  		</ul>
-				    </div> -->
+				    </div>
                     <div class="filters tags">
 						<p><?php echo Yii::t('app', 'filter_tags'); ?>:</p>
 						<ul>
@@ -85,33 +84,22 @@
 							}
 						}
 
-                        // $itemPlatforms = [];
-                        // $availablePlatforms = [];
-                        // if($app->hasPlatformTelegram()) {
-                        //     $availablePlatforms[] = AppPlatform::TYPE_TELEGRAM;
-                        //     $itemPlatforms[] = 'platform__' . AppPlatform::TYPE_TELEGRAM;
-                        // }
-                        //
-                        // $platformsContent = '';
-                        // if(count($availablePlatforms) > 0){
-                        //     $platformsContent .= '<ul class="platform_icons">';
-                        //     foreach ($availablePlatforms as $key => $ap) {
-                        //         $platformsContent .= '<li>';
-                        //             $platformsContent .= '<div class="image_container" style="align-self: flex-end">';
-                        //                 $platformsContent .= '<img src="'.Url::base().'/images/platforms/'.$ap.'.png" alt="'. Yii::t('title', 'platform icon') .'">';
-                        //             $platformsContent .= '</div>';
-                        //         $platformsContent .= '</li>';
-                        //     }
-                        //     $platformsContent .= '</ul>';
-                        // } else {
-                        //     $platformsContent .= '';
-                        // }
+                        $activeSourceLinks = '';
+                        if($app->getActiveSourceLinksForApp()){
+                            $activeSourceLinks .= '<ul class="source_links_list table_view">' . implode(array_map(function($sl){
+                                return '<li><img src="'.Url::base().'/images/platforms/'.$sl.'.png" alt="'.$sl." ". Yii::t('app', 'Source link image').'"></li>';
+                            }, $app->getActiveSourceLinksForApp()), '') . '</ul>';
+                        }
 
-                        // $content = '<a href="'. Url::to(['/wenetapp/details', 'id' => $app->id, 'back' => 'index']) .'" class="'.implode($itemTags, ' '). ' '.implode($itemPlatforms, ' ').' app appId__'.$app->id.'">';
-                        $content = '<a href="'. Url::to(['/wenetapp/details', 'id' => $app->id, 'back' => 'index']) .'" class="'.implode($itemTags, ' ').' app appId__'.$app->id.'">';
+                        $availablePlatforms = array_map(function($p){
+                            return 'platform__'.$p;
+                        },$app->getActiveSourceLinksForApp());
+
+                        $content = '<a href="'. Url::to(['/wenetapp/details', 'id' => $app->id, 'back' => 'index']) .'" class="'.implode($itemTags, ' '). ' '.implode($availablePlatforms, ' ').' app appId__'.$app->id.'">';
+                            $content .= '<div class="app_icon big_icon"><span>'.strtoupper($app->name[0]).'</span></div>';
                             $content .= '<h2>'. $app->name .'</h2>';
                             $content .= '<p>'. $app->description .'</p>';
-                            // $content .= $platformsContent;
+                            $content .= $activeSourceLinks;
                         $content .= '</a>';
 
                         echo $content;

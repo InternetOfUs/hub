@@ -95,7 +95,6 @@ class WenetApp extends \yii\db\ActiveRecord {
             'name' => $this->name,
             'status' => $this->status,
             'ownerId' => $this->owner_id,
-            'ownerId' => $this->owner_id,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'metadata' => $this->allMetadata,
@@ -301,6 +300,30 @@ class WenetApp extends \yii\db\ActiveRecord {
         } else {
             return false;
         }
+    }
+
+    public static function sourceLinksLabel($label) {
+        return self::sourceLinksLabels()[$label];
+    }
+
+    private static function sourceLinksLabels() {
+        return [
+    		self::SL_FACEBOOK => Yii::t('app', 'Facebook'),
+    		self::SL_TELEGRAM => Yii::t('app', 'Telegram'),
+    		self::SL_ANDROID => Yii::t('app', 'Android app'),
+    		self::SL_IOS => Yii::t('app', 'iOS app'),
+    		self::SL_WEB_APP => Yii::t('app', 'Web app'),
+    	];
+    }
+
+    public static function getSourceLinks() {
+        return [
+    		self::SL_FACEBOOK,
+    		self::SL_TELEGRAM,
+    		self::SL_ANDROID,
+    		self::SL_IOS,
+    		self::SL_WEB_APP
+    	];
     }
 
     public function afterFind() {
