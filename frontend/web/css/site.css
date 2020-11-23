@@ -478,6 +478,7 @@ ul.source_links_list li{
 }
 
 ul.source_links_list.table_view li{height: 30px;}
+ul.source_links_list.details_view li{margin-right: 15px;}
 
 ul.source_links_list li img{ height: 100%; }
 
