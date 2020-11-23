@@ -402,9 +402,13 @@ class WenetApp extends \yii\db\ActiveRecord {
     public function getOwnerShortName(){
         $ownerId = $this->owner->id;
         $owner = Yii::$app->serviceApi->getUserProfile($ownerId);
+        if($owner != null){
+            $shortName = substr($owner->first_name, 0, 1) .'. '. $owner->last_name;
+            return $shortName;
+        } else {
+            return null;
+        }
 
-        $shortName = substr($owner->first_name, 0, 1) .'. '. $owner->last_name;
-        return $shortName;
     }
 
     public function create() {

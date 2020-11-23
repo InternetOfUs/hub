@@ -101,7 +101,6 @@ class WenetappController extends Controller {
     }
 
     public function actionIndex($platforms=null, $tags=null) {
-        // TODO remove platforms?
         $activePlatformsList = array();
 		$activeTagsList = array();
 

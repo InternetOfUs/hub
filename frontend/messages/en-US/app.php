@@ -17,12 +17,14 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'filter_platform' => 'Platforms',
     'filter_tags' => 'Tags',
     'Android app' => '',
     'App Details' => '',
     'App ID' => '',
     'App successfully deleted.' => '',
     'Assistance' => '',
+    'Available platforms (for download or direct use)' => '',
     'Because OAuth2 is required for the app, the app has been automatically set as "In development" mode.' => '',
     'Because a connector is required for the app to be live, the app has been automatically set as "In development" mode.' => '',
     'Become a developer' => '',
@@ -107,7 +109,6 @@ return [
     'You should enable at least one connector to go live with the app.' => '',
     'all' => '',
     'configure OAuth2' => '',
-    'filter_platform' => 'Platforms',
     'filters' => '',
     'iOS app' => '',
     'to be configured' => '',

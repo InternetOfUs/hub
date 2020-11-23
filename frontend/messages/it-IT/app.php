@@ -22,6 +22,7 @@ return [
     'App ID' => '',
     'App successfully deleted.' => '',
     'Assistance' => '',
+    'Available platforms (for download or direct use)' => '',
     'Because OAuth2 is required for the app, the app has been automatically set as "In development" mode.' => '',
     'Because a connector is required for the app to be live, the app has been automatically set as "In development" mode.' => '',
     'Become a developer' => '',

@@ -20,8 +20,20 @@
         </div>
         <h1><?php echo $app->name; ?></h1>
         <p style="margin:20px 0;"><?php echo $app->description; ?></p>
-        <p><strong><?php echo Yii::t('app', 'Creator'); ?>:</strong> <?php echo $app->getOwnerShortName(); ?></p>
+        <?php if($app->getOwnerShortName() != null){ ?>
+            <p><strong><?php echo Yii::t('app', 'Creator'); ?>:</strong> <?php echo $app->getOwnerShortName(); ?></p>
+        <?php } ?>
+        <p><strong><?php echo Yii::t('app', 'Available platforms (for download or direct use)'); ?>:</strong></p>
         <?php
+            $activeSourceLinks = '<ul class="source_links_list details_view">';
+            if($app->getActiveSourceLinksForApp()){
+                $activeSourceLinks .= implode(array_map(function($sl)use ($app){
+                    return '<li><a href="'.$app->allMetadata['source_links'][$sl].'" target="_blank"><img src="'.Url::base().'/images/platforms/'.$sl.'.png" alt="'.$sl." ". Yii::t('app', 'Source link image').'"></a></li>';
+                }, $app->getActiveSourceLinksForApp()), '');
+            }
+            $activeSourceLinks .= '</ul>';
+            echo $activeSourceLinks;
+
             if(count($app->associatedCategories) > 0){
                 $categories = '<ul class="tags_list">';
                 foreach ($app->associatedCategories as $category) {
@@ -30,8 +42,6 @@
                 $categories .= '</ul>';
                 echo $categories;
             }
-
-            // TODO show platforms icons + link where to download or use the service
         ?>
     </div>
 </div>
