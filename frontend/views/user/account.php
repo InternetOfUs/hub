@@ -38,6 +38,9 @@
                 <div class="box_container developer_container">
                     <h3><?php echo Yii::t('profile', 'Become a developer'); ?></h3>
                     <p><?php echo Yii::t('profile', 'explanation'); ?></p>
+                    <?php if($errorGettingUserProfile){
+                        echo '<div class="alert-warning alert">'.Yii::t('profile', 'Error upgrading your profile to a developer, try later.').'</div>';
+                    } ?>
                     <a class="btn btn-primary" href="<?= Url::to(['/user/account', 'becomeDev' => '1']); ?>">
                         <?php echo Yii::t('app', 'Become a developer'); ?>
                     </a>

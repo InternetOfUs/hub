@@ -6,7 +6,6 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
-use frontend\models\UserAccountTelegram;
 use frontend\models\WenetApp;
 
 /**
@@ -213,20 +212,21 @@ class User extends ActiveRecord implements IdentityInterface {
     }
 
     public function getApps() {
-        $accounts = UserAccountTelegram::find()->where(['user_id' => $this->id, 'active' => UserAccountTelegram::ACTIVE])->all();
-        $apps = array_map(
-            function($account){
-                return $account->app;
-            },
-            $accounts
-        );
-        
+        // TODO find the way to show the list of apps for a user
+        // $accounts = UserAccountTelegram::find()->where(['user_id' => $this->id, 'active' => UserAccountTelegram::ACTIVE])->all();
+        // $apps = array_map(
+        //     function($account){
+        //         return $account->app;
+        //     },
+        //     $accounts
+        // );
+        //
         $activeApps = [];
-        foreach ($apps as $app) {
-            if($app->status == WenetApp::STATUS_ACTIVE){
-                $activeApps[] = $app;
-            }
-        }
+        // foreach ($apps as $app) {
+        //     if($app->status == WenetApp::STATUS_ACTIVE){
+        //         $activeApps[] = $app;
+        //     }
+        // }
         return $activeApps;
     }
 }

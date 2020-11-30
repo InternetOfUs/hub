@@ -24,6 +24,7 @@ return [
     'Remember me' => '',
     'Repeat password' => '',
     'Thank you for registration.' => '',
+    'create an account' => '',
     'Check your email for further instructions.' => '@@@@',
     'If you forgot your password you can' => '@@@@',
     'Need new verification email?' => '@@@@',

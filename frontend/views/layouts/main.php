@@ -43,7 +43,7 @@
             }
 
             NavBar::begin([
-                'brandLabel' => Html::img('@web/images/WeNet_logo.png', ['alt'=>Yii::$app->name]),
+                'brandLabel' => Html::img('@web/images/WeNetHub_logo.png', ['alt'=>Yii::$app->name]),
                 'brandOptions' => ['class' => 'logo'],
                 'brandUrl' => $brandUrl,
                 'options' => [

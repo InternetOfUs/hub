@@ -5,6 +5,9 @@ services:
 
 before_script:
   - apk add --update bash wget ca-certificates openssl git tar openssh-client curl
+  - apk add ansible ansible-lint
+  - export ANSIBLE_HOST_KEY_CHECKING=False
+
   - docker login registry.u-hopper.com -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD
 
 variables:
@@ -19,13 +22,14 @@ stages:
   - build
   - push
   - trigger-deploy
+  - notify
 
 build_dev:
   stage: build
   script:
     - apk add --update curl php7 php7-phar php7-json php7-iconv php7-openssl
     - curl --show-error --silent https://getcomposer.org/installer | php
-    - ./create_docker_image -si
+    - ./create_docker_image -sid
   artifacts:
     paths:
       - hub_image.tar.gz
@@ -37,21 +41,20 @@ push_dev:
   stage: push
   script:
     - docker load -i hub_image.tar.gz
-    - docker push registry.u-hopper.com/wenet/hub:latest
+    - docker push registry.u-hopper.com/wenet/hub:latest-dev
   dependencies:
     - build_dev
   only:
     - develop
 
-trigger-deploy_dev:
-   stage: trigger-deploy
-   script:
-     - curl --request POST --form "token=${CI_DEPLOY_TOKEN}" --form ref=master --form "variables[DEPLOY_DEV]=1" https://lab.u-hopper.com/api/v4/projects/29/trigger/pipeline
-   dependencies:
-     - push_dev
-     - build_dev
-   only:
-      - develop
+deploy_dev:
+  stage: trigger-deploy
+  script:
+    - curl --request POST --form "token=${CI_DEPLOY_TOKEN}" --form ref=develop https://lab.u-hopper.com/api/v4/projects/29/trigger/pipeline
+  dependencies:
+    - push_dev
+  only:
+    - develop
 
 build_prod:
   stage: build
@@ -64,8 +67,7 @@ build_prod:
       - hub_image.tar.gz
     expire_in: 1 day
   only:
-    - triggers
-    - ${RELEASE_TAG}
+    - tags
 
 push_prod:
   stage: push
@@ -75,16 +77,14 @@ push_prod:
   dependencies:
     - build_prod
   only:
-    - triggers
-    - ${RELEASE_TAG}
+    - tags
 
-trigger-deploy_prod:
-   stage: trigger-deploy
-   script:
-     - curl --request POST --form "token=${CI_DEPLOY_TOKEN}" --form ref=${RELEASE_TAG} --form "variables[DEPLOY_PROD]=1" https://lab.u-hopper.com/api/v4/projects/29/trigger/pipeline
-   dependencies:
-     - push_prod
-     - build_prod
-   only:
-      - triggers
-      - ${RELEASE_TAG}
+notify:
+  stage: notify
+  script:
+    - echo $ANSIBLE_VAULT_PASSWORD > ansible/password_file
+    - ansible-playbook --vault-password-file ansible/password_file notify-tag-push.yml
+  dependencies:
+    - push_prod
+  only:
+    - tags

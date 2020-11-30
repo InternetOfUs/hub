@@ -16,9 +16,11 @@ class ServiceApiConnector extends BaseConnector {
         $url = $this->baseUrl . '/user/profile/' . $userId;
         try {
             $this->post($url, $this->authHeaders());
+            return true;
         } catch (\Exception $e) {
             $log = 'Something went wrong while initializing empty profile for user ['.$userId.']';
             Yii::error($log);
+            return false;
         }
     }
 

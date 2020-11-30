@@ -13,6 +13,13 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="alert alert-info" role="alert" style="margin-top:-15px;">
+            <?php echo Yii::t('app', 'INFO - Be careful! all this information are shown to the end-user.'); ?>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <?php
             $form = ActiveForm::begin([
                 'id' => 'app-update-form',
@@ -37,20 +44,26 @@
                     <?php echo $form->field($app, 'description')->textarea(); ?>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                    <?php echo $form->field($app, 'message_callback_url')->textarea(); ?>
+                    <?php
+                    echo $form->field($app, 'associatedCategories')->widget(Select2::classname(), [
+                        'data' => WenetApp::tagsWithLabels(),
+                        'options' => [
+                            'placeholder' => Yii::t('app', 'Select tags ...'),
+                            'multiple' => true
+                        ],
+                    ]);
+                    ?>
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                    <?php
-                        echo $form->field($app, 'associatedCategories')->widget(Select2::classname(), [
-                            'data' => WenetApp::tagsWithLabels(),
-                            'options' => [
-                                'placeholder' => Yii::t('app', 'Select tags ...'),
-                                'multiple' => true
-                            ],
-                        ]);
-                    ?>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <hr style="margin-top:0px;">
+                    <p><?php echo Yii::t('app', 'Insert here the links where the end user can find the application'); ?>:</p>
+                    <?php echo $form->field($app, 'slFacebook'); ?>
+                    <?php echo $form->field($app, 'slTelegram'); ?>
+                    <?php echo $form->field($app, 'slAndroid'); ?>
+                    <?php echo $form->field($app, 'slIos'); ?>
+                    <?php echo $form->field($app, 'slWebApp'); ?>
                 </div>
             </div>
             <div class="row">

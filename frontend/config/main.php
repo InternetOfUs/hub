@@ -13,7 +13,7 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'language' => 'en-US',
-    'sourceLanguage' => 'en-US',
+    'sourceLanguage' => 'en',
     'components' => [
         'i18n' => [
             'translations' => [
@@ -56,6 +56,19 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                [
+                    'pattern' => 'data/app/<appId>',
+                    'route' => 'wenetapp/json-details',
+                ],
+                [
+                    'pattern' => 'data/app/<appId>/developer',
+                    'route' => 'wenetapp/developer-list',
+                ],
+                [
+                    'pattern' => 'data/app/<appId>/user',
+                    'route' => 'wenetapp/user-list',
+                ],
+
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
@@ -66,6 +79,12 @@ return [
             'baseUrl' => $params['service.api.base.url'],
             'apikey' => $params['service.api.apikey'],
         ],
+        'kongConnector' => [
+            'class' => 'frontend\components\KongConnector',
+            'internalBaseUrl' => $params['kong.internal.url'],
+            'externalBaseUrl' => $params['kong.external.url'],
+            'provisionKey' => $params['kong.provision.key'],
+        ]
     ],
     'params' => $params,
 ];

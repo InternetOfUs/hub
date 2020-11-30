@@ -5,8 +5,10 @@ SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 SAVE_IMAGE_TO_TARGZ=0
 PULL_IMAGE=0
+BUILD_DEV=0
+PUS_IMAGE=0
 
-args=`getopt si $*`
+args=`getopt sidp $*`
 if [ $? != 0 ]
 then
   echo 'Usage: ...'
@@ -22,6 +24,12 @@ for i do
      -i)
        PULL_IMAGE=1
        shift;;
+     -d)
+       BUILD_DEV=1
+       shift;;
+     -p)
+       PUS_IMAGE=1
+       shift;;
   esac
 done
 
@@ -35,6 +43,13 @@ else
     echo "Building with specified version [${VERSION}]"
 fi
 
+TARGET_DOCKERFILE="${SCRIPT_DIR}/Dockerfile"
+if [[ ${BUILD_DEV} == 1 ]]; then
+  TARGET_DOCKERFILE="${SCRIPT_DIR}/Dockerfile-dev"
+  VERSION="${VERSION}-dev"
+  echo "Requested dev support: using version [${VERSION}]"
+fi
+
 REGISTRY="registry.u-hopper.com"
 IMAGE_NAME="wenet/hub:$VERSION"
 
@@ -42,7 +57,7 @@ if [[ ${PULL_IMAGE} == 1 ]]; then
   docker pull ${REGISTRY}/${IMAGE_NAME} || true
 fi
 
-docker build --cache-from ${REGISTRY}/${IMAGE_NAME} -t ${IMAGE_NAME} .
+docker build --file ${TARGET_DOCKERFILE} --cache-from ${REGISTRY}/${IMAGE_NAME} -t ${IMAGE_NAME} .
 
 if [ $? == 0 ]; then
     echo "Build successful: ${IMAGE_NAME}"
@@ -57,6 +72,10 @@ if [ $? == 0 ]; then
     fi
     echo "Image can be pushed with:"
     echo "- docker push ${REGISTRY}/${IMAGE_NAME}"
+
+    if [[ ${PUS_IMAGE} == 1 ]]; then
+      docker push ${REGISTRY}/${IMAGE_NAME}
+    fi
 
 else
     echo "Build failed!"

@@ -23,6 +23,8 @@ return [
     'Could not update profile.' => '',
     'Developer' => '',
     'Email' => '',
+    'Error upgrading your profile to a developer, try later.' => '',
+    'Error visualizing your profile, try later.' => '',
     'Example +393401234567 ...' => '',
     'First name' => '',
     'Gender' => '',
