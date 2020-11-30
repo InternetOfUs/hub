@@ -43,7 +43,7 @@
             'label' => Yii::t('app', 'Links'),
             'format' => 'raw',
             'value' => function ($data) {
-                if($data->getActiveSourceLinksForApp()){
+                if($data->hasActiveSourceLinksForApp()){
                     return '<ul class="source_links_list table_view">' . implode(array_map(function($sl){
                         return '<li><img src="'.Url::base().'/images/platforms/'.$sl.'.png" alt="'.Yii::t('app', 'Source link image').'"></li>';
                     }, $data->getActiveSourceLinksForApp()), '') . '</ul>';

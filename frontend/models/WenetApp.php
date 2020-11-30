@@ -275,7 +275,7 @@ class WenetApp extends \yii\db\ActiveRecord {
     }
 
     public function hasActiveSourceLinksForApp() {
-        if ($this->getActiveSourceLinksForApp()) {
+        if (count($this->getActiveSourceLinksForApp()) > 0) {
             return true;
         } else {
             return false;
@@ -295,11 +295,7 @@ class WenetApp extends \yii\db\ActiveRecord {
             if($app->metadata['source_links'][self::SL_WEB_APP] != null){$activeSourceLinks[] = self::SL_WEB_APP;}
         }
 
-        if(count($activeSourceLinks) > 0){
-            return $activeSourceLinks;
-        } else {
-            return false;
-        }
+        return $activeSourceLinks;
     }
 
     public static function sourceLinksLabel($label) {

@@ -39,12 +39,18 @@ class AuthorisationForm extends Model {
 
     public static function publicScope() {
         return [
-            'id' => Yii::t('write_feed', 'User ID'),
+            'id' => Profile::instance()->attributeLabels()['id'],
+            'first_name' => Profile::instance()->attributeLabels()['first_name'],
+            'last_name' => Profile::instance()->attributeLabels()['last_name'],
         ];
     }
 
     public static function readScope() {
-        return Profile::instance()->attributeLabels();
+        $scope = Profile::instance()->attributeLabels();
+        unset($scope['id']);
+        unset($scope['first_name']);
+        unset($scope['last_name']);
+        return $scope;
     }
 
     public static function writeScope() {

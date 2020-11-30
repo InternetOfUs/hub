@@ -85,7 +85,7 @@
 						}
 
                         $activeSourceLinks = '';
-                        if($app->getActiveSourceLinksForApp()){
+                        if($app->hasActiveSourceLinksForApp()){
                             $activeSourceLinks .= '<ul class="source_links_list table_view">' . implode(array_map(function($sl){
                                 return '<li><img src="'.Url::base().'/images/platforms/'.$sl.'.png" alt="'.$sl." ". Yii::t('app', 'Source link image').'"></li>';
                             }, $app->getActiveSourceLinksForApp()), '') . '</ul>';

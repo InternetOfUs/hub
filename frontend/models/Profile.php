@@ -59,6 +59,7 @@ class Profile extends Model {
     */
     public function attributeLabels() {
         return [
+            'id' => Yii::t('profile', 'User ID'),
             'first_name' => Yii::t('profile', 'First name'),
             'middle_name' => Yii::t('profile', 'Middle name'),
             'last_name' => Yii::t('profile', 'Last name'),

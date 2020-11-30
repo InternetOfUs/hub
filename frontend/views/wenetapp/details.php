@@ -26,7 +26,7 @@
         <p><strong><?php echo Yii::t('app', 'Available platforms (for download or direct use)'); ?>:</strong></p>
         <?php
             $activeSourceLinks = '<ul class="source_links_list details_view">';
-            if($app->getActiveSourceLinksForApp()){
+            if($app->hasActiveSourceLinksForApp()){
                 $activeSourceLinks .= implode(array_map(function($sl)use ($app){
                     return '<li><a href="'.$app->allMetadata['source_links'][$sl].'" target="_blank"><img src="'.Url::base().'/images/platforms/'.$sl.'.png" alt="'.$sl." ". Yii::t('app', 'Source link image').'"></a></li>';
                 }, $app->getActiveSourceLinksForApp()), '');
