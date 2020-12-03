@@ -1,0 +1,14 @@
+---
+
+- name: Setup project.
+  hosts: 127.0.0.1
+  connection: local
+  vars:
+    project_type: yii2
+    project_path: .
+    project_features:
+      - docker
+      - ci_cd
+    docker_image_name: wenet/hub
+  roles:
+    - uh.project_template

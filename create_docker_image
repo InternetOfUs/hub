@@ -3,12 +3,13 @@
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 
+BUILD=0
+DELETE_IF_FAILED=0
 SAVE_IMAGE_TO_TARGZ=0
 PULL_IMAGE=0
-BUILD_DEV=0
-PUS_IMAGE=0
+PUSH_IMAGE=0
 
-args=`getopt sidp $*`
+args=`getopt bsidp $*`
 if [ $? != 0 ]
 then
   echo 'Usage: ...'
@@ -18,6 +19,9 @@ fi
 set -- $args
 for i do
   case "$i" in
+     -b)
+        BUILD=1
+        shift;;
      -s)
        SAVE_IMAGE_TO_TARGZ=1
        shift;;
@@ -25,10 +29,10 @@ for i do
        PULL_IMAGE=1
        shift;;
      -d)
-       BUILD_DEV=1
+       DELETE_IF_FAILED=1
        shift;;
      -p)
-       PUS_IMAGE=1
+       PUSH_IMAGE=1
        shift;;
   esac
 done
@@ -50,34 +54,37 @@ if [[ ${BUILD_DEV} == 1 ]]; then
   echo "Requested dev support: using version [${VERSION}]"
 fi
 
-REGISTRY="registry.u-hopper.com"
-IMAGE_NAME="wenet/hub:$VERSION"
+REGISTRY=registry.u-hopper.com
+IMAGE_NAME=wenet/hub:$VERSION
 
 if [[ ${PULL_IMAGE} == 1 ]]; then
   docker pull ${REGISTRY}/${IMAGE_NAME} || true
 fi
 
-docker build --file ${TARGET_DOCKERFILE} --cache-from ${REGISTRY}/${IMAGE_NAME} -t ${IMAGE_NAME} .
+# Build step
+if [[ ${BUILD} == 1 ]]; then
+    docker build --file ${TARGET_DOCKERFILE} --cache-from ${REGISTRY}/${IMAGE_NAME} -t ${IMAGE_NAME} .
 
-if [ $? == 0 ]; then
-    echo "Build successful: ${IMAGE_NAME}"
+    if [ $? == 0 ]; then
+        echo "Build successful: ${IMAGE_NAME}"
 
-    # Tagging images for registry
+        # Tagging images for registry
 
-    echo "Tagging image for push to registry.u-hopper.com"
-    docker tag ${IMAGE_NAME} ${REGISTRY}/${IMAGE_NAME}
-    if [ $SAVE_IMAGE_TO_TARGZ == 1 ]; then
-      echo " - saving image ${IMAGE_NAME} to tar.gz"
-      docker save ${REGISTRY}/${IMAGE_NAME} | gzip > hub_image.tar.gz
+        echo "Tagging image for push to registry registry.u-hopper.com"
+        docker tag ${IMAGE_NAME} ${REGISTRY}/${IMAGE_NAME}
+        if [ $SAVE_IMAGE_TO_TARGZ == 1 ]; then
+          echo " - saving image ${IMAGE_NAME} to tar.gz (docker_image.tar.gz)"
+          docker save ${REGISTRY}/${IMAGE_NAME} | gzip > docker_image.tar.gz
+        fi
+        echo "Image can be pushed with:"
+        echo "- docker push ${REGISTRY}/${IMAGE_NAME}"
+
+        if [[ ${PUSH_IMAGE} == 1 ]]; then
+          docker push ${REGISTRY}/${IMAGE_NAME}
+        fi
+
+    else
+        echo "Build failed!"
+        exit 1
     fi
-    echo "Image can be pushed with:"
-    echo "- docker push ${REGISTRY}/${IMAGE_NAME}"
-
-    if [[ ${PUS_IMAGE} == 1 ]]; then
-      docker push ${REGISTRY}/${IMAGE_NAME}
-    fi
-
-else
-    echo "Build failed!"
-    exit 1
 fi
