@@ -17,6 +17,8 @@ RUN cd /app && php composer.phar install --no-dev
 
 ADD / /app
 
+
+
 # copy .htaccess files with correct aliases
 ADD docker-support/.htaccess /.htaccess
 RUN cp -f /.htaccess /app/frontend/web
@@ -24,6 +26,8 @@ RUN cp -f /.htaccess /app/frontend/web
 RUN sed -i 's/${custom_alias}/frontend/g' /app/frontend/web/.htaccess
 
 RUN sed -ri 's/memory_limit\s*=.*$/memory_limit = 1024M/' /etc/php/7.4/apache2/php.ini
+
+env BASE_URL=''
 
 RUN chmod 755 /*.sh
 

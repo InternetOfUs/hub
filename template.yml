@@ -9,6 +9,7 @@
     project_features:
       - docker
       - ci_cd
-    docker_image_name: wenet/hub
+    docker_registry: docker.io
+    docker_image_name: internetofus/hub
   roles:
     - uh.project_template

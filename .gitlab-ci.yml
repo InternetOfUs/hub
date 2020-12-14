@@ -14,7 +14,7 @@ variables:
 
 before_script:
    - apk add --update bash wget ca-certificates openssl git tar openssh-client curl ansible ansible-lint
-   - docker login registry.u-hopper.com -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD
+   - docker login docker.io -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD
 
 stages:
   - build
