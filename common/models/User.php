@@ -7,6 +7,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use frontend\models\WenetApp;
+use frontend\models\AppUser;
 
 /**
  * User model
@@ -212,21 +213,15 @@ class User extends ActiveRecord implements IdentityInterface {
     }
 
     public function getApps() {
-        // TODO find the way to show the list of apps for a user
-        // $accounts = UserAccountTelegram::find()->where(['user_id' => $this->id, 'active' => UserAccountTelegram::ACTIVE])->all();
-        // $apps = array_map(
-        //     function($account){
-        //         return $account->app;
-        //     },
-        //     $accounts
-        // );
-        //
+        $appsUser = AppUser::find()->where(['user_id' => $this->id])->all();
+
         $activeApps = [];
-        // foreach ($apps as $app) {
-        //     if($app->status == WenetApp::STATUS_ACTIVE){
-        //         $activeApps[] = $app;
-        //     }
-        // }
+        foreach ($appsUser as $appUser) {
+            $app = WenetApp::find()->where(['id' => $appUser->app_id])->one();
+            if($app->status == WenetApp::STATUS_ACTIVE){
+              $activeApps[] = $app;
+            }
+        }
         return $activeApps;
     }
 }
