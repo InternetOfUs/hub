@@ -1,9 +1,9 @@
 FROM registry.u-hopper.com/uhopper/ubuntu:16.04
 
-ADD docker_support/run.sh /run.sh
+ADD docker-support/run.sh /run.sh
 
-ADD docker_support/wenet.conf /etc/apache2/sites-available/
-RUN ln -s /etc/apache2/sites-available/wenet.conf /etc/apache2/sites-enabled/
+ADD docker-support/sites-available.conf /etc/apache2/sites-available/
+RUN ln -s /etc/apache2/sites-available/sites-available.conf /etc/apache2/sites-enabled/
 RUN a2enmod rewrite
 
 # Configure /app folder with the app
@@ -17,13 +17,21 @@ RUN cd /app && php composer.phar install --no-dev
 
 ADD / /app
 
+
+
 # copy .htaccess files with correct aliases
-ADD docker_support/.htaccess /.htaccess
+ADD docker-support/.htaccess /.htaccess
 RUN cp -f /.htaccess /app/frontend/web
 
 RUN sed -i 's/${custom_alias}/frontend/g' /app/frontend/web/.htaccess
 
 RUN sed -ri 's/memory_limit\s*=.*$/memory_limit = 1024M/' /etc/php/7.4/apache2/php.ini
+
+env BASE_URL=''
+
+ARG GIT_REF_ARG
+
+ENV GIT_REF=$GIT_REF_ARG
 
 RUN chmod 755 /*.sh
 
