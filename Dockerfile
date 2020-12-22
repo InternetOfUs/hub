@@ -29,6 +29,10 @@ RUN sed -ri 's/memory_limit\s*=.*$/memory_limit = 1024M/' /etc/php/7.4/apache2/p
 
 env BASE_URL=''
 
+ARG GIT_REF_ARG
+
+ENV GIT_REF=$GIT_REF_ARG
+
 RUN chmod 755 /*.sh
 
 EXPOSE 80

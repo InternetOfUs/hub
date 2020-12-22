@@ -80,7 +80,8 @@ fi
 
 # Build step
 if [[ ${BUILD} == 1 ]]; then
-    docker build --file ${TARGET_DOCKERFILE} --cache-from ${REGISTRY}/${IMAGE_NAME} -t ${IMAGE_NAME} .
+    GIT_REF=`git rev-parse --short HEAD`
+    docker build --build-arg GIT_REF_ARG=${GIT_REF} --file ${TARGET_DOCKERFILE} --cache-from ${REGISTRY}/${IMAGE_NAME} -t ${IMAGE_NAME} .
 
     if [ $? == 0 ]; then
         echo "Build successful: ${IMAGE_NAME}"
