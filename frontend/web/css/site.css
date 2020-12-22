@@ -337,7 +337,10 @@ div.required label.control-label::after {
 }
 
 div.site-signup,
-div.site-login{
+div.site-login,
+div.site-resend-verification-email,
+div.site-request-password-reset,
+div.site-reset-password{
     padding: 20px 0 0 0;
     max-width: 600px;
     margin: 0 auto;
@@ -345,6 +348,9 @@ div.site-login{
 
 div.easy_layout div.site-signup,
 div.easy_layout div.site-login,
+div.easy_layout div.site-resend-verification-email,
+div.easy_layout div.site-request-password-reset,
+div.easy_layout div.site-reset-password,
 div.easy_layout div.site-authorisation{
     background-color: #fff;
     padding: 20px 0 0 0;

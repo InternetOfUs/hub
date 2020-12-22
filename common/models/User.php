@@ -2,11 +2,13 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\Url;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use frontend\models\WenetApp;
+use frontend\components\Email;
 
 /**
  * User model
@@ -209,6 +211,33 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public function removePasswordResetToken() {
         $this->password_reset_token = null;
+    }
+
+    public function sendRegistrationEmail() {
+        $registrationLink = Url::to(['/user/verify-email', 'token' => $this->verification_token], true);
+
+        $subject = Yii::t('signup', 'WeNet HUB - New account');
+
+        $message = array();
+        $message[] = '<h1 style="padding:0px; margin:10px 0px; font-family:\'Helvetica\'; font-size:30px; color:#00a3b6; font-weight: bolder;">WeNet HUB</h1><p style="margin:0px; font-family:\'Helvetica\'; font-size:14px; color:#666666;">';
+            $message[] = Yii::t('signup', "Congratulations ") . '<b style="color:#222222;">' . $this->username . '</b>,';
+            $message[] = Yii::t('signup', "you succefully created a new account on the WeNet HUB.");
+            $message[] = '<br>';
+            $message[] = Yii::t('signup', "Click here to activate it:");
+            $message[] = '<a style="margin:10px 0; display:inline-block; font-weight:bold; text-decoration:none; border-radius:20px; text-align: center; color: #fff; background-color: #337ab7; padding: 10px 20px;" href="'.$registrationLink.'">'.Yii::t('signup', "Verify account").'</a>';
+            $message[] = '<br>';
+            $message[] = Yii::t('signup', "Best,");
+            $message[] = Yii::t('signup', "The WeNet HUB Team");
+        $message[] = '</p>';
+        $body = implode("<br>", $message);
+
+        Email::build()
+            ->setSubject($subject)
+            ->setFrom(Yii::$app->params['email.from'], Yii::$app->params['email.from.name'])
+            ->setTo($this->email)
+            ->setHtmlBody($body)
+            ->send();
+        return $this;
     }
 
     public function getApps() {

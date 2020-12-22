@@ -20,4 +20,6 @@ return [
     'Check your email for further instructions.' => '',
     'New password saved.' => '',
     'Sorry, we are unable to reset password for the provided email address.' => '',
+    'WeNet HUB - Reset password' => '',
+    'WeNet HUB - Verify your email' => '',
 ];

@@ -1,6 +1,7 @@
 <?php
 namespace frontend\models;
 
+use Yii;
 use yii\base\InvalidArgumentException;
 use yii\base\Model;
 use common\models\User;
@@ -8,14 +9,14 @@ use common\models\User;
 /**
  * Password reset form
  */
-class ResetPasswordForm extends Model
-{
+class ResetPasswordForm extends Model {
     public $password;
 
     /**
      * @var \common\models\User
      */
     private $_user;
+    public $password_repeat;
 
 
     /**
@@ -25,8 +26,7 @@ class ResetPasswordForm extends Model
      * @param array $config name-value pairs that will be used to initialize the object properties
      * @throws InvalidArgumentException if token is empty or not valid
      */
-    public function __construct($token, $config = [])
-    {
+    public function __construct($token, $config = []) {
         if (empty($token) || !is_string($token)) {
             throw new InvalidArgumentException('Password reset token cannot be blank.');
         }
@@ -40,12 +40,22 @@ class ResetPasswordForm extends Model
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            ['password', 'required'],
+            [['password', 'password_repeat'], 'required'],
             ['password', 'string', 'min' => 6],
+
+            [['password', 'password_repeat'], 'checkPassword'],
         ];
+    }
+
+    public function checkPassword($attribute, $params) {
+        if($this->password == $this->password_repeat){
+            return true;
+        } else {
+            $this->addError($attribute, Yii::t('signup', 'Password does not match.'));
+            $this->addError('password_repeat', Yii::t('signup', 'Password does not match.'));
+        }
     }
 
     /**
@@ -53,8 +63,7 @@ class ResetPasswordForm extends Model
      *
      * @return bool if password was reset.
      */
-    public function resetPassword()
-    {
+    public function resetPassword() {
         $user = $this->_user;
         $user->setPassword($this->password);
         $user->removePasswordResetToken();
