@@ -45,3 +45,14 @@
         ?>
     </div>
 </div>
+
+<?php if(Yii::$app->request->get('back') == 'profile'){ ?>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="box_container" style="margin-top:30px;">
+                <h3><?php echo Yii::t('app', 'Badges'); ?></h3>
+                <p>explanation</p>
+            </div>
+        </div>
+    </div>
+<?php } ?>
