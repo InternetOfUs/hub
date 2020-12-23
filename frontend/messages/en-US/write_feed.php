@@ -17,6 +17,5 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'User ID' => '',
     'Write data feed' => '',
 ];

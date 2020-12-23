@@ -112,5 +112,4 @@ return [
     'filters' => '',
     'iOS app' => '',
     'to be configured' => '',
-    'Prepare a dedicated endpoint in your application backend where the {OAuth2_code} for your users will be provided as a query param (named code)' => '@@@@',
 ];

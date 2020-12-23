@@ -17,8 +17,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Filter for platform' => '@@@@',
+    'Filter for platform' => '',
     'Filter for tag' => '',
     'See all' => '',
-    'platform icon' => '@@@@',
 ];

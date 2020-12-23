@@ -43,5 +43,4 @@ return [
     'User ID' => '',
     'Username' => '',
     'explanation' => '',
-    'ID' => '@@@@',
 ];

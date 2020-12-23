@@ -23,7 +23,8 @@
         "fortawesome/font-awesome": "4.7.0",
         "kartik-v/yii2-widget-select2": "dev-master",
         "kartik-v/yii2-widget-switchinput": "dev-master",
-        "kartik-v/yii2-widget-datepicker": "dev-master"
+        "kartik-v/yii2-widget-datepicker": "dev-master",
+        "elastic-email/web-api-client": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

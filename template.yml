@@ -11,5 +11,6 @@
       - ci_cd
     docker_registry: docker.io
     docker_image_name: internetofus/hub
+    docker_yii2_image_base_image: public.registry.u-hopper.com/uhopper/ubuntu:16.04
   roles:
     - uh.project_template

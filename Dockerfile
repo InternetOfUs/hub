@@ -1,4 +1,4 @@
-FROM registry.u-hopper.com/uhopper/ubuntu:16.04
+FROM public.registry.u-hopper.com/uhopper/ubuntu:16.04
 
 ADD docker-support/run.sh /run.sh
 
