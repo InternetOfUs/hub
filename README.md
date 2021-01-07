@@ -65,18 +65,19 @@ Custom environment configurations can be accessed in the `frontend/config/params
 
 Optionally, configurations can also be set by setting the value of the following environment variables:
 
-* BASE_URL
-* API_BASE_URL
-* SERVICE_API_BASE_URL
-* SERVICE_API_APIKEY (optional, should be specified only when communicating directly with the service api component and not when using the project forwarder Kong)
-* REDIS_HOST
-* REDIS_PORT (default to *6379*)
-* REDIS_DB (default to *1* for development mode and to *0* for production mode)
-* KONG_URL
-* KONG_PROVISION_KEY
-* ELASTICMAIL_API_KEY
-* EMAIL_FROM_NAME
-* EMAIL_FROM
+* `BASE_URL`
+* `API_BASE_URL`
+* `SERVICE_API_BASE_URL`
+* `SERVICE_API_APIKEY` - optional, should be specified only when communicating directly with the service api component and not when using the project forwarder Kong
+* `INCENTIVE_SERVER_BASE_URL`
+* `REDIS_HOST`
+* `REDIS_PORT` - optional, default to *6379*
+* `REDIS_DB` - optional, default to *1* for development mode and to *0* for production mode
+* `KONG_URL`
+* `KONG_PROVISION_KEY`
+* `ELASTICMAIL_API_KEY`
+* `EMAIL_FROM_NAME`
+* `EMAIL_FROM`
 
 
 ## Usage

@@ -16,4 +16,6 @@ return [
 	'elasticmail.api.key' => getenv('ELASTICMAIL_API_KEY'),
     'email.from.name' => getenv('EMAIL_FROM_NAME'),
 	'email.from' => getenv('EMAIL_FROM'),
+
+	'incentive.server.base.url' => getenv('INCENTIVE_SERVER_BASE_URL'),
 ];

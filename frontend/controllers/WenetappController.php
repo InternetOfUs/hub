@@ -66,6 +66,7 @@ class WenetappController extends Controller {
     }
 
     public function actionJsonDetails($appId) {
+
         $app = WenetApp::find()->where(['id' => $appId])->one();
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if ($app) {
@@ -123,11 +124,19 @@ class WenetappController extends Controller {
     public function actionDetails($id) {
 		$app = WenetApp::find()->where(["id" => $id])->one();
 
+        # TODO avoid displaying badges if this is not the app page of the user
+
+        $badgesForApp = Yii::$app->incentiveServer->getBadgesForApp($app->id);
+        $badgesForUser = Yii::$app->incentiveServer->getBadgesForUser($app->id, Yii::$app->user->id);
+
         if(!$app){
             throw new NotFoundHttpException('The specified app cannot be found.');
 		} else {
 			return $this->render('details', array(
-                'app' => $app
+                'app' => $app,
+                'badgesForApp' => $badgesForApp,
+                'badgesForUser' => $badgesForUser,
+
             ));
 		}
 	}

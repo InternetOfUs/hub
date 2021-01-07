@@ -79,6 +79,10 @@ return [
             'baseUrl' => $params['service.api.base.url'],
             'apikey' => $params['service.api.apikey'],
         ],
+        'incentiveServer' => [
+            'class' => 'frontend\components\IncentiveServerConnector',
+            'baseUrl' => $params['incentive.server.base.url'],
+        ],
         'kongConnector' => [
             'class' => 'frontend\components\KongConnector',
             'internalBaseUrl' => $params['kong.internal.url'],
