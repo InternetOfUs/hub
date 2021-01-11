@@ -45,7 +45,13 @@ return [
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+                    'logFile' => '@runtime/logs/frontend.log', # update the name of the logger with your component name
+                    'levels' => YII_DEBUG ? ['error', 'warning', 'info', 'trace'] : ['error', 'warning', 'info'], # set the desired levels
+                    'categories' => [
+                        # fill with categories of interest
+                    ],
+                    'except' => [],
+                    'rotateByCopy' => false,
                 ],
             ],
         ],
