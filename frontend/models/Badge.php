@@ -2,10 +2,11 @@
 namespace frontend\models;
 
 /**
- * A Badge that can be won by users while interacting with and using the WeNet applications. 
+ * A Badge that can be won by users while interacting with and using the WeNet applications.
  */
 class Badge {
 
+    public $id;
     public $name;
     public $description;
     public $criteria;
@@ -68,6 +69,7 @@ class Badge {
     public static function fromRepr($rawData) {
         $createdAtDt = Badge::parseIsoDateIntoDatetime($rawData['createdAt']);
         return new Badge(
+            $rawData['id'],
             $rawData['name'],
             $rawData['description'],
             $rawData['criteriaNarrative'],
