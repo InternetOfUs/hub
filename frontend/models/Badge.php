@@ -13,7 +13,8 @@ class Badge {
     public $imageUrl;
     public $createdAtDt;
 
-    function __construct($name, $description, $criteria, $imageUrl, $createdAtDt) {
+    function __construct($id, $name, $description, $criteria, $imageUrl, $createdAtDt) {
+        $this->id = $id;
         $this->name = $name;
         $this->desc = $description;
         $this->criteria = $criteria;
