@@ -24,7 +24,7 @@ class WenetappController extends Controller {
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => [
-                    'index', 'details', 'json-details', 'developer-list', 'user-list',
+                    'index', 'app-details', 'user-app-details', 'json-details', 'developer-list', 'user-list',
                 ],
                 'rules' => [
                     [
@@ -36,7 +36,7 @@ class WenetappController extends Controller {
                     ],
                     [
                         'actions' => [
-                            'index', 'details'
+                            'index', 'app-details', 'user-app-details'
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -121,13 +121,27 @@ class WenetappController extends Controller {
 		));
     }
 
-    public function actionDetails($id) {
+    public function actionAppDetails($id) {
 		$app = WenetApp::find()->where(["id" => $id])->one();
 
-        # TODO avoid displaying badges if this is not the app page of the user
+        if(!$app){
+            throw new NotFoundHttpException('The specified app cannot be found.');
+		} else {
+			return $this->render('details', array(
+                'app' => $app,
+                'badgesForApp' => null,
+                'badgesForUser' => null
+            ));
+		}
+	}
+
+    public function actionUserAppDetails($id) {
+		$app = WenetApp::find()->where(["id" => $id])->one();
+        $params = ['app' => $app];
 
         $badgesForApp = Yii::$app->incentiveServer->getBadgesForApp($app->id);
         $badgesForUser = Yii::$app->incentiveServer->getBadgesForUser($app->id, Yii::$app->user->id);
+        $badgesForUser = array_map(function($e) { return $e->id; }, $badgesForUser);
 
         if(!$app){
             throw new NotFoundHttpException('The specified app cannot be found.');
@@ -135,8 +149,7 @@ class WenetappController extends Controller {
 			return $this->render('details', array(
                 'app' => $app,
                 'badgesForApp' => $badgesForApp,
-                'badgesForUser' => $badgesForUser,
-
+                'badgesForUser' => $badgesForUser
             ));
 		}
 	}
