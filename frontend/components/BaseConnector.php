@@ -8,7 +8,18 @@ use yii\base\Component;
 
 class BaseConnector extends Component {
 
-    protected function get($url, $headers) {
+    /**
+     * HTTP GET request
+     *
+     * @param string $url     The url where to perform the request
+     * @param array $headers  Optional, the headers to include in the request
+     * @return array          The result of the GET request as an array
+     */
+    protected function get($url, $headers=NULL) {
+        if (!$headers) {
+            $headers = [];
+        }
+
         try {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);

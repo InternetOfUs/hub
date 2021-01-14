@@ -95,7 +95,7 @@
                             return 'platform__'.$p;
                         },$app->getActiveSourceLinksForApp());
 
-                        $content = '<a href="'. Url::to(['/wenetapp/details', 'id' => $app->id, 'back' => 'index']) .'" class="'.implode($itemTags, ' '). ' '.implode($availablePlatforms, ' ').' app appId__'.$app->id.'">';
+                        $content = '<a href="'. Url::to(['/wenetapp/app-details', 'id' => $app->id, 'back' => 'index']) .'" class="'.implode($itemTags, ' '). ' '.implode($availablePlatforms, ' ').' app appId__'.$app->id.'">';
                         $content .= '<div class="app_icon big_icon"><span>'.strtoupper($app->name[0]).'</span></div>';
                         $content .= '<h2>'. $app->name .'</h2>';
                         $content .= '<p>'. $app->description .'</p>';

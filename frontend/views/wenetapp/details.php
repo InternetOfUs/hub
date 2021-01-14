@@ -45,3 +45,30 @@
         ?>
     </div>
 </div>
+
+<?php if($badgesForApp){ ?>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="box_container" style="margin-top:30px;">
+                <h3><?php echo Yii::t('app', 'Badges'); ?></h3>
+                <?php
+                    $content = '<div class="badges_container">';
+                        foreach ($badgesForApp as $badge) {
+                            $content .= '<div class="badge_item">';
+                                $content .= '<div class="badge_icon">';
+                                    if(in_array($badge->id, $badgesForUser)){
+                                        $content .= '<img src="'.$badge->imageUrl.'" alt="">';
+                                    } else {
+                                        $content .= '<img src="'.Url::base().'/images/empty_badge.png" alt="">';
+                                    }
+                                $content .= '</div>';
+                                $content .= '<span>' . $badge->desc . '</span>';
+                            $content .= '</div>';
+                        }
+                    $content .= '</div>';
+                    echo $content;
+                ?>
+            </div>
+        </div>
+    </div>
+<?php } ?>

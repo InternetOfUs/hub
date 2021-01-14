@@ -39,9 +39,9 @@ return [
     'Remember me' => '',
     'Repeat password' => '',
     'Reset password' => '',
-    'Thank you for registration.' => '',
     'Thank you for registration. Please check your inbox for verification email.' => '',
     'The WeNet HUB Team' => '',
     'Verify account' => '',
     'create an account' => '',
+    'Thank you for registration.' => '@@@@',
 ];

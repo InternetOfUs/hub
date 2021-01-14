@@ -31,7 +31,7 @@
                              }, $app->getActiveSourceLinksForApp()), '') . '</ul>';
                          }
 
-                         $content = '<a href="'. Url::to(['/wenetapp/details', 'id' => $app->id, 'back' => 'profile']) .'" class="app user_apps">';
+                         $content = '<a href="'. Url::to(['/wenetapp/user-app-details', 'id' => $app->id, 'back' => 'profile']) .'" class="app user_apps">';
                             $content .= '<div class="app_icon big_icon"><span>'.strtoupper($app->name[0]).'</span></div>';
                              $content .= '<h2>'. $app->name .'</h2>';
                              $content .= '<p>'. $app->description .'</p>';
