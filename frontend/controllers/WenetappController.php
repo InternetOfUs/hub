@@ -141,7 +141,9 @@ class WenetappController extends Controller {
 
         $badgesForApp = Yii::$app->incentiveServer->getBadgesForApp($app->id);
         $badgesForUser = Yii::$app->incentiveServer->getBadgesForUser($app->id, Yii::$app->user->id);
-        $badgesForUser = array_map(function($e) { return $e->id; }, $badgesForUser);
+        if($badgesForUser){
+            $badgesForUser = array_map(function($e) { return $e->id; }, $badgesForUser);
+        }
 
         if(!$app){
             throw new NotFoundHttpException('The specified app cannot be found.');
