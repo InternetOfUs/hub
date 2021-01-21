@@ -87,16 +87,16 @@ class SignupForm extends Model {
         $user->generateEmailVerificationToken();
         $user->generatePasswordResetToken();
 
+        // TODO use trasactions
         if ($user->save()) {
-            // TODO activate this part!
-            // if (!Yii::$app->serviceApi->initUserProfile($user->id)) {
-            //     $transaction->rollBack();
-            //     return null;
-            // } else {
+            if (!Yii::$app->serviceApi->initUserProfile($user->id)) {
+                $transaction->rollBack();
+                return null;
+            } else {
                 $user->sendRegistrationEmail($user);
                 $transaction->commit();
                 return $user;
-            // }
+            }
         } else {
             return null;
         }
@@ -116,5 +116,5 @@ class SignupForm extends Model {
             return null;
         }
     }
-    
+
 }
