@@ -18,7 +18,7 @@ class ServiceApiConnector extends BaseConnector {
             $this->post($url, $this->authHeaders());
             return true;
         } catch (\Exception $e) {
-            $log = 'Something went wrong while initializing empty profile for user ['.$userId.']';
+            $log = 'Something went wrong while initializing empty profile for user ['.$userId.']: ' . $e;
             Yii::error($log);
             return false;
         }
@@ -30,7 +30,7 @@ class ServiceApiConnector extends BaseConnector {
             $result = $this->get($url, $this->authHeaders());
             return Profile::fromRepr($result);
         } catch (\Exception $e) {
-            $log = 'Something went wrong while getting profile for user ['.$userId.']';
+            $log = 'Something went wrong while getting profile for user ['.$userId.']: ' . $e;
             Yii::error($log);
             return null;
         }
@@ -42,7 +42,7 @@ class ServiceApiConnector extends BaseConnector {
             $this->put($url, $this->authHeaders(), $profile->toRepr());
             return true;
         } catch (\Exception $e) {
-            $log = 'Something went wrong while updating profile for user ['.$profile->userId.']';
+            $log = 'Something went wrong while updating profile for user ['.$profile->userId.']: ' . $e;
             Yii::error($log);
             return false;
         }
