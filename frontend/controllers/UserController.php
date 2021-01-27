@@ -20,7 +20,7 @@ use yii\web\BadRequestHttpException;
 /**
  * User controller
  */
-class UserController extends Controller {
+class UserController extends BaseController {
 
     /**
      * {@inheritdoc}
