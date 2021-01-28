@@ -9,6 +9,8 @@ use yii\filters\AccessControl;
 use yii\base\UserException;
 use common\models\LoginForm;
 use common\models\User;
+use frontend\models\AppUser;
+use frontend\models\WenetApp;
 use frontend\models\SignupForm;
 use frontend\models\VerifyEmailForm;
 use frontend\models\ResetPasswordForm;
@@ -30,12 +32,22 @@ class UserController extends BaseController {
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => [
+                        # view actions
                         'login', 'logout', 'signup',
                         'account', 'profile', 'change-password',
                         'user-apps',
-                        'request-password-reset', 'reset-password', 'resend-verification-email', 'verify-email'
+                        'request-password-reset', 'reset-password', 'resend-verification-email', 'verify-email',
+                        # REST APIs
+                        'apps-for-user',
                 ],
                 'rules' => [
+                    [
+                        'actions' => [
+                            'apps-for-user',
+                        ],
+                        'allow' => true,
+                        'roles' => ['?', '@'],
+                    ],
                     [
                         'actions' => [
                             'login', 'signup',
@@ -79,17 +91,43 @@ class UserController extends BaseController {
         ];
     }
 
+    /**
+     * Get the complete list of apps enabled by a user.
+     * For each app, also the activation timestamp id is included.
+     *
+     * @param  string $userId The user id
+     * @return array          The details of all enabled apps
+     */
+    public function actionAppsForUser($userId) {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $user = User::find()->where(['id' => $userId])->one();
+        if (!$user) {
+            Yii::debug("Could not get apps' details for user [$userId]: user not found.", 'wenet.user');
+            Yii::$app->response->statusCode = 404;
+            return new \stdClass();
+        }
+
+        Yii::debug("Getting details of apps associated to user [$userId]", 'wenet.user');
+        $apps = AppUser::find()->where(['user_id' => $userId])->all();
+        $response = [];
+        foreach ($apps as $appForUser) {
+            $response[] = [
+                'appId' => $appForUser->app->id,
+                'activationTs' => $appForUser->created_at,
+            ];
+        }
+        return $response;
+    }
+
     public function actionAccount() {
         $params = ['errorGettingUserProfile' => false];
-        if(Yii::$app->request->get('becomeDev') == 1){
 
-            $model = Yii::$app->serviceApi->getUserProfile(Yii::$app->user->id);
-
-            if (!$model) {
-                $params['errorGettingUserProfile'] = true;
-            } else {
+        if(Yii::$app->request->get('becomeDev') == 1) {
+            try {
+                $model = Yii::$app->serviceApi->getUserProfile(Yii::$app->user->id);
                 $params['model'] = $model;
 
+                # TODO should be using new method for verifying availability of the fields
                 if($model->first_name != null && $model->last_name != null && $model->birthdate != null){
                     $user = User::find()->where(["id" => Yii::$app->user->id])->one();
                     $user->developer = User::DEVELOPER;
@@ -109,18 +147,20 @@ class UserController extends BaseController {
                     Yii::$app->session->setFlash('error', $content);
                     return $this->redirect(['account', $params]);
                 }
+
+            } catch (\Exception $e) {
+                $params['errorGettingUserProfile'] = true;
             }
         }
+
         return $this->render('account', $params);
     }
 
     public function actionProfile(){
-        $model = Yii::$app->serviceApi->getUserProfile(Yii::$app->user->id);
         $params = [];
+        try {
+            $model = Yii::$app->serviceApi->getUserProfile(Yii::$app->user->id);
 
-        if (!$model) {
-            $params = ['errorGettingUserProfile' => true];
-        } else {
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
                 if (Yii::$app->serviceApi->updateUserProfile($model)) {
                     Yii::$app->session->setFlash('success', Yii::t('profile', 'Profile successfully updated.'));
@@ -133,7 +173,10 @@ class UserController extends BaseController {
                 'errorGettingUserProfile' => false
             ];
 
+        } catch (\Exception $e) {
+            $params = ['errorGettingUserProfile' => true];
         }
+
         return $this->render('profile', $params);
 
     }

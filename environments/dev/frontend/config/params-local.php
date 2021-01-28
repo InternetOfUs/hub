@@ -5,9 +5,9 @@ function getenvOrDefault($label, $default) {
 }
 
 return [
-    'authorisation.api.base.url' => getenv('AUTHORISATION_API_BASE_URL'),
+    'authorisation.api.base.url' => getenv('AUTHORISATION_API_BASE_URL'), # TODO is this a duplicate of kong.external.url ?
     'service.api.base.url' => getenv('SERVICE_API_BASE_URL'),
-    'service.api.api.key' => getenvOrDefault('SERVICE_API_APIKEY', null),
+    'hub.apikey' => getenv('COMP_AUTH_KEY'),
 	'hub.version' => getenvOrDefault('HUB_VERSION', 'latest'),
 	'kong.internal.url' => getenv('KONG_INTERNAL_URL'),
 	'kong.external.url' => getenv('KONG_EXTERNAL_URL'),

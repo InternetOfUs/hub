@@ -74,6 +74,10 @@ return [
                     'pattern' => 'data/app/<appId>/user',
                     'route' => 'wenetapp/user-list',
                 ],
+                [
+                    'pattern' => 'data/user/<userId>/apps',
+                    'route' => 'user/apps-for-user',
+                ],
 
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
@@ -83,11 +87,12 @@ return [
         'serviceApi' => [
             'class' => 'frontend\components\ServiceApiConnector',
             'baseUrl' => $params['service.api.base.url'],
-            'apikey' => $params['service.api.apikey'],
+            'apikey' => $params['hub.apikey'],
         ],
         'incentiveServer' => [
             'class' => 'frontend\components\IncentiveServerConnector',
             'baseUrl' => $params['incentive.server.base.url'],
+            'apikey' => $params['hub.apikey'],
         ],
         'kongConnector' => [
             'class' => 'frontend\components\KongConnector',

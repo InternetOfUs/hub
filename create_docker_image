@@ -68,7 +68,7 @@ TARGET_DOCKERFILE="${SCRIPT_DIR}/Dockerfile"
 if [[ ${BUILD_DEV} == 1 ]]; then
   TARGET_DOCKERFILE="${SCRIPT_DIR}/Dockerfile-dev"
   VERSION="${VERSION}-dev"
-  echo "Requested dev support: using version [${VERSION}]"
+  echo "Requested staging support: using version [${VERSION}]"
 fi
 
 REGISTRY=docker.io

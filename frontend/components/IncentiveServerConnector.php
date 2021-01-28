@@ -6,7 +6,7 @@ use Yii;
 use yii\helpers\Json;
 use frontend\models\Badge;
 
-class IncentiveServerConnector extends BaseConnector {
+class IncentiveServerConnector extends PlatformConnector {
 
     public $baseUrl;
 
@@ -20,14 +20,14 @@ class IncentiveServerConnector extends BaseConnector {
     public function getBadgesForUser($appId, $userId) {
         $url = $this->baseUrl . "/incentive/apps/$appId/users/$userId";
         try {
-            $response = $this->get($url);
+            $response = $this->get($url, $this->authHeaders());
             return array_map(
                 function($b){ return Badge::fromRepr($b); },
                 $response['incentives']['badges']
             );
         } catch (\Exception $e) {
-            $log = "Something went wrong while getting badge list for app $appId and user $userId";
-            Yii::error($log);
+            $log = "Something went wrong while getting badge list for app [$appId] and user [$userId]: $e";
+            Yii::error($log, 'wenent.connector.incentive_server');
             return null;
         }
     }
@@ -47,8 +47,8 @@ class IncentiveServerConnector extends BaseConnector {
                 $response['badges']
             );
         } catch (\Exception $e) {
-            $log = "Something went wrong while getting badge list for app $appId";
-            Yii::error($log);
+            $log = "Something went wrong while getting badge list for app [$appId]: $e";
+            Yii::error($log, 'wenent.connector.incentive_server');
             return null;
         }
     }
