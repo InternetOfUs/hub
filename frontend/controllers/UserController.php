@@ -121,15 +121,13 @@ class UserController extends Controller {
 
     public function actionAccount() {
         $params = ['errorGettingUserProfile' => false];
-        if(Yii::$app->request->get('becomeDev') == 1){
 
-            $model = Yii::$app->serviceApi->getUserProfile(Yii::$app->user->id);
-
-            if (!$model) {
-                $params['errorGettingUserProfile'] = true;
-            } else {
+        if(Yii::$app->request->get('becomeDev') == 1) {
+            try {
+                $model = Yii::$app->serviceApi->getUserProfile(Yii::$app->user->id);
                 $params['model'] = $model;
 
+                # TODO should be using new method for verifying availability of the fields
                 if($model->first_name != null && $model->last_name != null && $model->birthdate != null){
                     $user = User::find()->where(["id" => Yii::$app->user->id])->one();
                     $user->developer = User::DEVELOPER;
@@ -149,18 +147,20 @@ class UserController extends Controller {
                     Yii::$app->session->setFlash('error', $content);
                     return $this->redirect(['account', $params]);
                 }
+
+            } catch (\Exception $e) {
+                $params['errorGettingUserProfile'] = true;
             }
         }
+
         return $this->render('account', $params);
     }
 
     public function actionProfile(){
-        $model = Yii::$app->serviceApi->getUserProfile(Yii::$app->user->id);
         $params = [];
+        try {
+            $model = Yii::$app->serviceApi->getUserProfile(Yii::$app->user->id);
 
-        if (!$model) {
-            $params = ['errorGettingUserProfile' => true];
-        } else {
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
                 if (Yii::$app->serviceApi->updateUserProfile($model)) {
                     Yii::$app->session->setFlash('success', Yii::t('profile', 'Profile successfully updated.'));
@@ -173,7 +173,10 @@ class UserController extends Controller {
                 'errorGettingUserProfile' => false
             ];
 
+        } catch (\Exception $e) {
+            $params = ['errorGettingUserProfile' => true];
         }
+
         return $this->render('profile', $params);
 
     }

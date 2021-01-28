@@ -67,8 +67,8 @@ Optionally, configurations can also be set by setting the value of the following
 
 * `BASE_URL`
 * `API_BASE_URL`
+* `COMP_AUTH_KEY` - apikey for cross-component authentication
 * `SERVICE_API_BASE_URL`
-* `SERVICE_API_APIKEY` - optional, should be specified only when communicating directly with the service api component and not when using the project forwarder Kong
 * `INCENTIVE_SERVER_BASE_URL`
 * `REDIS_HOST`
 * `REDIS_PORT` - optional, default to *6379*

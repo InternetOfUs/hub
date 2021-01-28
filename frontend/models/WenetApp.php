@@ -397,14 +397,14 @@ class WenetApp extends \yii\db\ActiveRecord {
 
     public function getOwnerShortName(){
         $ownerId = $this->owner->id;
-        $owner = Yii::$app->serviceApi->getUserProfile($ownerId);
-        if($owner != null){
+        try {
+            $owner = Yii::$app->serviceApi->getUserProfile($ownerId);
             $shortName = substr($owner->first_name, 0, 1) .'. '. $owner->last_name;
             return $shortName;
-        } else {
+        } catch (\Exception $e) {
+            Yii::error('App owner short name is not available', 'wenet.model.app');
             return null;
         }
-
     }
 
     public function create() {
