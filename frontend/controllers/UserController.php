@@ -9,6 +9,8 @@ use yii\filters\AccessControl;
 use yii\base\UserException;
 use common\models\LoginForm;
 use common\models\User;
+use frontend\models\AppUser;
+use frontend\models\WenetApp;
 use frontend\models\SignupForm;
 use frontend\models\VerifyEmailForm;
 use frontend\models\ResetPasswordForm;
@@ -30,12 +32,22 @@ class UserController extends Controller {
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => [
+                        # view actions
                         'login', 'logout', 'signup',
                         'account', 'profile', 'change-password',
                         'user-apps',
-                        'request-password-reset', 'reset-password', 'resend-verification-email', 'verify-email'
+                        'request-password-reset', 'reset-password', 'resend-verification-email', 'verify-email',
+                        # REST APIs
+                        'apps-for-user',
                 ],
                 'rules' => [
+                    [
+                        'actions' => [
+                            'apps-for-user',
+                        ],
+                        'allow' => true,
+                        'roles' => ['?', '@'],
+                    ],
                     [
                         'actions' => [
                             'login', 'signup',
@@ -77,6 +89,34 @@ class UserController extends Controller {
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
+    }
+
+    /**
+     * Get the complete list of apps enabled by a user.
+     * For each app, also the activation timestamp id is included.
+     *
+     * @param  string $userId The user id
+     * @return array          The details of all enabled apps
+     */
+    public function actionAppsForUser($userId) {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $user = User::find()->where(['id' => $userId])->one();
+        if (!$user) {
+            Yii::debug("Could not get apps' details for user [$userId]: user not found.", 'wenet.user');
+            Yii::$app->response->statusCode = 404;
+            return new \stdClass();
+        }
+
+        Yii::debug("Getting details of apps associated to user [$userId]", 'wenet.user');
+        $apps = AppUser::find()->where(['user_id' => $userId])->all();
+        $response = [];
+        foreach ($apps as $appForUser) {
+            $response[$appForUser->app->id] = [
+                'appId' => $appForUser->app->id,
+                'activationTs' => $appForUser->created_at,
+            ];
+        }
+        return $response;
     }
 
     public function actionAccount() {

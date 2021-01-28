@@ -12,7 +12,7 @@ use yii\behaviors\TimestampBehavior;
  * @property int $user_id
  * @property int $created_at
  *
- * @property App $app
+ * @property WenetApp $app
  * @property User $user
  */
 class AppUser extends \yii\db\ActiveRecord
@@ -69,7 +69,7 @@ class AppUser extends \yii\db\ActiveRecord
      */
     public function getApp()
     {
-        return $this->hasOne(App::className(), ['id' => 'app_id']);
+        return $this->hasOne(WenetApp::className(), ['id' => 'app_id']);
     }
 
     /**
