@@ -82,12 +82,6 @@ class Profile extends Model {
     	];
     }
 
-    public static function languageLabels() {
-        return [
-    		self::LANG_EN => Yii::t('common', 'English')
-    	];
-    }
-
     public function toRepr() {
         $date = \DateTime::createFromFormat('d-m-Y', $this->birthdate);
         $db = [
