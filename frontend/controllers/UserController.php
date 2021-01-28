@@ -111,7 +111,7 @@ class UserController extends Controller {
         $apps = AppUser::find()->where(['user_id' => $userId])->all();
         $response = [];
         foreach ($apps as $appForUser) {
-            $response[$appForUser->app->id] = [
+            $response[] = [
                 'appId' => $appForUser->app->id,
                 'activationTs' => $appForUser->created_at,
             ];
