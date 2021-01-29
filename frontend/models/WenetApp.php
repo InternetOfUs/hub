@@ -177,6 +177,7 @@ class WenetApp extends \yii\db\ActiveRecord {
             'slAndroid' => Yii::t('app', 'Android app'),
             'slIos' => Yii::t('app', 'iOS app'),
             'slWebApp' => Yii::t('app', 'Web app'),
+            'associatedCategories' => Yii::t('app', 'Associated Categories'),
         ];
     }
 

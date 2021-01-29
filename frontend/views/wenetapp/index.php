@@ -37,7 +37,7 @@
                             if (count($activePlatformsList) == 0 && count($activeTagsList) == 0) {
                                 $currentClass = "current";
                             }
-                            echo '<li><a href="#" data-filter="*" class="resetFilters '.$currentClass.'" title="'.Yii::t('title', 'See all').'">'.Yii::t('app', 'all').'</a></li>';
+                            echo '<li><a href="#" data-filter="*" class="resetFilters '.$currentClass.'" title="'.Yii::t('app', 'See all').'">'.Yii::t('app', 'all').'</a></li>';
                             ?>
                         </ul>
                     </div>
@@ -51,7 +51,7 @@
                                 if (in_array($currentTag, $activePlatformsList)) {
                                     $currentClass = "current";
                                 }
-                                echo '<li><a id="'.$key.'" href="#" data-filter=".'.$currentTag.'" class="'.$currentClass.'" title="'.Yii::t('title', 'Filter for platform').'">'.WenetApp::sourceLinksLabel($pp).'</a></li>';
+                                echo '<li><a id="'.$key.'" href="#" data-filter=".'.$currentTag.'" class="'.$currentClass.'" title="'.Yii::t('app', 'Filter for platform').'">'.WenetApp::sourceLinksLabel($pp).'</a></li>';
                             } ?>
                         </ul>
                     </div>
@@ -64,7 +64,7 @@
                                 if (in_array($currentTag, $activeTagsList)) {
                                     $currentClass = "current";
                                 }
-                                echo '<li><a id="'.$key.'" href="#" data-filter=".'.$currentTag.'" class="'.$currentClass.'" title="'.Yii::t('title', 'Filter for tag').'">'.WenetApp::tagLabel($tt).'</a></li>';
+                                echo '<li><a id="'.$key.'" href="#" data-filter=".'.$currentTag.'" class="'.$currentClass.'" title="'.Yii::t('app', 'Filter for tag').'">'.WenetApp::tagLabel($tt).'</a></li>';
                             } ?>
                         </ul>
                     </div>
