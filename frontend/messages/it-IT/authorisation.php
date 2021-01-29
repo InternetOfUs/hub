@@ -17,11 +17,11 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Congratulations! You successfully activated the {app_name} application.' => '',
-    'Ooops! Something went wrong while activating the {app_name} application.' => '',
-    'The application {app_name} will be able to' => '',
-    'access your profile data' => '',
-    'access your public profile info' => '',
-    'cancel' => '',
-    'write your profile data' => '',
+    'Congratulations! You successfully activated the {app_name} application.' => 'Congratulazioni! Hai attivato correttamente l\'applicazione {app_name}.',
+    'Ooops! Something went wrong while activating the {app_name} application.' => 'Ops! Qualcosa è andato storto durante l\'attivazione dell\'applicazione {app_name}.',
+    'The application {app_name} will be able to' => 'L\'applicazione {app_name} sarà in grado di',
+    'access your profile data' => 'accedere ai dati del tuo profilo',
+    'access your public profile info' => 'accedere alle informazioni del tuo profilo pubblico',
+    'cancel' => 'annulla',
+    'write your profile data' => 'scrivere i dati del tuo profilo',
 ];
