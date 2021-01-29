@@ -22,7 +22,7 @@ use yii\web\BadRequestHttpException;
 /**
  * User controller
  */
-class UserController extends Controller {
+class UserController extends BaseController {
 
     /**
      * {@inheritdoc}
@@ -337,7 +337,7 @@ class UserController extends Controller {
         if ($user = $model->verifyEmail()) {
             if (Yii::$app->user->login($user)) {
                 Yii::$app->session->setFlash('success', Yii::t('signup', 'Your email has been confirmed!'));
-                return $this->redirect(['wenetapp/index']);
+                return $this->redirect(['profile']);
             }
         }
 

@@ -37,7 +37,8 @@ class Profile extends Model {
     */
     public function rules() {
         return [
-            [['first_name', 'middle_name', 'last_name', 'prefix_name', 'suffix_name','gender','nationality', 'locale','birthdate','phone_number'], 'string'],
+            [['first_name', 'last_name', 'locale', 'gender'], 'required'],
+            [['first_name', 'middle_name', 'last_name', 'prefix_name', 'suffix_name', 'gender', 'nationality', 'locale', 'birthdate','phone_number'], 'string'],
             [['phone_number'], 'phoneNumberValidation'],
         ];
     }
@@ -78,12 +79,6 @@ class Profile extends Model {
     		self::GENDER_M => Yii::t('common', 'Male'),
     		self::GENDER_F => Yii::t('common', 'Female'),
     		self::GENDER_O => Yii::t('common', 'Other')
-    	];
-    }
-
-    public static function languageLabels() {
-        return [
-    		self::LANG_EN => Yii::t('common', 'English')
     	];
     }
 

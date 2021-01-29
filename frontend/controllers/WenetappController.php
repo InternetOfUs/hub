@@ -14,7 +14,7 @@ use frontend\components\AppConnector;
 /**
  * Wenetapp controller
  */
-class WenetappController extends Controller {
+class WenetappController extends BaseController {
 
     /**
      * {@inheritdoc}

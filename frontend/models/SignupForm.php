@@ -87,7 +87,7 @@ class SignupForm extends Model {
         $user->generateEmailVerificationToken();
         $user->generatePasswordResetToken();
 
-        // TODO use trasactions
+        // TODO use transactions
         if ($user->save()) {
             if (!Yii::$app->serviceApi->initUserProfile($user->id)) {
                 $transaction->rollBack();

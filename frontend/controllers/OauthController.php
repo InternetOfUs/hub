@@ -13,7 +13,7 @@ use frontend\models\WenetApp;
 use frontend\models\AppSocialLogin;
 use frontend\models\AppUser;
 
-class OauthController extends Controller {
+class OauthController extends BaseController {
 
     /**
      * {@inheritdoc}

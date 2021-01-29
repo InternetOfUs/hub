@@ -15,7 +15,7 @@ use yii\helpers\Json;
 /**
  * Developer controller
  */
-class DeveloperController extends Controller {
+class DeveloperController extends BaseController {
 
     /**
      * {@inheritdoc}
