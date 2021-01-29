@@ -42,6 +42,7 @@ class AuthorisationForm extends Model {
             'id' => Profile::instance()->attributeLabels()['id'],
             'first_name' => Profile::instance()->attributeLabels()['first_name'],
             'last_name' => Profile::instance()->attributeLabels()['last_name'],
+            'conversations' => Yii::t('profile', 'Conversation logging'),
         ];
     }
 
@@ -55,7 +56,7 @@ class AuthorisationForm extends Model {
 
     public static function writeScope() {
         return [
-            'write_feed' => Yii::t('write_feed', 'Write data feed'),  # TODO find better name
+            'write_feed' => Yii::t('profile', 'Write data feed'),
         ];
     }
 
