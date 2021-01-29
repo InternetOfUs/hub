@@ -28,7 +28,6 @@ return [
     'Create new app' => '',
     'Developer' => '',
     'Email' => '',
-    'English' => '',
     'Error' => '',
     'Female' => '',
     'Home' => '',
@@ -63,4 +62,5 @@ return [
     'edit app' => '',
     'manage developers' => '',
     'view' => '',
+    'English' => '@@@@',
 ];
