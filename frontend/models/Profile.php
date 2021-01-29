@@ -140,6 +140,11 @@ class Profile extends Model {
 
         $model->gender = $repr['gender'];
         $model->locale = $repr['locale'];
+
+        if(!in_array($model->locale, Locale::locales())){
+            $model->locale = null;
+        }
+
         $model->nationality = $repr['nationality'];
 
         $model->phone_number = $repr['phoneNumber'];

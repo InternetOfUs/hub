@@ -110,6 +110,10 @@ class Locale {
     const LOCALE_YIDDISH = "yi"; // "Yiddish",
     const LOCALE_ZULU = "zu"; // "Zulu"
 
+    public static function locales(){
+        return array_keys(self::localeLabels());
+    }
+
     public static function localeLabels() {
         return [
             self::LOCALE_AFRIKAANS => "Afrikaans",

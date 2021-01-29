@@ -12,22 +12,28 @@ class BaseController extends Controller {
         parent::init();
 
         if(!Yii::$app->user->isGuest){
-            $userProfile = Yii::$app->serviceApi->getUserProfile(Yii::$app->user->id);
-
-            $profileFieldsToCheck = [
-                'first_name',
-                'last_name',
-                'locale',
-                'gender'
-            ];
 
             $profileIsComplete = true;
-            foreach ($profileFieldsToCheck as $profileFieldToCheck) {
-                if($userProfile[$profileFieldToCheck] == '' || $userProfile[$profileFieldToCheck] == null ){
-                    $profileIsComplete = false;
-                    break;
+            try {
+                $userProfile = Yii::$app->serviceApi->getUserProfile(Yii::$app->user->id);
+
+                $profileFieldsToCheck = [
+                    'first_name',
+                    'last_name',
+                    'locale',
+                    'gender'
+                ];
+
+                foreach ($profileFieldsToCheck as $profileFieldToCheck) {
+                    if($userProfile[$profileFieldToCheck] == '' || $userProfile[$profileFieldToCheck] == null ){
+                        $profileIsComplete = false;
+                        break;
+                    }
                 }
+            } catch (\Exception $e) {
+                Yii::debug('Could not verify user profile completion for user [' .Yii::$app->user->id. ']: ' . $e, 'wenet.controller.base');
             }
+
 
             if(!$profileIsComplete){
                 $content = Yii::t('profile', 'Remember to fill in your') .' '. Html::a( Yii::t('profile', 'profile'), ['/user/profile']) . '.';

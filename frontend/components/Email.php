@@ -55,7 +55,7 @@ class Email {
     public function send() {
 
         if (!isset(Yii::$app->params['elasticmail.api.key']) || !Yii::$app->params['elasticmail.api.key']) {
-            Yii::warning('Can not send email: required env variable [elasticmail.api.key] is missing', 'uhopper.email');
+            Yii::warning('Can not send email: required env variable [elasticmail.api.key] is missing', 'wenet.email');
             return false;
         }
 
@@ -91,7 +91,7 @@ class Email {
             );
             return 'OK';
         } catch (\Exception $e) {
-            Yii::error('Can not send email: something went wrong', 'uhopper.email');
+            Yii::error('Can not send email: something went wrong', 'wenet.email');
             return false;
         }
     }
