@@ -163,6 +163,7 @@ class UserController extends BaseController {
 
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
                 if (Yii::$app->serviceApi->updateUserProfile($model)) {
+                    $this->setLanguage($model->locale);
                     Yii::$app->session->setFlash('success', Yii::t('profile', 'Profile successfully updated.'));
                 } else {
                     Yii::$app->session->setFlash('error', Yii::t('profile', 'Could not update profile.'));
