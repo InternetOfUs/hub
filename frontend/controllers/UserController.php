@@ -124,7 +124,7 @@ class UserController extends BaseController {
 
         if(Yii::$app->request->get('becomeDev') == 1) {
             try {
-                $model = Yii::$app->serviceApi->getUserProfile(Yii::$app->user->id);
+                $model = $this->userProfile(Yii::$app->user->id);
                 $params['model'] = $model;
 
                 # TODO should be using new method for verifying availability of the fields
@@ -159,10 +159,10 @@ class UserController extends BaseController {
     public function actionProfile(){
         $params = [];
         try {
-            $model = Yii::$app->serviceApi->getUserProfile(Yii::$app->user->id);
+            $model = $this->userProfile(Yii::$app->user->id);
 
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-                if (Yii::$app->serviceApi->updateUserProfile($model)) {
+                if (Yii::$app->serviceApi->updateUserProfile($model) && $this->updateCachedUserProfile($model)) {
                     $this->setLanguage($model->locale);
                     Yii::$app->session->setFlash('success', Yii::t('profile', 'Profile successfully updated.'));
                 } else {

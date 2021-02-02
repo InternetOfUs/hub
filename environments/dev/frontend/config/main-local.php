@@ -17,6 +17,14 @@ $config = [
                 'database' => $redisDb,
             ]
         ],
+        'redis' => [
+            'class' => 'yii\redis\Cache',
+            'redis' => [
+                'hostname' => getenv('REDIS_HOST'),
+                'port' => $redisPort,
+                'database' => $redisDb,
+            ]
+        ],
     ],
 ];
 

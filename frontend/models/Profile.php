@@ -10,6 +10,8 @@ use yii\base\Model;
  */
 class Profile extends Model {
 
+    const DEFAULT_LANGUAGE = 'en-US';
+
     public $userId;
 
     public $first_name;
@@ -80,6 +82,27 @@ class Profile extends Model {
     		self::GENDER_F => Yii::t('common', 'Female'),
     		self::GENDER_O => Yii::t('common', 'Other')
     	];
+    }
+
+    /**
+     * Check if the profile contains all required fields.
+     *
+     * @return boolean Whether the profile is complete or not.
+     */
+    public function isComplete() {
+        $profileFieldsToCheck = [
+            'first_name',
+            'last_name',
+            'locale',
+            'gender'
+        ];
+
+        foreach ($profileFieldsToCheck as $profileFieldToCheck) {
+            if($this->{$profileFieldToCheck} == '' || $this->{$profileFieldToCheck} == null ){
+                return false;
+            }
+        }
+        return true;
     }
 
     public function toRepr() {
