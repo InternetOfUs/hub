@@ -69,11 +69,11 @@ class BaseController extends Controller {
     public function setLanguage($userLang){
         if(strpos($userLang, 'it_') !== false){
             Yii::$app->language = 'it-IT';
+        } else if(strpos($userLang, 'mn') !== false){
+            Yii::$app->language = 'mn';
         }
-        // else if(strpos($userLang, 'es_') !== false){
+        // } else if(strpos($userLang, 'es_') !== false){
         //     Yii::$app->language = 'es-ES';
-        // } else if(strpos($userLang, 'mn') !== false){
-        //     Yii::$app->language = 'mn';
         // } else if(strpos($userLang, 'da') !== false){
         //     Yii::$app->language = 'da';
         // }

@@ -17,9 +17,9 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Check your email for further instructions.' => '',
-    'New password saved.' => '',
-    'Sorry, we are unable to reset password for the provided email address.' => '',
-    'WeNet HUB - Reset password' => '',
-    'WeNet HUB - Verify your email' => '',
+    'Check your email for further instructions.' => 'И-мэйлээ шалган илүү мэдээлэл авна уу.',
+    'New password saved.' => 'Шинэ нууц үг хадгалагдлаа.',
+    'Sorry, we are unable to reset password for the provided email address.' => 'Уучлаарай, дараах и-мэйл хаягаар нууц үг сэргээх боломжгүй.',
+    'WeNet HUB - Reset password' => 'Винэт HUB - Нууц үг сэргээх',
+    'WeNet HUB - Verify your email' => 'Винэт HUB - И-мэйлээ шалгана уу',
 ];
