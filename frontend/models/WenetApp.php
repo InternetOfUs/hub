@@ -24,6 +24,7 @@ use yii\helpers\Json;
  * @property int $created_at
  * @property int $updated_at
  * @property int $owner_id
+ * @property string $image_url
  *
  * @property User $owner
  */
@@ -77,12 +78,12 @@ class WenetApp extends \yii\db\ActiveRecord {
 
             [['id', 'token', 'name', 'status', 'owner_id'], 'required'],
             [['status', 'created_at', 'updated_at', 'owner_id', 'data_connector', 'conversational_connector'], 'integer'],
-            [['description', 'message_callback_url', 'metadata'], 'string'],
+            [['description', 'message_callback_url', 'metadata', 'image_url'], 'string'],
             [['id'], 'string', 'max' => 128],
             [['name', 'token'], 'string', 'max' => 512],
             [['id'], 'unique'],
             [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['owner_id' => 'id']],
-            [['slFacebook', 'slTelegram', 'slAndroid', 'slIos', 'slWebApp'], 'linksValidation'],
+            [['slFacebook', 'slTelegram', 'slAndroid', 'slIos', 'slWebApp', 'image_url'], 'linksValidation'],
             [['status'], 'statusValidation'],
             [['message_callback_url'], 'messageLinkValidation'],
             [['associatedCategories', 'slFacebook', 'slTelegram', 'slAndroid', 'slIos', 'slWebApp'], 'safe'],
@@ -95,6 +96,7 @@ class WenetApp extends \yii\db\ActiveRecord {
             'name' => $this->name,
             'status' => $this->status,
             'ownerId' => $this->owner_id,
+            'image_url' => $this->image_url,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'metadata' => $this->allMetadata,
@@ -147,6 +149,9 @@ class WenetApp extends \yii\db\ActiveRecord {
         if($this->slWebApp != null && substr($this->slWebApp, 0, 4) != "http"){
             $this->addError('slWebApp', Yii::t('app', 'Link should be an absolute link (add http:// or https://).'));
         }
+        if($this->image_url != null && substr($this->image_url, 0, 4) != "http"){
+            $this->addError('image_url', Yii::t('app', 'Image url should be an absolute link (add http:// or https://).'));
+        }
     }
 
     public function messageLinkValidation(){
@@ -178,6 +183,7 @@ class WenetApp extends \yii\db\ActiveRecord {
             'slIos' => Yii::t('app', 'iOS app'),
             'slWebApp' => Yii::t('app', 'Web app'),
             'associatedCategories' => Yii::t('app', 'Associated Categories'),
+            'image_url' => Yii::t('app', 'App image URL'),
         ];
     }
 
@@ -356,7 +362,8 @@ class WenetApp extends \yii\db\ActiveRecord {
             if($this->slAndroid == ""){ $this->slAndroid = null; }
             if($this->slIos == ""){ $this->slIos = null; }
             if($this->slWebApp == ""){ $this->slWebApp = null; }
-
+            if($this->image_url == ""){ $this->image_url = null; }
+            
             $this->metadata = [
                 'categories' => $this->associatedCategories,
                 'source_links' => [

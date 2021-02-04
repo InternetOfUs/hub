@@ -17,9 +17,14 @@
 ?>
 
 <div class="site-login">
-    <div class="app_icon big_icon centered_icon">
-        <span><?php echo strtoupper($app->name[0]); ?></span>
-    </div>
+    <?php if($app->image_url != null){ ?>
+        <div class="app_icon_image big_icon centered_icon" style="background-image: url(<?php echo $app->image_url; ?>)"></div>
+    <?php } else { ?>
+        <div class="app_icon big_icon centered_icon">
+            <span><?php echo strtoupper($app->name[0]); ?></span>
+        </div>
+    <?php } ?>
+    
     <?php echo $message; ?>
     <?php
         if($redirect_url != ""){

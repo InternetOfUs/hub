@@ -32,7 +32,13 @@
                          }
 
                          $content = '<a href="'. Url::to(['/wenetapp/user-app-details', 'id' => $app->id, 'back' => 'profile']) .'" class="app user_apps">';
-                            $content .= '<div class="app_icon big_icon"><span>'.strtoupper($app->name[0]).'</span></div>';
+
+                             if($app->image_url != null){
+                                 $content .= '<div class="app_icon_image big_icon" style="margin-top:0px !important; background-image: url('.$app->image_url.')"></div>';
+                             } else {
+                                 $content .= '<div class="app_icon big_icon"><span>'.strtoupper($app->name[0]).'</span></div>';
+                             }
+                         
                              $content .= '<h2>'. $app->name .'</h2>';
                              $content .= '<p>'. $app->description .'</p>';
                              $content .= $activeSourceLinks;

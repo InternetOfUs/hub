@@ -622,6 +622,26 @@ a span.actionColumn_btn.delete_btn:hover,
     color: #fff;
 }
 
+div.app_icon_image{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+    float: left;
+}
+
+div.app_icon_image.big_icon{
+    margin-right: 15px;
+    margin-top: 15px;
+}
+
+div.app_icon_image.small_icon{margin: 0 10px 0 0;}
+
+div.app_icon_image.small_icon + span{
+    display: inline-block;
+    margin: 5px 0 0 0;
+}
+
 div.app_icon{
     background-color: #00a3b6;
     display: inline-block;
@@ -637,8 +657,9 @@ div.app_icon span{
 }
 
 div.centered_icon{
+    margin: 0 auto !important;
     display: block;
-    margin: 0 auto;
+    float: none;
 }
 
 div.big_icon{
@@ -716,7 +737,7 @@ table.active_users_platform tr td:first-child{
 
 #app-create-form textarea,
 #app-update-form textarea{
-    min-height: 100px;
+    min-height: 118px;
     resize: vertical;
 }
 
