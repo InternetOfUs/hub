@@ -48,8 +48,17 @@ class LoginForm extends Model {
     public function validatePassword($attribute, $params) {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
-            if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, Yii::t('signup', 'Incorrect username or password.'));
+
+            if(!$user || $user->status == User::STATUS_DELETED) {
+                $this->addError('username_or_email', Yii::t('signup', 'Incorrect username or inexistent user.'));
+            } else {
+                if($user->status == User::STATUS_INACTIVE) {
+                    $this->addError($attribute, Yii::t('signup', 'User not verified, validate your account!'));
+                }
+
+                if (!$user->validatePassword($this->password)) {
+                    $this->addError($attribute, Yii::t('signup', 'Incorrect password.'));
+                }
             }
         }
     }

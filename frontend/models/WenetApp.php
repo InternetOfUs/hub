@@ -177,6 +177,7 @@ class WenetApp extends \yii\db\ActiveRecord {
             'slAndroid' => Yii::t('app', 'Android app'),
             'slIos' => Yii::t('app', 'iOS app'),
             'slWebApp' => Yii::t('app', 'Web app'),
+            'associatedCategories' => Yii::t('app', 'Associated Categories'),
         ];
     }
 
@@ -398,7 +399,7 @@ class WenetApp extends \yii\db\ActiveRecord {
     public function getOwnerShortName(){
         $ownerId = $this->owner->id;
         try {
-            $owner = Yii::$app->serviceApi->getUserProfile($ownerId);
+            $owner = $this->userProfile($ownerId);
             $shortName = substr($owner->first_name, 0, 1) .'. '. $owner->last_name;
             return $shortName;
         } catch (\Exception $e) {

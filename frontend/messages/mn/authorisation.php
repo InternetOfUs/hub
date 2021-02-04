@@ -17,11 +17,11 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Congratulations! You successfully activated the {app_name} application.' => '',
-    'Ooops! Something went wrong while activating the {app_name} application.' => '',
-    'The application {app_name} will be able to' => '',
-    'access your profile data' => '',
-    'access your public profile info' => '',
-    'cancel' => '',
-    'write your profile data' => '',
+    'Congratulations! You successfully activated the {app_name} application.' => 'Баяр хүргэе! Апп {app_name} амжилттай идэвхжилээ.',
+    'Ooops! Something went wrong while activating the {app_name} application.' => 'Ooops! Апп {app_name} идэвхжүүлэхэд алдаа гарлаа.',
+    'The application {app_name} will be able to' => 'Аппликэйшн {app_name} боломжтой',
+    'access your profile data' => 'өөрийн профайл өгөгдөлд хандах',
+    'access your public profile info' => 'өөрийн нийтийн профайл өгөгдөлд хандах',
+    'cancel' => 'цуцлах',
+    'write your profile data' => 'өөрийн профайл өгөгдлийг бичих',
 ];
