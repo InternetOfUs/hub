@@ -2,6 +2,18 @@
 
 ## Version 1.*
 
+### 1.2.0
+
+* applied project template
+* added email support
+* added visualisation of badges for an app
+* added logs support
+* improved languages and nationalities lists for the user profile
+* added Italian translations
+* added Mongolian translations
+* added smart management of the user language of the hub (redis)
+* added possibility to set an app image (just an URL)
+
 ### 1.1.0
 
 * improved developer section with new WeNet connector requirements: now OAtuh2 is the only required setting to configure for enabling an application to communicate with the platform
