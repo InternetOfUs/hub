@@ -17,6 +17,10 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'User ID' => '',
-    'Write data feed' => '',
+    'About WeNet' => '',
+    'About WeNet Hub' => '',
+    'Discover more' => '',
+    'about text' => '',
+    'about text 2' => '',
+    'hub text' => '',
 ];

@@ -37,6 +37,7 @@
                             ],
                         ]);
                     ?>
+                    <?php echo $form->field($model, 'image_url'); ?>
                 </div>
             </div>
             <div class="row">

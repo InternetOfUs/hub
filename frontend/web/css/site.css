@@ -337,7 +337,10 @@ div.required label.control-label::after {
 }
 
 div.site-signup,
-div.site-login{
+div.site-login,
+div.site-resend-verification-email,
+div.site-request-password-reset,
+div.site-reset-password{
     padding: 20px 0 0 0;
     max-width: 600px;
     margin: 0 auto;
@@ -345,6 +348,9 @@ div.site-login{
 
 div.easy_layout div.site-signup,
 div.easy_layout div.site-login,
+div.easy_layout div.site-resend-verification-email,
+div.easy_layout div.site-request-password-reset,
+div.easy_layout div.site-reset-password,
 div.easy_layout div.site-authorisation{
     background-color: #fff;
     padding: 20px 0 0 0;
@@ -616,6 +622,26 @@ a span.actionColumn_btn.delete_btn:hover,
     color: #fff;
 }
 
+div.app_icon_image{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+    float: left;
+}
+
+div.app_icon_image.big_icon{
+    margin-right: 15px;
+    margin-top: 15px;
+}
+
+div.app_icon_image.small_icon{margin: 0 10px 0 0;}
+
+div.app_icon_image.small_icon + span{
+    display: inline-block;
+    margin: 5px 0 0 0;
+}
+
 div.app_icon{
     background-color: #00a3b6;
     display: inline-block;
@@ -631,8 +657,9 @@ div.app_icon span{
 }
 
 div.centered_icon{
+    margin: 0 auto !important;
     display: block;
-    margin: 0 auto;
+    float: none;
 }
 
 div.big_icon{
@@ -710,7 +737,7 @@ table.active_users_platform tr td:first-child{
 
 #app-create-form textarea,
 #app-update-form textarea{
-    min-height: 100px;
+    min-height: 118px;
     resize: vertical;
 }
 
@@ -797,6 +824,31 @@ fieldset[disabled] .form-control {background-color: #f5f5f5;}
     border-color: #00a3b6;
 }
 
+/* badge */
+div.badges_container{
+    flex-direction: row;
+    flex-wrap: wrap;
+    display: flex;
+}
+
+div.badges_container div.badge_item{
+    text-align: center;
+    padding: 15px;
+    width: 20%;
+}
+
+div.badges_container div.badge_item div.badge_icon{
+    background-color: #fff;
+    display: block;
+    margin: 0 auto;
+    width: 40%;
+}
+
+div.badges_container div.badge_item div.badge_icon img{width: 100%;}
+
+div.badges_container div.badge_item span{
+    font-weight: 500;
+    font-size: 12px;
 
 
 

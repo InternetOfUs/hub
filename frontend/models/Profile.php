@@ -10,6 +10,8 @@ use yii\base\Model;
  */
 class Profile extends Model {
 
+    const DEFAULT_LANGUAGE = 'en-US';
+
     public $userId;
 
     public $first_name;
@@ -37,7 +39,8 @@ class Profile extends Model {
     */
     public function rules() {
         return [
-            [['first_name', 'middle_name', 'last_name', 'prefix_name', 'suffix_name','gender','nationality', 'locale','birthdate','phone_number'], 'string'],
+            [['first_name', 'last_name', 'locale', 'gender'], 'required'],
+            [['first_name', 'middle_name', 'last_name', 'prefix_name', 'suffix_name', 'gender', 'nationality', 'locale', 'birthdate','phone_number'], 'string'],
             [['phone_number'], 'phoneNumberValidation'],
         ];
     }
@@ -81,10 +84,25 @@ class Profile extends Model {
     	];
     }
 
-    public static function languageLabels() {
-        return [
-    		self::LANG_EN => Yii::t('common', 'English')
-    	];
+    /**
+     * Check if the profile contains all required fields.
+     *
+     * @return boolean Whether the profile is complete or not.
+     */
+    public function isComplete() {
+        $profileFieldsToCheck = [
+            'first_name',
+            'last_name',
+            'locale',
+            'gender'
+        ];
+
+        foreach ($profileFieldsToCheck as $profileFieldToCheck) {
+            if($this->{$profileFieldToCheck} == '' || $this->{$profileFieldToCheck} == null ){
+                return false;
+            }
+        }
+        return true;
     }
 
     public function toRepr() {
@@ -145,6 +163,11 @@ class Profile extends Model {
 
         $model->gender = $repr['gender'];
         $model->locale = $repr['locale'];
+
+        if(!in_array($model->locale, Locale::locales())){
+            $model->locale = null;
+        }
+
         $model->nationality = $repr['nationality'];
 
         $model->phone_number = $repr['phoneNumber'];

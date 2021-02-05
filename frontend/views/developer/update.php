@@ -53,6 +53,7 @@
                         ],
                     ]);
                     ?>
+                    <?php echo $form->field($app, 'image_url'); ?>
                 </div>
             </div>
             <div class="row">

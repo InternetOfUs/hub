@@ -17,8 +17,9 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Filter for platform' => '@@@@',
-    'Filter for tag' => '',
-    'See all' => '',
-    'platform icon' => '@@@@',
+    'Check your email for further instructions.' => 'И-мэйлээ шалган илүү мэдээлэл авна уу.',
+    'New password saved.' => 'Шинэ нууц үг хадгалагдлаа.',
+    'Sorry, we are unable to reset password for the provided email address.' => 'Уучлаарай, дараах и-мэйл хаягаар нууц үг сэргээх боломжгүй.',
+    'WeNet HUB - Reset password' => 'Винэт HUB - Нууц үг сэргээх',
+    'WeNet HUB - Verify your email' => 'Винэт HUB - И-мэйлээ шалгана уу',
 ];

@@ -1,0 +1,30 @@
+---
+
+- name: Setup project.
+  hosts: 127.0.0.1
+  connection: local
+  vars:
+    project_type: yii2
+    project_path: .
+    project_features:
+      - docker
+      - ci_cd
+
+    docker_registry: docker.io
+    docker_image_name: internetofus/hub
+    docker_yii2_image_base_image: public.registry.u-hopper.com/uhopper/ubuntu:20.10
+    docker_yii2_services:
+      - name: frontend
+        alias: frontend
+
+    ci_stages:
+      - build
+      - push
+      - trigger
+      - notify
+    ci_environments:
+      - production
+      - staging
+      - issue
+  roles:
+    - uh.project_template

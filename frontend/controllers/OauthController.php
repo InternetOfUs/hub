@@ -13,7 +13,7 @@ use frontend\models\WenetApp;
 use frontend\models\AppSocialLogin;
 use frontend\models\AppUser;
 
-class OauthController extends Controller {
+class OauthController extends BaseController {
 
     /**
      * {@inheritdoc}
@@ -102,9 +102,7 @@ class OauthController extends Controller {
         $model = new SignupForm();
         $model->scenario = SignupForm::SCENARIO_CREATE;
         if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            // TODO after fixed email send
-            // Yii::$app->session->setFlash('success', Yii::t('signup', 'Thank you for registration. Please check your inbox for verification email.'));
-            Yii::$app->session->setFlash('success', Yii::t('signup', 'Thank you for registration.'));
+            Yii::$app->session->setFlash('success', Yii::t('signup', 'Thank you for registration. Please check your inbox for verification email.'));
             return $this->redirect(['login', 'client_id' => $client_id, 'scope' => $scope, 'external_id' => $external_id]);
         }
 

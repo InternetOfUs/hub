@@ -80,18 +80,20 @@ class SignupForm extends Model {
         $user = new User();
         $user->username = $this->username;
         $user->email = $this->email;
-        $user->status = User::STATUS_ACTIVE; // TODO
+        $user->status = User::STATUS_INACTIVE;
         $user->developer = User::NOT_DEVELOPER;
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
+        $user->generatePasswordResetToken();
 
+        // TODO use transactions
         if ($user->save()) {
             if (!Yii::$app->serviceApi->initUserProfile($user->id)) {
                 $transaction->rollBack();
                 return null;
             } else {
-                // $this->sendEmail($user);
+                $user->sendRegistrationEmail($user);
                 $transaction->commit();
                 return $user;
             }
@@ -115,21 +117,4 @@ class SignupForm extends Model {
         }
     }
 
-    /**
-     * Sends confirmation email to user
-     * @param User $user user model to with email should be send
-     * @return bool whether the email was sent
-     */
-    protected function sendEmail($user) {
-        return Yii::$app
-            ->mailer
-            ->compose(
-                ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
-                ['user' => $user]
-            )
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
-            ->setTo($this->email)
-            ->setSubject('Account registration at ' . Yii::$app->name)
-            ->send();
-    }
 }

@@ -17,8 +17,8 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Filter for platform' => '@@@@',
-    'Filter for tag' => '',
-    'See all' => '',
-    'platform icon' => '@@@@',
+    'Now you are a developer.' => 'Та хөгжүүлэгч боллоо.',
+    'There is a problem setting your account as developer. Please retry later.' => 'Аккаунтыг тань хөгжүүлэгч болгоход асуудал гарлаа. Дараа дахин оролдно уу.',
+    'Your profile is incomplete. Complete it ' => 'Профайл тань дутуу байна. Гүйцээнэ үү ',
+    'here' => 'энд',
 ];

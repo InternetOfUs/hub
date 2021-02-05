@@ -5,7 +5,7 @@
 The WeNet HUB component is responsible for allowing WeNet users to manage their profile and application.
 It also provides developers with the toots for managing applications and associated platform.
 
-In order to use a WeNet application a Wenet user should have been created. 
+In order to use a WeNet application a Wenet user should have been created.
 This is possibile via the WeNet HUB. Any WeNet application will redirect its users to the HUB if a WeNet user can not be identified.
 
 Once registered and authenticated, a user can take advantage of the HUB for:
@@ -16,8 +16,8 @@ Once registered and authenticated, a user can take advantage of the HUB for:
 * managing enabled applications.
 
 The WeNet HUB is also the place where new Wenet applications can be created and configured.
-Any user can create his own WeNet application by becoming a *developer*. 
-This can be done by enabling the *developer mode* in the user account settings. 
+Any user can create his own WeNet application by becoming a *developer*.
+This can be done by enabling the *developer mode* in the user account settings.
 A few profile information will need to be set in order to complete this process.
 
 Once developer, a user has access to a dedicated section of the HUB where it is possibile to configure applications from a technical point of view.
@@ -65,15 +65,19 @@ Custom environment configurations can be accessed in the `frontend/config/params
 
 Optionally, configurations can also be set by setting the value of the following environment variables:
 
-* BASE_URL
-* API_BASE_URL
-* SERVICE_API_BASE_URL
-* SERVICE_API_APIKEY (optional, should be specified only when communicating directly with the service api component and not when using the project forwarder Kong)
-* REDIS_HOST
-* REDIS_PORT (default to *6379*)
-* REDIS_DB (default to *1* for development mode and to *0* for production mode)
-* KONG_URL
-* KONG_PROVISION_KEY
+* `BASE_URL`
+* `API_BASE_URL`
+* `COMP_AUTH_KEY` - apikey for cross-component authentication
+* `SERVICE_API_BASE_URL`
+* `INCENTIVE_SERVER_BASE_URL`
+* `REDIS_HOST`
+* `REDIS_PORT` - optional, default to *6379*
+* `REDIS_DB` - optional, default to *1* for development mode and to *0* for production mode
+* `KONG_URL`
+* `KONG_PROVISION_KEY`
+* `ELASTICMAIL_API_KEY`
+* `EMAIL_FROM_NAME`
+* `EMAIL_FROM`
 
 
 ## Usage

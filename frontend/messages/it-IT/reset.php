@@ -17,7 +17,9 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Check your email for further instructions.' => '',
-    'New password saved.' => '',
-    'Sorry, we are unable to reset password for the provided email address.' => '',
+    'Check your email for further instructions.' => 'Controlla la tua email per ulteriori istruzioni.',
+    'New password saved.' => 'Nuova password salvata.',
+    'Sorry, we are unable to reset password for the provided email address.' => 'Spiacenti, non siamo in grado di reimpostare la password per l\'indirizzo email fornito.',
+    'WeNet HUB - Reset password' => 'WeNet HUB - Reimposta password',
+    'WeNet HUB - Verify your email' => 'WeNet HUB - Verifica la tua email',
 ];

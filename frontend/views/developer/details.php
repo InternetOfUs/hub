@@ -43,9 +43,14 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="app_icon big_icon">
-            <span><?php echo strtoupper($app->name[0]); ?></span>
-        </div>
+        <?php if($app->image_url != null){ ?>
+            <div class="app_icon_image big_icon" style="background-image: url(<?php echo $app->image_url; ?>)"></div>
+        <?php } else { ?>
+            <div class="app_icon big_icon">
+                <span><?php echo strtoupper($app->name[0]); ?></span>
+            </div>
+        <?php } ?>
+
         <h1>
             <?php echo $app->name; ?>
             <span> | </span>
@@ -111,7 +116,7 @@
                     <pre><?php echo $socialLogin->callback_url;?></pre>
                 </p>
                 <hr>
-                <a href="<?= Url::to(['/oauth/delete-oauth', 'id' => $socialLogin->id]); ?>" class="btn delete_btn pull-right" title="<?php echo Yii::t('app', 'Detele OAuth2'); ?>">
+                <a href="<?= Url::to(['/oauth/delete-oauth', 'id' => $socialLogin->id]); ?>" class="btn delete_btn pull-right" title="<?php echo Yii::t('app', 'Delete OAuth2'); ?>">
                     <i class="fa fa-trash"></i> <?php echo Yii::t('common', 'delete'); ?>
                 </a>
                 <a href="<?= Url::to(['/oauth/update-oauth', 'id' => $socialLogin->id]); ?>" style="margin-right:10px;" class="btn btn-primary pull-right" title="<?php echo Yii::t('common', 'edit'); ?>">

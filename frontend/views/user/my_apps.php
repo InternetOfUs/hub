@@ -23,30 +23,25 @@
     		<div class="userAppsContainer">
                 <?php
                      foreach ($apps as $key => $app) {
-                         // $availablePlatforms = [];
-                         // if($app->hasPlatformTelegram()) {
-                         //     $availablePlatforms[] = AppPlatform::TYPE_TELEGRAM;
-                         // }
-                         //
-                         // $platformsContent = '';
-                         // if(count($availablePlatforms) > 0){
-                         //     $platformsContent .= '<ul class="platform_icons">';
-                         //     foreach ($availablePlatforms as $key => $ap) {
-                         //         $platformsContent .= '<li>';
-                         //             $platformsContent .= '<div class="image_container" style="align-self: flex-end">';
-                         //                 $platformsContent .= '<img src="'.Url::base().'/images/platforms/'.$ap.'.png" alt="'. Yii::t('title', 'platform icon') .'">';
-                         //             $platformsContent .= '</div>';
-                         //         $platformsContent .= '</li>';
-                         //     }
-                         //     $platformsContent .= '</ul>';
-                         // } else {
-                         //     $platformsContent .= '';
-                         // }
 
-                         $content = '<a href="'. Url::to(['/wenetapp/details', 'id' => $app->id, 'back' => 'profile']) .'" class="app user_apps">';
+                         $activeSourceLinks = '';
+                         if($app->hasActiveSourceLinksForApp()){
+                             $activeSourceLinks .= '<ul class="source_links_list table_view">' . implode(array_map(function($sl){
+                                 return '<li><img src="'.Url::base().'/images/platforms/'.$sl.'.png" alt="'.$sl." ". Yii::t('app', 'Source link image').'"></li>';
+                             }, $app->getActiveSourceLinksForApp()), '') . '</ul>';
+                         }
+
+                         $content = '<a href="'. Url::to(['/wenetapp/user-app-details', 'id' => $app->id, 'back' => 'profile']) .'" class="app user_apps">';
+
+                             if($app->image_url != null){
+                                 $content .= '<div class="app_icon_image big_icon" style="margin-top:0px !important; background-image: url('.$app->image_url.')"></div>';
+                             } else {
+                                 $content .= '<div class="app_icon big_icon"><span>'.strtoupper($app->name[0]).'</span></div>';
+                             }
+                         
                              $content .= '<h2>'. $app->name .'</h2>';
                              $content .= '<p>'. $app->description .'</p>';
-                             // $content .= $platformsContent;
+                             $content .= $activeSourceLinks;
                          $content .= '</a>';
 
                          echo $content;

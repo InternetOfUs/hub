@@ -3,6 +3,7 @@
     use yii\helpers\Html;
     use frontend\models\Profile;
     use frontend\models\Nationality;
+    use frontend\models\Locale;
     use kartik\date\DatePicker;
 
     $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Profile');
@@ -60,7 +61,7 @@
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                             <?php
                                 echo $form->field($model, 'locale')->dropDownList(
-                                    Profile::languageLabels(),
+                                    Locale::localeLabels(),
                                     ['prompt' => Yii::t('profile', 'Select language ...')]
                                 );
                             ?>

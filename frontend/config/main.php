@@ -45,7 +45,13 @@ return [
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+                    'logFile' => '@runtime/logs/hub.log', # update the name of the logger with your component name
+                    'levels' => YII_DEBUG ? ['error', 'warning', 'info', 'trace'] : ['error', 'warning', 'info'], # set the desired levels
+                    'categories' => [
+                        # fill with categories of interest
+                    ],
+                    'except' => [],
+                    'rotateByCopy' => false,
                 ],
             ],
         ],
@@ -68,6 +74,10 @@ return [
                     'pattern' => 'data/app/<appId>/user',
                     'route' => 'wenetapp/user-list',
                 ],
+                [
+                    'pattern' => 'data/user/<userId>/apps',
+                    'route' => 'user/apps-for-user',
+                ],
 
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
@@ -77,7 +87,12 @@ return [
         'serviceApi' => [
             'class' => 'frontend\components\ServiceApiConnector',
             'baseUrl' => $params['service.api.base.url'],
-            'apikey' => $params['service.api.apikey'],
+            'apikey' => $params['hub.apikey'],
+        ],
+        'incentiveServer' => [
+            'class' => 'frontend\components\IncentiveServerConnector',
+            'baseUrl' => $params['incentive.server.base.url'],
+            'apikey' => $params['hub.apikey'],
         ],
         'kongConnector' => [
             'class' => 'frontend\components\KongConnector',
