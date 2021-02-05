@@ -56,7 +56,7 @@ return [
     'Disabled' => 'Disabilitato',
     'Enabled' => 'Abilitato',
     'Error updating the OAuth2' => 'Errore durante l\'aggiornamento dell\'OAuth2',
-    'Error, please retry later.' => 'Errore, riprovare piu\' tardi.',
+    'Error, please retry later.' => 'Errore, riprovare più tardi.',
     'Example with your application data' => 'Esempio con i dati della tua applicazione',
     'Facebook' => 'Facebook',
     'Filter for platform' => 'Filtra per piattaforma',
