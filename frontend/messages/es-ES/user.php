@@ -17,8 +17,8 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Now you are a developer.' => '',
-    'There is a problem setting your account as developer. Please retry later.' => '',
-    'Your profile is incomplete. Complete it ' => '',
-    'here' => '',
+    'Now you are a developer.' => 'Ahora eres desarrollador.',
+    'There is a problem setting your account as developer. Please retry later.' => 'Hay un problema al configurar su cuenta como desarrollador. Vuelva a intentarlo más tarde.',
+    'Your profile is incomplete. Complete it ' => 'Tu perfil está incompleto. Completalo',
+    'here' => 'aquí',
 ];
