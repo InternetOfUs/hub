@@ -2,6 +2,13 @@
 
 ## Version 1.*
 
+### 1.2.1
+
+* added Spanish translations
+* added html sanitisation of all string inputs
+* added retrieve password link in oauth login page
+* fixed the visualisation of the application description
+
 ### 1.2.0
 
 * applied project template
