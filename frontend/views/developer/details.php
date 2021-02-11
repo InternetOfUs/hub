@@ -66,7 +66,7 @@
 </div>
 <div class="row">
     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
-        <p style="margin:20px 0 0 0;"><?php echo $app->description; ?></p>
+        <p style="margin:20px 0 0 0;"><?php echo nl2br($app->description); ?></p>
         <?php
             if($app->hasActiveSourceLinksForApp()){
                 $sl = '<ul class="source_links_list">';
