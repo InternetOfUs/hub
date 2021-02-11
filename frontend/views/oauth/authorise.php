@@ -55,7 +55,7 @@
         </div>
     <?php ActiveForm::end(); ?>
     <hr>
-    <a style="color:#444;" href="<?php echo $socialLogin->callback_url ?>"><?php echo Yii::t('authorisation', 'cancel'); ?></a>
+    <a style="color:#444;" href="<?php echo $socialLogin->callback_url; ?>"><?php echo Yii::t('authorisation', 'cancel'); ?></a>
 </div>
 
 <script type="text/javascript">

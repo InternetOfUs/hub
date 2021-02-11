@@ -22,9 +22,9 @@
                 <span><?php echo strtoupper($app->name[0]); ?></span>
             </div>
         <?php } ?>
-        
+
         <h1><?php echo $app->name; ?></h1>
-        <p style="margin:20px 0;"><?php echo $app->description; ?></p>
+        <p style="margin:20px 0;"><?php echo nl2br($app->description); ?></p>
         <?php if($app->getOwnerShortName() != null){ ?>
             <p><strong><?php echo Yii::t('app', 'Creator'); ?>:</strong> <?php echo $app->getOwnerShortName(); ?></p>
         <?php } ?>

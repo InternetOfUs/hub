@@ -26,8 +26,17 @@ class LoginForm extends Model {
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
+            [['username_or_email'], 'contentValidation'],
             ['username_or_email', 'my_required']
         ];
+    }
+
+    public function contentValidation(){
+        foreach ($this as $key => $value) {
+            if(is_string($value)){
+                $this[$key] = strip_tags($value, '');
+            }
+        }
     }
 
     public function my_required($attribute_name, $params) {

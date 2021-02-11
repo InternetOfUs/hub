@@ -58,8 +58,17 @@ class AppSocialLogin extends \yii\db\ActiveRecord {
             [['app_id'], 'string', 'max' => 128],
             [['app_id'], 'exist', 'skipOnError' => true, 'targetClass' => WenetApp::className(), 'targetAttribute' => ['app_id' => 'id']],
             [['callback_url'], 'linksValidation'],
+            [['callback_url'], 'contentValidation'],
             [['allowedScopes'], 'safe']
         ];
+    }
+
+    public function contentValidation(){
+        foreach ($this as $key => $value) {
+            if(is_string($value)){
+                $this[$key] = strip_tags($value, '');
+            }
+        }
     }
 
     public function linksValidation(){

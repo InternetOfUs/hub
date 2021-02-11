@@ -104,7 +104,7 @@
                         }
 
                         $content .= '<h2>'. $app->name .'</h2>';
-                        $content .= '<p>'. $app->description .'</p>';
+                        $content .= '<p>'. nl2br($app->description) .'</p>';
                         $content .= $activeSourceLinks;
                         $content .= '</a>';
 

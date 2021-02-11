@@ -71,9 +71,9 @@ class BaseController extends Controller {
             Yii::$app->language = 'it-IT';
         } else if(strpos($userLang, 'mn') !== false){
             Yii::$app->language = 'mn';
+        } else if(strpos($userLang, 'es_') !== false){
+            Yii::$app->language = 'es-ES';
         }
-        // } else if(strpos($userLang, 'es_') !== false){
-        //     Yii::$app->language = 'es-ES';
         // } else if(strpos($userLang, 'da') !== false){
         //     Yii::$app->language = 'da';
         // }
@@ -91,12 +91,9 @@ class BaseController extends Controller {
     private function userProfileFromCache($userId) {
         Yii::debug("Getting profile of user [$userId] from cache", 'wenet.controller.base');
         $profile = Yii::$app->redis->get($userId.'');
-        // print_r($profile === false);
-        // exit();
+
         if ($profile !== false) {
             $profile = Profile::fromRepr(Json::decode($profile));
-            // print_r($profile);
-            // exit();
         } else {
             Yii::debug("Profile of user [$userId] is not cached", 'wenet.controller.base');
         }

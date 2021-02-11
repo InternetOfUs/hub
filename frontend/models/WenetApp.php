@@ -85,6 +85,7 @@ class WenetApp extends \yii\db\ActiveRecord {
             [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['owner_id' => 'id']],
             [['slFacebook', 'slTelegram', 'slAndroid', 'slIos', 'slWebApp', 'image_url'], 'linksValidation'],
             [['status'], 'statusValidation'],
+            [['description'], 'contentValidation'],
             [['message_callback_url'], 'messageLinkValidation'],
             [['associatedCategories', 'slFacebook', 'slTelegram', 'slAndroid', 'slIos', 'slWebApp'], 'safe'],
         ];
@@ -102,6 +103,18 @@ class WenetApp extends \yii\db\ActiveRecord {
             'metadata' => $this->allMetadata,
             'messageCallbackUrl' => $this->message_callback_url,
         ];
+    }
+
+    public function contentValidation(){
+        foreach ($this as $key => $value) {
+            if(is_string($value)){
+                if($key == 'description'){
+                    $this[$key] = strip_tags($value, '<b><i><br>');
+                } else {
+                    $this[$key] = strip_tags($value, '');
+                }
+            }
+        }
     }
 
     public function statusValidation(){
@@ -363,7 +376,7 @@ class WenetApp extends \yii\db\ActiveRecord {
             if($this->slIos == ""){ $this->slIos = null; }
             if($this->slWebApp == ""){ $this->slWebApp = null; }
             if($this->image_url == ""){ $this->image_url = null; }
-            
+
             $this->metadata = [
                 'categories' => $this->associatedCategories,
                 'source_links' => [
