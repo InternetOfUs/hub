@@ -42,7 +42,16 @@ class SignupForm extends Model {
             [['password', 'password_repeat'], 'required', 'on' => self::SCENARIO_UPDATE_PASSWORD],
 
             [['password', 'password_repeat'], 'checkPassword'],
+            [['username'], 'contentValidation'],
         ];
+    }
+
+    public function contentValidation(){
+        foreach ($this as $key => $value) {
+            if(is_string($value)){
+                $this[$key] = strip_tags($value, '');
+            }
+        }
     }
 
     public function attributeLabels() {

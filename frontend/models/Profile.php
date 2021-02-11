@@ -42,7 +42,16 @@ class Profile extends Model {
             [['first_name', 'last_name', 'locale', 'gender'], 'required'],
             [['first_name', 'middle_name', 'last_name', 'prefix_name', 'suffix_name', 'gender', 'nationality', 'locale', 'birthdate','phone_number'], 'string'],
             [['phone_number'], 'phoneNumberValidation'],
+            [['first_name'], 'contentValidation']
         ];
+    }
+
+    public function contentValidation(){
+        foreach ($this as $key => $value) {
+            if(is_string($value)){
+                $this[$key] = strip_tags($value, '');
+            }
+        }
     }
 
     public function phoneNumberValidation(){

@@ -59,6 +59,7 @@ class User extends ActiveRecord implements IdentityInterface {
         return [
             [['developer'], 'required'],
             [['developer'], 'integer'],
+            [['username'], 'contentValidation'],
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
         ];
@@ -66,6 +67,14 @@ class User extends ActiveRecord implements IdentityInterface {
 
     public function isDeveloper(){
         return $this->developer == 1;
+    }
+
+    public function contentValidation(){
+        foreach ($this as $key => $value) {
+            if(is_string($value)){
+                $this[$key] = strip_tags($value, '');
+            }
+        }
     }
 
     /**
