@@ -140,9 +140,14 @@ class WenetappController extends BaseController {
         $params = ['app' => $app];
 
         $badgesForApp = Yii::$app->incentiveServer->getBadgesForApp($app->id);
+        if(!$badgesForApp){
+            $badgesForApp = [];
+        }
         $badgesForUser = Yii::$app->incentiveServer->getBadgesForUser($app->id, Yii::$app->user->id);
         if($badgesForUser){
             $badgesForUser = array_map(function($e) { return $e->id; }, $badgesForUser);
+        } else {
+            $badgesForUser = [];
         }
 
         if(!$app){

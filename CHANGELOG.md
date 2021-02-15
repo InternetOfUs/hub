@@ -2,6 +2,12 @@
 
 ## Version 1.*
 
+### 1.2.2
+
+* fixed error for visualising badges
+* now the badges are always visible
+
+
 ### 1.2.1
 
 * added Spanish translations
