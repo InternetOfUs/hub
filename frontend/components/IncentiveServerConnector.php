@@ -41,7 +41,7 @@ class IncentiveServerConnector extends PlatformConnector {
     public function getBadgesForApp($appId) {
         $url = $this->baseUrl . "/badges/apps/$appId";
         try {
-            $response = $this->get($url);
+            $response = $this->get($url, $this->authHeaders());
             return array_map(
                 function($b){ return Badge::fromRepr($b); },
                 $response['badges']

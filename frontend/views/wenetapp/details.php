@@ -51,7 +51,7 @@
     </div>
 </div>
 
-<?php if($badgesForApp && $badgesForUser){ ?>
+<?php if($badgesForApp){ ?>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="box_container" style="margin-top:30px;">
