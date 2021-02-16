@@ -2,6 +2,15 @@
 
 ## Version 1.*
 
+### next
+
+* Changed email configuration: now using built-in `swiftmailer`: this caused the email configuration parameters to change! The required email configuration environment variables are now:
+
+    * `EMAIL_FROM`
+    * `EMAIL_PASSWORD`
+    * `EMAIL_HOST`
+    * `EMAIL_PORT`
+
 ### 1.2.2
 
 * fixed error for visualising badges

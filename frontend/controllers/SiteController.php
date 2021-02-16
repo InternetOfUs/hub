@@ -63,9 +63,6 @@ class SiteController extends BaseController {
      * @return mixed
      */
     public function actionIndex() {
-        // print_r(gettype(Yii::$app->redis->get('1')));
-        // print_r(Yii::$app->redis->get('1') === false);
-        // exit();
         return $this->render('index');
     }
 
