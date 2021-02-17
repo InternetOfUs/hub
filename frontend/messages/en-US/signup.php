@@ -18,7 +18,7 @@
  */
 return [
     'Best,' => '',
-    'Check your email for further instructions.' => '',
+    'Check your email for further instructions.' => 'Check your email for further instructions. In case of trouble check the SPAM folder.',
     'Follow the link below to reset your password:' => '',
     'Follow the link below to verify your email:' => '',
     'Hello ' => '',

@@ -18,7 +18,7 @@
  */
 return [
     'Best,' => 'Хүндэтгэсэн,',
-    'Check your email for further instructions.' => 'И-мэйлээ шалган дараагийн мэдээллүүдийг авна уу.',
+    'Check your email for further instructions.' => 'И-мэйлээ шалган дараагийн мэдээллүүдийг авна уу. Асуудал гарсан тохиолдолд СПАМ фолдерыг шалгана уу.',
     'Follow the link below to reset your password:' => 'Дараах холбоосоор нууц үгээ сэргээнэ үү:',
     'Follow the link below to verify your email:' => 'Дараах холбоосоор и-мэйлээ баталгаажуулна уу:',
     'Hello ' => 'Сайн уу',
