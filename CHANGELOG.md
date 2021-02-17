@@ -2,6 +2,19 @@
 
 ## Version 1.*
 
+### 1.2.3
+
+* Changed email configuration: now using built-in `swiftmailer`.
+This caused the email configuration parameters to change!
+The variable `ELASTICMAIL_API_KEY` is no more required.
+The variable `EMAIL_FROM_NAME` is currently not used (it would be nice to find use for it).
+The required email configuration environment variables are now:
+
+    * `EMAIL_FROM`
+    * `EMAIL_PASSWORD`
+    * `EMAIL_HOST`
+    * `EMAIL_PORT`
+
 ### 1.2.2
 
 * fixed error for visualising badges

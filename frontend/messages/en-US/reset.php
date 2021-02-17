@@ -17,7 +17,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Check your email for further instructions.' => '',
+    'Check your email for further instructions.' => 'Check your email for further instructions. In case of trouble check the SPAM folder.',
     'New password saved.' => '',
     'Sorry, we are unable to reset password for the provided email address.' => '',
     'WeNet HUB - Reset password' => '',

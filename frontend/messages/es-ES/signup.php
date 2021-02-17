@@ -18,7 +18,7 @@
  */
 return [
     'Best,' => 'Mejor',
-    'Check your email for further instructions.' => 'Revise su correo electrónico para obtener más instrucciones.',
+    'Check your email for further instructions.' => 'Revise su correo electrónico para obtener más instrucciones. En caso de problemas, consulte la carpeta SPAM.',
     'Follow the link below to reset your password:' => 'Siga el enlace a continuación para restablecer su contraseña:',
     'Follow the link below to verify your email:' => 'Siga el enlace a continuación para verificar su correo electrónico:',
     'Hello ' => 'Hola ',
@@ -37,7 +37,7 @@ return [
     'Reset password' => 'Restablecer la contraseña',
     'Sorry, we are unable to resend verification email for the provided email address.' => 'Lo sentimos, no podemos reenviar el correo electrónico de verificación para la dirección de correo electrónico proporcionada.',
     'Sorry, we are unable to verify your account with provided token.' => 'Lo sentimos, no podemos verificar su cuenta con el token proporcionado.',
-    'Thank you for registration. Please check your inbox for verification email.' => 'Gracias por registrarse. Por favor revise su bandeja de entrada para ver el correo electrónico de verificación.',
+    'Thank you for registration. Please check your inbox for verification email.' => 'Gracias por registrarse. Por favor revise su bandeja de entrada para ver el correo electrónico de verificación. En caso de problemas, consulte la carpeta SPAM.',
     'The WeNet HUB Team' => 'El equipo de WeNet HUB',
     'Verify account' => 'Verificar Cuenta',
     'Your email has been confirmed!' => '¡Tu correo ha sido confirmado!',
