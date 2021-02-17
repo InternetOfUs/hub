@@ -11,7 +11,7 @@ return [
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
                 'encryption' => 'tls',
-                'host' => $params['email.port'],
+                'host' => $params['email.host'],
                 'port' => $params['email.port'],
                 'username' => $params['email.from'],
                 'password' => $params['email.password'],
