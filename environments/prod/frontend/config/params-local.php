@@ -13,9 +13,11 @@ return [
 	'kong.external.url' => getenv('KONG_EXTERNAL_URL'),
 	'kong.provision.key' => getenv('KONG_PROVISION_KEY'),
 
-	'elasticmail.api.key' => getenv('ELASTICMAIL_API_KEY'),
-    'email.from.name' => getenv('EMAIL_FROM_NAME'),
+	// 'email.from.name' => getenv('EMAIL_FROM_NAME'),
 	'email.from' => getenv('EMAIL_FROM'),
+    'email.password' => getenv('EMAIL_PASSWORD'),
+    'email.host' => getenv('EMAIL_HOST'),
+    'email.port' => getenv('EMAIL_PORT'),
 
 	'incentive.server.base.url' => getenv('INCENTIVE_SERVER_BASE_URL'),
 ];

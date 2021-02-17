@@ -18,7 +18,7 @@
  */
 return [
     'Best,' => 'Un saluto,',
-    'Check your email for further instructions.' => 'Controlla la tua email per ulteriori istruzioni.',
+    'Check your email for further instructions.' => 'Controlla la tua email per ulteriori istruzioni.  In caso non ricevessi l\'email, controlla nello SPAM.',
     'Follow the link below to reset your password:' => 'Segui il link sottostante per reimpostare la password:',
     'Follow the link below to verify your email:' => 'Segui il link sottostante per verificare la tua email:',
     'Hello ' => 'Ciao',
@@ -37,7 +37,7 @@ return [
     'Reset password' => 'Resetta password',
     'Sorry, we are unable to resend verification email for the provided email address.' => 'Spiacenti, non siamo in grado di inviare nuovamente l\'email di verifica per l\'indirizzo email fornito.',
     'Sorry, we are unable to verify your account with provided token.' => 'Spiacenti, non siamo in grado di verificare il tuo account con il token fornito.',
-    'Thank you for registration. Please check your inbox for verification email.' => 'Grazie per la registrazione. Controlla la tua casella di posta per l\'email di verifica.',
+    'Thank you for registration. Please check your inbox for verification email.' => 'Grazie per la registrazione. Controlla la tua casella di posta per l\'email di verifica. In caso non ricevessi l\'email, controlla nello SPAM.',
     'The WeNet HUB Team' => 'il team WeNet HUB',
     'Verify account' => 'Verifica Account',
     'Your email has been confirmed!' => 'La tua email è stata confermata!',

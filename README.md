@@ -75,9 +75,11 @@ Optionally, configurations can also be set by setting the value of the following
 * `REDIS_DB` - optional, default to *1* for development mode and to *0* for production mode
 * `KONG_URL`
 * `KONG_PROVISION_KEY`
-* `ELASTICMAIL_API_KEY`
-* `EMAIL_FROM_NAME`
 * `EMAIL_FROM`
+* `EMAIL_PASSWORD`
+* `EMAIL_HOST`
+* `EMAIL_PORT`
+<!-- * `EMAIL_FROM_NAME` -->
 
 
 ## Usage

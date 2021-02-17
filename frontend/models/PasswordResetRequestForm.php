@@ -68,12 +68,13 @@ class PasswordResetRequestForm extends Model {
         $message[] = '</p>';
         $body = implode("<br>", $message);
 
-        Email::build()
-            ->setSubject($subject)
-            ->setFrom(Yii::$app->params['email.from'], Yii::$app->params['email.from.name'])
+        Yii::$app->mailer->compose()
+            ->setFrom(Yii::$app->params['email.from']) # TODO set name of the sender
             ->setTo($this->email)
+            ->setSubject($subject)
             ->setHtmlBody($body)
             ->send();
+
         return $this;
     }
 }

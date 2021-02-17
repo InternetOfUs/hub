@@ -18,7 +18,7 @@
  */
 return [
     'Best,' => 'Хүндэтгэсэн,',
-    'Check your email for further instructions.' => 'И-мэйлээ шалган дараагийн мэдээллүүдийг авна уу.',
+    'Check your email for further instructions.' => 'И-мэйлээ шалган дараагийн мэдээллүүдийг авна уу. Асуудал гарсан тохиолдолд СПАМ фолдерыг шалгана уу.',
     'Follow the link below to reset your password:' => 'Дараах холбоосоор нууц үгээ сэргээнэ үү:',
     'Follow the link below to verify your email:' => 'Дараах холбоосоор и-мэйлээ баталгаажуулна уу:',
     'Hello ' => 'Сайн уу',
@@ -37,7 +37,7 @@ return [
     'Reset password' => 'Нууц үг сэргээх',
     'Sorry, we are unable to resend verification email for the provided email address.' => 'Уучлаарай, дараах и-мэйл хаягаар идэвхжүүлэх и-мэйл илгээх боломжгүй.',
     'Sorry, we are unable to verify your account with provided token.' => 'Уучлаарай, дараах токеноор таны аккаунтыг бататгах боломжгүй.',
-    'Thank you for registration. Please check your inbox for verification email.' => 'Бүртгүүлсэнд баярлалаа. И-мэйлээ шалган баталгаажуулна уу.',
+    'Thank you for registration. Please check your inbox for verification email.' => 'Бүртгүүлсэнд баярлалаа. И-мэйлээ шалган баталгаажуулна уу. Асуудал гарсан тохиолдолд СПАМ фолдерыг шалгана уу.',
     'The WeNet HUB Team' => 'Винэт HUB баг',
     'Verify account' => 'Аккаунт бататгах',
     'Your email has been confirmed!' => 'Таны и-мэйл баталгаажлаа!',
