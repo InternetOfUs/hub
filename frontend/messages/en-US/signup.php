@@ -37,7 +37,7 @@ return [
     'Reset password' => '',
     'Sorry, we are unable to resend verification email for the provided email address.' => '',
     'Sorry, we are unable to verify your account with provided token.' => '',
-    'Thank you for registration. Please check your inbox for verification email.' => '',
+    'Thank you for registration. Please check your inbox for verification email.' => 'Thank you for registration. Please check your inbox for verification email. In case of trouble check the SPAM folder.',
     'The WeNet HUB Team' => '',
     'Verify account' => '',
     'Your email has been confirmed!' => '',
