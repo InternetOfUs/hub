@@ -23,6 +23,7 @@ class Nationality {
     const STATE_FRANCE = "france";
     const STATE_GERMANY = "germany";
     const STATE_GREECE = "greece";
+    const STATE_HUNGARY = "hungary";
     const STATE_INDIA = "india";
     const STATE_IRELAND = "ireland";
     const STATE_ISREAL = "israel";
@@ -71,6 +72,7 @@ class Nationality {
             self::STATE_FRANCE => "Français",
             self::STATE_GERMANY => "Deutsche",
             self::STATE_GREECE => "Ελληνικά",
+            self::STATE_HUNGARY => "Magyar",
             self::STATE_INDIA => "इंडियाना",
             self::STATE_IRELAND => "Gaeilge",
             self::STATE_ISREAL => "יִשׂרְאֵלִי",
