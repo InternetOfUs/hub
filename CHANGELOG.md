@@ -2,6 +2,10 @@
 
 ## Version 1.*
 
+### 1.2.4
+
+* Added missing EU nationalities
+
 ### 1.2.3
 
 * Changed email configuration: now using built-in `swiftmailer`.
