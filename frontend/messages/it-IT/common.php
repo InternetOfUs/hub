@@ -38,7 +38,6 @@ return [
     'Manage developers' => 'Gestisci sviluppatori',
     'My Apps' => 'Le mie app',
     'OAuth2 configuration' => 'Configurazione OAuth2',
-    'Other' => 'Altro',
     'Password' => 'Password',
     'Process succefully completed' => 'Processo completato con successo',
     'Profile' => 'Profilo',
@@ -62,4 +61,8 @@ return [
     'edit app' => 'modifica app',
     'manage developers' => 'gestisci sviluppatori',
     'view' => 'visualizza',
+    'In another way' => 'Nessuno di questi',
+    'Non-binary' => 'Identità non binaria',
+    'Prefer not to say' => 'Preferisco non dirlo',
+    'Other' => '@@Altro@@',
 ];

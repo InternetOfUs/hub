@@ -31,6 +31,8 @@ class Profile extends Model {
     const GENDER_M = 'M';
     const GENDER_F = 'F';
     const GENDER_O = 'O';
+    const GENDER_NON_BINARY = 'non-binary';
+    const GENDER_NOT_SAY = 'not-say';
 
     const LANG_EN = 'en';
 
@@ -89,7 +91,9 @@ class Profile extends Model {
         return [
     		self::GENDER_M => Yii::t('common', 'Male'),
     		self::GENDER_F => Yii::t('common', 'Female'),
-    		self::GENDER_O => Yii::t('common', 'Other')
+    		self::GENDER_NON_BINARY => Yii::t('common', 'Non-binary'),
+    		self::GENDER_O => Yii::t('common', 'In another way'),
+    		self::GENDER_NOT_SAY => Yii::t('common', 'Prefer not to say')
     	];
     }
 
