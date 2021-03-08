@@ -22,6 +22,8 @@ class Profile extends Model {
 
     public $birthdate;
 
+    public $email;
+
     public $gender;
     public $locale;
     public $nationality;
@@ -133,6 +135,12 @@ class Profile extends Model {
 
         $pn = str_replace(' ', '', $this->phone_number);
 
+
+        $email = $this->email;
+        if($this->email == '' || $this->email == null){
+            $email = Yii::$app->user->getIdentity()->email;
+        }
+        
         return [
             'id' => $this->userId,
             'name' => [
@@ -144,7 +152,7 @@ class Profile extends Model {
             ],
             'dateOfBirth' => $db,
             'gender' => $this->gender,
-            'email' => Yii::$app->user->getIdentity()->email,
+            'email' => $email,
             'phoneNumber' => $pn,
             'locale' => $this->locale,
             'nationality' => $this->nationality,
