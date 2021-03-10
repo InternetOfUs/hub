@@ -102,6 +102,10 @@ class SignupForm extends Model {
                 $transaction->rollBack();
                 return null;
             } else {
+                $profile = Yii::$app->serviceApi->getUserProfile($user->id);
+                $profile->email = $user->email;
+                Yii::$app->serviceApi->updateUserProfile($profile);
+
                 $user->sendRegistrationEmail($user);
                 $transaction->commit();
                 return $user;
