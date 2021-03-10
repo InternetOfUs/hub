@@ -40,8 +40,6 @@ class ServiceApiConnector extends PlatformConnector {
         $url = $this->baseUrl . '/user/profile/' . $userId;
         try {
             $result = $this->get($url, $this->authHeaders());
-            print_r($result);
-            exit();
             return Profile::fromRepr($result);
         } catch (\Exception $e) {
             $log = "Something went wrong while getting profile for user [$userId]: $e";
