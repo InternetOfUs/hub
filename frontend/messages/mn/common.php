@@ -38,7 +38,6 @@ return [
     'Manage developers' => 'Хөгжүүлэгчдийг зохицуулах',
     'My Apps' => 'Миний аппууд',
     'OAuth2 configuration' => 'OAuth2 тохиргоо',
-    'Other' => 'Бусад',
     'Password' => 'Нууц үг',
     'Process succefully completed' => 'Үйл ажиллагаа амжилттай дууслаа',
     'Profile' => 'Профайл',
@@ -62,4 +61,8 @@ return [
     'edit app' => 'апп засварлах',
     'manage developers' => 'хөгжүүлэгчдийг зохицуулах',
     'view' => 'харах',
+    'In another way' => 'эдгээрийн аль нь ч биш',
+    'Non-binary' => 'Хоёртын бус хүйс',
+    'Prefer not to say' => 'Хэлэхгүй байхыг илүүд үзээрэй',
+    'Other' => '@@Бусад@@',
 ];

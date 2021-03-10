@@ -22,6 +22,8 @@ class Profile extends Model {
 
     public $birthdate;
 
+    public $email;
+
     public $gender;
     public $locale;
     public $nationality;
@@ -31,6 +33,8 @@ class Profile extends Model {
     const GENDER_M = 'M';
     const GENDER_F = 'F';
     const GENDER_O = 'O';
+    const GENDER_NON_BINARY = 'non-binary';
+    const GENDER_NOT_SAY = 'not-say';
 
     const LANG_EN = 'en';
 
@@ -89,7 +93,9 @@ class Profile extends Model {
         return [
     		self::GENDER_M => Yii::t('common', 'Male'),
     		self::GENDER_F => Yii::t('common', 'Female'),
-    		self::GENDER_O => Yii::t('common', 'Other')
+    		self::GENDER_NON_BINARY => Yii::t('common', 'Non-binary'),
+    		self::GENDER_O => Yii::t('common', 'In another way'),
+    		self::GENDER_NOT_SAY => Yii::t('common', 'Prefer not to say')
     	];
     }
 
@@ -129,6 +135,12 @@ class Profile extends Model {
 
         $pn = str_replace(' ', '', $this->phone_number);
 
+
+        $email = $this->email;
+        if($this->email == '' || $this->email == null){
+            $email = Yii::$app->user->getIdentity()->email;
+        }
+        
         return [
             'id' => $this->userId,
             'name' => [
@@ -140,7 +152,7 @@ class Profile extends Model {
             ],
             'dateOfBirth' => $db,
             'gender' => $this->gender,
-            'email' => Yii::$app->user->getIdentity()->email,
+            'email' => $email,
             'phoneNumber' => $pn,
             'locale' => $this->locale,
             'nationality' => $this->nationality,
