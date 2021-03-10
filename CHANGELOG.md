@@ -2,6 +2,10 @@
 
 ## Version 1.*
 
+### 1.2.5
+
+* Resolved bug that was preventing the email of the user to be saved in the profile upon registration.
+
 ### 1.2.4
 
 * Added missing EU nationalities
