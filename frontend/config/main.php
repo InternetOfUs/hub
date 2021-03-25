@@ -78,6 +78,10 @@ return [
                     'pattern' => 'data/user/<userId>/apps',
                     'route' => 'user/apps-for-user',
                 ],
+                [
+                    'pattern' => 'data/user',
+                    'route' => 'user/get-all-user-ids',
+                ],
 
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
