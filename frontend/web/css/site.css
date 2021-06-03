@@ -576,9 +576,18 @@ button#logoutTelegramBtn:hover{
 
 /* developer pages */
 table tr td{vertical-align: middle !important;}
-span.status_icon{font-size: 13px;}
+
+span.status_icon{
+    text-align: center;
+    font-size: 13px;
+    display: block;
+}
+
 span.status_icon.not_active{color:#F5C402;}
+span.status_icon.private{color:#d62546;}
+span.status_icon.public,
 span.status_icon.active{color:#0FA053;}
+
 span.status_icon i{font-size: 20px;}
 
 table tr td ul{margin: 0px !important;}
