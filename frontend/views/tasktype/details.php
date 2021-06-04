@@ -3,13 +3,10 @@
     use frontend\models\TaskType;
     use common\models\User;
 
-    $name = 'nome dell app logic';
-    // TODO get real name
-
-    $this->title = Yii::$app->name . ' | ' . $name;
+    $this->title = Yii::$app->name . ' | ' . $taskType->name;
     $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Developer')];
     $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Apps logic'), 'url' => ['tasktype/index']];
-    $this->params['breadcrumbs'][] = $name;
+    $this->params['breadcrumbs'][] = $taskType->name;
 ?>
 
 <?php if($taskType->public == TaskType::PUBLIC_TASK_TYPE){ ?>
@@ -24,40 +21,39 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
-        <h1><?php echo $name; ?></h1>
+        <h1><?php echo $taskType->name; ?></h1>
 
         <div class="box_container" style="margin-top:30px;">
             <h3><?php echo Yii::t('tasktype', 'Attributes'); ?></h3>
             <p><?php echo Yii::t('tasktype', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'); ?></p>
-<pre class="black_theme">{
-    "kindOfAnswerer":{
-        "type":"string",
-        "description":"The type of user shoud answer the question",
-        "enum":[
-            "different than me",
-            "similar to me","anyone"
-        ]
-    }
-}</pre>
+<pre class="black_theme">
+<?php echo json_encode($taskType->attributes, JSON_PRETTY_PRINT); ?>
+</pre>
             <!-- JSON visualiser -->
         </div>
 
         <div class="box_container">
             <h3><?php echo Yii::t('tasktype', 'Transactions'); ?></h3>
             <p><?php echo Yii::t('tasktype', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'); ?></p>
-            <!-- JSON visualiser -->
+<pre class="black_theme">
+<?php echo json_encode($taskType->transactions, JSON_PRETTY_PRINT); ?>
+</pre>
         </div>
 
         <div class="box_container">
             <h3><?php echo Yii::t('tasktype', 'Callbacks'); ?></h3>
             <p><?php echo Yii::t('tasktype', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'); ?></p>
-            <!-- JSON visualiser -->
+<pre class="black_theme">
+<?php echo json_encode($taskType->callbacks, JSON_PRETTY_PRINT); ?>
+</pre>
         </div>
 
         <div class="box_container">
             <h3><?php echo Yii::t('tasktype', 'Norms'); ?></h3>
             <p><?php echo Yii::t('tasktype', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'); ?></p>
-            <!-- JSON visualiser -->
+<pre class="black_theme">
+<?php echo json_encode($taskType->attributes, JSON_PRETTY_PRINT); ?>
+</pre>
         </div>
 
 	</div>
@@ -79,7 +75,7 @@
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             </div>
             <div class="dx_sidemenu_section">
-                <!-- TODO add task type tags -->
+                <!-- TODO add task type tags only if there are any -->
                 <ul class="tags_list">
                     <li>tag1</li>
                     <li>tag2</li>

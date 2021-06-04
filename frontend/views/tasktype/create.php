@@ -17,22 +17,25 @@
                 'options' => ['class' => ''],
             ]);
 
-            print_r($model);
+            // print_r($model);
         ?>
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <?php //echo $form->field($model, 'name'); ?>
-                    <?php //echo $form->field($model, 'description')->textarea(); ?>
+                    <?php echo $form->field($model, 'name'); ?>
+                    <?php echo $form->field($model, 'description')->textarea(); ?>
                     <?php
-                        //echo $form->field($model, 'associatedCategories')->widget(Select2::classname(), [
-                            // 'data' => WenetApp::tagsWithLabels(),
-                            // 'options' => [
-                            //     'placeholder' => Yii::t('app', 'Select tags ...'),
-                            //     'multiple' => true
-                            // ],
+                        // echo $form->field($model, 'associatedCategories')->widget(Select2::classname(), [
+                        //     'data' => WenetApp::tagsWithLabels(),
+                        //     'options' => [
+                        //         'placeholder' => Yii::t('app', 'Select tags ...'),
+                        //         'multiple' => true
+                        //     ],
                         // ]);
                     ?>
-                    <?php //echo $form->field($model, 'image_url'); ?>
+                    <?php echo $form->field($model, 'attributes')->textarea(); ?>
+                    <?php echo $form->field($model, 'transactions')->textarea(); ?>
+                    <?php echo $form->field($model, 'callbacks')->textarea(); ?>
+                    <?php echo $form->field($model, 'norms')->textarea(); ?>
                 </div>
             </div>
             <div class="row">

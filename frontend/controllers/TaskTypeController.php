@@ -84,12 +84,10 @@ class TasktypeController extends BaseController {
     public function actionCreate(){
         $model = new TaskType;
         $model->creator_id = Yii::$app->user->id;
-        // TODO alla creazione diamo la possibilità di mettere pubblico/privato?
-
-        // TODO interfacciarsi con Bruno
+        $model->public = TaskType::PRIVATE_TASK_TYPE;
 
         if ($model->load(Yii::$app->request->post())) {
-            if ($model->create()) {
+            if ($model->save()) {
                 $appLogicDeveloper = new TaskTypeDeveloper;
                 $appLogicDeveloper->task_type_id = $model->id;
                 $appLogicDeveloper->user_id = $model->creator_id;
@@ -111,15 +109,13 @@ class TasktypeController extends BaseController {
         $tasktypeDevelopers = TaskTypeDeveloper::find()->where(["task_type_id" => $id])->all();
 
         if(!$taskType){
-            throw new NotFoundHttpException('The specified app cannot be found.');
+            throw new NotFoundHttpException('The specified app logic cannot be found.');
 		} else {
 			return $this->render('details', array(
                 'taskType' => $taskType,
                 'tasktypeDevelopers' => $tasktypeDevelopers
             ));
 		}
-
-        return $this->render('details', array());
     }
 
     public function actionDevelopers($id){
