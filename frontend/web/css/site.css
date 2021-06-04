@@ -23,8 +23,8 @@ button{
 }
 
 .btn{
+    font-size: 12px !important;
     border-radius: 20px;
-    font-size: 12px;
 }
 
 .telegram_color{
@@ -577,12 +577,12 @@ button#logoutTelegramBtn:hover{
 /* developer pages */
 table tr td{vertical-align: middle !important;}
 
-span.status_icon{
+table span.status_icon{
     text-align: center;
-    font-size: 13px;
     display: block;
 }
 
+span.status_icon{font-size: 13px;}
 span.status_icon.not_active{color:#F5C402;}
 span.status_icon.private{color:#d62546;}
 span.status_icon.public,
@@ -858,14 +858,39 @@ div.badges_container div.badge_item div.badge_icon img{width: 100%;}
 div.badges_container div.badge_item span{
     font-weight: 500;
     font-size: 12px;
+}
 
 
+/* task type - app logic */
 
+div.dx_sidemenu{
+    border-left: 1px solid #ddd;
+    padding: 15px 0 5px 25px;
+    margin-top: 20px;
+}
 
+div.dx_sidemenu_section{
+    margin-bottom: 35px;
+}
 
+div.dx_sidemenu_section h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    color: #00a3b6;
+}
 
+ul.developer_list{
+    list-style-type: disc;
+    margin: 0 0 0 15px;
+}
 
+ul.developer_list li{padding: 0 0 5px 5px;}
 
+pre.black_theme{
+    background-color: #4c5363;
+    border-color: #4c5363;
+    color: #fff;
+}
 
 
 

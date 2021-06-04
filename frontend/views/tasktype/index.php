@@ -17,7 +17,7 @@
     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
         <a href="<?= Url::to(['/tasktype/create']); ?>" class="btn btn-primary pull-right" style="margin: -10px 0 20px 0;">
             <i class="fa fa-plus" aria-hidden="true"></i>
-            <?php echo Yii::t('app', 'Create a new app logic'); ?>
+            <?php echo Yii::t('tasktype', 'Create a new app logic'); ?>
         </a>
 
         <?php echo GridView::widget([
@@ -25,8 +25,6 @@
             'layout' => "{items}\n{summary}\n{pager}",
             'dataProvider' => $provider,
             'columns' => [
-                'name',
-                'description',
                 [
                     'attribute' => 'public',
                     'format' => 'raw',
@@ -38,6 +36,8 @@
                         }
                     },
                 ],
+                'name',
+                'description',
                 'task_manager_id',
                 [
                     'headerOptions' => [
