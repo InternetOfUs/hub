@@ -11,11 +11,9 @@ class m210603_130437_add_table_task_type_dev extends Migration{
      */
     public function safeUp(){
         $this->execute("CREATE TABLE `task_type_developer` (
-          `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
           `user_id` int(11) NOT NULL,
           `task_type_id` int(11) NOT NULL,
           `created_at` int(11) NOT NULL,
-          PRIMARY KEY (`id`),
           KEY `user_id` (`user_id`),
           KEY `task_type_id` (`task_type_id`),
           CONSTRAINT `task_type_developer_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,

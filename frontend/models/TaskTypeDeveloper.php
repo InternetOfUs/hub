@@ -4,11 +4,12 @@ namespace frontend\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use common\models\User;
+use frontend\models\TaskType;
 
 /**
  * This is the model class for table "task_type_developer".
  *
- * @property int $id
  * @property int $user_id
  * @property int $task_type_id
  * @property int $created_at
@@ -29,8 +30,9 @@ class TaskTypeDeveloper extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['user_id', 'task_type_id', 'created_at'], 'required'],
+            [['user_id', 'task_type_id'], 'required'],
             [['user_id', 'task_type_id', 'created_at'], 'integer'],
+            [['user_id', 'task_type_id'], 'unique', 'targetAttribute' => ['user_id', 'task_type_id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['task_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => TaskType::className(), 'targetAttribute' => ['task_type_id' => 'id']],
         ];
@@ -51,7 +53,6 @@ class TaskTypeDeveloper extends \yii\db\ActiveRecord {
      */
     public function attributeLabels() {
         return [
-            'id' => 'ID',
             'user_id' => 'User ID',
             'task_type_id' => 'Task Type ID',
             'created_at' => 'Created At',
