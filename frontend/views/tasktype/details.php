@@ -26,34 +26,25 @@
         <div class="box_container" style="margin-top:30px;">
             <h3><?php echo Yii::t('tasktype', 'Attributes'); ?></h3>
             <p><?php echo Yii::t('tasktype', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'); ?></p>
-<pre class="black_theme">
-<?php echo json_encode($taskType->attributes, JSON_PRETTY_PRINT); ?>
-</pre>
-            <!-- JSON visualiser -->
+            <pre><code id=attributes></code></pre>
         </div>
 
         <div class="box_container">
             <h3><?php echo Yii::t('tasktype', 'Transactions'); ?></h3>
             <p><?php echo Yii::t('tasktype', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'); ?></p>
-<pre class="black_theme">
-<?php echo json_encode($taskType->transactions, JSON_PRETTY_PRINT); ?>
-</pre>
+            <pre><code id=transactions></code></pre>
         </div>
 
         <div class="box_container">
             <h3><?php echo Yii::t('tasktype', 'Callbacks'); ?></h3>
             <p><?php echo Yii::t('tasktype', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'); ?></p>
-<pre class="black_theme">
-<?php echo json_encode($taskType->callbacks, JSON_PRETTY_PRINT); ?>
-</pre>
+            <pre><code id=callbacks></code></pre>
         </div>
 
         <div class="box_container">
             <h3><?php echo Yii::t('tasktype', 'Norms'); ?></h3>
             <p><?php echo Yii::t('tasktype', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'); ?></p>
-<pre class="black_theme">
-<?php echo json_encode($taskType->attributes, JSON_PRETTY_PRINT); ?>
-</pre>
+            <pre><code id=norms></code></pre>
         </div>
 
 	</div>
@@ -71,16 +62,19 @@
                 <?php } ?>
             </div>
             <div class="dx_sidemenu_section">
-                <!-- TODO add task type description -->
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <p><?php echo $taskType->description; ?></p>
             </div>
             <div class="dx_sidemenu_section">
-                <!-- TODO add task type tags only if there are any -->
-                <ul class="tags_list">
-                    <li>tag1</li>
-                    <li>tag2</li>
-                    <li>tag3</li>
-                </ul>
+                <?php
+                    if(count($taskType->keywords) > 0){
+                        $tags = '<ul class="tags_list">';
+                        foreach ($taskType->keywords as $tag) {
+                            $tags .= '<li>'.$tag.'</li>';
+                        }
+                        $tags .= '</ul>';
+                        echo $tags;
+                    }
+                ?>
             </div>
             <?php if($taskType->public == TaskType::PRIVATE_TASK_TYPE){ ?>
                 <div class="dx_sidemenu_section">
@@ -112,3 +106,51 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    if (!library)
+    var library = {};
+
+    library.json = {
+    replacer: function(match, pIndent, pKey, pVal, pEnd) {
+      var key = '<span class=json-key>';
+      var val = '<span class=json-value>';
+      var str = '<span class=json-string>';
+      var r = pIndent || '';
+      if (pKey)
+         r = r + key + pKey.replace(/[": ]/g, '') + '</span>: ';
+      if (pVal)
+         r = r + (pVal[0] == '"' ? str : val) + pVal + '</span>';
+      return r + (pEnd || '');
+      },
+    prettyPrint: function(obj) {
+      var jsonLine = /^( *)("[\w]+": )?("[^"]*"|[\w.+-]*)?([,[{])?$/mg;
+      return JSON.stringify(obj, null, 3)
+         .replace(/&/g, '&amp;').replace(/\\"/g, '&quot;')
+         .replace(/</g, '&lt;').replace(/>/g, '&gt;')
+         .replace(jsonLine, library.json.replacer);
+      }
+    };
+
+    $('#attributes').html(library.json.prettyPrint(<?php echo $taskType->attributes; ?>));
+    $('#transactions').html(library.json.prettyPrint(<?php echo $taskType->transactions; ?>));
+    $('#callbacks').html(library.json.prettyPrint(<?php echo $taskType->callbacks; ?>));
+    $('#norms').html(library.json.prettyPrint(<?php echo $taskType->norms; ?>));
+</script>
+
+<style media="screen">
+    pre {
+        background-color: #232b3d;
+        border-color: #232b3d;
+        color: #fff;
+    }
+    .json-key {
+        color: #cb81ef;
+    }
+    .json-value {
+        color: #ffd454;
+    }
+    .json-string {
+        color: #a1c181;
+    }
+</style>
