@@ -2,6 +2,10 @@
 
 ## Version 1.*
 
+### next
+
+* Updated OAuth flow in order to allow only developers to complete the OAuth flow of an WeNet application in currently in development mode. 
+
 ### 1.2.5
 
 * Resolved bug that was preventing the email of the user to be saved in the profile upon registration.
