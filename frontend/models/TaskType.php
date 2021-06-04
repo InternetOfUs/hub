@@ -4,6 +4,7 @@ namespace frontend\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use common\models\User;
 
 /**
  * This is the model class for table 'task_type'.
@@ -36,7 +37,7 @@ class TaskType extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['public', 'creator_id', 'created_at', 'updated_at'], 'integer'],
-            [['creator_id', 'created_at', 'updated_at'], 'required'],
+            [['creator_id'], 'required'],
             [['task_manager_id'], 'string', 'max' => 256],
             [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
         ];
@@ -64,6 +65,10 @@ class TaskType extends \yii\db\ActiveRecord {
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    public function isCreator($user_id) {
+        return TaskType::find()->where(['id' => $this->id, 'creator_id' => $user_id])->one();
     }
 
     public function getDetails($task_manager_id){
