@@ -7,7 +7,8 @@
     use frontend\models\WenetApp;
 
     $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Manage developers');
-    $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Developer'), 'url' => ['developer/index']];
+    $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Developer')];
+    $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'My apps'), 'url' => ['developer/index']];
     $this->params['breadcrumbs'][] = ['label' => $app->name, 'url' => ['developer/details', 'id' => $app->id]];
     $this->params['breadcrumbs'][] = Yii::t('common', 'Manage developers');
 ?>
