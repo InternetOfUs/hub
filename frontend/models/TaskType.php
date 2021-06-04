@@ -77,6 +77,7 @@ class TaskType extends \yii\db\ActiveRecord {
     }
 
     public function isCreator($user_id) {
+        // TODO fix
         return TaskType::find()->where(['id' => $this->id, 'creator_id' => $user_id])->one();
     }
 
@@ -116,7 +117,6 @@ class TaskType extends \yii\db\ActiveRecord {
                 $this->norms = '[]';
             }
 
-
             return true;
         } else {
             return false;
@@ -124,17 +124,19 @@ class TaskType extends \yii\db\ActiveRecord {
     }
 
     public function afterFind() {
+
+        // TODO
         $this->name = 'Ask for Help';
         $this->description = 'Ask a question into your community to helps you';
         $this->keywords = ['question','answer','help'];
-        $this->attributes = [
+        $this->attributes = JSON::encode([
             'kindOfAnswerer' => [
                 'type' => 'string',
                 'description' => 'The type of user shoud answer the question',
                 'enum' => ['different than me','similar to me','anyone']
             ]
-        ];
-        $this->transactions = [
+        ]);
+        $this->transactions = JSON::encode([
             'answerTransaction' => [
                 'type' => 'object',
                 'description' => 'Answer to a question',
@@ -145,8 +147,8 @@ class TaskType extends \yii\db\ActiveRecord {
                     ]
                 ]
             ]
-        ];
-        $this->callbacks = [
+        ]);
+        $this->callbacks = JSON::encode([
             'QuestionToAnswerMessage' => [
                 'description' => 'Question to answer',
                 'properties' => [
@@ -160,13 +162,13 @@ class TaskType extends \yii\db\ActiveRecord {
                     ]
                 ]
             ]
-        ];
-        $this->norms = [
+        ]);
+        $this->norms = JSON::encode([
             [
                 'whenever' => "is_received_created_task() and get_app_users_except_me(Unanswered) and get_community_state_attribute(Incentives,incentives,json(['Questions'=0])) and get_attribute(Questions,'Questions',0,Incentives)",
                 'thenceforth' => "add_created_transaction() and send_messages(Unanswered,'notifyNewQuestionAndAnswer',json([])) and wenet_math(NewQuestions,Questions + 1) and wenet_format(Action,'Questions {}',NewQuestions) and notify_incentive_server(Action,'') and put_community_state_attribute(incentives,json(['Questions'=NewQuestions]))",
                 'ontology' => null
             ]
-        ];
+        ]);
     }
 }
