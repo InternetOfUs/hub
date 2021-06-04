@@ -6,13 +6,10 @@
     use common\models\User;
     use frontend\models\TaskType;
 
-    $name = 'nome dell app logic';
-    // TODO get real name
-
     $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Manage developers');
     $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Developer')];
     $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Apps logic'), 'url' => ['tasktype/index']];
-    $this->params['breadcrumbs'][] = ['label' => $name, 'url' => ['tasktype/details', 'id' => $model->id]];
+    $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['tasktype/details', 'id' => $model->id]];
     $this->params['breadcrumbs'][] = Yii::t('common', 'Manage developers');
 ?>
 

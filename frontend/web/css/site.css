@@ -64,7 +64,6 @@ ol li{
 
 ol li pre{margin: 10px 0 20px 0;}
 
-table{width: 100%;}
 ul{list-style-type: none;}
 
 .image_container img{
@@ -577,6 +576,8 @@ button#logoutTelegramBtn:hover{
 /* developer pages */
 table tr td{vertical-align: middle !important;}
 
+table th.action-column{min-width: 205px;}
+
 table span.status_icon{
     text-align: center;
     display: block;
@@ -732,6 +733,8 @@ table.active_users_platform tr td:first-child{
 }
 
 /* forms */
+textarea{resize: vertical;}
+
 #app-create-form .form-group,
 #app-update-form .form-group,
 #form-change-password .form-group,
@@ -745,9 +748,16 @@ table.active_users_platform tr td:first-child{
 #app-update-form textarea{font-weight: 200;}
 
 #app-create-form textarea,
-#app-update-form textarea{
-    min-height: 118px;
-    resize: vertical;
+#app-update-form textarea{min-height: 118px;}
+
+#app-logic-update-form textarea#tasktype-attributes,
+#app-logic-update-form textarea#tasktype-transactions,
+#app-logic-update-form textarea#tasktype-callbacks,
+#app-logic-update-form textarea#tasktype-norms{
+    background-color: #232b3d;
+    border-color: #232b3d;
+    min-height: 200px;
+    color: #fff;
 }
 
 .form-control[disabled],
@@ -886,11 +896,6 @@ ul.developer_list{
 
 ul.developer_list li{padding: 0 0 5px 5px;}
 
-pre.black_theme{
-    background-color: #4c5363;
-    border-color: #4c5363;
-    color: #fff;
-}
 
 
 
@@ -941,9 +946,9 @@ a.desc:after {
     content: "\e156";
 }
 
-.grid-view td {
+/* .grid-view td {
     white-space: nowrap;
-}
+} */
 
 .grid-view .filters input,
 .grid-view .filters select {

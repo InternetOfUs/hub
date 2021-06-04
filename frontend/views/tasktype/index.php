@@ -38,7 +38,6 @@
                 ],
                 'name',
                 'description',
-                'task_manager_id',
                 [
                     'headerOptions' => [
                         'class' => 'action-column',

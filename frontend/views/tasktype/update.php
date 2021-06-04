@@ -5,13 +5,10 @@
     use yii\helpers\Html;
     // use frontend\models\WenetApp;
 
-    $name = 'nome dell app logic';
-    // TODO get real name
-
-    $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Update app') . ' - ' . $name;
+    $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Update app') . ' - ' . $taskType->name;
     $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Developer')];
     $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Apps logic'), 'url' => ['tasktype/index']];
-    $this->params['breadcrumbs'][] = ['label' => $name, 'url' => ['tasktype/details', 'id' => $taskType->id]];
+    $this->params['breadcrumbs'][] = ['label' => $taskType->name, 'url' => ['tasktype/details', 'id' => $taskType->id]];
     $this->params['breadcrumbs'][] = Yii::t('common', 'Update app logic');
 ?>
 
