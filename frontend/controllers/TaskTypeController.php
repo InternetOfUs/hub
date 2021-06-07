@@ -25,14 +25,14 @@ class TasktypeController extends BaseController {
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => [
-                    'index', 'create', 'details', 'update',
+                    'index', 'create', 'details', 'update', 'public',
                     'developers', 'delete-developer',
                     'delete',
                 ],
                 'rules' => [
                     [
                         'actions' => [
-                            'index', 'create', 'details', 'update',
+                            'index', 'create', 'details', 'update', 'public',
                             'developers', 'delete-developer',
                             'delete',
                         ],
@@ -86,6 +86,8 @@ class TasktypeController extends BaseController {
         $model->creator_id = Yii::$app->user->id;
         $model->public = TaskType::PRIVATE_TASK_TYPE;
 
+        // TODO interfacciarsi con Bruno
+
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
                 $appLogicDeveloper = new TaskTypeDeveloper;
@@ -116,6 +118,10 @@ class TasktypeController extends BaseController {
                 'tasktypeDevelopers' => $tasktypeDevelopers
             ));
 		}
+    }
+
+    public function actionPublic($id) {
+        // TODO controllo che questa action si possa fare
     }
 
     public function actionDevelopers($id){
@@ -202,9 +208,9 @@ class TasktypeController extends BaseController {
         $model = TaskType::find()->where(["id" => $id])->one();
 
         if ($model->delete()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'App logic successfully deleted.'));
+            Yii::$app->session->setFlash('success', Yii::t('tasktype', 'App logic successfully deleted.'));
         } else {
-            Yii::$app->session->setFlash('error', Yii::t('app', 'Could not delete app logic.'));
+            Yii::$app->session->setFlash('error', Yii::t('tasktype', 'Could not delete app logic.'));
         }
         return $this->redirect(['index']);
     }

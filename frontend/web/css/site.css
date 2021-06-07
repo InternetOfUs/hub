@@ -880,7 +880,9 @@ div.dx_sidemenu{
 }
 
 div.dx_sidemenu_section{
-    margin-bottom: 35px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 div.dx_sidemenu_section h3 {
