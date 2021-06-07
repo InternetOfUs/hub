@@ -30,7 +30,7 @@ class BaseConnector extends Component {
             $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
 
-            if ($status == 200 || $status == 201) {
+            if (\in_array($status, [200, 201, 202, 203, 204])) {
                 return JSON::decode($result);
             } else {
                 $log = 'Received error response with ['.$status.'] for GET query to ['.$url.']: '.$result;
@@ -61,7 +61,7 @@ class BaseConnector extends Component {
             $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
 
-            if ($status == 200 || $status == 201) {
+            if (\in_array($status, [200, 201, 202, 203, 204])) {
                 return $result;
             } else {
                 $log = 'Received error response with ['.$status.'] for POST query to ['.$url.']: '.$result;
@@ -90,7 +90,7 @@ class BaseConnector extends Component {
             $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
 
-            if ($status == 200) {
+            if (\in_array($status, [200, 201, 202, 203, 204])) {
                 return $result;
             } else {
                 $log = 'Received error response with ['.$status.'] for PUT query to ['.$url.']: '.$result;
@@ -108,12 +108,13 @@ class BaseConnector extends Component {
         try {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
             $result = curl_exec($ch);
             $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
 
-            if ($status == 200) {
+            if (\in_array($status, [200, 201, 202, 203, 204])) {
                 return $result;
             } else {
                 $log = 'Received error response with ['.$status.'] for DELETE query to ['.$url.']: '.$result;

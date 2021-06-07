@@ -67,4 +67,15 @@ class TaskManagerConnector extends PlatformConnector {
         }
     }
 
+    public function deleteTaskType($id) {
+        $url = $this->baseUrl . '/taskTypes/' . $id;
+        try {
+            $this->delete($url, $this->authHeaders());
+        } catch (\Exception $e) {
+            $log = "Something went wrong while deleting task type [$id]: $e";
+            Yii::error($log, 'wenet.connector.taskManager');
+            throw $e;
+        }
+    }
+
 }
