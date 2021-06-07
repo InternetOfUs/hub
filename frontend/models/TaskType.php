@@ -105,7 +105,7 @@ class TaskType extends \yii\db\ActiveRecord {
 
             $attributes = new \stdClass();
             if ($this->attributes && $this->attributes != '' && $this->attributes != '{}' && $this->attributes != '[]' && is_string($this->attributes)) {
-                $attributes = JSON::encode($this->attributes);
+                $attributes = JSON::decode($this->attributes);
             }
             $transactions = new \stdClass();
             if ($this->transactions && $this->transactions != '' && $this->transactions != '{}' && $this->transactions != '[]' && is_string($this->transactions)) {
@@ -154,6 +154,6 @@ class TaskType extends \yii\db\ActiveRecord {
         $this->attributes = json_encode($details->attributes, JSON_FORCE_OBJECT);
         $this->transactions = json_encode($details->transactions, JSON_FORCE_OBJECT);
         $this->callbacks = json_encode($details->callbacks, JSON_FORCE_OBJECT);
-        $this->norms = JSON::encode($details->norms);
+        $this->norms = $details->norms ? JSON::encode($details->norms) : '[]';
     }
 }
