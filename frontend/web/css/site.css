@@ -750,10 +750,12 @@ textarea{resize: vertical;}
 #app-create-form textarea,
 #app-update-form textarea{min-height: 118px;}
 
-#app-logic-update-form textarea#tasktype-attributes,
-#app-logic-update-form textarea#tasktype-transactions,
-#app-logic-update-form textarea#tasktype-callbacks,
-#app-logic-update-form textarea#tasktype-norms{
+textarea#tasktype-description{min-height: 150px;}
+
+textarea#tasktype-attributes,
+textarea#tasktype-transactions,
+textarea#tasktype-callbacks,
+textarea#tasktype-norms{
     background-color: #232b3d;
     border-color: #232b3d;
     min-height: 200px;
@@ -870,9 +872,7 @@ div.badges_container div.badge_item span{
     font-size: 12px;
 }
 
-
 /* task type - app logic */
-
 div.dx_sidemenu{
     border-left: 1px solid #ddd;
     padding: 15px 0 5px 25px;
