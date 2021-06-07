@@ -126,7 +126,7 @@
                     ?>
                 </div>
                 <div class="dx_sidemenu_section">
-                    <a href="<?= Url::to(['/tasktype/developers', 'id' => $taskType->id]); ?>" class="btn delete_btn pull-right" style="margin-top:-5px;">
+                    <a href="<?= Url::to(['/tasktype/delete', 'id' => $taskType->id]); ?>" class="btn delete_btn pull-right" style="margin-top:-5px;">
                         <i class="fa fa-trash" aria-hidden="true"></i>
                         <?php echo Yii::t('common', 'delete'); ?>
                     </a>

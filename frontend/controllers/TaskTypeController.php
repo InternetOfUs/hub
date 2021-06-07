@@ -86,8 +86,6 @@ class TasktypeController extends BaseController {
         $model->creator_id = Yii::$app->user->id;
         $model->public = TaskType::PRIVATE_TASK_TYPE;
 
-        // TODO interfacciarsi con Bruno
-
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
                 $appLogicDeveloper = new TaskTypeDeveloper;
@@ -189,7 +187,6 @@ class TasktypeController extends BaseController {
     public function actionUpdate($id) {
 
         // TODO controllo che questa action si possa fare
-        // TODO interfacciarsi con Bruno
 
         $taskType = TaskType::find()->where(["id" => $id])->one();
         if ($taskType->load(Yii::$app->request->post())) {
@@ -203,7 +200,6 @@ class TasktypeController extends BaseController {
     public function actionDelete($id) {
 
         // TODO controllo che questa action si possa fare
-        // TODO interfacciarsi con Bruno
 
         $model = TaskType::find()->where(["id" => $id])->one();
 
