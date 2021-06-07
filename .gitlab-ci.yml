@@ -210,7 +210,6 @@ notify:staging:
   dependencies:
     - build:staging
     - push:staging
-    - trigger:staging
   allow_failure: true
   only:
     - develop
