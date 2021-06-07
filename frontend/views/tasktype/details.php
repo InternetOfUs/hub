@@ -53,18 +53,18 @@
             <div class="dx_sidemenu_section">
                 <?php if($taskType->public == TaskType::PUBLIC_TASK_TYPE){ ?>
                     <span class="status_icon public"><i class="fa fa-check-circle-o" aria-hidden="true"></i> <?php echo Yii::t('tasktype', 'Public'); ?></span>
-                    <div class="alert alert-info" role="alert" style="margin-top:15px;">
-                        <?php echo Yii::t('tasktype', 'INFO - This app logic is no more editable or deletable because is public.'); ?>
-                    </div>
+                    <!-- <div class="alert alert-info" role="alert" style="margin-top:15px;">
+                        <?php // echo Yii::t('tasktype', 'INFO - This app logic is no more editable or deletable because is public.'); ?>
+                    </div> -->
                 <?php } else if($taskType->public == TaskType::PRIVATE_TASK_TYPE){ ?>
-                    <a href="<?= Url::to(['/tasktype/public', 'id' => $taskType->id]); ?>" class="btn btn-warning pull-right" style="margin-top:-5px;">
+                    <!-- <a href="<?//= Url::to(['/tasktype/public', 'id' => $taskType->id]); ?>" class="btn btn-warning pull-right" style="margin-top:-5px;">
                         <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        <?php echo Yii::t('tasktype', 'public app logic'); ?>
-                    </a>
+                        <?php //echo Yii::t('tasktype', 'public app logic'); ?>
+                    </a> -->
                     <span class="status_icon private"><i class="fa fa-times-circle-o" aria-hidden="true"></i> <?php echo Yii::t('tasktype', 'Private'); ?></span>
-                    <div class="alert alert-info" role="alert" style="margin-top:15px;">
-                        <?php echo Yii::t('tasktype', 'INFO - Once you decide to set the app logic as a public one, a copy of the current app logic will be automatically created and you will be no more able to edit or delete it.'); ?>
-                    </div>
+                    <!-- <div class="alert alert-info" role="alert" style="margin-top:15px;">
+                        <?php //echo Yii::t('tasktype', 'INFO - Once you decide to set the app logic as a public one, a copy of the current app logic will be automatically created and you will be no more able to edit or delete it.'); ?>
+                    </div> -->
                 <?php } ?>
             </div>
             <div class="dx_sidemenu_section">
