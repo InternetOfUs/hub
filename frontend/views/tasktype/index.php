@@ -27,12 +27,13 @@
             'columns' => [
                 [
                     'attribute' => 'public',
+                    'header' => Yii::t('app', 'Status'),
                     'format' => 'raw',
                     'value' => function ($data) {
                         if($data->public == TaskType::PRIVATE_TASK_TYPE){
-                            return '<span class="status_icon private"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>';
+                            return '<span class="status_icon private"><i class="fa fa-times-circle-o" aria-hidden="true"></i> '.Yii::t('tasktype', 'Private').'</span>';
                         } else if($data->public == TaskType::PUBLIC_TASK_TYPE){
-                            return '<span class="status_icon public"><i class="fa fa-check-circle-o" aria-hidden="true"></i></span>';
+                            return '<span class="status_icon public"><i class="fa fa-check-circle-o" aria-hidden="true"></i> '.Yii::t('tasktype', 'Public').'</span>';
                         }
                     },
                 ],

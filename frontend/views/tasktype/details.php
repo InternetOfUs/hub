@@ -20,6 +20,13 @@
         </h1>
 
         <div class="box_container" style="margin-top:30px;">
+            <h3><?php echo Yii::t('tasktype', 'Id'); ?></h3>
+            <!-- TODO add real explanation -->
+            <p><?php echo Yii::t('tasktype', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'); ?></p>
+            <pre><?php echo $taskType->task_manager_id; ?></pre>
+        </div>
+
+        <div class="box_container">
             <h3><?php echo Yii::t('tasktype', 'Attributes'); ?></h3>
             <!-- TODO add real explanation -->
             <p><?php echo Yii::t('tasktype', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'); ?></p>
@@ -59,7 +66,7 @@
                 <?php } else if($taskType->public == TaskType::PRIVATE_TASK_TYPE){ ?>
                     <!-- <a href="<?//= Url::to(['/tasktype/public', 'id' => $taskType->id]); ?>" class="btn btn-warning pull-right" style="margin-top:-5px;">
                         <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        <?php //echo Yii::t('tasktype', 'public app logic'); ?>
+                        <?php //echo Yii::t('tasktype', 'make public'); ?>
                     </a> -->
                     <span class="status_icon private"><i class="fa fa-times-circle-o" aria-hidden="true"></i> <?php echo Yii::t('tasktype', 'Private'); ?></span>
                     <!-- <div class="alert alert-info" role="alert" style="margin-top:15px;">
@@ -70,6 +77,24 @@
             <div class="dx_sidemenu_section">
                 <h3><?php echo Yii::t('common', 'Details'); ?></h3>
                 <p><?php echo $taskType->description; ?></p>
+                <ul>
+                    <li>
+                        <?php
+                            $createdAtDate = new DateTime();
+                            $createdAtDate->setTimestamp($taskType->created_at);
+                            $createDate = $createdAtDate->format('Y-m-d H:i:s');
+                            echo Yii::t('common', 'Create date') . ': ' . $createDate;
+                        ?>
+                    </li>
+                    <li>
+                        <?php
+                            $updatedAtDate = new DateTime();
+                            $updatedAtDate->setTimestamp($taskType->updated_at);
+                            $updatedDate = $updatedAtDate->format('Y-m-d H:i:s');
+                            echo Yii::t('common', 'Update date') . ': ' . $updatedDate;
+                        ?>
+                    </li>
+                </ul>
                 <?php
                     if(count($taskType->keywords) > 0){
                         $tags = '<ul class="tags_list">';
