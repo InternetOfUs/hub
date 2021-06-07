@@ -22,35 +22,35 @@
         <div class="box_container" style="margin-top:30px;">
             <h3><?php echo Yii::t('tasktype', 'Id'); ?></h3>
             <!-- TODO add real explanation -->
-            <p><?php echo Yii::t('tasktype', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'); ?></p>
+            <!-- <p><?php // echo Yii::t('tasktype', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'); ?></p> -->
             <pre><?php echo $taskType->task_manager_id; ?></pre>
         </div>
 
         <div class="box_container">
             <h3><?php echo Yii::t('tasktype', 'Attributes'); ?></h3>
             <!-- TODO add real explanation -->
-            <p><?php echo Yii::t('tasktype', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'); ?></p>
+            <!-- <p><?php // echo Yii::t('tasktype', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'); ?></p> -->
             <pre><code id=attributes></code></pre>
         </div>
 
         <div class="box_container">
             <h3><?php echo Yii::t('tasktype', 'Transactions'); ?></h3>
             <!-- TODO add real explanation -->
-            <p><?php echo Yii::t('tasktype', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'); ?></p>
+            <!-- <p><?php // echo Yii::t('tasktype', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'); ?></p> -->
             <pre><code id=transactions></code></pre>
         </div>
 
         <div class="box_container">
             <h3><?php echo Yii::t('tasktype', 'Callbacks'); ?></h3>
             <!-- TODO add real explanation -->
-            <p><?php echo Yii::t('tasktype', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'); ?></p>
+            <!-- <p><?php // echo Yii::t('tasktype', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'); ?></p> -->
             <pre><code id=callbacks></code></pre>
         </div>
 
         <div class="box_container">
             <h3><?php echo Yii::t('tasktype', 'Norms'); ?></h3>
             <!-- TODO add real explanation -->
-            <p><?php echo Yii::t('tasktype', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'); ?></p>
+            <!-- <p><?php // echo Yii::t('tasktype', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'); ?></p> -->
             <pre><code id=norms></code></pre>
         </div>
 
