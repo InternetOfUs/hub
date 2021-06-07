@@ -17,14 +17,18 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'App logic successfully deleted.' => '',
     'Attributes' => '',
     'Callbacks' => '',
     'Could not create new app logic.' => '',
+    'Could not delete app logic.' => '',
     'Create a new app logic' => '',
+    'INFO - Once you decide to set the app logic as a public one, a copy of the current app logic will be automatically created and you will be no more able to edit or delete it.' => '',
     'INFO - This app logic is no more editable or deletable because is public.' => '',
     'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' => '',
     'Norms' => '',
     'Private' => '',
     'Public' => '',
     'Transactions' => '',
+    'public app logic' => '',
 ];
