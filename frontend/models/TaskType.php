@@ -48,6 +48,7 @@ class TaskType extends \yii\db\ActiveRecord {
             [['public', 'creator_id', 'created_at', 'updated_at'], 'integer'],
             [['creator_id', 'name', 'description'], 'required'],
             [['task_manager_id'], 'string', 'max' => 256],
+            [['attributes', 'transactions', 'norms', 'callbacks'], 'string'],
             [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
         ];
     }
@@ -102,19 +103,39 @@ class TaskType extends \yii\db\ActiveRecord {
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
 
-            # TODO save details in Task Manager
-            $this->task_manager_id = "something";
-            if (!$this->attributes) {
-                $this->attributes = '{}';
+            $attributes = new \stdClass();
+            if ($this->attributes && $this->attributes != '' && $this->attributes != '{}' && $this->attributes != '[]' && is_string($this->attributes)) {
+                $attributes = JSON::encode($this->attributes);
             }
-            if (!$this->transactions) {
-                $this->transactions = '[]';
+            $transactions = new \stdClass();
+            if ($this->transactions && $this->transactions != '' && $this->transactions != '{}' && $this->transactions != '[]' && is_string($this->transactions)) {
+                $transactions = JSON::decode($this->transactions);
             }
-            if (!$this->callbacks) {
-                $this->callbacks = '[]';
+            $callbacks = new \stdClass();
+            if ($this->callbacks && $this->callbacks != '' && $this->callbacks != '{}' && $this->callbacks != '[]' && is_string($this->callbacks)) {
+                $callbacks = JSON::decode($this->callbacks);
             }
-            if (!$this->norms) {
-                $this->norms = '[]';
+            $norms = [];
+            if ($this->norms && $this->norms != '' && is_string($this->norms)) {
+                $norms = JSON::decode($this->norms);
+            }
+
+            $taskTypeDetails = new TaskTypeDetails(
+                $this->task_manager_id,
+                $this->name,
+                $this->description,
+                [],
+                $attributes,
+                $transactions,
+                $callbacks,
+                $norms
+            );
+
+            if (!$this->task_manager_id) {
+                $id = Yii::$app->taskManager->createTaskType($taskTypeDetails);
+                $this->task_manager_id = $id;
+            } else {
+                Yii::$app->taskManager->updateTaskType($taskTypeDetails);
             }
 
             return true;
@@ -125,50 +146,14 @@ class TaskType extends \yii\db\ActiveRecord {
 
     public function afterFind() {
 
-        // TODO
-        $this->name = 'Ask for Help';
-        $this->description = 'Ask a question into your community to helps you';
-        $this->keywords = ['question','answer','help'];
-        $this->attributes = JSON::encode([
-            'kindOfAnswerer' => [
-                'type' => 'string',
-                'description' => 'The type of user shoud answer the question',
-                'enum' => ['different than me','similar to me','anyone']
-            ]
-        ]);
-        $this->transactions = JSON::encode([
-            'answerTransaction' => [
-                'type' => 'object',
-                'description' => 'Answer to a question',
-                'properties' => [
-                    'answer' => [
-                        'type' => 'string',
-                        'description' => 'The answer to the question'
-                    ]
-                ]
-            ]
-        ]);
-        $this->callbacks = JSON::encode([
-            'QuestionToAnswerMessage' => [
-                'description' => 'Question to answer',
-                'properties' => [
-                    'taskId' => [
-                        'type' => 'string',
-                        'description' => 'The id of the task assiciated with the question'
-                    ],
-                    'question' => [
-                        'type' => 'string',
-                        'description' => 'The question to answer to'
-                    ]
-                ]
-            ]
-        ]);
-        $this->norms = JSON::encode([
-            [
-                'whenever' => "is_received_created_task() and get_app_users_except_me(Unanswered) and get_community_state_attribute(Incentives,incentives,json(['Questions'=0])) and get_attribute(Questions,'Questions',0,Incentives)",
-                'thenceforth' => "add_created_transaction() and send_messages(Unanswered,'notifyNewQuestionAndAnswer',json([])) and wenet_math(NewQuestions,Questions + 1) and wenet_format(Action,'Questions {}',NewQuestions) and notify_incentive_server(Action,'') and put_community_state_attribute(incentives,json(['Questions'=NewQuestions]))",
-                'ontology' => null
-            ]
-        ]);
+        $details = Yii::$app->taskManager->getTaskType($this->task_manager_id);
+
+        $this->name = $details->name;
+        $this->description = $details->description;
+        $this->keywords = $details->keywords ? $details->keywords : [];
+        $this->attributes = json_encode($details->attributes, JSON_FORCE_OBJECT);
+        $this->transactions = json_encode($details->transactions, JSON_FORCE_OBJECT);
+        $this->callbacks = json_encode($details->callbacks, JSON_FORCE_OBJECT);
+        $this->norms = JSON::encode($details->norms);
     }
 }
