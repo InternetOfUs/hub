@@ -64,10 +64,10 @@ class TasktypeController extends BaseController {
     }
 
     public function actionIndex(){
-        $bdTaskTypes = TaskType::find()->where(['creator_id' => Yii::$app->user->id])->orWhere(['public' => TaskType::PUBLIC_TASK_TYPE])->all();
+        $taskTypes = Yii::$app->user->identity->taskTypes();
 
         $provider = new ArrayDataProvider([
-            'allModels' => $bdTaskTypes,
+            'allModels' => $taskTypes,
             'pagination' => [
                 'pageSize' => 15,
             ],
