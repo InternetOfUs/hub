@@ -9,6 +9,8 @@ use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use frontend\models\AppUser;
 use frontend\models\WenetApp;
+use frontend\models\TaskTypeDeveloper;
+use frontend\models\TaskType;
 use frontend\components\Email;
 
 /**
@@ -262,5 +264,21 @@ class User extends ActiveRecord implements IdentityInterface {
             }
         }
         return $activeApps;
+    }
+
+    public function taskTypes() {
+        $taskTypeDevelopers = TaskTypeDeveloper::find()->where(['user_id' => $this->id])->all();
+
+        $publicTaskTypes = TaskType::find()->where(['public' => true])->all();
+
+        $taskTypeIds = array_unique(
+            array_merge(
+                array_map(function($t) {return $t->task_type_id;}, $taskTypeDevelopers),
+                array_map(function($t) {return $t->id;}, $publicTaskTypes),
+            )
+        );
+
+        $taskTypes = array_map(function($id) {return TaskType::find()->where(['id' => $id])->one();}, $taskTypeIds);
+        return $taskTypes;
     }
 }

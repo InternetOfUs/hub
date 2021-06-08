@@ -155,7 +155,7 @@ class TaskType extends \yii\db\ActiveRecord {
     public function details() {
         $attributes = new \stdClass();
         if ($this->attributes && $this->attributes != '' && $this->attributes != '{}' && $this->attributes != '[]' && is_string($this->attributes)) {
-            $attributes = JSON::encode($this->attributes);
+            $attributes = JSON::decode($this->attributes);
         }
         $transactions = new \stdClass();
         if ($this->transactions && $this->transactions != '' && $this->transactions != '{}' && $this->transactions != '[]' && is_string($this->transactions)) {
