@@ -6,13 +6,9 @@
     use frontend\models\TaskType;
 
     $class = 'hidden_content';
-    $display = 'none';
     if($app->conversational_connector === WenetApp::ACTIVE_CONNECTOR){
         $class = '';
-        $display = 'block';
     }
-
-    if($app->conversational_connector === WenetApp::ACTIVE_CONNECTOR){ $disabled = ''; }
 ?>
 
 <div class="box_container">
@@ -36,41 +32,48 @@
             <p>
                 <strong><?php echo Yii::t('app', 'App Logic'); ?>:</strong>
                 <?php $tt = TaskType::find()->where(['id' => $app->task_type_id])->one(); ?>
-
-                <table class="attribute_container app_logic">
-                    <tr>
-                        <td><span><?php echo Yii::t('common', 'Name'); ?>:</span></td>
-                        <td><a href="<?= Url::to(['/tasktype/details', 'id' => $app->task_type_id]); ?>" class="normal_link" style="margin:5px 0; display:block;"><?php echo $tt->name; ?></a></td>
-                    </tr>
-                </table>
-                <table class="attribute_container app_logic">
-                    <tr>
-                        <td><span><?php echo Yii::t('common', 'Task type ID'); ?>:</span></td>
-                        <td><pre><?php echo $tt->task_manager_id; ?></pre></td>
-                    </tr>
-                </table>
+                <?php if($tt){ ?>
+                    <table class="attribute_container app_logic">
+                        <tr>
+                            <td><span><?php echo Yii::t('common', 'Name'); ?>:</span></td>
+                            <td><a href="<?= Url::to(['/tasktype/details', 'id' => $app->task_type_id]); ?>" class="normal_link" style="margin:5px 0; display:block;"><?php echo $tt->name; ?></a></td>
+                        </tr>
+                    </table>
+                    <table class="attribute_container app_logic">
+                        <tr>
+                            <td><span><?php echo Yii::t('common', 'Task type ID'); ?>:</span></td>
+                            <td><pre><?php echo $tt->task_manager_id; ?></pre></td>
+                        </tr>
+                    </table>
+                <?php } else { ?>
+                    <div class="alert alert-warning" role="alert" style="margin-top:15px;">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <?php echo Yii::t('app', 'WARNING - Conversational connector requires an app logic to go live!'); ?>
+                    </div>
+                <?php } ?>
             </p>
         </div>
         <hr>
-        <?php
-            $form = ActiveForm::begin([
-                'id' => 'switch-form',
-                'options' => ['class' => ''],
-            ])
-        ?>
-            <?php echo $form->field($app, 'conversational_connector')->widget(SwitchInput::classname(), [
-                'pluginEvents' => [
-                    'switchChange.bootstrapSwitch' => "function(e){sendConversationalRequest(e.currentTarget.checked);}"
-                ],
-                'pluginOptions' => [
-                    'onText' => Yii::t('app', 'Enabled'),
-                    'offText' => Yii::t('app', 'Disabled')
-                ]
-            ])->label(false); ?>
-        <?php ActiveForm::end() ?>
+        <?php if($app->message_callback_url !== null && $app->task_type_id !== null){ ?>
+            <?php
+                $form = ActiveForm::begin([
+                    'id' => 'switch-form',
+                    'options' => ['class' => ''],
+                ])
+            ?>
+                <?php echo $form->field($app, 'conversational_connector')->widget(SwitchInput::classname(), [
+                    'pluginEvents' => [
+                        'switchChange.bootstrapSwitch' => "function(e){sendConversationalRequest(e.currentTarget.checked);}"
+                    ],
+                    'pluginOptions' => [
+                        'onText' => Yii::t('app', 'Enabled'),
+                        'offText' => Yii::t('app', 'Disabled')
+                    ]
+                ])->label(false); ?>
+            <?php ActiveForm::end() ?>
+        <?php } ?>
         <a
             href="<?= Url::to(['/developer/conversational-connector', 'id' => $app->id]); ?>"
-            style="margin-bottom:10px; display: <?php echo $display; ?>"
+            style="margin-bottom:10px;"
             class="edit_conversational btn btn-primary pull-right"
             title="<?php echo Yii::t('common', 'edit'); ?>"
         >
@@ -121,10 +124,8 @@
                 data = JSON.parse(data);
                 if($('.disabler').hasClass('hidden_content')){
                     $('.disabler').removeClass('hidden_content');
-                    $( ".edit_conversational" ).css( "display", "block" );
                 } else {
                     $('.disabler').addClass('hidden_content');
-                    $( ".edit_conversational" ).css( "display", "none" );
                 }
                 $('ul.breadcrumb').after('<div class="alert-'+data["alert_type"]+' alert fade in">'+data["message"]+'</div>');
             },

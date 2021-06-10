@@ -232,6 +232,8 @@ class DeveloperController extends BaseController {
         $app = WenetApp::find()->where(["id" => $id])->one();
         $app->conversational_connector = WenetApp::NOT_ACTIVE_CONNECTOR;
 
+        // TODO check fattibilità
+
         $message = Yii::t('app', 'Connector succesfully disabled.');
         $alert_type = 'success';
         if($app->data_connector == WenetApp::NOT_ACTIVE_CONNECTOR && $app->status == WenetApp::STATUS_ACTIVE){
@@ -256,6 +258,8 @@ class DeveloperController extends BaseController {
     public function actionEnableConversationalConnector($id) {
         $app = WenetApp::find()->where(["id" => $id])->one();
         $app->conversational_connector = WenetApp::ACTIVE_CONNECTOR;
+
+        // TODO check fattibilità
 
         if ($app->save()) {
             return JSON::encode([

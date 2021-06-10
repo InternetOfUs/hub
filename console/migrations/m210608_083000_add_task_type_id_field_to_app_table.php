@@ -15,6 +15,7 @@ class m210608_083000_add_task_type_id_field_to_app_table extends Migration
         $this->execute("ALTER TABLE `app` ADD `task_type_id` INT(11)  NULL  DEFAULT NULL  AFTER `image_url`;");
         $this->execute("ALTER TABLE `app` ADD FOREIGN KEY (`task_type_id`) REFERENCES `task_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;");
         $this->execute("update app set status = 0 where task_type_id is NULL and status = 1;");
+        $this->execute("update app set conversational_connector = 0 where (status = 1 or status = 0) and task_type_id is NULL;");
     }
 
     /**
