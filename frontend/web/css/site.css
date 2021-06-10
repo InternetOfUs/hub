@@ -900,9 +900,10 @@ pre {
 .json-value {color: #ffd454;}
 .json-string {color: #a1c181;}
 
-ul.app_logic_list{margin-top:-10px;}
-ul.app_logic_list li{margin-bottom:5px;}
-
+table.attribute_container.app_logic tr td:first-child{
+    text-align: right;
+    width: 90px;
+}
 
 
 

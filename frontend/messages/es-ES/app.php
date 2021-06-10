@@ -116,6 +116,7 @@ return [
     'filters' => 'filtros',
     'iOS app' => 'Aplicación iOS',
     'to be configured' => 'para ser configurado',
+    'App Logic' => '',
     'Connectors' => '@@Conectores@@',
     'Conversational' => '@@Conversacional@@',
     'Data' => '@@Datos@@',

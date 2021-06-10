@@ -36,18 +36,19 @@
             <p>
                 <strong><?php echo Yii::t('app', 'App Logic'); ?>:</strong>
                 <?php $tt = TaskType::find()->where(['id' => $app->task_type_id])->one(); ?>
-                <ul class="app_logic_list">
-                    <li>
-                        <span><?php echo Yii::t('common', 'Name'); ?>:</span>
-                        <a href="<?= Url::to(['/tasktype/details', 'id' => $app->task_type_id]); ?>" class="normal_link"><?php echo $tt->name; ?></a>
-                    </li>
-                    <li>
-                        <span><?php echo Yii::t('common', 'Task manager ID'); ?>:</span>
-                    </li>
-                    <li>
-                        <pre><?php echo $tt->task_manager_id; ?></pre>
-                    </li>
-                </ul>
+
+                <table class="attribute_container app_logic">
+                    <tr>
+                        <td><span><?php echo Yii::t('common', 'Name'); ?>:</span></td>
+                        <td><a href="<?= Url::to(['/tasktype/details', 'id' => $app->task_type_id]); ?>" class="normal_link" style="margin:5px 0; display:block;"><?php echo $tt->name; ?></a></td>
+                    </tr>
+                </table>
+                <table class="attribute_container app_logic">
+                    <tr>
+                        <td><span><?php echo Yii::t('common', 'Task type ID'); ?>:</span></td>
+                        <td><pre><?php echo $tt->task_manager_id; ?></pre></td>
+                    </tr>
+                </table>
             </p>
         </div>
         <hr>

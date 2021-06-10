@@ -22,6 +22,7 @@ return [
     'Android app' => '',
     'App Details' => '',
     'App ID' => '',
+    'App Logic' => '',
     'App image URL' => '',
     'App successfully deleted.' => '',
     'Assistance' => '',

@@ -21,7 +21,7 @@
         </h1>
 
         <div class="box_container" style="margin-top:30px;">
-            <h3><?php echo Yii::t('tasktype', 'Task manager ID'); ?></h3>
+            <h3><?php echo Yii::t('tasktype', 'Task type ID'); ?></h3>
             <!-- TODO add real explanation -->
             <!-- <p><?php // echo Yii::t('tasktype', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'); ?></p> -->
             <pre><?php echo $taskType->task_manager_id; ?></pre>

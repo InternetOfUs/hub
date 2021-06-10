@@ -73,6 +73,8 @@ return [
     'Developers' => '',
     'Enabled Apps' => '',
     'My apps' => '',
+    'Name' => '',
+    'Task type ID' => '',
     'Update app logic' => '',
     'Update date' => '',
     'edit app logic' => '',

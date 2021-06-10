@@ -116,6 +116,7 @@ return [
     'filters' => 'шүүлтүүрүүд',
     'iOS app' => 'iOS апп',
     'to be configured' => 'тохируулга хийгднэ',
+    'App Logic' => '',
     'Connectors' => '@@Холбогчууд@@',
     'Conversational' => '@@Харилцан ярианы@@',
     'Data' => '@@Өгөгдөл@@',

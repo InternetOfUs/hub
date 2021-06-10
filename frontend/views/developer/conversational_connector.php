@@ -43,8 +43,8 @@
                                 $private[$taskType->id] = $taskType->name. ' | ' . $creator->username;
                             }
                         }
-                        $data['Public'] = $public;
-                        $data['Private'] = $private;
+                        $data[Yii::t('tasktype', 'Public')] = $public;
+                        $data[Yii::t('tasktype', 'Private')] = $private;
 
                         echo $form->field($app, 'task_type_id')->widget(Select2::classname(), [
                             'data' => $data,
