@@ -161,8 +161,21 @@ class TaskType extends \yii\db\ActiveRecord {
      *
      * @return \yii\db\ActiveQuery
      */
+    // public function getTaskTypeDevelopers() {
+    //     return $this->hasMany(TaskTypeDeveloper::className(), ['task_type_id' => 'id']);
+    // }
+
     public function getTaskTypeDevelopers() {
-        return $this->hasMany(TaskTypeDeveloper::className(), ['task_type_id' => 'id']);
+        return TaskTypeDeveloper::find()->where(['task_type_id' => $this->id])->all();
+    }
+
+    public function isDeveloper(){
+        $allDevelopers = $this->getTaskTypeDevelopers();
+        $devIds = [];
+        foreach ($allDevelopers as $dev) {
+            $devIds[] = $dev->user_id;
+        }
+        return in_array(Yii::$app->user->id, $devIds);
     }
 
     public function details() {

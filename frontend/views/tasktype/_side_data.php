@@ -56,10 +56,12 @@
     </div>
     <?php if($taskType->public == TaskType::PRIVATE_TASK_TYPE){ ?>
         <div class="dx_sidemenu_section">
-            <a href="<?= Url::to(['/tasktype/developers', 'id' => $taskType->id]); ?>" class="btn btn-secondary pull-right" style="margin-top:-5px;">
-                <i class="fa fa-user" aria-hidden="true"></i>
-                <?php echo Yii::t('common', 'manage'); ?>
-            </a>
+            <?php if($taskType->creator_id == Yii::$app->user->id){ ?>
+                <a href="<?= Url::to(['/tasktype/developers', 'id' => $taskType->id]); ?>" class="btn btn-secondary pull-right" style="margin-top:-5px;">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    <?php echo Yii::t('common', 'manage'); ?>
+                </a>
+            <?php } ?>
             <h3><?php echo Yii::t('common', 'Developers'); ?></h3>
             <?php
                 if(count($tasktypeDevelopers) > 0){
@@ -73,12 +75,14 @@
                 }
             ?>
         </div>
-        <div class="dx_sidemenu_section">
-            <a href="<?= Url::to(['/tasktype/delete', 'id' => $taskType->id]); ?>" class="btn delete_btn pull-right" style="margin-top:-5px;">
-                <i class="fa fa-trash" aria-hidden="true"></i>
-                <?php echo Yii::t('common', 'delete'); ?>
-            </a>
-            <h3><?php echo Yii::t('common', 'Delete app logic'); ?></h3>
-        </div>
+        <?php if($taskType->creator_id == Yii::$app->user->id){ ?>
+            <div class="dx_sidemenu_section">
+                <a href="<?= Url::to(['/tasktype/delete', 'id' => $taskType->id]); ?>" class="btn delete_btn pull-right" style="margin-top:-5px;">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                    <?php echo Yii::t('common', 'delete'); ?>
+                </a>
+                <h3><?php echo Yii::t('common', 'Delete app logic'); ?></h3>
+            </div>
+        <?php } ?>
     <?php } ?>
 </div>

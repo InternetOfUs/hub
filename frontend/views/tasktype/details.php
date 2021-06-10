@@ -1,5 +1,6 @@
 <?php
     use yii\helpers\Url;
+    use frontend\models\TaskType;
 
     $this->title = Yii::$app->name . ' | ' . $taskType->name;
     $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Developer')];
@@ -10,10 +11,12 @@
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
         <h1 style="width:100%;">
-            <a href="<?= Url::to(['/tasktype/update', 'id' => $taskType->id]); ?>" class="btn btn-primary pull-right" style="margin-top:10px;">
-                <i class="fa fa-pencil" aria-hidden="true"></i>
-                <?php echo Yii::t('common', 'edit app logic'); ?>
-            </a>
+            <?php if($taskType->public !== TaskType::PUBLIC_TASK_TYPE && ($taskType->creator_id == Yii::$app->user->id || $taskType->isDeveloper())){ ?>
+                <a href="<?= Url::to(['/tasktype/update', 'id' => $taskType->id]); ?>" class="btn btn-primary pull-right" style="margin-top:10px;">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                    <?php echo Yii::t('common', 'edit app logic'); ?>
+                </a>
+            <?php } ?>
             <?php echo $taskType->name; ?>
         </h1>
 
