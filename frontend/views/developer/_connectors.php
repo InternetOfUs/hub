@@ -3,6 +3,7 @@
     use yii\widgets\ActiveForm;
     use kartik\switchinput\SwitchInput;
     use frontend\models\WenetApp;
+    use frontend\models\TaskType;
 
     $class = 'hidden_content';
     $display = 'none';
@@ -31,6 +32,22 @@
             <p>
                 <strong><?php echo Yii::t('app', 'Message Callback Url'); ?>:</strong>
                 <pre><?php echo $app->message_callback_url;?></pre>
+            </p>
+            <p>
+                <strong><?php echo Yii::t('app', 'App Logic'); ?>:</strong>
+                <?php $tt = TaskType::find()->where(['id' => $app->task_type_id])->one(); ?>
+                <ul class="app_logic_list">
+                    <li>
+                        <span><?php echo Yii::t('common', 'Name'); ?>:</span>
+                        <a href="<?= Url::to(['/tasktype/details', 'id' => $app->task_type_id]); ?>" class="normal_link"><?php echo $tt->name; ?></a>
+                    </li>
+                    <li>
+                        <span><?php echo Yii::t('common', 'Task manager ID'); ?>:</span>
+                    </li>
+                    <li>
+                        <pre><?php echo $tt->task_manager_id; ?></pre>
+                    </li>
+                </ul>
             </p>
         </div>
         <hr>

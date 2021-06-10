@@ -45,10 +45,11 @@ span.not_set{
 
 a.normal_link{
     text-decoration: underline;
+    font-weight: bold;
     color: #00a3b6;
 }
 
-a.normal_link:hover{color: #4c5363;}
+a.normal_link:hover{color: #337ab7;}
 
 p{font-weight: 300;}
 
@@ -899,7 +900,8 @@ pre {
 .json-value {color: #ffd454;}
 .json-string {color: #a1c181;}
 
-
+ul.app_logic_list{margin-top:-10px;}
+ul.app_logic_list li{margin-bottom:5px;}
 
 
 
