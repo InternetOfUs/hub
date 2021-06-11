@@ -8,6 +8,8 @@
     $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Apps logic');
     $this->params['breadcrumbs'][] = Yii::t('common', 'Developer');
     $this->params['breadcrumbs'][] = Yii::t('common', 'Apps logic');
+
+
 ?>
 
 <div class="row">
@@ -47,27 +49,40 @@
                     'template' => '{view} {update} {developers} {delete}',
                     'visibleButtons' => [
                         'update' => function ($data) {
-                            if($data->creator_id == Yii::$app->user->id){
-                                return true;
-                            } else {
+                            if($data->public == TaskType::PUBLIC_TASK_TYPE){
                                 return false;
+                            } else {
+                                if($data->creator_id == Yii::$app->user->id || $data->isDeveloper()){
+                                    return true;
+                                } else {
+                                    return false;
+                                }
                             }
                         },
                         'developers' => function ($data) {
-                            if($data->creator_id == Yii::$app->user->id){
-                                return true;
-                            } else {
+                            if($data->public == TaskType::PUBLIC_TASK_TYPE){
                                 return false;
+                            } else {
+                                if($data->creator_id == Yii::$app->user->id){
+                                    return true;
+                                } else {
+                                    return false;
+                                }
                             }
                         },
                         'delete' => function ($data) {
-                            if($data->creator_id == Yii::$app->user->id){
-                                return true;
-                            } else {
+                            if($data->public == TaskType::PUBLIC_TASK_TYPE){
                                 return false;
+                            } else {
+                                if($data->creator_id == Yii::$app->user->id){
+                                    return true;
+                                } else {
+                                    return false;
+                                }
                             }
                         },
                     ],
+                    // TODO check if it is public!
                     'buttons'=>[
                         'view' => function ($url, $model) {
                             $url = Url::to(['/tasktype/details', 'id' => $model->id]);
@@ -78,19 +93,19 @@
                         'update' => function ($url, $model) {
                             $url = Url::to(['/tasktype/update', 'id' => $model->id]);
                             return Html::a('<span class="actionColumn_btn"><i class="fa fa-pencil"></i></span>', $url, [
-                            'title' => Yii::t('common', 'edit'),
+                                'title' => Yii::t('common', 'edit'),
                             ]);
                         },
                         'developers' => function ($url, $model) {
                             $url = Url::to(['/tasktype/developers', 'id' => $model->id]);
                             return Html::a('<span class="actionColumn_btn"><i class="fa fa-user"></i></span>', $url, [
-                            'title' => Yii::t('common', 'manage developers'),
+                                'title' => Yii::t('common', 'manage developers'),
                             ]);
                         },
                         'delete' => function ($url, $model) {
                             $url = Url::to(['/tasktype/delete', 'id' => $model->id]);
                             return Html::a('<span class="actionColumn_btn delete_btn"><i class="fa fa-trash"></i></span>', $url, [
-                            'title' => Yii::t('common', 'delete'),
+                                'title' => Yii::t('common', 'delete'),
                             ]);
                         }
                     ]

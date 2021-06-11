@@ -45,10 +45,11 @@ span.not_set{
 
 a.normal_link{
     text-decoration: underline;
+    font-weight: bold;
     color: #00a3b6;
 }
 
-a.normal_link:hover{color: #4c5363;}
+a.normal_link:hover{color: #337ab7;}
 
 p{font-weight: 300;}
 
@@ -640,10 +641,7 @@ div.app_icon_image{
     float: left;
 }
 
-div.app_icon_image.big_icon{
-    margin-right: 15px;
-    margin-top: 15px;
-}
+div.app_icon_image.big_icon{margin-right: 15px;}
 
 div.app_icon_image.small_icon{margin: 0 10px 0 0;}
 
@@ -673,8 +671,8 @@ div.centered_icon{
 }
 
 div.big_icon{
-    height: 50px;
-    width: 50px;
+    height: 40px;
+    width: 40px;
 }
 
 div.big_icon span{font-size: 30px;}
@@ -716,13 +714,7 @@ table.attribute_container tr td span{
     padding-top: 5px;
 }
 
-table.attribute_container tr td pre{
-    border: 1px solid #dadada;
-    background-color: #f6f6f6;
-    padding: 5px 10px;
-    color: #de245c;
-}
-
+table.attribute_container tr td pre{padding: 5px 10px;}
 table.active_users_platform tr td{padding: 10px;}
 table.active_users_platform tr td p{margin: 0px;}
 
@@ -898,8 +890,20 @@ ul.developer_list{
 
 ul.developer_list li{padding: 0 0 5px 5px;}
 
+pre {
+    background-color: #232b3d;
+    border-color: #232b3d;
+    color: #fff;
+}
 
+.json-key {color: #cb81ef;}
+.json-value {color: #ffd454;}
+.json-string {color: #a1c181;}
 
+table.attribute_container.app_logic tr td:first-child{
+    text-align: right;
+    width: 90px;
+}
 
 
 

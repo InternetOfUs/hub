@@ -17,8 +17,6 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'filter_platform' => 'Plataformas',
-    'filter_tags' => 'Etiquetas',
     'Android app' => 'Aplicación Android',
     'App Details' => 'Detalles de la aplicación',
     'App ID' => 'ID de aplicación',
@@ -36,8 +34,6 @@ return [
     'Configuration of the WeNet OAuth2 - guiding steps' => 'Configuración de WeNet OAuth2 - guía de pasos',
     'Connector succesfully disabled.' => 'Conector deshabilitado correctamente.',
     'Connector succesfully enabled.' => 'Conector habilitado correctamente.',
-    'Connectors' => 'Conectores',
-    'Conversational' => 'Conversacional',
     'Conversational connector' => 'Conector conversacional',
     'Could not add social login.' => 'No se pudo agregar el inicio de sesión social.',
     'Could not create app.' => 'No se pudo crear la aplicación.',
@@ -47,7 +43,6 @@ return [
     'Create a new app' => 'Crea una nueva aplicación',
     'Created At' => 'Creado en',
     'Creator' => 'Creador',
-    'Data' => 'Datos',
     'Data connector' => 'Conector de datos',
     'Data connector disabled' => 'Conector de datos desactivado',
     'Delete OAuth2' => 'Eliminar OAuth2',
@@ -116,7 +111,13 @@ return [
     'You should enable at least one connector to go live with the app.' => 'Debe habilitar al menos un conector para activarse con la aplicación.',
     'all' => 'todos',
     'configure OAuth2' => 'configurar OAuth2',
+    'filter_platform' => 'Plataformas',
+    'filter_tags' => 'Etiquetas',
     'filters' => 'filtros',
     'iOS app' => 'Aplicación iOS',
     'to be configured' => 'para ser configurado',
+    'App Logic' => '',
+    'Connectors' => '@@Conectores@@',
+    'Conversational' => '@@Conversacional@@',
+    'Data' => '@@Datos@@',
 ];

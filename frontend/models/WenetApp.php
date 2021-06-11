@@ -25,9 +25,15 @@ use yii\helpers\Json;
  * @property int $updated_at
  * @property int $owner_id
  * @property string $image_url
+ * @property int|null $task_type_id
  *
  * @property User $owner
+ * @property TaskType $taskType
+ * @property AppDeveloper[] $appDevelopers
+ * @property User[] $users
+ * @property AppSocialLogin[] $appSocialLogins
  */
+
 class WenetApp extends \yii\db\ActiveRecord {
 
     public $allMetadata = [];
@@ -58,7 +64,7 @@ class WenetApp extends \yii\db\ActiveRecord {
 
     public function scenarios() {
         $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_CONVERSATIONAL] = ['message_callback_url'];
+        $scenarios[self::SCENARIO_CONVERSATIONAL] = ['message_callback_url', 'task_type_id'];
         return $scenarios;
     }
 
@@ -74,15 +80,16 @@ class WenetApp extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['message_callback_url'], 'required', 'on' => self::SCENARIO_CONVERSATIONAL],
+            [['message_callback_url', 'task_type_id'], 'required', 'on' => self::SCENARIO_CONVERSATIONAL],
 
             [['id', 'token', 'name', 'status', 'owner_id'], 'required'],
-            [['status', 'created_at', 'updated_at', 'owner_id', 'data_connector', 'conversational_connector'], 'integer'],
+            [['status', 'created_at', 'updated_at', 'owner_id', 'data_connector', 'conversational_connector', 'task_type_id'], 'integer'],
             [['description', 'message_callback_url', 'metadata', 'image_url'], 'string'],
             [['id'], 'string', 'max' => 128],
             [['name', 'token'], 'string', 'max' => 512],
             [['id'], 'unique'],
             [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['owner_id' => 'id']],
+            // [['task_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => TaskType::className(), 'targetAttribute' => ['task_type_id' => 'id']],
             [['slFacebook', 'slTelegram', 'slAndroid', 'slIos', 'slWebApp', 'image_url'], 'linksValidation'],
             [['status'], 'statusValidation'],
             [['description'], 'contentValidation'],
@@ -101,6 +108,7 @@ class WenetApp extends \yii\db\ActiveRecord {
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'metadata' => $this->allMetadata,
+            'taskTypeId' => $this->task_type_id,
             'messageCallbackUrl' => $this->message_callback_url,
         ];
     }
@@ -118,30 +126,34 @@ class WenetApp extends \yii\db\ActiveRecord {
     }
 
     public function statusValidation(){
+        //  TODO to be updated with check of task_type_id?
         if($this->status == self::STATUS_ACTIVE){
+            $ok = true;
 
-            if( $this->description == null ||
-                $this->associatedCategories == "" ||
-                ($this->slFacebook == null && $this->slTelegram == null && $this->slAndroid == null && $this->slIos == null && $this->slWebApp == null) ||
-                !$this->hasSocialLogin() ||
-                ($this->conversational_connector == WenetApp::NOT_ACTIVE_CONNECTOR && $this->data_connector == WenetApp::NOT_ACTIVE_CONNECTOR)
-            ){
-                if($this->description == null){
-                    $this->addError('description', Yii::t('app', 'Description cannot be blank.'));
-                }
-                if($this->associatedCategories == ""){
-                    $this->addError('associatedCategories', Yii::t('app', 'Select at least one tag.'));
-                }
-                if($this->slFacebook == null && $this->slTelegram == null && $this->slAndroid == null && $this->slIos == null && $this->slWebApp == null){
-                    $this->addError('slFacebook', Yii::t('app', 'Set up at least one link.'));
-                }
-                if(!$this->hasSocialLogin() && $this->conversational_connector == WenetApp::NOT_ACTIVE_CONNECTOR && $this->data_connector == WenetApp::NOT_ACTIVE_CONNECTOR){
-                    $this->addError('status', Yii::t('app', 'You should configure OAuth2 and enable at least one connector to go live with the app.'));
-                } else if($this->hasSocialLogin() && $this->conversational_connector == WenetApp::NOT_ACTIVE_CONNECTOR && $this->data_connector == WenetApp::NOT_ACTIVE_CONNECTOR) {
-                    $this->addError('status', Yii::t('app', 'You should enable at least one connector to go live with the app.'));
-                }
-                return false;
+            if($this->description == null){
+                $this->addError('description', Yii::t('app', 'Description cannot be blank.'));
+                $ok = false;
             }
+
+            if($this->associatedCategories == ""){
+                $this->addError('associatedCategories', Yii::t('app', 'Select at least one tag.'));
+                $ok = false;
+            }
+
+            if($this->slFacebook == null && $this->slTelegram == null && $this->slAndroid == null && $this->slIos == null && $this->slWebApp == null){
+                $this->addError('slFacebook', Yii::t('app', 'Set up at least one link.'));
+                $ok = false;
+            }
+
+            if(!$this->hasSocialLogin() && $this->conversational_connector == WenetApp::NOT_ACTIVE_CONNECTOR && $this->data_connector == WenetApp::NOT_ACTIVE_CONNECTOR){
+                $this->addError('status', Yii::t('app', 'You should configure OAuth2 and enable at least one connector to go live with the app.'));
+                $ok = false;
+            } else if($this->hasSocialLogin() && $this->conversational_connector == WenetApp::NOT_ACTIVE_CONNECTOR && $this->data_connector == WenetApp::NOT_ACTIVE_CONNECTOR) {
+                $this->addError('status', Yii::t('app', 'You should enable at least one connector to go live with the app.'));
+                $ok = false;
+            }
+
+            return $ok;
         }
         return true;
     }
@@ -197,6 +209,7 @@ class WenetApp extends \yii\db\ActiveRecord {
             'slWebApp' => Yii::t('app', 'Web app'),
             'associatedCategories' => Yii::t('app', 'Associated Categories'),
             'image_url' => Yii::t('app', 'App image URL'),
+            'task_type_id' => Yii::t('app', 'App Logic'),
         ];
     }
 
@@ -269,6 +282,7 @@ class WenetApp extends \yii\db\ActiveRecord {
     }
 
     public function hasConversationalConnector() {
+        //  TODO to be updated with check of task_type_id?
         $app = WenetApp::find()->where(['id' => $this->id, 'conversational_connector' => WenetApp::ACTIVE_CONNECTOR])->one();
         if($app){
             return true;
@@ -401,6 +415,16 @@ class WenetApp extends \yii\db\ActiveRecord {
         } else {
             return false;
         }
+    }
+
+    /**
+     * Gets query for [[TaskType]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTaskType()
+    {
+        return $this->hasOne(TaskType::className(), ['id' => 'task_type_id']);
     }
 
     /**

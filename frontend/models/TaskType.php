@@ -50,11 +50,24 @@ class TaskType extends \yii\db\ActiveRecord {
             [['task_manager_id'], 'string', 'max' => 256],
             [['attributes', 'transactions', 'norms', 'callbacks'], 'string'],
             [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
+            [['description'], 'contentValidation'],
             [['attributes'], 'attributesValidation'],
             [['transactions'], 'transactionsValidation'],
             [['callbacks'], 'callbacksValidation'],
             [['norms'], 'normsValidation'],
         ];
+    }
+
+    public function contentValidation(){
+        foreach ($this as $key => $value) {
+            if(is_string($value)){
+                if($key == 'description'){
+                    $this[$key] = strip_tags($value, '<b><i><br>');
+                } else {
+                    $this[$key] = strip_tags($value, '');
+                }
+            }
+        }
     }
 
     public function attributesValidation(){
@@ -150,6 +163,18 @@ class TaskType extends \yii\db\ActiveRecord {
      */
     public function getTaskTypeDevelopers() {
         return $this->hasMany(TaskTypeDeveloper::className(), ['task_type_id' => 'id']);
+    }
+
+    public function isDeveloper($userId = null){
+        if($userId == null){
+            $userId = Yii::$app->user->id;
+        }
+        $allDevelopers = $this->taskTypeDevelopers;
+        $devIds = [];
+        foreach ($allDevelopers as $dev) {
+            $devIds[] = $dev->user_id;
+        }
+        return in_array($userId, $devIds);
     }
 
     public function details() {
