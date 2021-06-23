@@ -8,8 +8,6 @@
     $this->title = Yii::$app->name . ' | ' . Yii::t('common', 'Apps logic');
     $this->params['breadcrumbs'][] = Yii::t('common', 'Developer');
     $this->params['breadcrumbs'][] = Yii::t('common', 'Apps logic');
-
-
 ?>
 
 <div class="row">
@@ -82,7 +80,6 @@
                             }
                         },
                     ],
-                    // TODO check if it is public!
                     'buttons'=>[
                         'view' => function ($url, $model) {
                             $url = Url::to(['/tasktype/details', 'id' => $model->id]);
