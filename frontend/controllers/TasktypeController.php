@@ -105,16 +105,23 @@ class TasktypeController extends BaseController {
     }
 
     public function actionDetails($id) {
-		$taskType = TaskType::find()->where(["id" => $id])->one();
+        $taskType = TaskType::find()->where(["id" => $id])->one();
         $tasktypeDevelopers = TaskTypeDeveloper::find()->where(["task_type_id" => $id])->all();
 
         if(!$taskType){
-            throw new NotFoundHttpException('The specified app logic cannot be found.');
+            throw new NotFoundHttpException(Yii::t('tasktype', 'The specified app logic cannot be found.'));
 		} else {
-			return $this->render('details', array(
-                'taskType' => $taskType,
-                'tasktypeDevelopers' => $tasktypeDevelopers
-            ));
+            if($taskType->isDeveloper()){
+                return $this->render('details', array(
+                    'taskType' => $taskType,
+                    'tasktypeDevelopers' => $tasktypeDevelopers
+                ));
+            } else {
+                return $this->render('/site/error', array(
+                    'message' => Yii::t('common', 'You are not authorised to perform this action.'),
+                    'name' => Yii::t('common', 'Error')
+                ));
+            }
 		}
     }
 
@@ -123,10 +130,7 @@ class TasktypeController extends BaseController {
     // }
 
     public function actionDevelopers($id){
-
-        // TODO controllo che questa action si possa fare
-
-		$tasktype = TaskType::find()->where(["id" => $id])->one();
+        $tasktype = TaskType::find()->where(["id" => $id])->one();
         $tasktypeDeveloper = new TaskTypeDeveloper;
 
         $provider = new ArrayDataProvider([
@@ -152,11 +156,18 @@ class TasktypeController extends BaseController {
             return $this->redirect(['developers', 'id' => $id]);
         }
 
-        return $this->render('developers', array(
-            'provider' => $provider,
-            'model' => $tasktype,
-            'tasktypeDeveloper' => $tasktypeDeveloper
-		));
+        if($tasktype->isCreator(Yii::$app->user->id)){
+            return $this->render('developers', array(
+                'provider' => $provider,
+                'model' => $tasktype,
+                'tasktypeDeveloper' => $tasktypeDeveloper
+    		));
+        } else {
+            return $this->render('/site/error', array(
+                'message' => Yii::t('common', 'You are not authorised to perform this action.'),
+                'name' => Yii::t('common', 'Error')
+            ));
+        }
     }
 
     public function actionDeveloperList($task_type_id, $q = null, $id = null) {
@@ -172,9 +183,6 @@ class TasktypeController extends BaseController {
     }
 
     public function actionDeleteDeveloper($task_type_id, $user_id) {
-
-        // TODO controllo che questa action si possa fare
-
         $model = TaskTypeDeveloper::find()->where(['task_type_id' => $task_type_id, 'user_id' => $user_id])->one();
         if ($model->delete()) {
             Yii::$app->session->setFlash('success', Yii::t('app', 'Developer successfully deleted.'));
@@ -185,30 +193,39 @@ class TasktypeController extends BaseController {
     }
 
     public function actionUpdate($id) {
-
-        // TODO controllo che questa action si possa fare
-
         $taskType = TaskType::find()->where(["id" => $id])->one();
         if ($taskType->load(Yii::$app->request->post())) {
             if ($taskType->save()) {
                 return $this->redirect(['details', "id" => $id]);
             }
         }
-        return $this->render('update', ['taskType' => $taskType ]);
+
+        if($taskType->isDeveloper()){
+            return $this->render('update', ['taskType' => $taskType ]);
+        } else {
+            return $this->render('/site/error', array(
+                'message' => Yii::t('common', 'You are not authorised to perform this action.'),
+                'name' => Yii::t('common', 'Error')
+            ));
+        }
     }
 
     public function actionDelete($id) {
-
-        // TODO controllo che questa action si possa fare
-
         $model = TaskType::find()->where(["id" => $id])->one();
 
-        if ($model->delete()) {
-            Yii::$app->session->setFlash('success', Yii::t('tasktype', 'App logic successfully deleted.'));
+        if($model->isCreator(Yii::$app->user->id)){
+            if ($model->delete()) {
+                Yii::$app->session->setFlash('success', Yii::t('tasktype', 'App logic successfully deleted.'));
+            } else {
+                Yii::$app->session->setFlash('error', Yii::t('tasktype', 'Could not delete app logic.'));
+            }
+            return $this->redirect(['index']);
         } else {
-            Yii::$app->session->setFlash('error', Yii::t('tasktype', 'Could not delete app logic.'));
+            return $this->render('/site/error', array(
+                'message' => Yii::t('common', 'You are not authorised to perform this action.'),
+                'name' => Yii::t('common', 'Error')
+            ));
         }
-        return $this->redirect(['index']);
     }
 
 }
