@@ -724,6 +724,12 @@ table.active_users_platform tr td:first-child{
     width: 20%;
 }
 
+/* tabs */
+.tabs-krajee .nav-tabs > li > a{color: #999;}
+.tabs-above > .nav-tabs > .active > a{color: #3b4150;}
+
+.tab-content {padding: 0px;}
+
 /* forms */
 textarea{resize: vertical;}
 

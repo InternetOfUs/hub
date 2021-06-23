@@ -6,6 +6,10 @@
 
 <div class="dx_sidemenu">
     <div class="dx_sidemenu_section">
+        <a href="<?= Url::to(['/developer/update', 'id' => $app->id]); ?>" class="btn btn-primary pull-right" style="margin-top:-5px;">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <?php echo Yii::t('common', 'edit app'); ?>
+        </a>
         <?php
             if($app->status == WenetApp::STATUS_NOT_ACTIVE){
                 echo '<span class="status_icon not_active"><i class="fa fa-pause-circle-o" aria-hidden="true"></i> '.Yii::t('app', 'In development').'</span>';
