@@ -6,6 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use frontend\models\AuthorisationForm;
 use common\models\User;
+use frontend\models\AppDeveloper;
 use yii\helpers\Json;
 
 /**
@@ -438,6 +439,27 @@ class WenetApp extends \yii\db\ActiveRecord {
 
     public function isOwner($user_id) {
         return WenetApp::find()->where(['id' => $this->id, 'owner_id' => $user_id])->one();
+    }
+
+    /**
+     * Gets query for [[AppDevelopers]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAppDevelopers() {
+        return $this->hasMany(AppDeveloper::className(), ['app_id' => 'id']);
+    }
+
+    public function isDeveloper($userId = null){
+        if($userId == null){
+            $userId = Yii::$app->user->id;
+        }
+        $allDevelopers = $this->appDevelopers;
+        $devIds = [];
+        foreach ($allDevelopers as $dev) {
+            $devIds[] = $dev->user_id;
+        }
+        return in_array($userId, $devIds);
     }
 
     public function getOwnerShortName(){
