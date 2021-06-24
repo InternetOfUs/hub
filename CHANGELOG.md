@@ -2,6 +2,13 @@
 
 ## Version 1.*
 
+### next
+
+* Added section for managing Task Types (creation, edit, developers access, delete).
+* Added the option to set a Task Type for an App (with all the connected checks on connectors and publishable)
+* Authorisation steps enforced on the task type actions and app managing actions
+* Updated layout of developer section
+
 ### 1.2.5
 
 * Resolved bug that was preventing the email of the user to be saved in the profile upon registration.
