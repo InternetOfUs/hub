@@ -51,8 +51,26 @@
                 ],
             ]);
             $menuItems = [
-                ['label' => Yii::t('common', 'Apps'),  'url' => ['/wenetapp/index'], 'visible' => !Yii::$app->user->isGuest],
-                ['label' => Yii::t('common', 'Developer'),  'url' => ['/developer/index'], 'visible' => !Yii::$app->user->isGuest && Yii::$app->user->getIdentity()->isDeveloper()]
+                [
+                    'label' => Yii::t('common', 'Apps'),
+                    'url' => ['/wenetapp/index'],
+                    'visible' => !Yii::$app->user->isGuest,
+                    'active' => in_array(Yii::$app->controller->id.'/'.Yii::$app->controller->action->id,[
+                        'wenetapp/index', 'wenetapp/app-details'
+                    ])
+                ],
+                [
+                    'label' => Yii::t('common', 'Developer'),
+                    'url' => ['/developer/index'],
+                    'visible' => !Yii::$app->user->isGuest && Yii::$app->user->getIdentity()->isDeveloper(),
+                    'active' => in_array(Yii::$app->controller->id.'/'.Yii::$app->controller->action->id,[
+                        'developer/index', 'developer/create', 'developer/details', 'developer/update',
+                        'oauth/create-oauth', 'oauth/update-oauth', 'developer/conversational-connector',
+                        'developer/developers',
+                        'tasktype/index', 'tasktype/create', 'tasktype/details', 'tasktype/update',
+                        'tasktype/developers',
+                    ])
+                ]
             ];
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => Yii::t('common', 'Log in'),  'url' => ['/user/login']];
@@ -61,8 +79,20 @@
                 $menuItems[] = [
                     'label' => Yii::$app->user->identity->username,
                     'items' => [
-                        ['label' => Yii::t('common', 'Account & Profile'), 'url' => ['/user/account']],
-                        ['label' => Yii::t('common', 'My Apps'), 'url' => ['/user/user-apps']],
+                        [
+                            'label' => Yii::t('common', 'Account & Profile'),
+                            'url' => ['/user/account'],
+                            'active' => in_array(Yii::$app->controller->id.'/'.Yii::$app->controller->action->id,[
+                                'user/account', 'user/profile', 'user/change-password'
+                            ])
+                        ],
+                        [
+                            'label' => Yii::t('common', 'Enabled Apps'),
+                            'url' => ['/user/user-apps'],
+                            'active' => in_array(Yii::$app->controller->id.'/'.Yii::$app->controller->action->id,[
+                                'user/user-apps'
+                            ])
+                        ],
                          '<li>' . Html::beginForm(['/user/logout'], 'post') . Html::submitButton(
                              Yii::t('common', 'Logout'), ['class' => 'btn btn-link logout']
                          )

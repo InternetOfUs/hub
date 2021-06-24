@@ -20,4 +20,5 @@ return [
     'email.port' => getenv('EMAIL_PORT'),
 
 	'incentive.server.base.url' => getenv('INCENTIVE_SERVER_BASE_URL'),
+	'task.manager.base.url' => getenv('TASK_MANAGER_BASE_URL'),
 ];
