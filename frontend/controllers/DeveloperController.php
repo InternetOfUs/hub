@@ -96,12 +96,12 @@ class DeveloperController extends BaseController {
 
     public function actionDetails($id) {
 		$app = WenetApp::find()->where(["id" => $id])->one();
-        $appDevelopers = AppDeveloper::find()->where(["app_id" => $id])->all();
 
         if(!$app || $app->status == WenetApp::STATUS_DELETED){
             throw new NotFoundHttpException('The specified app cannot be found.');
 		} else {
             if($app->isDeveloper()){
+                $appDevelopers = AppDeveloper::find()->where(["app_id" => $id])->all();
                 return $this->render('details', array(
                     'app' => $app,
                     'appDevelopers' => $appDevelopers,
