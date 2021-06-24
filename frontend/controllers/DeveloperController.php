@@ -160,7 +160,7 @@ class DeveloperController extends BaseController {
 
     public function actionDeveloperList($app_id, $q = null, $id = null) {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $out = ['results' => ['id' => '', 'username' => '', 'email' => '']];
+        $out = ['results' => []];
 
         if (!is_null($q)) {
             $sql = 'SELECT * FROM user WHERE developer = :developer AND ( user.email LIKE :emailQuery OR user.username LIKE :usernameQuery ) AND user.id NOT IN (SELECT user.id FROM user INNER JOIN app_developer ON app_developer.user_id = user.id WHERE app_id = :app_id )';

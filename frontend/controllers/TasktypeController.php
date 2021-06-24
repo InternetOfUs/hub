@@ -172,7 +172,7 @@ class TasktypeController extends BaseController {
 
     public function actionDeveloperList($task_type_id, $q = null, $id = null) {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $out = ['results' => ['id' => '', 'username' => '', 'email' => '']];
+        $out = ['results' => []];
 
         if (!is_null($q)) {
             $sql = 'SELECT * FROM user WHERE developer = :developer AND ( user.email LIKE :emailQuery OR user.username LIKE :usernameQuery ) AND user.id NOT IN (SELECT user.id FROM user INNER JOIN task_type_developer ON task_type_developer.user_id = user.id WHERE task_type_id = :task_type_id )';
