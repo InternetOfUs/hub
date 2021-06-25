@@ -23,7 +23,7 @@
                     'OAuth2_code' => '<strong>OAuth2 code</strong>',
                     'code' => '<strong>code</strong>',
                 ]); ?>
-                <pre><?php echo $socialLogin->callback_url . '?code=ouath2_code' ; ?></pre>
+                <pre><?php echo $socialLogin->callback_url . '?code=oauth2_code' ; ?></pre>
                 <?php echo Yii::t('app', 'If the parameter {external_id} has been specified in step 1. it will be made available in this callback.', [
                     'external_id' => '<strong>external_id</strong>',
                 ]); ?>
@@ -41,7 +41,7 @@
 --data "grant_type=authorization_code" \
 --data "client_id=<?php echo $app->id; ?>" \
 --data "client_secret=<?php echo $app->token; ?>" \
---data "code=<strong>ouath2_code</strong>"</pre>
+--data "code=<strong>oauth2_code</strong>"</pre>
             </li>
             <li>
                 <?php echo Yii::t('app', 'Upon successful authentication, you can optionally redirect your user to the WeNet OAuth2 complete page'); ?>
