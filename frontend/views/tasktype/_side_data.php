@@ -78,10 +78,13 @@
         <?php if($taskType->creator_id == Yii::$app->user->id){ ?>
             <div class="dx_sidemenu_section">
                 <a href="<?= Url::to(['/tasktype/delete', 'id' => $taskType->id]); ?>" class="btn delete_btn pull-right" style="margin-top:-5px;">
-                    <i class="fa fa-trash" aria-hidden="true"></i>
-                    <?php echo Yii::t('common', 'delete'); ?>
+                    <span class="open_modal">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                        <?php echo Yii::t('common', 'delete'); ?>
+                    </span>
                 </a>
                 <h3><?php echo Yii::t('common', 'Delete app logic'); ?></h3>
+                <?php echo Yii::$app->controller->renderPartial('../_delete_modal', ['title' => Yii::t('app', 'Delete app')]); ?>
             </div>
         <?php } ?>
     <?php } ?>

@@ -213,18 +213,23 @@ class TasktypeController extends BaseController {
     public function actionDelete($id) {
         $model = TaskType::find()->where(["id" => $id])->one();
 
-        if($model->isCreator(Yii::$app->user->id)){
-            if ($model->delete()) {
-                Yii::$app->session->setFlash('success', Yii::t('tasktype', 'App logic successfully deleted.'));
+        if($model){
+            if($model->isCreator(Yii::$app->user->id)){
+                if ($model->delete()) {
+                    Yii::$app->session->setFlash('success', Yii::t('tasktype', 'App logic successfully deleted.'));
+                } else {
+                    Yii::$app->session->setFlash('error', Yii::t('tasktype', 'Could not delete app logic.'));
+                }
+                return $this->redirect(['index']);
             } else {
-                Yii::$app->session->setFlash('error', Yii::t('tasktype', 'Could not delete app logic.'));
+                return $this->render('/site/error', array(
+                    'message' => Yii::t('common', 'You are not authorised to perform this action.'),
+                    'name' => Yii::t('common', 'Error')
+                ));
             }
-            return $this->redirect(['index']);
         } else {
-            return $this->render('/site/error', array(
-                'message' => Yii::t('common', 'You are not authorised to perform this action.'),
-                'name' => Yii::t('common', 'Error')
-            ));
+            Yii::$app->session->setFlash('error', Yii::t('tasktype', 'The app logic you are trying to delete does not exist.'));
+            return $this->redirect(['index']);
         }
     }
 

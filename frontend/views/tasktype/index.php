@@ -101,7 +101,7 @@
                         },
                         'delete' => function ($url, $model) {
                             $url = Url::to(['/tasktype/delete', 'id' => $model->id]);
-                            return Html::a('<span class="actionColumn_btn delete_btn"><i class="fa fa-trash"></i></span>', $url, [
+                            return Html::a('<span class="actionColumn_btn delete_btn open_modal"><i class="fa fa-trash"></i></span>', $url, [
                                 'title' => Yii::t('common', 'delete'),
                             ]);
                         }
@@ -109,5 +109,6 @@
                 ]
             ]
         ]); ?>
+        <?php echo Yii::$app->controller->renderPartial('../_delete_modal', ['title' => Yii::t('tasktype', 'Delete app logic')]); ?>
     </div>
 </div>

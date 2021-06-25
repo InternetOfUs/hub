@@ -108,30 +108,31 @@
                         'view' => function ($url, $model) {
                             $url = Url::to(['/developer/details', 'id' => $model->id]);
                             return Html::a('<span class="actionColumn_btn"><i class="fa fa-eye"></i></span>', $url, [
-                            'title' => Yii::t('common', 'view'),
+                                'title' => Yii::t('common', 'view'),
                             ]);
                         },
                         'update' => function ($url, $model) {
                             $url = Url::to(['/developer/update', 'id' => $model->id]);
                             return Html::a('<span class="actionColumn_btn"><i class="fa fa-pencil"></i></span>', $url, [
-                            'title' => Yii::t('common', 'edit'),
+                                'title' => Yii::t('common', 'edit'),
                             ]);
                         },
                         'developers' => function ($url, $model) {
                             $url = Url::to(['/developer/developers', 'id' => $model->id]);
                             return Html::a('<span class="actionColumn_btn"><i class="fa fa-user"></i></span>', $url, [
-                            'title' => Yii::t('common', 'manage developers'),
+                                'title' => Yii::t('common', 'manage developers'),
                             ]);
                         },
                         'delete' => function ($url, $model) {
                             $url = Url::to(['/developer/delete', 'id' => $model->id]);
-                            return Html::a('<span class="actionColumn_btn delete_btn"><i class="fa fa-trash"></i></span>', $url, [
-                            'title' => Yii::t('common', 'delete'),
+                            return Html::a('<span class="actionColumn_btn delete_btn open_modal"><i class="fa fa-trash"></i></span>', $url, [
+                                'title' => Yii::t('common', 'delete'),
                             ]);
                         }
                     ]
                 ]
             ]
         ]); ?>
+        <?php echo Yii::$app->controller->renderPartial('../_delete_modal', ['title' => Yii::t('app', 'Delete app')]); ?>
     </div>
 </div>

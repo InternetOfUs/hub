@@ -25,6 +25,7 @@
         "kartik-v/yii2-widget-switchinput": "dev-master",
         "kartik-v/yii2-widget-datepicker": "dev-master",
         "kartik-v/yii2-tabs-x": "dev-master",
+        "kartik-v/yii2-dialog": "dev-master",
         "elastic-email/web-api-client": "*"
     },
     "require-dev": {
