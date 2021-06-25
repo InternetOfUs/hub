@@ -37,7 +37,14 @@
                         }
                     },
                 ],
-                'name',
+                [
+                    'attribute' => 'name',
+                    'header' => Yii::t('tasktype', 'Name (Task type ID)'),
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return '<strong>'.$data->name.'</strong><br>'.$data->task_manager_id.'';
+                    },
+                ],
                 'description',
                 [
                     'headerOptions' => [
