@@ -98,6 +98,11 @@ return [
             'baseUrl' => $params['incentive.server.base.url'],
             'apikey' => $params['hub.apikey'],
         ],
+        'taskManager' => [
+            'class' => 'frontend\components\TaskManagerConnector',
+            'baseUrl' => $params['task.manager.base.url'],
+            'apikey' => $params['hub.apikey'],
+        ],
         'kongConnector' => [
             'class' => 'frontend\components\KongConnector',
             'internalBaseUrl' => $params['kong.internal.url'],

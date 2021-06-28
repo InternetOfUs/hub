@@ -103,8 +103,13 @@
                             $content .= '<div class="app_icon big_icon"><span>'.strtoupper($app->name[0]).'</span></div>';
                         }
 
+                        $description = nl2br($app->description);
+                        if(strlen($description) > 150){
+                            $description = substr($description, 0, 150) . '...';
+                        }
+
                         $content .= '<h2>'. $app->name .'</h2>';
-                        $content .= '<p>'. nl2br($app->description) .'</p>';
+                        $content .= '<p>'. $description .'</p>';
                         $content .= $activeSourceLinks;
                         $content .= '</a>';
 

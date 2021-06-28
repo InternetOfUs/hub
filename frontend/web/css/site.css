@@ -23,8 +23,8 @@ button{
 }
 
 .btn{
+    font-size: 12px !important;
     border-radius: 20px;
-    font-size: 12px;
 }
 
 .telegram_color{
@@ -45,10 +45,11 @@ span.not_set{
 
 a.normal_link{
     text-decoration: underline;
+    font-weight: bold;
     color: #00a3b6;
 }
 
-a.normal_link:hover{color: #4c5363;}
+a.normal_link:hover{color: #337ab7;}
 
 p{font-weight: 300;}
 
@@ -64,7 +65,6 @@ ol li{
 
 ol li pre{margin: 10px 0 20px 0;}
 
-table{width: 100%;}
 ul{list-style-type: none;}
 
 .image_container img{
@@ -576,9 +576,20 @@ button#logoutTelegramBtn:hover{
 
 /* developer pages */
 table tr td{vertical-align: middle !important;}
+
+table th.action-column{min-width: 205px;}
+
+table span.status_icon{
+    text-align: center;
+    display: block;
+}
+
 span.status_icon{font-size: 13px;}
 span.status_icon.not_active{color:#F5C402;}
+span.status_icon.private{color:#d62546;}
+span.status_icon.public,
 span.status_icon.active{color:#0FA053;}
+
 span.status_icon i{font-size: 20px;}
 
 table tr td ul{margin: 0px !important;}
@@ -630,10 +641,7 @@ div.app_icon_image{
     float: left;
 }
 
-div.app_icon_image.big_icon{
-    margin-right: 15px;
-    margin-top: 15px;
-}
+div.app_icon_image.big_icon{margin-right: 15px;}
 
 div.app_icon_image.small_icon{margin: 0 10px 0 0;}
 
@@ -663,8 +671,8 @@ div.centered_icon{
 }
 
 div.big_icon{
-    height: 50px;
-    width: 50px;
+    height: 40px;
+    width: 40px;
 }
 
 div.big_icon span{font-size: 30px;}
@@ -706,13 +714,7 @@ table.attribute_container tr td span{
     padding-top: 5px;
 }
 
-table.attribute_container tr td pre{
-    border: 1px solid #dadada;
-    background-color: #f6f6f6;
-    padding: 5px 10px;
-    color: #de245c;
-}
-
+table.attribute_container tr td pre{padding: 5px 10px;}
 table.active_users_platform tr td{padding: 10px;}
 table.active_users_platform tr td p{margin: 0px;}
 
@@ -722,7 +724,15 @@ table.active_users_platform tr td:first-child{
     width: 20%;
 }
 
+/* tabs */
+.tabs-krajee .nav-tabs > li > a{color: #999;}
+.tabs-above > .nav-tabs > .active > a{color: #3b4150;}
+
+.tab-content {padding: 0px;}
+
 /* forms */
+textarea{resize: vertical;}
+
 #app-create-form .form-group,
 #app-update-form .form-group,
 #form-change-password .form-group,
@@ -736,9 +746,18 @@ table.active_users_platform tr td:first-child{
 #app-update-form textarea{font-weight: 200;}
 
 #app-create-form textarea,
-#app-update-form textarea{
-    min-height: 118px;
-    resize: vertical;
+#app-update-form textarea{min-height: 118px;}
+
+textarea#tasktype-description{min-height: 150px;}
+
+textarea#tasktype-attributes,
+textarea#tasktype-transactions,
+textarea#tasktype-callbacks,
+textarea#tasktype-norms{
+    background-color: #232b3d;
+    border-color: #232b3d;
+    min-height: 200px;
+    color: #fff;
 }
 
 .form-control[disabled],
@@ -849,16 +868,48 @@ div.badges_container div.badge_item div.badge_icon img{width: 100%;}
 div.badges_container div.badge_item span{
     font-weight: 500;
     font-size: 12px;
+}
 
+/* task type - app logic */
+div.dx_sidemenu{
+    border-left: 1px solid #ddd;
+    padding: 15px 0 5px 25px;
+    margin-top: 20px;
+}
 
+div.dx_sidemenu_section{
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
 
+div.dx_sidemenu_section h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    color: #00a3b6;
+}
 
+ul.developer_list{
+    list-style-type: disc;
+    margin: 0 0 0 15px;
+}
 
+ul.developer_list li{padding: 0 0 5px 5px;}
 
+pre {
+    background-color: #232b3d;
+    border-color: #232b3d;
+    color: #fff;
+}
 
+.json-key {color: #cb81ef;}
+.json-value {color: #ffd454;}
+.json-string {color: #a1c181;}
 
-
-
+table.attribute_container.app_logic tr td:first-child{
+    text-align: right;
+    width: 90px;
+}
 
 
 
@@ -907,9 +958,9 @@ a.desc:after {
     content: "\e156";
 }
 
-.grid-view td {
+/* .grid-view td {
     white-space: nowrap;
-}
+} */
 
 .grid-view .filters input,
 .grid-view .filters select {
