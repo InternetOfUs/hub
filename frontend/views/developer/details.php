@@ -28,16 +28,16 @@
                 [
                     'label' =>'<i class="fa fa-cog"></i> ' . Yii::t('common', 'Settings'),
                     'content' => Yii::$app->controller->renderPartial('_settings', ['app' => $app, 'appDevelopers' => $appDevelopers]),
-                    'active' => true
                 ],
                 // [
                 //     'label' =>'<i class="fa fa-trophy"></i> ' . Yii::t('common', 'Badges'),
                 //     'content' => Yii::$app->controller->renderPartial('_badges')
                 // ],
-                // [
-                //     'label' =>'<i class="fa fa-pie-chart"></i> ' . Yii::t('common', 'Stats'),
-                //     'content' => Yii::$app->controller->renderPartial('_stats')
-                // ]
+                [
+                    'label' =>'<i class="fa fa-pie-chart"></i> ' . Yii::t('common', 'Stats'),
+                    'content' => Yii::$app->controller->renderPartial('_stats'),
+                    'active' => true
+                ]
             ];
 
             echo TabsX::widget([
