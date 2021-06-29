@@ -94,7 +94,7 @@ class DeveloperController extends BaseController {
 		));
     }
 
-    public function actionDetails($id) {
+    public function actionDetails($id, $filter='filter_1', $tab='settings') {
 		$app = WenetApp::find()->where(["id" => $id])->one();
 
         if(!$app || $app->status == WenetApp::STATUS_DELETED){
@@ -147,6 +147,8 @@ class DeveloperController extends BaseController {
                 return $this->render('details', array(
                     'app' => $app,
                     'statsData' => $statsData,
+                    'tab' => $tab,
+                    'filter' => $filter,
                     'appDevelopers' => $appDevelopers,
                 ));
             } else {

@@ -925,18 +925,18 @@ div.time_filter{
     height: 30px;
 }
 
-div.time_filter span:hover,
-div.time_filter span.active{
+div.time_filter a:hover,
+div.time_filter a.active{
     background-color: #337ab7;
     color: #fff;
 }
 
-div.time_filter span:first-child{
+div.time_filter a:first-child{
     border-radius: 15px 0 0 15px;
     margin-right: 0px;
 }
 
-div.time_filter span{
+div.time_filter a{
     border: 1px solid #337ab7;
     background-color: #fff;
     text-decoration: none;
@@ -957,7 +957,7 @@ div.time_filter span{
     transition: all 300ms ease-in-out;
 }
 
-div.time_filter span:last-child{
+div.time_filter a:last-child{
     border-radius: 0 15px 15px 0;
     margin-right: 0px;
 }

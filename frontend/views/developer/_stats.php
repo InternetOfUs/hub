@@ -1,3 +1,7 @@
+<?php
+    use yii\helpers\Url;
+?>
+
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="pull-right" style="margin-top:25px;">
@@ -6,30 +10,21 @@
                 <?php echo Yii::t('app', 'show helpers'); ?>
             </span>
             <div class="time_filter">
-                <span id="filter_1"><?php echo Yii::t('app', 'yesterday'); ?></span>
-                <span id="filter_7"><?php echo Yii::t('app', 'last 7 days'); ?></span>
-                <span id="filter_30" class="active"><?php echo Yii::t('app', 'last 30 days'); ?></span>
+                <a href="<?php echo Url::to(['/developer/details', 'id' => $app->id, 'filter' => 'filter_1', 'tab' => 'stats']); ?>" id="filter_1" class="<?php echo $filter == 'filter_1' ? 'active' : ''; ?>"><?php echo Yii::t('app', 'yesterday'); ?></a>
+                <a href="<?php echo Url::to(['/developer/details', 'id' => $app->id, 'filter' => 'filter_7', 'tab' => 'stats']); ?>" id="filter_7" class="<?php echo $filter == 'filter_7' ? 'active' : ''; ?>"><?php echo Yii::t('app', 'last 7 days'); ?></a>
+                <a href="<?php echo Url::to(['/developer/details', 'id' => $app->id, 'filter' => 'filter_30', 'tab' => 'stats']); ?>" id="filter_30" class="<?php echo $filter == 'filter_30' ? 'active' : ''; ?>"><?php echo Yii::t('app', 'last 30 days'); ?></a>
             </div>
         </div>
 
         <?php echo Yii::$app->controller->renderPartial('stats/_users', ['statsData' => $statsData['users']]); ?>
-
         <?php echo Yii::$app->controller->renderPartial('stats/_messages', ['statsData' => $statsData['messages']]); ?>
-
         <?php echo Yii::$app->controller->renderPartial('stats/_tasks', ['statsData' => $statsData['tasks']]); ?>
-
         <?php echo Yii::$app->controller->renderPartial('stats/_transactions', ['statsData' => $statsData['transactions']]); ?>
 
     </div>
 </div>
 
 <script type="text/javascript">
-
-    // time filters
-    $('.time_filter span').on('click', function(event) {
-        $('.time_filter span').removeClass('active');
-        $('#' + event.target.id).addClass('active');
-    });
 
     // show/hide helpers text
     $('.helpers_btn').on('click', function() {
