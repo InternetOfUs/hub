@@ -35,7 +35,7 @@
                 // ],
                 [
                     'label' =>'<i class="fa fa-pie-chart"></i> ' . Yii::t('common', 'Stats'),
-                    'content' => Yii::$app->controller->renderPartial('_stats'),
+                    'content' => Yii::$app->controller->renderPartial('_stats', ['statsData' => $statsData]),
                     'active' => true
                 ]
             ];

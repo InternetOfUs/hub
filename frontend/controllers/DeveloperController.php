@@ -102,8 +102,51 @@ class DeveloperController extends BaseController {
 		} else {
             if($app->isDeveloper()){
                 $appDevelopers = AppDeveloper::find()->where(["app_id" => $id])->all();
+
+                $statsData = [
+                    'users' => [
+                        'total' => 51,
+                        'new' => 11,
+                        'active' => 31,
+                        'engaged' => 6,
+                    ],
+                    'messages' => [
+                        'platform' => [
+                            'total' => 121,
+                            'period' => 31,
+                        ],
+                        'app' => [
+                            'total' => 201,
+                            'period' => 51,
+                        ],
+                        'users' => [
+                            'total' => 86,
+                            'period' => 61,
+                        ]
+                    ],
+                    'tasks' => [
+                        'total' => 101,
+                        'new' => 21,
+                        'active' => 86,
+                        'closed' => 15,
+                    ],
+                    'transactions' => [
+                        'total' => 111,
+                        'new' => 81,
+                        'distribution' => [
+                            'answerTransaction' => 5,
+                            'notAnswerTransaction' => 10,
+                            'bestAnswerTransaction' => 15,
+                            'moreAnswerTransaction' => 20,
+                            'reportQuestionTransaction' => 25,
+                            'reportAnswerTransaction' => 6
+                        ]
+                    ],
+                ];
+
                 return $this->render('details', array(
                     'app' => $app,
+                    'statsData' => $statsData,
                     'appDevelopers' => $appDevelopers,
                 ));
             } else {
@@ -224,7 +267,7 @@ class DeveloperController extends BaseController {
 
     public function actionDelete($id) {
         $model = WenetApp::find()->where(["id" => $id])->one();
-        
+
         if($model->status != WenetApp::STATUS_DELETED){
             if($model->isOwner(Yii::$app->user->id)){
                 $model->status = WenetApp::STATUS_DELETED;
