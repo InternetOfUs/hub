@@ -7,7 +7,9 @@
         <span class="big_number">
             <?php echo $statsData['new']; ?>
         </span>
-        <p class="totals"><?php echo Yii::t('app', 'out of').' '.$statsData['total'].' '.Yii::t('app', 'in total'); ?></p>
+        <?php if($statsData['total']){ ?>
+            <p class="totals"><?php echo Yii::t('app', 'out of').' '.$statsData['total'].' '.Yii::t('app', 'in total'); ?></p>
+        <?php } ?>
     </div>
     <div class="box_container big_number">
         <h3><?php echo Yii::t('app', 'Active'); ?></h3>

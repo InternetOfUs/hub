@@ -105,7 +105,7 @@ class DeveloperController extends BaseController {
 
                 $statsData = [
                     'users' => [
-                        'total' => 51,
+                        'total' => null, //finchè non aggiungiamo questa issue possiamo mettere i valori a null, le viste si arrangiano a mostrate/nascondere i valori
                         'new' => 11,
                         'active' => 31,
                         'engaged' => 6,
@@ -120,7 +120,7 @@ class DeveloperController extends BaseController {
                             'period' => 51,
                         ],
                         'users' => [
-                            'total' => 86,
+                            'total' => null,
                             'period' => 61,
                         ]
                     ],
