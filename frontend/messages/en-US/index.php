@@ -23,5 +23,5 @@ return [
     'About WeNet' => '',
     'About WeNet Hub' => '',
     'Discover more' => '',
-    'Notifiche' => '',
+    'Notifiche' => '@@@@',
 ];
