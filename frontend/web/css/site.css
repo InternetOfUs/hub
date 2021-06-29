@@ -22,6 +22,8 @@ button{
     cursor: pointer !important;
 }
 
+table{width: 100%;}
+
 .btn{
     font-size: 12px !important;
     border-radius: 20px;
@@ -978,10 +980,38 @@ span.big_number{
 
 p.totals{text-align: center;}
 
-div.user_boxes div,
-div.tasks_boxes div,
-div.messages_boxes div{width: 32%;}
-div.transactions_boxes div{width: 49%;}
+div.user_boxes > div,
+div.tasks_boxes > div,
+div.messages_boxes > div{width: 32%;}
+div.transactions_boxes > div{width: 49%;}
+
+/* graphs */
+div.donut_data_container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+div.donut_data_container div.chart {width: 50%;}
+div.donut_data_container div.data_container {width: 50%;}
+
+div.donut_data_container div.data_container span.number {font-size: 20px;}
+
+div.donut_data_container div.data_container span.dot {
+    display: inline-block;
+    border-radius: 50%;
+    margin-right: 10px;
+    height: 12px;
+    width: 12px;
+}
+
+div.donut_data_container div.data_container > span {
+    display: block;
+    text-align: left;
+}
 
 
 
