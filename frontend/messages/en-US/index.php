@@ -19,8 +19,9 @@
 return [
     'about text' => 'Diversity is part of our everyday life. Technology, despite its evolution, still struggles when it comes to helping develop and maintain social relationships that transcend geographical and cultural backgrounds.',
     'about text 2' => 'The goal is connecting people who can help each other, and the key is leveraging their diversity.',
+    'hub text' => 'Login to discover and use all the terrific WeNet applications.',
     'About WeNet' => '',
     'About WeNet Hub' => '',
     'Discover more' => '',
-    'hub text' => 'Login to discover and use all the terrific WeNet applications.',
+    'Notifiche' => '',
 ];
