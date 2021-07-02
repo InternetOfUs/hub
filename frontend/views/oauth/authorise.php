@@ -18,6 +18,8 @@
         </div>
     <?php } ?>
 
+<?php if ($userCanProceed): ?>
+
     <p style="text-align:center; margin-top:10px; font-size:16px;">
         <?php echo Yii::t('authorisation', 'The application {app_name} will be able to', ['app_name' => '<strong>'.$app->name.'</strong>']) ?>:
     </p>
@@ -54,9 +56,18 @@
             <?= Html::submitButton( Yii::t('common', 'continue'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
         </div>
     <?php ActiveForm::end(); ?>
-    <hr>
-    <a style="color:#444;" href="<?php echo $socialLogin->callback_url; ?>"><?php echo Yii::t('authorisation', 'cancel'); ?></a>
 </div>
+
+<?php else: ?>
+
+    <p style="text-align:center; margin-top:10px; font-size:16px;">
+        <?php echo Yii::t('authorisation', 'The application {app_name} is currently in development mode. You don\'t have the permission to proceed. If you think this is an error, please contact the app administrators to be granted the correct permissions.', ['app_name' => '<strong>'.$app->name.'</strong>']) ?>
+    </p>
+
+<?php endif; ?>
+
+<hr>
+<a style="color:#444;" href="<?php echo $socialLogin->callback_url; ?>"><?php echo Yii::t('authorisation', 'cancel'); ?></a>
 
 <script type="text/javascript">
 
