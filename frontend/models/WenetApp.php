@@ -460,15 +460,6 @@ class WenetApp extends \yii\db\ActiveRecord {
         return WenetApp::find()->where(['id' => $this->id, 'owner_id' => $user_id])->one();
     }
 
-    /**
-     * Gets query for [[AppDevelopers]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAppDevelopers() {
-        return $this->hasMany(AppDeveloper::className(), ['app_id' => 'id']);
-    }
-
     public function isDeveloper($userId = null){
         if($userId == null){
             $userId = Yii::$app->user->id;
