@@ -10,9 +10,9 @@
                 <?php echo Yii::t('app', 'show helpers'); ?>
             </span>
             <div class="time_filter">
-                <a href="<?php echo Url::to(['/developer/details', 'id' => $app->id, 'filter' => 'filter_1', 'tab' => 'stats']); ?>" id="filter_1" class="<?php echo $filter == 'filter_1' ? 'active' : ''; ?>"><?php echo Yii::t('app', 'yesterday'); ?></a>
-                <a href="<?php echo Url::to(['/developer/details', 'id' => $app->id, 'filter' => 'filter_7', 'tab' => 'stats']); ?>" id="filter_7" class="<?php echo $filter == 'filter_7' ? 'active' : ''; ?>"><?php echo Yii::t('app', 'last 7 days'); ?></a>
-                <a href="<?php echo Url::to(['/developer/details', 'id' => $app->id, 'filter' => 'filter_30', 'tab' => 'stats']); ?>" id="filter_30" class="<?php echo $filter == 'filter_30' ? 'active' : ''; ?>"><?php echo Yii::t('app', 'last 30 days'); ?></a>
+                <a href="<?php echo Url::to(['/developer/details', 'id' => $app->id, 'filter' => '1d', 'tab' => 'stats']); ?>" id="filter_1" class="<?php echo $filter == '1d' ? 'active' : ''; ?>"><?php echo Yii::t('app', 'yesterday'); ?></a>
+                <a href="<?php echo Url::to(['/developer/details', 'id' => $app->id, 'filter' => '7d', 'tab' => 'stats']); ?>" id="filter_7" class="<?php echo $filter == '7d' ? 'active' : ''; ?>"><?php echo Yii::t('app', 'last 7 days'); ?></a>
+                <a href="<?php echo Url::to(['/developer/details', 'id' => $app->id, 'filter' => '30d', 'tab' => 'stats']); ?>" id="filter_30" class="<?php echo $filter == '30d' ? 'active' : ''; ?>"><?php echo Yii::t('app', 'last 30 days'); ?></a>
             </div>
         </div>
 

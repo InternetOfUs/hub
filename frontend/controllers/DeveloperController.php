@@ -2,15 +2,17 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\data\ArrayDataProvider;
-use frontend\models\WenetApp;
 use common\models\User;
+use frontend\components\AnalyticsManager;
+use frontend\models\WenetApp;
 use frontend\models\AppDeveloper;
-use yii\helpers\Json;
+use frontend\models\analytics\AnalyticDescription;
 
 /**
  * Developer controller
@@ -94,7 +96,7 @@ class DeveloperController extends BaseController {
 		));
     }
 
-    public function actionDetails($id, $filter='filter_1', $tab='settings') {
+    public function actionDetails($id, $filter='7d', $tab='settings') {
 		$app = WenetApp::find()->where(["id" => $id])->one();
 
         if(!$app || $app->status == WenetApp::STATUS_DELETED){
@@ -103,46 +105,9 @@ class DeveloperController extends BaseController {
             if($app->isDeveloper()){
                 $appDevelopers = AppDeveloper::find()->where(["app_id" => $id])->all();
 
-                $statsData = [
-                    'users' => [
-                        'total' => null, //finchè non aggiungiamo questa issue possiamo mettere i valori a null, le viste si arrangiano a mostrate/nascondere i valori
-                        'new' => 11,
-                        'active' => 31,
-                        'engaged' => 6,
-                    ],
-                    'messages' => [
-                        'platform' => [
-                            'total' => 121,
-                            'period' => 31,
-                        ],
-                        'app' => [
-                            'total' => 201,
-                            'period' => 51,
-                        ],
-                        'users' => [
-                            'total' => null,
-                            'period' => 61,
-                        ]
-                    ],
-                    'tasks' => [
-                        'total' => 101,
-                        'new' => 21,
-                        'active' => 86,
-                        'closed' => 15,
-                    ],
-                    'transactions' => [
-                        'total' => 111,
-                        'new' => 81,
-                        'distribution' => [
-                            'answerTransaction' => 5,
-                            'notAnswerTransaction' => 10,
-                            'bestAnswerTransaction' => 15,
-                            'moreAnswerTransaction' => 20,
-                            'reportQuestionTransaction' => 25,
-                            'reportAnswerTransaction' => 6
-                        ]
-                    ],
-                ];
+                $analyticManager = new AnalyticsManager;
+                $analyticManager->createAnalyticsIfMissing($app->id);
+                $statsData = $analyticManager->prepareData($app->id, '1d');
 
                 return $this->render('details', array(
                     'app' => $app,
