@@ -44,8 +44,7 @@ class TaskManagerConnector extends PlatformConnector {
         // print_r(JSON::encode($taskType->toRepr()));
         // exit();
         try {
-            $result = $this->post($url, $this->authHeaders(), $taskType->toRepr());
-            $response = Json::decode($result);
+            $response = $this->post($url, $this->authHeaders(), $taskType->toRepr());
             return $response['id'];
         } catch (\Exception $e) {
             $log = "Something went wrong while creating new task type: $e";
