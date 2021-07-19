@@ -33,30 +33,13 @@ workflow:
       when: never
     - when: always
 
-before_script:
-  # Install required apk packages.
-  - apk add --update bash wget ca-certificates openssl git tar openssh-client curl python3
-
-#
-# Extendable stages.
-#
-.common-production:
-  only:
-    - tags
-
-.common-staging:
-  only:
-    - develop
-
-.common-issue:
-  only:
-    - /^feature.*$/i
-    - /^hotfix.*$/i
-    - /^milestone.*$/i
-
 #
 # Static script to be reused by the enabled stages.
 #
+
+.apk-before-script: &apk-before-script
+  # Install required apk packages.
+  - apk add --update bash wget ca-certificates openssl git tar openssh-client curl python3 py3-pip
 
 # Script for docker based stages.
 .docker-script: &docker-script
@@ -100,148 +83,126 @@ before_script:
   - chmod 400  ~/.ssh/id_rsa
   - export ANSIBLE_HOST_KEY_CHECKING=False
 
+
 #
 # Stages to run.
 #
+
 stages:
   - build
   - push
-  - trigger
   - notify
+  - deploy
+
 
 #
-# Build stages.
+# Stages for production.
 #
 
-build_production:
+
+build:production:
   stage: build
   script:
+    - *apk-before-script
     - *docker-script
     - *php-script
+
     - ./docker-support/runner.sh -bs $CI_COMMIT_TAG
   artifacts:
     paths:
       - docker_image.tar.gz
     expire_in: 1 day
-  extends: .common-production
-
-build_staging:
-  stage: build
-  script:
-    - *docker-script
-    - *php-script
-    - ./docker-support/runner.sh -bs latest
-  artifacts:
-    paths:
-      - docker_image.tar.gz
-    expire_in: 1 day
-  extends: .common-staging
-
-build_issue:
-  stage: build
-  script:
-    - *docker-script
-    - *php-script
-    - ./docker-support/runner.sh -bs latest
-  artifacts:
-    paths:
-      - docker_image.tar.gz
-    expire_in: 1 day
-  when: manual
-  allow_failure: false
-  extends: .common-issue
+  only:
+    - tags
 
 
-
-#
-# Push stages.
-#
-
-push_production:
+push:production:
   stage: push
   script:
+    - *apk-before-script
     - *docker-script
     - docker load -i docker_image.tar.gz
     - ./docker-support/runner.sh -p $CI_COMMIT_TAG
   dependencies:
-    - build_production
-  extends: .common-production
-push_staging:
-  stage: push
-  script:
-    - *docker-script
-    - docker load -i docker_image.tar.gz
-    - ./docker-support/runner.sh -p latest
-  dependencies:
-    - build_staging
-  extends: .common-staging
-push_issue:
-  stage: push
-  script:
-    - *docker-script
-    - docker load -i docker_image.tar.gz
-    - ./docker-support/runner.sh -p latest
-  dependencies:
-    - build_issue
-  allow_failure: false
-  extends: .common-issue
+    - build:production
+  only:
+    - tags
 
 
-#
-# Trigger stages.
-# Allowing to trigger the deployment in another repository.
-#
-
-
-trigger_staging:
-  stage: trigger
-  script:
-    - *ansible-script
-    - export GIT_REF="develop"
-    - ansible-playbook ansible/trigger.yml
-  dependencies:
-    - build_staging
-    - push_staging
-  allow_failure: false
-  extends: .common-staging
-
-trigger_issue:
-  stage: trigger
-  script:
-    - *ansible-script
-    - export GIT_REF="develop"
-    - ansible-playbook ansible/trigger.yml
-  dependencies:
-    - build_issue
-    - push_issue
-  allow_failure: false
-  extends: .common-issue
-
-
-
-
-
-#
-# Notification stages.
-#
-notify_production:
+notify:production:
   stage: notify
+  image: public.registry.u-hopper.com/alpine:3.13
   script:
+    - *apk-before-script
     - *ansible-script
     - export RELEASE_TAG="$CI_COMMIT_TAG"
     - export BUILD_ENVIRONMENT="production"
-    - export WITH_DEPLOY="yes"
+    - export WITH_DEPLOY="no"
     - export DEPLOY_TRIGGERED="no"
     - ansible-playbook ansible/notify.yml
   dependencies:
-    - build_production
-    - push_production
+    - build:production
+    - push:production
   allow_failure: true
-  extends: .common-production
+  only:
+    - tags
 
-notify_staging:
-  stage: notify
+
+#
+# Stages for staging.
+#
+
+
+build:staging:
+  stage: build
   script:
+    - *apk-before-script
+    - *docker-script
+    - *php-script
+
+    - ./docker-support/runner.sh -bs latest
+  artifacts:
+    paths:
+      - docker_image.tar.gz
+    expire_in: 1 day
+  only:
+    - develop
+
+
+push:staging:
+  stage: push
+  script:
+    - *apk-before-script
+    - *docker-script
+    - docker load -i docker_image.tar.gz
+    - ./docker-support/runner.sh -p latest
+  dependencies:
+    - build:staging
+  only:
+    - develop
+
+
+trigger:staging:
+  stage: deploy
+  image: public.registry.u-hopper.com/alpine:3.13
+  script:
+    - *apk-before-script
+    - *ansible-script
+    - export GIT_REF="develop"
+    - ansible-playbook ansible/trigger.yml
+  dependencies:
+    - build:staging
+    - push:staging
+  allow_failure: false
+  only:
+    - develop
+
+
+notify:staging:
+  stage: notify
+  image: public.registry.u-hopper.com/alpine:3.13
+  script:
+    - *apk-before-script
     - *ansible-script
     - export RELEASE_TAG="latest"
     - export BUILD_ENVIRONMENT="staging"
@@ -249,27 +210,131 @@ notify_staging:
     - export DEPLOY_TRIGGERED="yes"
     - ansible-playbook ansible/notify.yml
   dependencies:
-    - build_staging
-    - push_staging
-    - trigger_staging
+    - build:staging
+    - push:staging
   allow_failure: true
-  extends: .common-staging
+  only:
+    - develop
 
-notify_issue:
-  stage: notify
+
+#
+# Stages for mr.
+#
+
+
+build:mr:
+  stage: build
   script:
+    - *apk-before-script
+    - *docker-script
+    - *php-script
+
+    - ./docker-support/runner.sh -bs latest
+  artifacts:
+    paths:
+      - docker_image.tar.gz
+    expire_in: 1 day
+  when: manual
+  allow_failure: false
+  only:
+    - merge_requests
+
+
+#
+# Stages for issue.
+#
+
+
+build:issue:
+  stage: build
+  script:
+    - *apk-before-script
+    - *docker-script
+    - *php-script
+
+    - ./docker-support/runner.sh -bs latest
+  artifacts:
+    paths:
+      - docker_image.tar.gz
+    expire_in: 1 day
+  when: manual
+  allow_failure: false
+  only:
+    - /^feature.*$/i
+    - /^hotfix.*$/i
+    - /^milestone.*$/i
+
+
+push:issue:
+  stage: push
+  script:
+    - *apk-before-script
+    - *docker-script
+    - docker load -i docker_image.tar.gz
+    - ./docker-support/runner.sh -p latest
+  dependencies:
+    - build:issue
+  only:
+    - /^feature.*$/i
+    - /^hotfix.*$/i
+    - /^milestone.*$/i
+
+
+trigger:issue:
+  stage: deploy
+  image: public.registry.u-hopper.com/alpine:3.13
+  script:
+    - *apk-before-script
+    - *ansible-script
+    - export GIT_REF="develop"
+    - ansible-playbook ansible/trigger.yml
+  dependencies:
+    - build:issue
+    - push:issue
+  allow_failure: false
+  only:
+    - /^feature.*$/i
+    - /^hotfix.*$/i
+    - /^milestone.*$/i
+
+
+notify:issue:
+  stage: notify
+  image: public.registry.u-hopper.com/alpine:3.13
+  script:
+    - *apk-before-script
     - *ansible-script
     - export RELEASE_TAG="latest"
     - export BUILD_ENVIRONMENT="issue"
     - export WITH_DEPLOY="yes"
-    - export DEPLOY_TRIGGERED="yes"
+    - export DEPLOY_TRIGGERED="no"
     - ansible-playbook ansible/notify.yml
   dependencies:
-    - build_issue
-    - push_issue
-    - trigger_issue
+    - build:issue
+    - push:issue
   allow_failure: true
-  extends: .common-issue
+  only:
+    - /^feature.*$/i
+    - /^hotfix.*$/i
+    - /^milestone.*$/i
 
 
+# 
+# Stages for master.
+# Allows to build badges and run the test coverage.
+# 
+
+build:badges:
+  stage: build
+  image: public.registry.u-hopper.com/python:3.8
+  script:
+    - pip install PyYAML anybadge
+    - python docker-support/badges.py
+  artifacts:
+    paths:
+      - template.svg
+      - deploy.svg
+    expire_in: 1 day
+  only:
+    - master
 

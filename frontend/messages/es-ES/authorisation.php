@@ -24,4 +24,5 @@ return [
     'access your public profile info' => 'acceder a la información de su perfil público',
     'cancel' => 'cancelar',
     'write your profile data' => 'escribe los datos de tu perfil',
+    'The application {app_name} is currently in development mode. You don\'t have the permission to proceed. If you think this is an error, please contact the app administrators to be granted the correct permissions.' => 'La aplicación {app_name} se encuentra actualmente en modo de desarrollo. No tienes permiso para continuar. Si cree que se trata de un error, comuníquese con los administradores de la aplicación para obtener los permisos correctos.',
 ];

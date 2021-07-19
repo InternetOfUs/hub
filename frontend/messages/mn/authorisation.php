@@ -24,4 +24,5 @@ return [
     'access your public profile info' => 'өөрийн нийтийн профайл өгөгдөлд хандах',
     'cancel' => 'цуцлах',
     'write your profile data' => 'өөрийн профайл өгөгдлийг бичих',
+    'The application {app_name} is currently in development mode. You don\'t have the permission to proceed. If you think this is an error, please contact the app administrators to be granted the correct permissions.' => '{App_name} програм одоогоор боловсруулалтын горимд байна. Танд үргэлжлүүлэх зөвшөөрөл алга. Хэрэв та үүнийг алдаа хийсэн гэж бодож байвал програмын администраторуудтай холбоо барьж зөв зөвшөөрлийг олгоно уу.',
 ];

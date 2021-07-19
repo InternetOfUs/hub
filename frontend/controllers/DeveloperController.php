@@ -100,9 +100,18 @@ class DeveloperController extends BaseController {
         if(!$app || $app->status == WenetApp::STATUS_DELETED){
             throw new NotFoundHttpException('The specified app cannot be found.');
 		} else {
-			return $this->render('details', array(
-                'app' => $app
-            ));
+            if($app->isDeveloper()){
+                $appDevelopers = AppDeveloper::find()->where(["app_id" => $id])->all();
+                return $this->render('details', array(
+                    'app' => $app,
+                    'appDevelopers' => $appDevelopers,
+                ));
+            } else {
+                return $this->render('/site/error', array(
+                    'message' => Yii::t('common', 'You are not authorised to perform this action.'),
+                    'name' => Yii::t('common', 'Error')
+                ));
+            }
 		}
 
         return $this->render('details', array());
@@ -135,16 +144,23 @@ class DeveloperController extends BaseController {
             return $this->redirect(['developers', 'id' => $id]);
         }
 
-        return $this->render('developers', array(
-            'provider' => $provider,
-            'app' => $app,
-            'appDeveloper' => $appDeveloper
-		));
+        if($app->isOwner(Yii::$app->user->id)){
+            return $this->render('developers', array(
+                'provider' => $provider,
+                'app' => $app,
+                'appDeveloper' => $appDeveloper
+    		));
+        } else {
+            return $this->render('/site/error', array(
+                'message' => Yii::t('common', 'You are not authorised to perform this action.'),
+                'name' => Yii::t('common', 'Error')
+            ));
+        }
     }
 
     public function actionDeveloperList($app_id, $q = null, $id = null) {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $out = ['results' => ['id' => '', 'username' => '', 'email' => '']];
+        $out = ['results' => []];
 
         if (!is_null($q)) {
             $sql = 'SELECT * FROM user WHERE developer = :developer AND ( user.email LIKE :emailQuery OR user.username LIKE :usernameQuery ) AND user.id NOT IN (SELECT user.id FROM user INNER JOIN app_developer ON app_developer.user_id = user.id WHERE app_id = :app_id )';
@@ -196,21 +212,43 @@ class DeveloperController extends BaseController {
                 return $this->redirect(['details', "id" => $id]);
             }
         }
-        return $this->render('update', ['app' => $app ]);
+        if($app->isDeveloper()){
+            return $this->render('update', ['app' => $app ]);
+        } else {
+            return $this->render('/site/error', array(
+                'message' => Yii::t('common', 'You are not authorised to perform this action.'),
+                'name' => Yii::t('common', 'Error')
+            ));
+        }
     }
 
     public function actionDelete($id) {
         $model = WenetApp::find()->where(["id" => $id])->one();
-        $model->status = WenetApp::STATUS_DELETED;
-        if ($model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'App successfully deleted.'));
+        
+        if($model->status != WenetApp::STATUS_DELETED){
+            if($model->isOwner(Yii::$app->user->id)){
+                $model->status = WenetApp::STATUS_DELETED;
+                if ($model->save()) {
+                    Yii::$app->session->setFlash('success', Yii::t('app', 'App successfully deleted.'));
+                } else {
+                    Yii::$app->session->setFlash('error', Yii::t('app', 'Could not delete app.'));
+                }
+                return $this->redirect(['index']);
+            } else {
+                return $this->render('/site/error', array(
+                    'message' => Yii::t('common', 'You are not authorised to perform this action.'),
+                    'name' => Yii::t('common', 'Error')
+                ));
+            }
         } else {
-            Yii::$app->session->setFlash('error', Yii::t('app', 'Could not delete app.'));
+            Yii::$app->session->setFlash('error', Yii::t('app', 'The app you are trying to delete does not exist.'));
+            return $this->redirect(['index']);
         }
-        return $this->redirect(['index']);
+
     }
 
     public function actionConversationalConnector($id){
+        //  TODO check authorisation to perform the action
         $app = WenetApp::find()->where(["id" => $id])->one();
         $app->scenario = WenetApp::SCENARIO_CONVERSATIONAL;
 
@@ -227,8 +265,11 @@ class DeveloperController extends BaseController {
     }
 
     public function actionDisableConversationalConnector($id) {
+        //  TODO check authorisation to perform the action
         $app = WenetApp::find()->where(["id" => $id])->one();
         $app->conversational_connector = WenetApp::NOT_ACTIVE_CONNECTOR;
+
+        // TODO check fattibilità
 
         $message = Yii::t('app', 'Connector succesfully disabled.');
         $alert_type = 'success';
@@ -252,8 +293,11 @@ class DeveloperController extends BaseController {
     }
 
     public function actionEnableConversationalConnector($id) {
+        //  TODO check authorisation to perform the action
         $app = WenetApp::find()->where(["id" => $id])->one();
         $app->conversational_connector = WenetApp::ACTIVE_CONNECTOR;
+
+        // TODO check fattibilità
 
         if ($app->save()) {
             return JSON::encode([
@@ -269,6 +313,7 @@ class DeveloperController extends BaseController {
     }
 
     public function actionDisableDataConnector($id) {
+        //  TODO check authorisation to perform the action
         $app = WenetApp::find()->where(["id" => $id])->one();
         $app->data_connector = WenetApp::NOT_ACTIVE_CONNECTOR;
 
@@ -294,6 +339,7 @@ class DeveloperController extends BaseController {
     }
 
     public function actionEnableDataConnector($id) {
+        //  TODO check authorisation to perform the action
         $app = WenetApp::find()->where(["id" => $id])->one();
         $app->data_connector = WenetApp::ACTIVE_CONNECTOR;
 

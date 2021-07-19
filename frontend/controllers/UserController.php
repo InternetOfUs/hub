@@ -36,6 +36,7 @@ class UserController extends BaseController {
                         'login', 'logout', 'signup',
                         'account', 'profile', 'change-password',
                         'user-apps',
+                        'get-all-user-ids',
                         'request-password-reset', 'reset-password', 'resend-verification-email', 'verify-email',
                         # REST APIs
                         'apps-for-user',
@@ -43,7 +44,7 @@ class UserController extends BaseController {
                 'rules' => [
                     [
                         'actions' => [
-                            'apps-for-user',
+                            'apps-for-user', 'get-all-user-ids',
                         ],
                         'allow' => true,
                         'roles' => ['?', '@'],
@@ -89,6 +90,17 @@ class UserController extends BaseController {
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
+    }
+
+    /**
+     * Get the complete list of ids for all users registered.
+     *
+     * @return array The list of ids
+     */
+    public function actionGetAllUserIds() {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $user = User::find()->all();
+        return array_map(function($u) { return ''.$u->id; }, $user);
     }
 
     /**
