@@ -2,14 +2,14 @@
 
 ## Version 1.*
 
-### next
+### 1.3.0
 
-* Updated OAuth flow in order to allow only developers to complete the OAuth flow of an WeNet application currently in development mode.
+* Updated OAuth flow. Now only developers can complete the OAuth flow of an WeNet application in development mode.
 * Added section for managing Task Types (creation, edit, developers access, delete).
 * Added the option to set a Task Type for an App (with all the connected checks on connectors and publishable)
-* Authorisation steps enforced on the task type actions and app managing actions
-* Updated layout of developer section
-* Limited the length of the displayed app description in the public app section page
+* Authorisation steps enforced on the task type actions and app managing actions.
+* Updated layout of developer section.
+* Limited the length of the displayed app description in the public app section page.
 
 ### 1.2.5
 
