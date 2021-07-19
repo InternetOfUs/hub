@@ -89,16 +89,9 @@ class AnalyticsManager {
     }
 
     private function userData($appId, $timespan) {
-
-        # TODO compute correct number for new users: this should be easier once the
-        # logger component is updated to include such information in the analytic results
-        // $sql = 'select * from app_user where created_at > :fromTs and created_at < :toTs;';
-        // $new = count(AppUser::findBySql($sql, [':fromTs' => 1601628780, ':toTs' => $timestamp = strtotime('today midnight')])->all());
-        $new = 0;
-
         return [
             'total' => AppUser::find()->where(['app_id' => $appId])->count(),
-            'new' => $new,
+            'new' => $this->get($appId, 'user', 'u:new', $timespan)->result->count,
             'active' => $this->get($appId, 'user', 'u:active', $timespan)->result->count,
             'engaged' => $this->get($appId, 'user', 'u:engaged', $timespan)->result->count,
         ];
