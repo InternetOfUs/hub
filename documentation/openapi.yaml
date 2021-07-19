@@ -1,0 +1,209 @@
+openapi: 3.0.1
+info:
+  title: WeNet - HUB REST APIs
+  description: The WeNet HUB is reponsible for managing the creation of users, the setup of applications and their discovery.
+
+  contact:
+    email: carlo.caprini@u-hopper.com
+
+  version: latest
+
+servers:
+  - url: https://wenet.u-hopper.com/dev/hub/frontend
+    description: Staging instance
+
+  - url: https://internetofus.u-hopper.com/prod/hub/frontend
+    description: Production instance
+
+paths:
+
+  /data/user:
+    get:
+      summary: Get the list of user ids registered to the platform
+      tags:
+        - User
+      security:
+        - ComponentApiKey: []
+      responses:
+        '200':
+          description: The list of user ids
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: 87diufghkdjf
+                  description: The id of the user
+
+  /data/user/{userId}/apps:
+    get:
+      summary: Get the list of applications enabled by a user
+      tags:
+        - User
+      security:
+        - ComponentApiKey: []
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: The id of the target user
+      responses:
+        '200':
+          description: The list of enabled applications
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    appId:
+                      type: string
+                      description: The Id of the application
+                      example: 98dsifkdfh
+                    activationTs:
+                      type: integer
+                      description: The Epoch timestamp of the app activation
+                      example: 1601628782
+
+  /data/app/{appId}:
+    get:
+      summary: Get the details of a WeNet application
+      tags:
+        - App
+      security:
+        - ComponentApiKey: []
+      parameters:
+        - in: path
+          name: appId
+          schema:
+            type: string
+          required: true
+          description: The id of the target application
+      responses:
+        '200':
+          description: The list of enabled applications
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 98werfhikdu
+                    description: The id of the application
+                  name:
+                    type: string
+                    description: The name of the application
+                    example: WeNet application name
+                  status:
+                    type: integer
+                    description: The status of the app
+                        0 - development mode
+                        1 - active
+                        2 - deleted
+                    example: 1
+                    enum:
+                      - 0
+                      - 1
+                      - 2
+                  ownerId:
+                    type: string
+                    description: The id of the user who created the app
+                    example: 123s667
+                  messageCallbackUrl:
+                    type: string
+                    nullable: true
+                    example: https://app.domain/callback
+                  taskTypeId:
+                    type: string
+                    nullable: true
+                    example: 10823j9f8dhigkdhfgu
+                    description: The identifier of the associated task type
+                  metadata:
+                    type: object
+                    description: Meant for any app metadata details
+                  createdAt:
+                    type: integer
+                    description: The epoch timestamp of the app creation
+                    example: 1601628782
+                  updatedAt:
+                    type: integer
+                    description: The epoch timestamp of the last app update
+                    example: 1601628782
+
+  /data/app/{appId}/developer:
+    get:
+      summary: Get the list of developers having management access to a WeNet app
+      tags:
+        - App
+      security:
+        - ComponentApiKey: []
+      parameters:
+        - in: path
+          name: appId
+          schema:
+            type: string
+          required: true
+          description: The id of the target application
+      responses:
+        '200':
+          description: The list of developer user ids
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: 87diufghkdjf
+                  description: The id of the developer user
+
+  /data/app/{appId}/user:
+    get:
+      summary: Get the list of all users that have enabled a WeNet app
+      tags:
+        - App
+      security:
+        - ComponentApiKey: []
+      parameters:
+        - in: path
+          name: appId
+          schema:
+            type: string
+          required: true
+          description: The id of the target application
+        - in: path
+          name: fromTs
+          schema:
+            type: integer
+          required: false
+          description: The lower bound epoch timestamp that can be used for filtering the results
+        - in: path
+          name: toTs
+          schema:
+            type: integer
+          required: false
+          description: The upper bound epoch timestamp that can be used for filtering the results
+      responses:
+        '200':
+          description: The list of user ids
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: 87diufghkdjf
+                  description: The id of the user
+
+components:
+
+  securitySchemes:
+
+    ComponentApiKey:
+      type: apiKey
+      in: header
+      name: x-wenet-component-apikey
