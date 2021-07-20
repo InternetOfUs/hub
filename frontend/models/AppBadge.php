@@ -74,24 +74,24 @@ class AppBadge extends \yii\db\ActiveRecord
         return $details;
     }
 
-    // public function beforeSave($insert) {
-    //     if (parent::beforeSave($insert)) {
-    //
-    //         $taskTypeDetails = $this->details();
-    //
-    //         if (!$this->task_manager_id) {
-    //             $id = Yii::$app->taskManager->createTaskType($taskTypeDetails);
-    //             $this->task_manager_id = $id;
-    //         } else {
-    //             Yii::$app->taskManager->updateTaskType($taskTypeDetails);
-    //         }
-    //
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
-    //
+    public function beforeSave($insert) {
+        if (parent::beforeSave($insert)) {
+
+            $taskTypeDetails = $this->details();
+
+            if (!$this->task_manager_id) {
+                $id = Yii::$app->taskManager->createTaskType($taskTypeDetails);
+                $this->task_manager_id = $id;
+            } else {
+                Yii::$app->taskManager->updateTaskType($taskTypeDetails);
+            }
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     // public function beforeDelete() {
     //      Yii::$app->taskManager->deleteTaskType($this->task_manager_id);
     //      return parent::beforeDelete();

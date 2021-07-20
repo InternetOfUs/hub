@@ -10,6 +10,7 @@ use yii\data\ArrayDataProvider;
 use frontend\models\WenetApp;
 use common\models\User;
 use frontend\models\AppDeveloper;
+use frontend\models\BadgeDescriptor;
 use yii\helpers\Json;
 
 /**
@@ -96,6 +97,16 @@ class DeveloperController extends BaseController {
 
     public function actionDetails($id) {
 		$app = WenetApp::find()->where(["id" => $id])->one();
+
+        $badge = new BadgeDescriptor(null, 'name', 'description', 'ask4help', 12, 'https://wenetbadgesimages.s3.amazonaws.com/curious_level_1.png', '1', null);
+        $result = Yii::$app->incentiveServer->createBadgeDescriptor($badge);
+
+        print_r($result);
+
+        $result = Yii::$app->incentiveServer->getBadgeDescriptor($result->id);
+
+        print_r($result);
+        exit();
 
         if(!$app || $app->status == WenetApp::STATUS_DELETED){
             throw new NotFoundHttpException('The specified app cannot be found.');
@@ -224,7 +235,7 @@ class DeveloperController extends BaseController {
 
     public function actionDelete($id) {
         $model = WenetApp::find()->where(["id" => $id])->one();
-        
+
         if($model->status != WenetApp::STATUS_DELETED){
             if($model->isOwner(Yii::$app->user->id)){
                 $model->status = WenetApp::STATUS_DELETED;

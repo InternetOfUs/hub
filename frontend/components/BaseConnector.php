@@ -62,7 +62,7 @@ class BaseConnector extends Component {
             curl_close($ch);
 
             if (\in_array($status, [200, 201, 202, 203, 204])) {
-                return $result;
+                return Json::decode($result);
             } else {
                 $log = 'Received error response with ['.$status.'] for POST query to ['.$url.']: '.$result;
                 Yii::warning($log);
