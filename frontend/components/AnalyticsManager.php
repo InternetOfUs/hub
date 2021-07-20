@@ -94,6 +94,23 @@ class AnalyticsManager {
             'new' => $this->get($appId, 'user', 'u:new', $timespan)->result->count,
             'active' => $this->get($appId, 'user', 'u:active', $timespan)->result->count,
             'engaged' => $this->get($appId, 'user', 'u:engaged', $timespan)->result->count,
+            'gender' => [
+                'male' => 5,
+                'female' => 10,
+                'non-binary' => 15,
+                'in-another-way' => 20,
+                'prefer-not-to-say' => 25,
+                'unavailable' => 6
+            ],
+            'age' => [
+                '0-18' => 5,
+                '19-25' => 10,
+                '26-35' => 15,
+                '36-45' => 20,
+                '46-55' => 25,
+                '55+' => 5,
+                'unavailable' => 1
+            ]
         ];
     }
 

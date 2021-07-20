@@ -4,13 +4,13 @@
     $pieData = [];
     $labelData = [];
     $number = 0;
-    foreach ($data['distribution'] as $i => $element ) {
+    foreach ($data as $i => $element ) {
         if($number >= count($colors)){ $number = 0; }
         $pieData[] = ['y' => $element, 'color' => $colors[$number]];
 
         $labelData[] = [
             'number' => $element,
-            'perc' => $data['new'] > 0 ? round($element * 100 / $data['new'], 0) : 0,
+            'perc' => $data_new > 0 ? round($element * 100 / $data_new, 0) : 0,
             'label' => $i,
             'color' => $colors[$number]
         ];
