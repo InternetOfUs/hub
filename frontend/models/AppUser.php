@@ -84,8 +84,8 @@ class AppUser extends \yii\db\ActiveRecord
 
     public static function listForApp($appId, $fromTs=NULL, $toTs=NULL) {
         if ($fromTs && $toTs) {
-            $sql = 'select * from app_user where created_at >= :fromTs and created_at <= :toTs;';
-            return AppUser::findBySql($sql, [':fromTs' => $fromTs, ':toTs' => $toTs])->all();
+            $sql = 'select * from app_user where created_at >= :fromTs and created_at <= :toTs and app_id = :appId;';
+            return AppUser::findBySql($sql, [':fromTs' => $fromTs, ':toTs' => $toTs, ':appId' => $appId])->all();
         } else {
             return AppUser::find()->where(['app_id' => $appId])->all();
         }
