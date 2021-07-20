@@ -970,6 +970,9 @@ div.stats_boxes{
     flex-wrap: wrap;
 }
 
+div.stats_boxes div.three_boxes{width: 32%;}
+div.stats_boxes div.two_boxes{width: 49%;}
+
 p.helper_text.hide{display: none;}
 
 span.big_number{
@@ -979,11 +982,6 @@ span.big_number{
 }
 
 p.totals{text-align: center;}
-
-div.user_boxes > div,
-div.tasks_boxes > div,
-div.messages_boxes > div{width: 32%;}
-div.transactions_boxes > div{width: 49%;}
 
 /* graphs */
 div.donut_data_container {
