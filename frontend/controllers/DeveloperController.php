@@ -2,16 +2,18 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\data\ArrayDataProvider;
-use frontend\models\WenetApp;
 use common\models\User;
+use frontend\components\AnalyticsManager;
+use frontend\models\WenetApp;
 use frontend\models\AppDeveloper;
 use frontend\models\BadgeDescriptor;
-use yii\helpers\Json;
+use frontend\models\analytics\AnalyticDescription;
 
 /**
  * Developer controller
@@ -95,26 +97,34 @@ class DeveloperController extends BaseController {
 		));
     }
 
-    public function actionDetails($id) {
+    public function actionDetails($id, $filter='7d', $tab='settings') {
 		$app = WenetApp::find()->where(["id" => $id])->one();
 
-        $badge = new BadgeDescriptor(null, 'name', 'description', 'ask4help', 12, 'https://wenetbadgesimages.s3.amazonaws.com/curious_level_1.png', '1', null);
-        $result = Yii::$app->incentiveServer->createBadgeDescriptor($badge);
-
-        print_r($result);
-
-        $result = Yii::$app->incentiveServer->getBadgeDescriptor($result->id);
-
-        print_r($result);
-        exit();
+        // $badge = new BadgeDescriptor(null, 'name', 'description', 'ask4help', 12, 'https://wenetbadgesimages.s3.amazonaws.com/curious_level_1.png', '1', null);
+        // $result = Yii::$app->incentiveServer->createBadgeDescriptor($badge);
+        //
+        // print_r($result);
+        //
+        // $result = Yii::$app->incentiveServer->getBadgeDescriptor($result->id);
+        //
+        // print_r($result);
+        // exit();
 
         if(!$app || $app->status == WenetApp::STATUS_DELETED){
             throw new NotFoundHttpException('The specified app cannot be found.');
 		} else {
             if($app->isDeveloper()){
                 $appDevelopers = AppDeveloper::find()->where(["app_id" => $id])->all();
+
+                $analyticManager = new AnalyticsManager;
+                $analyticManager->createAnalyticsIfMissing($app->id);
+                $statsData = $analyticManager->prepareData($app->id, '1d');
+
                 return $this->render('details', array(
                     'app' => $app,
+                    'statsData' => $statsData,
+                    'tab' => $tab,
+                    'filter' => $filter,
                     'appDevelopers' => $appDevelopers,
                 ));
             } else {
