@@ -2,7 +2,7 @@
 namespace frontend\models;
 
 
-class AppBadgeDetails {
+class BadgeDescriptor {
 
     public $id;
     public $name;
@@ -37,14 +37,14 @@ class AppBadgeDetails {
         if (array_key_exists('label', $rawData)) {
             $label = $rawData['label'];
         }
-        return new TaskTypeDetails(
+        return new BadgeDescriptor(
             $rawData['id'],
             $rawData['name'],
             $rawData['description'],
             $rawData['taskTypeId'],
             $rawData['threshold'],
             $rawData['image'],
-            $rawData['appId'],
+            $rawData['app'],
             $label
         );
     }
@@ -56,7 +56,7 @@ class AppBadgeDetails {
             'taskTypeId' => $this->taskTypeId,
             'threshold' => $this->threshold,
             'image' => $this->image,
-            'appId' => $this->appId,
+            'app' => $this->appId,
         ];
         if ($this->id) {
             $repr['id'] = $this->id;
@@ -64,6 +64,17 @@ class AppBadgeDetails {
         if ($this->label) {
             $repr['label'] = $this->label;
         }
+        return $repr;
+    }
+
+    public function toUpdateRepr() {
+        $repr = [
+            'name' => $this->name,
+            'description' => $this->description,
+            'threshold' => $this->threshold,
+            'image' => $this->image,
+            'app' => $this->appId,
+        ];
         return $repr;
     }
 

@@ -8,6 +8,7 @@ use Yii;
  * This is the model class for table "app_badge".
  *
  * @property int $id
+ * @property string $app_id
  * @property int $creator_id
  * @property string $incentive_server_id
  * @property int $created_at
@@ -21,7 +22,6 @@ class AppBadge extends \yii\db\ActiveRecord
     public $taskTyperId;
     public $threshold;
     public $image;
-    public $appId;
     public $label;
 
     /**
@@ -38,7 +38,7 @@ class AppBadge extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['creator_id'], 'required'],
+            [['creator_id', 'app_id'], 'required'],
             [['creator_id', 'created_at', 'updated_at'], 'integer'],
             [['incentive_server_id'], 'string', 'max' => 256],
         ];
@@ -51,6 +51,7 @@ class AppBadge extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'app_id' => 'App ID',
             'creator_id' => 'Creator ID',
             'incentive_server_id' => 'Incentive Server ID',
             'created_at' => 'Created At',
@@ -59,14 +60,14 @@ class AppBadge extends \yii\db\ActiveRecord
     }
 
     public function details() {
-        $details = new AppBadgeDetails(
+        $details = new BadgeDescriptor(
             $this->incentive_server_id,
             $this->name,
             $this->description,
             $this->taskTypeId,
             $this->threshold,
             $this->image,
-            $this->appId,
+            $this->app_id,
             $this->label
         );
 
