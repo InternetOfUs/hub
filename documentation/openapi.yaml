@@ -175,13 +175,13 @@ paths:
             type: string
           required: true
           description: The id of the target application
-        - in: path
+        - in: query
           name: fromTs
           schema:
             type: integer
           required: false
           description: The lower bound epoch timestamp that can be used for filtering the results
-        - in: path
+        - in: query
           name: toTs
           schema:
             type: integer
