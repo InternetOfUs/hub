@@ -15,6 +15,15 @@ use Yii;
  */
 class AppBadge extends \yii\db\ActiveRecord
 {
+
+    public $name;
+    public $description;
+    public $taskTyperId;
+    public $threshold;
+    public $image;
+    public $appId;
+    public $label;
+
     /**
      * {@inheritdoc}
      */
@@ -48,4 +57,57 @@ class AppBadge extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
+
+    public function details() {
+        $details = new AppBadgeDetails(
+            $this->incentive_server_id,
+            $this->name,
+            $this->description,
+            $this->taskTypeId,
+            $this->threshold,
+            $this->image,
+            $this->appId,
+            $this->label
+        );
+
+        return $details;
+    }
+
+    // public function beforeSave($insert) {
+    //     if (parent::beforeSave($insert)) {
+    //
+    //         $taskTypeDetails = $this->details();
+    //
+    //         if (!$this->task_manager_id) {
+    //             $id = Yii::$app->taskManager->createTaskType($taskTypeDetails);
+    //             $this->task_manager_id = $id;
+    //         } else {
+    //             Yii::$app->taskManager->updateTaskType($taskTypeDetails);
+    //         }
+    //
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+    //
+    // public function beforeDelete() {
+    //      Yii::$app->taskManager->deleteTaskType($this->task_manager_id);
+    //      return parent::beforeDelete();
+    // }
+    //
+    // public function afterFind() {
+    //
+    //     parent::afterFind();
+    //
+    //     $details = Yii::$app->taskManager->getTaskType($this->task_manager_id);
+    //
+    //     $this->name = $details->name;
+    //     $this->description = $details->description;
+    //     $this->keywords = $details->keywords ? $details->keywords : [];
+    //     $this->attributes = json_encode($details->attributes, JSON_FORCE_OBJECT);
+    //     $this->transactions = json_encode($details->transactions, JSON_FORCE_OBJECT);
+    //     $this->callbacks = json_encode($details->callbacks, JSON_FORCE_OBJECT);
+    //     $this->norms = $details->norms ? JSON::encode($details->norms) : '[]';
+    // }
 }
