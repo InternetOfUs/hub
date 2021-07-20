@@ -77,13 +77,13 @@ class AppBadge extends \yii\db\ActiveRecord
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
 
-            $taskTypeDetails = $this->details();
+            $descriptor = $this->details();
 
-            if (!$this->task_manager_id) {
-                $id = Yii::$app->taskManager->createTaskType($taskTypeDetails);
-                $this->task_manager_id = $id;
+            if (!$this->incentive_server_id) {
+                $id = Yii::$app->incentiveServer->createBadgeDescriptor($descriptor);
+                $this->incentive_server_id = $id;
             } else {
-                Yii::$app->taskManager->updateTaskType($taskTypeDetails);
+                Yii::$app->incentiveServer->updateBadgeDescriptor($descriptor);
             }
 
             return true;
@@ -92,23 +92,22 @@ class AppBadge extends \yii\db\ActiveRecord
         }
     }
 
-    // public function beforeDelete() {
-    //      Yii::$app->taskManager->deleteTaskType($this->task_manager_id);
-    //      return parent::beforeDelete();
-    // }
-    //
-    // public function afterFind() {
-    //
-    //     parent::afterFind();
-    //
-    //     $details = Yii::$app->taskManager->getTaskType($this->task_manager_id);
-    //
-    //     $this->name = $details->name;
-    //     $this->description = $details->description;
-    //     $this->keywords = $details->keywords ? $details->keywords : [];
-    //     $this->attributes = json_encode($details->attributes, JSON_FORCE_OBJECT);
-    //     $this->transactions = json_encode($details->transactions, JSON_FORCE_OBJECT);
-    //     $this->callbacks = json_encode($details->callbacks, JSON_FORCE_OBJECT);
-    //     $this->norms = $details->norms ? JSON::encode($details->norms) : '[]';
-    // }
+    public function beforeDelete() {
+         Yii::$app->incentiveServer->deleteBadgeDescriptor($this->incentive_server_id);
+         return parent::beforeDelete();
+    }
+
+    public function afterFind() {
+
+        parent::afterFind();
+
+        $descriptor = Yii::$app->incentiveServer->getBadgeDescriptor($this->incentive_server_id);
+
+        $this->name = $descriptor->name;
+        $this->description = $descriptor->description;
+        $this->taskTypeId = $descriptor->taskTypeId;
+        $this->threshold = $descriptor->threshold;
+        $this->image = $descriptor->image;
+        $this->label = $descriptor->label;
+    }
 }
