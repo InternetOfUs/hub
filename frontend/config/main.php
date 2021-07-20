@@ -103,6 +103,11 @@ return [
             'baseUrl' => $params['task.manager.base.url'],
             'apikey' => $params['hub.apikey'],
         ],
+        'loggingComponent' => [
+            'class' => 'frontend\components\LoggingComponentConnector',
+            'baseUrl' => $params['logging.component.base.url'],
+            'apikey' => $params['hub.apikey'],
+        ],
         'kongConnector' => [
             'class' => 'frontend\components\KongConnector',
             'internalBaseUrl' => $params['kong.internal.url'],

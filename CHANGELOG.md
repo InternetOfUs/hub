@@ -10,6 +10,7 @@
 * Authorisation steps enforced on the task type actions and app managing actions.
 * Updated layout of developer section.
 * Limited the length of the displayed app description in the public app section page.
+* Updated the endpoint for requesting the list an application's users. It is now possible to filter the results in time by specifying _fromTs_ and _toTs_ parameters.
 
 ### 1.2.5
 

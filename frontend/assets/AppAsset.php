@@ -14,7 +14,11 @@ class AppAsset extends AssetBundle {
     public $baseUrl = '@web';
     public $css = [];
     public $js = [
-        'js/isotope.pkgd.min.js'
+        'js/isotope.pkgd.min.js',
+        'https://code.highcharts.com/highcharts.js',
+        'https://code.highcharts.com/highcharts-more.js',
+        'https://code.highcharts.com/modules/solid-gauge.js',
+        'https://code.highcharts.com/modules/variable-pie.js',
     ];
     public $jsOptions = [
         'position' => \yii\web\View::POS_HEAD
@@ -30,7 +34,9 @@ class AppAsset extends AssetBundle {
         'css/responsive.css',
     ];
 
-    private $localJs = [];
+    private $localJs = [
+        'js/basicGraphs.js'
+    ];
 
     public function init() {
     	parent::init();
