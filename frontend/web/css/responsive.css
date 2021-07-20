@@ -8,6 +8,10 @@
         padding: 0px 15px 50px 0;
     }
     div.badges_container div.badge_item{width: 33%;}
+    div.user_boxes > div,
+    div.tasks_boxes > div,
+    div.messages_boxes > div{width: 49%;}
+    div.transactions_boxes > div {width: 100%;}
 }
 
 @media screen and (max-width: 767px){
@@ -77,5 +81,8 @@
         width: 100%;
     }
     a.user_apps{width: 100% !important;}
-        div.badges_container div.badge_item{width: 100%;}
+    div.badges_container div.badge_item{width: 100%;}
+    div.user_boxes > div,
+    div.tasks_boxes > div,
+    div.messages_boxes > div{width: 100%;}
 }

@@ -63,6 +63,7 @@ return [
     'Settings' => '',
     'Sign up' => '',
     'Signup' => '',
+    'Stats' => '',
     'Task type ID' => '',
     'Update app' => '',
     'Update app logic' => '',

@@ -76,6 +76,7 @@ return [
     'My apps' => '',
     'Name' => '',
     'Settings' => '',
+    'Stats' => '',
     'Task type ID' => '',
     'Update app logic' => '',
     'Update date' => '',

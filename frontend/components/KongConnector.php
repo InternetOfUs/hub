@@ -23,8 +23,7 @@ class KongConnector extends BaseConnector {
             'username' => self::consumerUsername($appId),
         ];
         try {
-            $result = $this->post($url, $this->authHeaders(), $data);
-            $response = Json::decode($result);
+            $response = $this->post($url, $this->authHeaders(), $data);
             if (isset($response['id'])) {
                 return $response['id'];
             } else {
@@ -56,8 +55,7 @@ class KongConnector extends BaseConnector {
             'redirect_uris' => [$redirectUrl],
         ];
         try {
-            $result = $this->post($url, $this->authHeaders(), $data);
-            $response = Json::decode($result);
+            $response = $this->post($url, $this->authHeaders(), $data);
             if (isset($response['id'])) {
                 return $response['id'];
             } else {
@@ -90,8 +88,7 @@ class KongConnector extends BaseConnector {
             'authenticated_userid' => ''.$userId,
         ];
         try {
-            $result = $this->post($url, $this->authHeaders(), $data);
-            $response = Json::decode($result);
+            $response = $this->post($url, $this->authHeaders(), $data);
             if (isset($response['redirect_uri'])) {
                 return $response['redirect_uri'];
             } else {
