@@ -7,7 +7,7 @@ class BadgeDescriptor {
     public $id;
     public $name;
     public $description;
-    public $taskTyperId;
+    public $taskTypeId;
     public $threshold;
     public $image;
     public $appId;

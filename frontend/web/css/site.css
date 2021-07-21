@@ -1013,8 +1013,26 @@ div.donut_data_container div.data_container > span {
     text-align: left;
 }
 
+/* managee badges */
+div#appbadge-image{margin-top: 15px;}
 
+div#appbadge-image label{
+    display: inline-flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 30%;
+}
 
+div.badge_image{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    margin-left: 10px;
+    height: 65px;
+    width: 65px;
+}
 
 
 

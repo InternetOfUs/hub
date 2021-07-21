@@ -14,12 +14,11 @@ use Yii;
  * @property int $created_at
  * @property int $updated_at
  */
-class AppBadge extends \yii\db\ActiveRecord
-{
+class AppBadge extends \yii\db\ActiveRecord {
 
     public $name;
     public $description;
-    public $taskTyperId;
+    public $taskTypeId;
     public $threshold;
     public $image;
     public $label;
@@ -27,18 +26,16 @@ class AppBadge extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'app_badge';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['creator_id', 'app_id'], 'required'],
+            [['name', 'description', 'taskTypeId', 'threshold', 'image', 'label', 'creator_id', 'app_id'], 'required'],
             [['creator_id', 'created_at', 'updated_at'], 'integer'],
             [['incentive_server_id'], 'string', 'max' => 256],
         ];
@@ -47,15 +44,29 @@ class AppBadge extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
+            'label' => Yii::t('badge', 'Transaction label'),
             'id' => 'ID',
             'app_id' => 'App ID',
             'creator_id' => 'Creator ID',
             'incentive_server_id' => 'Incentive Server ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+        ];
+    }
+
+    public static function badgeFiles() {
+        return [
+            '/images/badges/medals/first_question.png' => '/images/badges/medals/first_question.png',
+            '/images/badges/medals/curious_level_1.png' => '/images/badges/medals/curious_level_1.png',
+            '/images/badges/medals/curious_level_2.png' => '/images/badges/medals/curious_level_2.png',
+            '/images/badges/medals/fisrt_answer.png' => '/images/badges/medals/fisrt_answer.png',
+            '/images/badges/medals/helper_level_1.png' => '/images/badges/medals/helper_level_1.png',
+            '/images/badges/medals/helper_level_2.png' => '/images/badges/medals/helper_level_2.png',
+            '/images/badges/medals/first_good_answer.png' => '/images/badges/medals/first_good_answer.png',
+            '/images/badges/medals/good_answer_level_1.png' => '/images/badges/medals/good_answer_level_1.png',
+            '/images/badges/medals/good_answer_level_2.png' => '/images/badges/medals/good_answer_level_2.png',
         ];
     }
 
@@ -80,8 +91,11 @@ class AppBadge extends \yii\db\ActiveRecord
             $descriptor = $this->details();
 
             if (!$this->incentive_server_id) {
-                $id = Yii::$app->incentiveServer->createBadgeDescriptor($descriptor);
-                $this->incentive_server_id = $id;
+                // print_r($this);
+                $descriptor = Yii::$app->incentiveServer->createBadgeDescriptor($descriptor);
+                print_r($descriptor);
+                exit();
+                $this->incentive_server_id = $descriptor->id;
             } else {
                 Yii::$app->incentiveServer->updateBadgeDescriptor($descriptor);
             }
