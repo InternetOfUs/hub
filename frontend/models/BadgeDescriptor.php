@@ -53,9 +53,11 @@ class BadgeDescriptor {
         $repr = [
             'name' => $this->name,
             'description' => $this->description,
-            'taskTypeId' => $this->taskTypeId,
-            'threshold' => $this->threshold,
-            'image' => $this->image,
+            'taskTypeId' => ''.$this->taskTypeId,
+            'threshold' => intval($this->threshold),
+            // TODO should make sure that an https image is present, else an error is given by the incentive server
+            // 'image' => $this->image,
+            'image' => 'https://upload.wikimedia.org/wikipedia/commons/3/33/Cartoon_space_rocket.png',
             'app' => $this->appId,
         ];
         if ($this->id) {

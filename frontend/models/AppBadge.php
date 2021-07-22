@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "app_badge".
@@ -36,8 +37,18 @@ class AppBadge extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['name', 'description', 'taskTypeId', 'threshold', 'image', 'label', 'creator_id', 'app_id'], 'required'],
-            [['creator_id', 'created_at', 'updated_at'], 'integer'],
+            [['creator_id', 'created_at', 'updated_at', 'threshold'], 'integer'],
             [['incentive_server_id'], 'string', 'max' => 256],
+        ];
+    }
+
+    public function behaviors() {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+            ],
         ];
     }
 
@@ -93,8 +104,8 @@ class AppBadge extends \yii\db\ActiveRecord {
             if (!$this->incentive_server_id) {
                 // print_r($this);
                 $descriptor = Yii::$app->incentiveServer->createBadgeDescriptor($descriptor);
-                print_r($descriptor);
-                exit();
+                // print_r($descriptor);
+                // exit();
                 $this->incentive_server_id = $descriptor->id;
             } else {
                 Yii::$app->incentiveServer->updateBadgeDescriptor($descriptor);

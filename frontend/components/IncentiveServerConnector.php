@@ -62,19 +62,12 @@ class IncentiveServerConnector extends PlatformConnector {
      * @return BadgeDescriptor             The update badge descriptor associated to an id
      */
     public function createBadgeDescriptor(BadgeDescriptor $descriptor) {
-        if ($descriptor->isTaskBadge()) {
-            return $this->createTaskBadgeDescriptor($descriptor);
-        } else {
-            return $this->createTransactionBadgeDescriptor($descriptor);
-        }
-    }
-
-    private function createTaskBadgeDescriptor(BadgeDescriptor $descriptor) {
-        $url = $this->baseUrl . "/badges/BadgeClasses/TaskType";
         try {
-            $response = $this->post($url, $this->authHeaders(), $descriptor->toRepr());
-            $descriptor->id = $response['entityId'];
-            return $descriptor;
+            if ($descriptor->isTaskBadge()) {
+                return $this->createTaskBadgeDescriptor($descriptor);
+            } else {
+                return $this->createTransactionBadgeDescriptor($descriptor);
+            }
         } catch (\Exception $e) {
             $log = "Something went wrong while creating badge descriptor for task: $e";
             Yii::error($log, 'wenent.connector.incentive_server');
@@ -82,17 +75,18 @@ class IncentiveServerConnector extends PlatformConnector {
         }
     }
 
+    private function createTaskBadgeDescriptor(BadgeDescriptor $descriptor) {
+        $url = $this->baseUrl . "/badges/BadgeClasses/TaskType";
+        $response = $this->post($url, $this->authHeaders(), $descriptor->toRepr());
+        $descriptor->id = $response['entityId'];
+        return $descriptor;
+    }
+
     private function createTransactionBadgeDescriptor(BadgeDescriptor $descriptor) {
         $url = $this->baseUrl . "/badges/BadgeClasses/TaskTransaction";
-        try {
-            $response = $this->post($url, $this->authHeaders(), $descriptor->toRepr());
-            $descriptor->id = $response['entityId'];
-            return $descriptor;
-        } catch (\Exception $e) {
-            $log = "Something went wrong while creating badge descriptor for transaction: $e";
-            Yii::error($log, 'wenent.connector.incentive_server');
-            return null;
-        }
+        $response = $this->post($url, $this->authHeaders(), $descriptor->toRepr());
+        $descriptor->id = $response['entityId'];
+        return $descriptor;
     }
 
     public function getBadgeDescriptor($id) {
