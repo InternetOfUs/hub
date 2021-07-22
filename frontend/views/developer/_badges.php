@@ -13,112 +13,71 @@
             <?php echo Yii::t('badge', 'Create a badge'); ?>
         </a>
 
-        <?php echo GridView::widget([
-            'id' => 'developer_apps_grid',
-            'layout' => "{items}\n{summary}\n{pager}",
-            'dataProvider' => $appBadges,
-            'columns' => [
-                'image',
-                'name',
-                'description',
-                'label',
-                'threshold',
-                // [
-                //     'attribute' => 'status',
-                //     'format' => 'raw',
-                //     'value' => function ($data) {
-                //         if($data->status == WenetApp::STATUS_NOT_ACTIVE){
-                //             return '<span class="status_icon not_active"><i class="fa fa-pause-circle-o" aria-hidden="true"></i></span>';
-                //         } else if($data->status == WenetApp::STATUS_ACTIVE){
-                //             return '<span class="status_icon active"><i class="fa fa-check-circle-o" aria-hidden="true"></i></span>';
-                //         }
-                //     },
-                // ],
-                // [
-                //     'attribute' => 'name',
-                //     'format' => 'raw',
-                //     'value' => function ($data) {
-                //         if($data->image_url != null){
-                //             return '<div class="app_icon_image small_icon" style="background-image: url('.$data->image_url.')"></div>' .
-                //             '<span>' . $data->name .'</span>';
-                //         } else {
-                //             return '<div class="app_icon small_icon"><span>' . strtoupper($data->name[0]) .'</span></div>' .
-                //             '<span>' . $data->name .'</span>';
-                //         }
-                //     },
-                // ],
-                // [
-                //     'label' => Yii::t('app', 'Links'),
-                //     'format' => 'raw',
-                //     'value' => function ($data) {
-                //         if($data->hasActiveSourceLinksForApp()){
-                //             return '<ul class="source_links_list table_view">' . implode(array_map(function($sl){
-                //                 return '<li><img src="'.Url::base().'/images/platforms/'.$sl.'.png" alt="'.Yii::t('app', 'Source link image').'"></li>';
-                //             }, $data->getActiveSourceLinksForApp()), '') . '</ul>';
-                //         } else {
-                //             return '<span class="not_set">'.Yii::t('app', 'to be configured').'</span>';
-                //         }
-                //     },
-                // ],
-                // [
-                //     'attribute' => 'categories',
-                //     'format' => 'raw',
-                //     'value' => function ($data) {
-                //         return '<ul class="tags_list">' . implode(array_map(function($category){
-                //             return '<li>' . $category . '</li>';
-                //         }, $data->associatedCategories), '') . '</ul>';
-                //     },
-                // ],
-                // [
-                //     'label' => Yii::t('app', 'OAuth2'),
-                //     'format' => 'raw',
-                //     'value' => function ($data) {
-                //         if($data->hasSocialLogin()){
-                //             return '<i class="fa fa-check" aria-hidden="true"></i>';
-                //         } else {
-                //             return '<span class="not_set">'.Yii::t('app', 'to be configured').'</span>';
-                //         }
-                //     },
-                // ],
-                [
-                    'headerOptions' => [
-                        'class' => 'action-column',
-                    ],
-                    'class' => ActionColumn::className(),
-                    'template' => '{update} {delete}',
-                    'visibleButtons' => [
-                        'update' => function () {
-                            if($app->status == WenetApp::STATUS_ACTIVE){
-                                return false;
-                            } else {
-                                return true;
-                            }
-                        },
-                        'delete' => function () {
-                            if($app->status == WenetApp::STATUS_ACTIVE){
-                                return false;
-                            } else {
-                                return true;
-                            }
+        <?php
+            echo GridView::widget([
+                'id' => 'badge_apps_grid',
+                'layout' => "{items}\n{summary}\n{pager}",
+                'dataProvider' => $appBadges,
+                'columns' => [
+                    [
+                        'attribute' => 'image',
+                        'format' => 'raw',
+                        'value' => function ($data) {
+                            return '<div class="badge_image" style="background-image:url('.$data->image.')";></div>';
                         },
                     ],
-                    'buttons'=>[
-                        'update' => function ($url, $model) {
-                            $url = Url::to(['/developer/update', 'id' => $model->id]);
-                            return Html::a('<span class="actionColumn_btn"><i class="fa fa-pencil"></i></span>', $url, [
-                                'title' => Yii::t('common', 'edit'),
-                            ]);
+                    [
+                        'attribute' => 'name',
+                        'header' => Yii::t('badge', 'Name (Incentive Server ID)'),
+                        'format' => 'raw',
+                        'value' => function ($data) {
+                            return '<span style="display:block;margin:0 0 5px 0;">'.$data->name.'</span><pre>'.$data->incentive_server_id.'</pre>';
                         },
-                        'delete' => function ($url, $model) {
-                            $url = Url::to(['/developer/delete', 'id' => $model->id]);
-                            return Html::a('<span class="actionColumn_btn delete_btn open_modal"><i class="fa fa-trash"></i></span>', $url, [
-                                'title' => Yii::t('common', 'delete'),
-                            ]);
-                        }
+                    ],
+                    'description',
+                    [
+                        'attribute' => 'label',
+                        'format' => 'raw',
+                        'value' => function ($data) {
+                            return '<pre>'.$data->label.'</pre>';
+                        },
+                    ],
+                    [
+                        'attribute' => 'threshold',
+                        'format' => 'raw',
+                        'value' => function ($data) {
+                            return '<span style="display:block;text-align:center;">'.$data->threshold.'</span>';
+                        },
+                    ],
+                    [
+                        'headerOptions' => [
+                            'class' => 'action-column',
+                        ],
+                        'class' => ActionColumn::className(),
+                        'visible' => $app->status != WenetApp::STATUS_ACTIVE,
+                        'template' => '{update} {delete}',
+                        'buttons'=>[
+                            'update' => function ($url, $model) {
+                                $url = Url::to(['/developer/update', 'id' => $model->id]);
+                                return Html::a('<span class="actionColumn_btn"><i class="fa fa-pencil"></i></span>', $url, [
+                                    'title' => Yii::t('common', 'edit'),
+                                ]);
+                            },
+                            'delete' => function ($url, $model) {
+                                $url = Url::to(['/developer/delete', 'id' => $model->id]);
+                                return Html::a('<span class="actionColumn_btn delete_btn open_modal"><i class="fa fa-trash"></i></span>', $url, [
+                                    'title' => Yii::t('common', 'delete'),
+                                ]);
+                            }
+                        ]
                     ]
                 ]
-            ]
-        ]); ?>
-        <?php echo Yii::$app->controller->renderPartial('../_delete_modal', ['title' => Yii::t('badge', 'Delete badge')]); ?>
+            ]);
+        ?>
+        <?php
+            if($app->status != WenetApp::STATUS_ACTIVE){
+                echo Yii::$app->controller->renderPartial('../_delete_modal', ['title' => Yii::t('badge', 'Delete badge')]);
+            }
+        ?>
     </div>
 </div>

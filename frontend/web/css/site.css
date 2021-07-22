@@ -66,6 +66,7 @@ ol li{
 }
 
 ol li pre{margin: 10px 0 20px 0;}
+table pre{margin: 0px;}
 
 ul{list-style-type: none;}
 
@@ -1013,7 +1014,15 @@ div.donut_data_container div.data_container > span {
     text-align: left;
 }
 
-/* managee badges */
+/* manage badges */
+div.badge_image{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    height: 65px;
+    width: 65px;
+}
+
 div#appbadge-image{margin-top: 15px;}
 
 div#appbadge-image label{
@@ -1025,13 +1034,8 @@ div#appbadge-image label{
     width: 30%;
 }
 
-div.badge_image{
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
+div#appbadge-image label div.badge_image{
     margin-left: 10px;
-    height: 65px;
-    width: 65px;
 }
 
 

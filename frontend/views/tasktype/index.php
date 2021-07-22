@@ -42,7 +42,7 @@
                     'header' => Yii::t('tasktype', 'Name (Task type ID)'),
                     'format' => 'raw',
                     'value' => function ($data) {
-                        return '<strong>'.$data->name.'</strong><br>'.$data->task_manager_id.'';
+                        return '<span style="display:block;margin:0 0 5px 0;">'.$data->name.'</span><pre>'.$data->task_manager_id.'</pre>';
                     },
                 ],
                 'description',

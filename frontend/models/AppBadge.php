@@ -135,4 +135,9 @@ class AppBadge extends \yii\db\ActiveRecord {
         $this->image = $descriptor->image;
         $this->label = $descriptor->label;
     }
+
+
+    public function getWenetApp() {
+        return $this->hasOne(WenetApp::className(), ['id' => 'app_id']);
+    }
 }
