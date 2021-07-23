@@ -94,19 +94,19 @@ class BadgeController extends BaseController {
         $model = AppBadge::find()->where(["id" => $id])->one();
 
         if($model){
-            // if($model->isDeveloper(Yii::$app->user->id)){
+            if($model->wenetApp->isDeveloper(Yii::$app->user->id)){
                 if ($model->delete()) {
                     Yii::$app->session->setFlash('success', Yii::t('badge', 'Badge successfully deleted.'));
                 } else {
                     Yii::$app->session->setFlash('error', Yii::t('badge', 'Could not delete badge.'));
                 }
                 return $this->redirect(['developer/details', 'id' => $appId, 'tab' => 'badges']);
-            // } else {
-            //     return $this->render('/site/error', array(
-            //         'message' => Yii::t('common', 'You are not authorised to perform this action.'),
-            //         'name' => Yii::t('common', 'Error')
-            //     ));
-            // }
+            } else {
+                return $this->render('/site/error', array(
+                    'message' => Yii::t('common', 'You are not authorised to perform this action.'),
+                    'name' => Yii::t('common', 'Error')
+                ));
+            }
         } else {
             Yii::$app->session->setFlash('error', Yii::t('badge', 'The badge you are trying to delete does not exist.'));
             return $this->redirect(['developer/details', 'id' => $appId, 'tab' => 'badges']);

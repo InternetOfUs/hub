@@ -4,6 +4,7 @@
     use yii\helpers\Url;
     use yii\helpers\Html;
     use frontend\models\WenetApp;
+    use frontend\models\AppBadge;
 ?>
 
 <div class="row">
@@ -27,19 +28,35 @@
                         },
                     ],
                     [
-                        'attribute' => 'name',
-                        'header' => Yii::t('badge', 'Name (Incentive Server ID)'),
+                        'header' => Yii::t('badge', 'Name, Description'),
                         'format' => 'raw',
                         'value' => function ($data) {
-                            return '<span style="display:block;margin:0 0 5px 0;">'.$data->name.'</span><pre>'.$data->incentive_server_id.'</pre>';
+                            $description = $data->description;
+                            if(strlen($description) > 110){
+                                $description = substr($data->description, 0, 110).'...';
+                            }
+                            return '<p><strong>'.$data->name.'</strong><br>'.$description.'</p>';
                         },
                     ],
-                    'description',
                     [
-                        'attribute' => 'label',
+                        'header' => Yii::t('badge', 'Incentive Serveer ID'),
                         'format' => 'raw',
                         'value' => function ($data) {
-                            return '<pre>'.$data->label.'</pre>';
+                            return '<pre>'.$data->incentive_server_id.'</pre>';
+                        },
+                    ],
+                    [
+                        'header' => Yii::t('badge', 'Type'),
+                        'format' => 'raw',
+                        'value' => function ($data) {
+                            if($data->details()->isTaskBadge()){
+                                $value = '<span>'.Yii::t('badge', 'Task').'</span>';
+                            } else if ($data->details()->isTransactionBadge()){
+                                $value = '<span style="display:block;margin-bottom:5px;">'.Yii::t('badge', 'Transaction').':</span><pre>'.$data->label.'</pre>';
+                            } else {
+                                $value = '<pre>?</pre>';
+                            }
+                            return $value;
                         },
                     ],
                     [
