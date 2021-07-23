@@ -90,29 +90,27 @@ class BadgeController extends BaseController {
         ));
     }
 
-    // public function actionDelete($id) {
-    //     $model = WenetApp::find()->where(["id" => $id])->one();
-    //
-    //     if($model->status != WenetApp::STATUS_DELETED){
-    //         if($model->isOwner(Yii::$app->user->id)){
-    //             $model->status = WenetApp::STATUS_DELETED;
-    //             if ($model->save()) {
-    //                 Yii::$app->session->setFlash('success', Yii::t('app', 'App successfully deleted.'));
-    //             } else {
-    //                 Yii::$app->session->setFlash('error', Yii::t('app', 'Could not delete app.'));
-    //             }
-    //             return $this->redirect(['index']);
-    //         } else {
-    //             return $this->render('/site/error', array(
-    //                 'message' => Yii::t('common', 'You are not authorised to perform this action.'),
-    //                 'name' => Yii::t('common', 'Error')
-    //             ));
-    //         }
-    //     } else {
-    //         Yii::$app->session->setFlash('error', Yii::t('app', 'The app you are trying to delete does not exist.'));
-    //         return $this->redirect(['index']);
-    //     }
-    //
-    // }
+    public function actionDelete($appId, $id) {
+        $model = AppBadge::find()->where(["id" => $id])->one();
+
+        if($model){
+            // if($model->isDeveloper(Yii::$app->user->id)){
+                if ($model->delete()) {
+                    Yii::$app->session->setFlash('success', Yii::t('badge', 'Badge successfully deleted.'));
+                } else {
+                    Yii::$app->session->setFlash('error', Yii::t('badge', 'Could not delete badge.'));
+                }
+                return $this->redirect(['developer/details', 'id' => $appId, 'tab' => 'badges']);
+            // } else {
+            //     return $this->render('/site/error', array(
+            //         'message' => Yii::t('common', 'You are not authorised to perform this action.'),
+            //         'name' => Yii::t('common', 'Error')
+            //     ));
+            // }
+        } else {
+            Yii::$app->session->setFlash('error', Yii::t('badge', 'The badge you are trying to delete does not exist.'));
+            return $this->redirect(['developer/details', 'id' => $appId, 'tab' => 'badges']);
+        }
+    }
 
 }

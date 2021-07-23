@@ -34,7 +34,7 @@ class BadgeDescriptor {
 
     public static function fromRepr($rawData) {
         $label = NULL;
-        if (array_key_exists('label', $rawData)) {
+        if (array_key_exists('label', $rawData) && $rawData['label'] != "") {
             $label = $rawData['label'];
         }
         return new BadgeDescriptor(
@@ -63,8 +63,10 @@ class BadgeDescriptor {
         if ($this->id) {
             $repr['id'] = $this->id;
         }
-        if ($this->label) {
+        if ($this->label != '') {
             $repr['label'] = $this->label;
+        } else {
+            $repr['label'] = null;
         }
         return $repr;
     }

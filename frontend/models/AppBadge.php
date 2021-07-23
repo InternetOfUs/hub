@@ -36,9 +36,9 @@ class AppBadge extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['name', 'description', 'taskTypeId', 'threshold', 'image', 'label', 'creator_id', 'app_id'], 'required'],
+            [['name', 'description', 'taskTypeId', 'threshold', 'image', 'creator_id', 'app_id'], 'required'],
             [['creator_id', 'created_at', 'updated_at', 'threshold'], 'integer'],
-            [['incentive_server_id'], 'string', 'max' => 256],
+            [['incentive_server_id', 'label'], 'string', 'max' => 256],
         ];
     }
 
@@ -98,6 +98,13 @@ class AppBadge extends \yii\db\ActiveRecord {
 
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
+
+            if($this->label == ""){
+                $this->label = null;
+            }
+            // print_r($this->label);
+            // print_r($this->details());
+            // exit();
 
             $descriptor = $this->details();
 

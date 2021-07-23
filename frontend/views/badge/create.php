@@ -29,6 +29,7 @@
                         foreach ($transactionLabels as $transactionLabel) {
                             $labelData[$transactionLabel] = $transactionLabel;
                         }
+                        $labelData['null'] = Yii::t('badge', 'No transaction label');
 
                         echo $form->field($model, 'label')->widget(Select2::classname(), [
                             'data' => $labelData,
@@ -37,6 +38,7 @@
                                 'multiple' => false
                             ],
                         ]);
+                        // echo '<p style="margin:-10px 0 20px 0;">'.Yii::t('badge', 'transaction label hint').'</p>'; //TODO
                     ?>
                     <?php echo $form->field($model, 'threshold')->textInput(['type' => 'number']); ?>
                 </div>

@@ -58,13 +58,13 @@
                         'template' => '{update} {delete}',
                         'buttons'=>[
                             'update' => function ($url, $model) {
-                                $url = Url::to(['/developer/update', 'id' => $model->id]);
+                                $url = Url::to(['/badge/update', 'id' => $model->id, 'appId' => $model->wenetApp->id]);
                                 return Html::a('<span class="actionColumn_btn"><i class="fa fa-pencil"></i></span>', $url, [
                                     'title' => Yii::t('common', 'edit'),
                                 ]);
                             },
                             'delete' => function ($url, $model) {
-                                $url = Url::to(['/developer/delete', 'id' => $model->id]);
+                                $url = Url::to(['/badge/delete', 'id' => $model->id, 'appId' => $model->wenetApp->id]);
                                 return Html::a('<span class="actionColumn_btn delete_btn open_modal"><i class="fa fa-trash"></i></span>', $url, [
                                     'title' => Yii::t('common', 'delete'),
                                 ]);
