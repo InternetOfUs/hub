@@ -69,7 +69,7 @@ class IncentiveServerConnector extends PlatformConnector {
                 return $this->createTransactionBadgeDescriptor($descriptor);
             }
         } catch (\Exception $e) {
-            $log = "Something went wrong while creating badge descriptor for task: $e";
+            $log = "Something went wrong while creating badge descriptor with id [$descriptor->id]: $e";
             Yii::error($log, 'wenent.connector.incentive_server');
             return null;
         }
@@ -101,15 +101,32 @@ class IncentiveServerConnector extends PlatformConnector {
         }
     }
 
+    /**
+     * Update the definition of an existing badge definition.
+     *
+     * @param  BadgeDescriptor $descriptor The Badge descriptor
+     */
     public function updateBadgeDescriptor(BadgeDescriptor $descriptor) {
-        $url = $this->baseUrl . "/badges/BadgeClasses/$id";
         try {
-            $response = $this->put($url, $this->authHeaders(), $descriptor->toUpdateRepr());
+            if ($descriptor->isTaskBadge()) {
+                $this->updateTaskBadgeDescriptor($descriptor);
+            } else {
+                $this->updateTransactionBadgeDescriptor($descriptor);
+            }
         } catch (\Exception $e) {
-            $log = "Something went wrong while updating badge description for badge [$descriptor->id]: $e";
+            $log = "Something went wrong while updating badge descriptor with id [$descriptor->id]: $e";
             Yii::error($log, 'wenent.connector.incentive_server');
-            return null;
         }
+    }
+
+    private function updateTaskBadgeDescriptor(BadgeDescriptor $descriptor) {
+        $url = $this->baseUrl . "/badges/BadgeClasses/TaskType/$id";
+        $response = $this->put($url, $this->authHeaders(), $descriptor->toUpdateRepr());
+    }
+
+    private function updateTransactionBadgeDescriptor(BadgeDescriptor $descriptor) {
+        $url = $this->baseUrl . "/badges/BadgeClasses/TaskTransaction/$id";
+        $response = $this->put($url, $this->authHeaders(), $descriptor->toUpdateRepr());
     }
 
     public function deleteBadgeDescriptor($id) {
