@@ -25,20 +25,31 @@
                     <?php echo $form->field($model, 'name'); ?>
                     <?php echo $form->field($model, 'description')->textarea(); ?>
                     <?php
-                        $transactionLabels['null'] = Yii::t('badge', 'No transaction label');
-
-                        echo $form->field($model, 'label')->widget(Select2::classname(), [
-                            'data' => $transactionLabels,
-                            'options' => [
-                                'placeholder' => Yii::t('badge', 'Select transaction label ...'),
-                                'multiple' => false
-                            ],
-                        ]);
+                        if($model->details()->isTransactionBadge()){
+                            echo $form->field($model, 'label')->widget(Select2::classname(), [
+                                'data' => $transactionLabels,
+                                'options' => [
+                                    'placeholder' => Yii::t('badge', 'Select transaction label ...'),
+                                    'multiple' => false
+                                ],
+                            ]);
+                        } else if ($model->details()->isTaskBadge()){
+                            echo '<div class="form-group field-appbadge-label">
+                                    <label class="control-label" for="appbadge-label">'.Yii::t('badge', 'Transaction label').'</label>
+                                    <p>'. Yii::t('badge', 'No label') . '</p>
+                                </div>';
+                        }
                         // echo '<p style="margin:-10px 0 20px 0;">'.Yii::t('badge', 'transaction label hint').'</p>'; //TODO
                     ?>
                     <?php echo $form->field($model, 'threshold'); ?>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <?php
+                        echo '<div class="form-group field-appbadge-label">
+                            <label class="control-label" for="appbadge-label">'.Yii::t('badge', 'Incentive Server ID').'</label>
+                            <pre>'. $model->incentive_server_id . '</pre>
+                        </div>';
+                    ?>
                     <?php echo $form->field($model, 'image')->radioList(
                         array_map(function($i) {
                             return '<div class="badge_image" style="background-image:url('.$i.')";></div>';},

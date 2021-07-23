@@ -107,6 +107,7 @@ class IncentiveServerConnector extends PlatformConnector {
      * @param  BadgeDescriptor $descriptor The Badge descriptor
      */
     public function updateBadgeDescriptor(BadgeDescriptor $descriptor) {
+        //  TODO manca un return? qualcosa non funziona!
         try {
             if ($descriptor->isTaskBadge()) {
                 $this->updateTaskBadgeDescriptor($descriptor);

@@ -37,7 +37,8 @@ class AppBadge extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['name', 'description', 'taskTypeId', 'threshold', 'image', 'creator_id', 'app_id'], 'required'],
-            [['creator_id', 'created_at', 'updated_at', 'threshold'], 'integer'],
+            [['creator_id', 'created_at', 'updated_at'], 'integer'],
+            [['threshold'], 'number'],
             [['incentive_server_id', 'label'], 'string', 'max' => 256],
         ];
     }
@@ -61,7 +62,7 @@ class AppBadge extends \yii\db\ActiveRecord {
             'id' => 'ID',
             'app_id' => 'App ID',
             'creator_id' => 'Creator ID',
-            'incentive_server_id' => 'Incentive Server ID',
+            'incentive_server_id' => Yii::t('badge', 'Incentive Server ID'),
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
@@ -96,25 +97,30 @@ class AppBadge extends \yii\db\ActiveRecord {
         return $details;
     }
 
+    public static function getTransactionLabels($app){
+        $transactionLabels = array_keys($app->taskType->details()->transactions);
+        $labelData = [];
+        foreach ($transactionLabels as $transactionLabel) {
+            $labelData[$transactionLabel] = $transactionLabel;
+        }
+        return $labelData;
+    }
+
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
 
+            // TODO to be checked
             if($this->label == ""){
                 $this->label = null;
             }
-            // print_r($this->label);
-            // print_r($this->details());
-            // exit();
 
             $descriptor = $this->details();
 
             if (!$this->incentive_server_id) {
-                // print_r($this);
                 $descriptor = Yii::$app->incentiveServer->createBadgeDescriptor($descriptor);
-                // print_r($descriptor);
-                // exit();
                 $this->incentive_server_id = $descriptor->id;
             } else {
+                // TODO to be checked
                 Yii::$app->incentiveServer->updateBadgeDescriptor($descriptor);
             }
 

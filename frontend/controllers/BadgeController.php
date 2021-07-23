@@ -29,12 +29,12 @@ class BadgeController extends BaseController {
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => [
-                    'create', 'delete',
+                    'create', 'update', 'delete',
                 ],
                 'rules' => [
                     [
                         'actions' => [
-                            'create', 'delete',
+                            'create', 'update', 'delete',
                         ],
                         'allow' => !Yii::$app->user->isGuest && Yii::$app->user->getIdentity()->isDeveloper(),
                         'roles' => ['@'],
@@ -65,7 +65,7 @@ class BadgeController extends BaseController {
 
     public function actionCreate($appId){
         $app = WenetApp::find()->where(["id" => $appId])->one();
-        $transactionLabels = array_keys($app->taskType->details()->transactions);
+        $transactionLabels = AppBadge::getTransactionLabels($app);
 
         $model = new AppBadge;
         $model->creator_id = Yii::$app->user->id;
@@ -73,9 +73,6 @@ class BadgeController extends BaseController {
         $model->app_id = $appId;
 
         if ($model->load(Yii::$app->request->post())) {
-            // print_r(Yii::$app->request->post());
-            // print_r($model);
-            // exit();
             if ($model->save()) {
                 return $this->redirect(['developer/details', 'id' => $appId, 'tab' => 'badges']);
             } else {
@@ -88,6 +85,31 @@ class BadgeController extends BaseController {
             'model' => $model,
             'transactionLabels' => $transactionLabels
         ));
+    }
+
+    public function actionUpdate($appId, $id) {
+        $app = WenetApp::find()->where(["id" => $appId])->one();
+        $model = AppBadge::find()->where(["id" => $id])->one();
+        $transactionLabels = AppBadge::getTransactionLabels($app);
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                return $this->redirect(['developer/details', 'id' => $appId, 'tab' => 'badges']);
+            }
+        }
+
+        if($model->wenetApp->isDeveloper(Yii::$app->user->id)){
+            return $this->render('update', [
+                'model' => $model,
+                'app' => $app,
+                'transactionLabels' => $transactionLabels
+            ]);
+        } else {
+            return $this->render('/site/error', array(
+                'message' => Yii::t('common', 'You are not authorised to perform this action.'),
+                'name' => Yii::t('common', 'Error')
+            ));
+        }
     }
 
     public function actionDelete($appId, $id) {
