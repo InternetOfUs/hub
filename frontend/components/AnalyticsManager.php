@@ -12,8 +12,8 @@ use frontend\models\analytics\AnalyticDescription;
 class AnalyticsManager {
 
     const TIMESPANS = [
-        // '1d',
-        // '7d',
+        '1d',
+        '7d',
         '30d',
     ];
 
@@ -127,15 +127,15 @@ class AnalyticsManager {
         return [
             'platform' => [
                 'total' => null, # TODO
-                'period' => $this->get($appId, 'message', 'm:notifications', $timespan)->result->count,
+                'period' => $this->get($appId, 'message', 'notifications', $timespan)->result->count,
             ],
             'app' => [
                 'total' => null, # TODO
-                'period' => $this->get($appId, 'message', 'm:responses', $timespan)->result->count,
+                'period' => $this->get($appId, 'message', 'responses', $timespan)->result->count,
             ],
             'users' => [
                 'total' => null, # TODO
-                'period' => $this->get($appId, 'message', 'm:from_users', $timespan)->result->count,
+                'period' => $this->get($appId, 'message', 'from_users', $timespan)->result->count,
             ]
         ];
     }
