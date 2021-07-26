@@ -1,8 +1,13 @@
 <?php
+
 namespace frontend\models;
+
+use Yii;
 
 
 class BadgeDescriptor {
+
+    const TEST_IMAGE = 'https://upload.wikimedia.org/wikipedia/commons/3/33/Cartoon_space_rocket.png';
 
     public $id;
     public $name;
@@ -56,8 +61,7 @@ class BadgeDescriptor {
             'taskTypeId' => ''.$this->taskTypeId,
             'threshold' => intval($this->threshold),
             // TODO should make sure that an https image is present, else an error is given by the incentive server
-            // 'image' => $this->image,
-            'image' => 'https://upload.wikimedia.org/wikipedia/commons/3/33/Cartoon_space_rocket.png',
+            'image' => $this->image,
             'app' => $this->appId,
         ];
         if ($this->id) {
@@ -68,6 +72,11 @@ class BadgeDescriptor {
         } else {
             $repr['label'] = null;
         }
+
+        if (Yii::$app->params['env'] == 'local') {
+            $repr['image'] = self::TEST_IMAGE;
+        }
+
         return $repr;
     }
 
@@ -76,13 +85,17 @@ class BadgeDescriptor {
             'name' => $this->name,
             'description' => $this->description,
             'threshold' => intval($this->threshold),
-            // 'image' => $this->image,
-            'image' => 'https://upload.wikimedia.org/wikipedia/commons/3/33/Cartoon_space_rocket.png',
+            'image' => $this->image,
             'app' => $this->appId,
         ];
         if ($this->label) {
             $repr['label'] = $this->label;
         }
+
+        if (Yii::$app->params['env'] == 'local') {
+            $repr['image'] = self::TEST_IMAGE;
+        }
+
         return $repr;
     }
 

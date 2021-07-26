@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\helpers\Url;
 use yii\behaviors\TimestampBehavior;
 
 /**
@@ -69,17 +70,34 @@ class AppBadge extends \yii\db\ActiveRecord {
     }
 
     public static function badgeFiles() {
-        return [
-            '/images/badges/medals/first_question.png' => '/images/badges/medals/first_question.png',
-            '/images/badges/medals/curious_level_1.png' => '/images/badges/medals/curious_level_1.png',
-            '/images/badges/medals/curious_level_2.png' => '/images/badges/medals/curious_level_2.png',
-            '/images/badges/medals/fisrt_answer.png' => '/images/badges/medals/fisrt_answer.png',
-            '/images/badges/medals/helper_level_1.png' => '/images/badges/medals/helper_level_1.png',
-            '/images/badges/medals/helper_level_2.png' => '/images/badges/medals/helper_level_2.png',
-            '/images/badges/medals/first_good_answer.png' => '/images/badges/medals/first_good_answer.png',
-            '/images/badges/medals/good_answer_level_1.png' => '/images/badges/medals/good_answer_level_1.png',
-            '/images/badges/medals/good_answer_level_2.png' => '/images/badges/medals/good_answer_level_2.png',
+        # Note: this configuration prevents the visualisation of image when developing locally.
+        # Changing the value of $flag to true will allow to visualise imges within the browser
+        # but will prevent a successful update of any modifications in the Incentive Server.
+        # With both configurations, the incentive server will refuse image. In one case because https is missing,
+        # in the other because the image does not actually exist.
+        #
+        # This problem can be solved by making sure that the parameter
+        $flag = 'https';
+        if (Yii::$app->params['env'] == 'local') {
+            $flag = true;
+        }
+        $urls = [
+            Url::toRoute('/images/badges/medals/first_question.png', $flag),
+            Url::toRoute('/images/badges/medals/curious_level_1.png', $flag),
+            Url::toRoute('/images/badges/medals/curious_level_2.png', $flag),
+            Url::toRoute('/images/badges/medals/fisrt_answer.png', $flag),
+            Url::toRoute('/images/badges/medals/helper_level_1.png', $flag),
+            Url::toRoute('/images/badges/medals/helper_level_2.png', $flag),
+            Url::toRoute('/images/badges/medals/first_good_answer.png', $flag),
+            Url::toRoute('/images/badges/medals/good_answer_level_1.png', $flag),
+            Url::toRoute('/images/badges/medals/good_answer_level_2.png', $flag),
         ];
+
+        if (Yii::$app->params['env'] == 'local') {
+            $urls[] = BadgeDescriptor::TEST_IMAGE;
+        }
+
+        return $urls;
     }
 
     public function details() {
@@ -120,8 +138,9 @@ class AppBadge extends \yii\db\ActiveRecord {
                 $descriptor = Yii::$app->incentiveServer->createBadgeDescriptor($descriptor);
                 $this->incentive_server_id = $descriptor->id;
             } else {
-                // TODO to be checked
-                Yii::$app->incentiveServer->updateBadgeDescriptor($descriptor);
+                if (!Yii::$app->incentiveServer->updateBadgeDescriptor($descriptor)) {
+                    return false;
+                }
             }
 
             return true;

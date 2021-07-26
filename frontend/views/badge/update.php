@@ -50,12 +50,18 @@
                             <pre>'. $model->incentive_server_id . '</pre>
                         </div>';
                     ?>
-                    <?php echo $form->field($model, 'image')->radioList(
-                        array_map(function($i) {
-                            return '<div class="badge_image" style="background-image:url('.$i.')";></div>';},
-                                    AppBadge::badgeFiles()),
-                                    ['encode' => false]
-                    ); ?>
+                    <?php
+                        $imageData = [];
+                        foreach (AppBadge::badgeFiles() as $imageUrl) {
+                            $imageData[$imageUrl] = $imageUrl;
+                        }
+                        echo $form->field($model, 'image')->radioList(
+                            array_map(function($i) {
+                                return '<div class="badge_image" style="background-image:url('.$i.')";></div>';},
+                                        $imageData),
+                                        ['encode' => false]
+                        );
+                    ?>
                 </div>
             </div>
             <div class="row">

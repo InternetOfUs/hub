@@ -113,9 +113,11 @@ class IncentiveServerConnector extends PlatformConnector {
             } else {
                 $this->updateTransactionBadgeDescriptor($descriptor);
             }
+            return true;
         } catch (\Exception $e) {
             $log = "Something went wrong while updating badge descriptor with id [$descriptor->id]: $e";
             Yii::error($log, 'wenent.connector.incentive_server');
+            return false;
         }
     }
 
