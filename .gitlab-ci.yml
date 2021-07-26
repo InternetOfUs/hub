@@ -272,6 +272,7 @@ trigger:issue:
     - build:issue
     - push:issue
   allow_failure: false
+  when: manual
   only:
     - /^feature.*$/i
     - /^hotfix.*$/i

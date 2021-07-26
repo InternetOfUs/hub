@@ -7,17 +7,38 @@ use Yii;
 
 class AnalyticDescription {
 
+    const TYPE_COUNT = 'count';
+    const TYPE_SEGMENTATION = 'segmentation';
+
     public $appId;
     public $dimension;
     public $metric;
+    public $type;
 
     public $timespan;
 
-    function __construct($appId, $dimension, $metric, $timespan) {
+    function __construct($appId, $dimension, $metric, $timespan, $type) {
         $this->appId = $appId;
         $this->dimension = $dimension;
         $this->metric = $metric;
         $this->timespan = $timespan;
+        $this->type = $type;
+    }
+
+    public static function count($appId, $dimension, $metric, $timespan) {
+        return new AnalyticDescription($appId, $dimension, $metric, $timespan, AnalyticDescription::TYPE_COUNT);
+    }
+
+    public static function segmentation($appId, $dimension, $metric, $timespan) {
+        return new AnalyticDescription($appId, $dimension, $metric, $timespan, AnalyticDescription::TYPE_SEGMENTATION);
+    }
+
+    public function isCount() {
+        return $this->type == self::TYPE_COUNT;
+    }
+
+    public function isSegmentation() {
+        return $this->type == self::TYPE_SEGMENTATION;
     }
 
     #
@@ -28,7 +49,7 @@ class AnalyticDescription {
         return [
             'project' => $this->appId,
             'timespan' => $this->timespan,
-            'type' => 'analytic',
+            'type' => $this->type,
             'dimension' => $this->dimension,
             'metric' => $this->metric
         ];
@@ -48,15 +69,15 @@ class AnalyticDescription {
     # Builders
     #
 
-    public static function defaultTimespan($period) {
+    public static function movingTimespan($period) {
         return [
-           'type' => 'default',
+           'type' => 'moving',
            'value' => $period,
        ];
     }
 
     public static function days($appId, $dimension, $metric, $days) {
-        $timespan = AnalyticDescription::defaultTimespan($days.'d');
+        $timespan = AnalyticDescription::movingTimespan($days.'d');
         return new AnalyticDescription($appId, $dimension, $metric, $timespan);
     }
 

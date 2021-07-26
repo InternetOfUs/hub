@@ -30,9 +30,9 @@
         <p class="helper_text hide"><?php echo Yii::t('app', 'helper'); ?></p>
         <?php echo Yii::$app->controller->renderPartial('stats/_donut_chart_and_data', [
             'data' => $statsData['gender'],
-            'data_new' => $statsData['new'],
             'target' => 'gender_distribution',
-            'colors' => ['#bada55', '#ffa500', '#7fe5f0', '#f7347a', '#ffd700', '#008080', '#e6e6fa', '#00ced1', '#ac25e2', '#4ca3dd']
+            'colors' => ['#bada55', '#ffa500', '#7fe5f0', '#f7347a', '#ffd700', '#008080', '#e6e6fa', '#00ced1', '#ac25e2', '#4ca3dd'],
+            'hideZeroValues' => true
         ]); ?>
     </div>
     <div class="box_container graph_container two_boxes">
@@ -40,9 +40,9 @@
         <p class="helper_text hide"><?php echo Yii::t('app', 'helper'); ?></p>
         <?php echo Yii::$app->controller->renderPartial('stats/_donut_chart_and_data', [
             'data' => $statsData['age'],
-            'data_new' => $statsData['new'],
             'target' => 'age_distribution',
-            'colors' => ['#bada55', '#ffa500', '#7fe5f0', '#f7347a', '#ffd700', '#008080', '#e6e6fa', '#00ced1', '#ac25e2', '#4ca3dd']
+            'colors' => ['#bada55', '#ffa500', '#7fe5f0', '#f7347a', '#ffd700', '#008080', '#e6e6fa', '#00ced1', '#ac25e2', '#4ca3dd'],
+            'hideZeroValues' => true
         ]); ?>
     </div>
 </div>
