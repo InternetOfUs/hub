@@ -52,7 +52,7 @@
                             if($data->details()->isTaskBadge()){
                                 $value = '<span>'.Yii::t('badge', 'Task').'</span>';
                             } else if ($data->details()->isTransactionBadge()){
-                                $value = '<span style="display:block;margin-bottom:5px;">'.Yii::t('badge', 'Transaction').':</span><pre>'.$data->label.'</pre>';
+                                $value = '<span style="display:block;margin-bottom:5px;">'.Yii::t('badge', 'Transaction').'</span><pre>'.$data->label.'</pre>';
                             } else {
                                 $value = '<pre>?</pre>';
                             }

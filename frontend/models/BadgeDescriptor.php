@@ -80,6 +80,9 @@ class BadgeDescriptor {
             'image' => 'https://upload.wikimedia.org/wikipedia/commons/3/33/Cartoon_space_rocket.png',
             'app' => $this->appId,
         ];
+        if ($this->label) {
+            $repr['label'] = $this->label;
+        }
         return $repr;
     }
 
