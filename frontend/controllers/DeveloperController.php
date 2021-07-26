@@ -107,7 +107,7 @@ class DeveloperController extends BaseController {
 
                 $analyticManager = new AnalyticsManager;
                 $analyticManager->createAnalyticsIfMissing($app->id);
-                $statsData = $analyticManager->prepareData($app->id, '1d');
+                $statsData = $analyticManager->prepareData($app->id, $filter);
 
                 return $this->render('details', array(
                     'app' => $app,

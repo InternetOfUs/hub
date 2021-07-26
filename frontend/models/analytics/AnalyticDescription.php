@@ -50,7 +50,7 @@ class AnalyticDescription {
 
     public static function defaultTimespan($period) {
         return [
-           'type' => 'default',
+           'type' => 'moving',
            'value' => $period,
        ];
     }
