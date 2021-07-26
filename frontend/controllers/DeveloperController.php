@@ -117,9 +117,9 @@ class DeveloperController extends BaseController {
             if($app->isDeveloper()){
                 $appDevelopers = AppDeveloper::find()->where(["app_id" => $id])->all();
 
-                $analyticManager = new AnalyticsManager;
-                $analyticManager->createAnalyticsIfMissing($app->id);
-                $statsData = $analyticManager->prepareData($app->id, '1d');
+                // $analyticManager = new AnalyticsManager;
+                // $analyticManager->createAnalyticsIfMissing($app->id);
+                // $statsData = $analyticManager->prepareData($app->id, '1d');
 
                 $appBadges = AppBadge::find()->where(['app_id' => $app->id])->all();
                 $badgesProvider = new ArrayDataProvider([
@@ -134,7 +134,8 @@ class DeveloperController extends BaseController {
 
                 return $this->render('details', array(
                     'app' => $app,
-                    'statsData' => $statsData,
+                    'statsData' => [],
+                    // 'statsData' => $statsData,
                     'tab' => $tab,
                     'filter' => $filter,
                     'appDevelopers' => $appDevelopers,

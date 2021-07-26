@@ -107,7 +107,6 @@ class IncentiveServerConnector extends PlatformConnector {
      * @param  BadgeDescriptor $descriptor The Badge descriptor
      */
     public function updateBadgeDescriptor(BadgeDescriptor $descriptor) {
-        //  TODO manca un return? qualcosa non funziona!
         try {
             if ($descriptor->isTaskBadge()) {
                 $this->updateTaskBadgeDescriptor($descriptor);
@@ -121,12 +120,12 @@ class IncentiveServerConnector extends PlatformConnector {
     }
 
     private function updateTaskBadgeDescriptor(BadgeDescriptor $descriptor) {
-        $url = $this->baseUrl . "/badges/BadgeClasses/TaskType/$id";
+        $url = $this->baseUrl . "/badges/BadgeClasses/TaskType/$descriptor->id";
         $response = $this->put($url, $this->authHeaders(), $descriptor->toUpdateRepr());
     }
 
     private function updateTransactionBadgeDescriptor(BadgeDescriptor $descriptor) {
-        $url = $this->baseUrl . "/badges/BadgeClasses/TaskTransaction/$id";
+        $url = $this->baseUrl . "/badges/BadgeClasses/TaskTransaction/$descriptor->id";
         $response = $this->put($url, $this->authHeaders(), $descriptor->toUpdateRepr());
     }
 

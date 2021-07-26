@@ -75,8 +75,9 @@ class BadgeDescriptor {
         $repr = [
             'name' => $this->name,
             'description' => $this->description,
-            'threshold' => $this->threshold,
-            'image' => $this->image,
+            'threshold' => intval($this->threshold),
+            // 'image' => $this->image,
+            'image' => 'https://upload.wikimedia.org/wikipedia/commons/3/33/Cartoon_space_rocket.png',
             'app' => $this->appId,
         ];
         return $repr;

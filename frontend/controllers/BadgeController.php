@@ -93,6 +93,8 @@ class BadgeController extends BaseController {
         $transactionLabels = AppBadge::getTransactionLabels($app);
 
         if ($model->load(Yii::$app->request->post())) {
+            // print_r($model->details());
+            // exit();
             if ($model->save()) {
                 return $this->redirect(['developer/details', 'id' => $appId, 'tab' => 'badges']);
             }
