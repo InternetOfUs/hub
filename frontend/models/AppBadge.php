@@ -76,7 +76,8 @@ class AppBadge extends \yii\db\ActiveRecord {
         # With both configurations, the incentive server will refuse image. In one case because https is missing,
         # in the other because the image does not actually exist.
         #
-        # This problem can be solved by making sure that the parameter
+        # This problem can be solved by making sure that the parameter `env` is present in the params-local.php
+        # of the project and is set to `local`.
         $flag = 'https';
         if (Yii::$app->params['env'] == 'local') {
             $flag = true;
