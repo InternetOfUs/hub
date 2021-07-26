@@ -5,15 +5,13 @@ namespace frontend\models\analytics;
 use Yii;
 
 
-class AnalyticResult {
+class CountAnalyticResult {
 
     public $count;
-    public $items;
     public $type;
 
-    function __construct($count, $items, $type) {
+    function __construct($count, $type) {
         $this->count = $count;
-        $this->items = $items;
         $this->type = $type;
     }
 
@@ -22,9 +20,8 @@ class AnalyticResult {
     #
 
     public static function fromRepr($raw) {
-        return new AnalyticResult(
+        return new CountAnalyticResult(
             $raw['count'],
-            $raw['items'],
             $raw['type'],
         );
     }

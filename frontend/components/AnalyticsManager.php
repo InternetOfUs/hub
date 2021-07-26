@@ -11,6 +11,28 @@ use frontend\models\analytics\AnalyticDescription;
 
 class AnalyticsManager {
 
+    const TIMESPANS = [
+        '1d',
+        '7d',
+        '30d',
+    ];
+
+    const ANALITYCS = [
+        // ['dimension', 'metric']
+
+        // User analytics
+        ['user', 'new'],
+        ['user', 'active'],
+        ['user', 'engaged'],
+        // Message analytics
+        // ['message', 'm:from_users'],
+        // ['message', 'm:responses'],
+        // ['message', 'm:notifications'],
+        // Task analytics
+        // Transaction analytics
+        // Badge analytics
+    ];
+
     /**
      * Defines the list of analytics that should be available for
      * all existing applications.
@@ -18,17 +40,15 @@ class AnalyticsManager {
      * @return array An array of tuple including the analytic dimension, metric and timespan
      */
     private static function _analyticsToCreate() {
-        return [
-            // ['dimension', 'metric', 'timespan']
-            // User analytics
-            ['user', 'u:new', '1d'],
-            ['user', 'u:active', '1d'],
-            ['user', 'u:engaged', '1d'],
-            // Message analytics
-            // Task analytics
-            // Transaction analytics
-            // Badge analytics
-        ];
+        $analyticsToCreate = [];
+
+        foreach (AnalyticsManager::TIMESPANS as $timespan) {
+            foreach (AnalyticsManager::ANALITYCS as $analytic) {
+                $analyticsToCreate[] = [$analytic[0], $analytic[1], $timespan];
+            }
+        }
+
+        return $analyticsToCreate;
     }
 
     private function appAnalytic($appId, $dimension, $metric, $timespan) {
@@ -84,6 +104,11 @@ class AnalyticsManager {
 
     private function get($appId, $dimension, $metric, $timespan) {
         $appAnalytic = $this->appAnalytic($appId, $dimension, $metric, $timespan);
+        if (!$appAnalytic) {
+            # TODO include warning
+            return null;
+        }
+
         $analyticResult = Yii::$app->loggingComponent->getResult($appId, $appAnalytic->id);
         return $analyticResult;
     }
@@ -91,9 +116,9 @@ class AnalyticsManager {
     private function userData($appId, $timespan) {
         return [
             'total' => AppUser::find()->where(['app_id' => $appId])->count(),
-            'new' => $this->get($appId, 'user', 'u:new', $timespan)->result->count,
-            'active' => $this->get($appId, 'user', 'u:active', $timespan)->result->count,
-            'engaged' => $this->get($appId, 'user', 'u:engaged', $timespan)->result->count,
+            'new' => $this->get($appId, 'user', 'new', $timespan)->result->count,
+            'active' => $this->get($appId, 'user', 'active', $timespan)->result->count,
+            'engaged' => $this->get($appId, 'user', 'engaged', $timespan)->result->count,
         ];
     }
 
@@ -101,16 +126,16 @@ class AnalyticsManager {
     private function messageData($appId, $timespan) {
         return [
             'platform' => [
-                'total' => 121,
-                'period' => 31,
+                'total' => null, # TODO
+                'period' => $this->get($appId, 'message', 'notifications', $timespan)->result->count,
             ],
             'app' => [
-                'total' => 201,
-                'period' => 51,
+                'total' => null, # TODO
+                'period' => $this->get($appId, 'message', 'responses', $timespan)->result->count,
             ],
             'users' => [
-                'total' => null,
-                'period' => 61,
+                'total' => null, # TODO
+                'period' => $this->get($appId, 'message', 'from_users', $timespan)->result->count,
             ]
         ];
     }
@@ -152,9 +177,9 @@ class AnalyticsManager {
     public function prepareData($appId, $timespan) {
         $data = [];
         $data['users'] = $this->userData($appId, $timespan);
-        $data['messages'] = $this->messageData($appId, $timespan);
-        $data['tasks'] = $this->taskData($appId, $timespan);
-        $data['transactions'] = $this->transactionData($appId, $timespan);
+        // $data['messages'] = $this->messageData($appId, $timespan);
+        // $data['tasks'] = $this->taskData($appId, $timespan);
+        // $data['transactions'] = $this->transactionData($appId, $timespan);
         return $data;
     }
 
