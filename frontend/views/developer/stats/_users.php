@@ -3,7 +3,7 @@
 <div class="stats_boxes user_boxes">
     <div class="box_container big_number_container three_boxes">
         <h3><?php echo Yii::t('app', 'New'); ?></h3>
-        <p class="helper_text hide"><?php echo Yii::t('app', 'helper'); ?></p>
+        <p class="helper_text hide"><?php echo Yii::t('app', 'The new users that successfully activated the application.'); ?></p>
         <span class="big_number">
             <?php echo $statsData['new']; ?>
         </span>
@@ -13,21 +13,21 @@
     </div>
     <div class="box_container big_number three_boxes">
         <h3><?php echo Yii::t('app', 'Active'); ?></h3>
-        <p class="helper_text hide"><?php echo Yii::t('app', 'helper'); ?></p>
+        <p class="helper_text hide"><?php echo Yii::t('app', 'The number of active users who exchanged messages with the application.'); ?></p>
         <span class="big_number">
             <?php echo $statsData['active']; ?>
         </span>
     </div>
     <div class="box_container big_number three_boxes">
         <h3><?php echo Yii::t('app', 'Engaged'); ?></h3>
-        <p class="helper_text hide"><?php echo Yii::t('app', 'helper'); ?></p>
+        <p class="helper_text hide"><?php echo Yii::t('app', 'The number of users who received notification from the application.'); ?></p>
         <span class="big_number">
             <?php echo $statsData['engaged']; ?>
         </span>
     </div>
     <div class="box_container graph_container two_boxes">
         <h3><?php echo Yii::t('app', 'Gender distribution'); ?></h3>
-        <p class="helper_text hide"><?php echo Yii::t('app', 'helper'); ?></p>
+        <p class="helper_text hide"><?php echo Yii::t('app', 'The distribution describing the gender of new users.'); ?></p>
         <?php echo Yii::$app->controller->renderPartial('stats/_donut_chart_and_data', [
             'data' => $statsData['gender'],
             'target' => 'gender_distribution',
@@ -37,7 +37,7 @@
     </div>
     <div class="box_container graph_container two_boxes">
         <h3><?php echo Yii::t('app', 'Age distribution'); ?></h3>
-        <p class="helper_text hide"><?php echo Yii::t('app', 'helper'); ?></p>
+        <p class="helper_text hide"><?php echo Yii::t('app', 'The distribution describing the age of new users.'); ?></p>
         <?php echo Yii::$app->controller->renderPartial('stats/_donut_chart_and_data', [
             'data' => $statsData['age'],
             'target' => 'age_distribution',

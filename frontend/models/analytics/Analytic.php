@@ -25,7 +25,7 @@ class Analytic {
         return new Analytic(
             $raw['id'],
             AnalyticDescription::fromRepr($raw['descriptor']),
-            AnalyticResult::fromRepr($raw['result'])
+            $raw['result'] ? AnalyticResult::fromRepr($raw['result']) : null
         );
     }
 
