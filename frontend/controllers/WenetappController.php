@@ -89,11 +89,11 @@ class WenetappController extends BaseController {
         }
     }
 
-    public function actionUserList($appId) {
+    public function actionUserList($appId, $fromTs=NULL, $toTs=NULL) {
         $app = WenetApp::find()->where(['id' => $appId])->one();
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if ($app) {
-            $users = AppUser::find()->where(['app_id' => $appId])->all();
+            $users = AppUser::listForApp($appId, $fromTs, $toTs);
             return array_map(function($d) { return ''.$d->user_id; }, $users);
         } else {
             Yii::$app->response->statusCode = 404;
