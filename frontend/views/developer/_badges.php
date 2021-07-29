@@ -9,10 +9,20 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <a href="<?= Url::to(['/badge/create', 'appId' => $app->id]); ?>" class="btn btn-primary pull-right" style="margin: 20px 0;">
-            <i class="fa fa-plus" aria-hidden="true"></i>
-            <?php echo Yii::t('badge', 'Create a badge'); ?>
-        </a>
+
+        <?php if ($app->status != WenetApp::STATUS_ACTIVE): ?>
+            <a href="<?= Url::to(['/badge/create', 'appId' => $app->id]); ?>" class="btn btn-primary pull-right" style="margin: 20px 0;">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                <?php echo Yii::t('badge', 'Create a badge'); ?>
+            </a>
+        <?php else: ?>
+
+            <div class="alert alert-warning" role="alert" style="margin-top:20px;">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                <?php echo Yii::t('badge', 'WARNING - Operations are available only for apps with status In Develpment.'); ?>
+            </div>
+
+        <?php endif; ?>
 
         <?php
             echo GridView::widget([
