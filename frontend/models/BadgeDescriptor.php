@@ -72,7 +72,7 @@ class BadgeDescriptor {
             $repr['label'] = null;
         }
 
-        if (Yii::$app->params['env'] == 'local') {
+        if (in_array('env', Yii::$app->params) && Yii::$app->params['env'] == 'local') {
             $repr['image'] = self::TEST_IMAGE;
         }
 
@@ -91,7 +91,7 @@ class BadgeDescriptor {
             $repr['label'] = $this->label;
         }
 
-        if (Yii::$app->params['env'] == 'local') {
+        if (in_array('env', Yii::$app->params) && Yii::$app->params['env'] == 'local') {
             $repr['image'] = self::TEST_IMAGE;
         }
 

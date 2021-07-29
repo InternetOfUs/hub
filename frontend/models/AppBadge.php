@@ -79,7 +79,7 @@ class AppBadge extends \yii\db\ActiveRecord {
         # This problem can be solved by making sure that the parameter `env` is present in the params-local.php
         # of the project and is set to `local`.
         $flag = 'https';
-        if (Yii::$app->params['env'] == 'local') {
+        if (in_array('env', Yii::$app->params) && Yii::$app->params['env'] == 'local') {
             $flag = true;
         }
         $urls = [
@@ -94,7 +94,7 @@ class AppBadge extends \yii\db\ActiveRecord {
             Url::toRoute('/images/badges/medals/good_answer_level_2.png', $flag),
         ];
 
-        if (Yii::$app->params['env'] == 'local') {
+        if (in_array('env', Yii::$app->params) && Yii::$app->params['env'] == 'local') {
             $urls[] = BadgeDescriptor::TEST_IMAGE;
         }
 

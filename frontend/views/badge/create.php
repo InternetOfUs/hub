@@ -34,17 +34,23 @@
                                 'multiple' => false
                             ],
                         ]);
-                        echo '<p style="margin:-10px 0 20px 0;">'.Yii::t('badge', 'create badge transaction label hint').'</p>'; 
+                        echo '<p style="margin:-10px 0 20px 0;">'.Yii::t('badge', 'create badge transaction label hint').'</p>';
                     ?>
                     <?php echo $form->field($model, 'threshold'); ?>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                    <?php echo $form->field($model, 'image')->radioList(
-                        array_map(function($i) {
-                            return '<div class="badge_image" style="background-image:url('.$i.')";></div>';},
-                                    AppBadge::badgeFiles()),
-                                    ['encode' => false]
-                    ); ?>
+                    <?php
+                        $imageData = [];
+                        foreach (AppBadge::badgeFiles() as $imageUrl) {
+                            $imageData[$imageUrl] = $imageUrl;
+                        }
+                        echo $form->field($model, 'image')->radioList(
+                            array_map(function($i) {
+                                return '<div class="badge_image" style="background-image:url('.$i.')";></div>';},
+                                        $imageData),
+                                        ['encode' => false]
+                        );
+                    ?>
                 </div>
             </div>
             <div class="row">
