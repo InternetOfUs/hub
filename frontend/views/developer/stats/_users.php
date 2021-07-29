@@ -32,7 +32,7 @@
             'data' => $statsData['gender'],
             'target' => 'gender_distribution',
             'colors' => ['#bada55', '#ffa500', '#7fe5f0', '#f7347a', '#ffd700', '#008080', '#e6e6fa', '#00ced1', '#ac25e2', '#4ca3dd'],
-            'hideZeroValues' => true
+            'hideZeroValues' => false
         ]); ?>
     </div>
     <div class="box_container graph_container two_boxes">
@@ -42,7 +42,7 @@
             'data' => $statsData['age'],
             'target' => 'age_distribution',
             'colors' => ['#bada55', '#ffa500', '#7fe5f0', '#f7347a', '#ffd700', '#008080', '#e6e6fa', '#00ced1', '#ac25e2', '#4ca3dd'],
-            'hideZeroValues' => true
+            'hideZeroValues' => false
         ]); ?>
     </div>
 </div>

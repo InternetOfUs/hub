@@ -11,10 +11,15 @@
      * @var string $target The target div for the box rendering
      * @var array $colors A list of colors to be used
      * @var bool $hideZeroValues If any keys having value set to 0 should be hidden, default ot false
+     * @var bool $forceValueOrdering Make sure that displayed label are ordered by value
      */
 
     if (!isset($hideZeroValues)) {
         $hideZeroValues = false;
+    }
+
+    if (!isset($forceValueOrdering)) {
+        $forceValueOrdering = false;
     }
 
     $pieData = [];
@@ -44,9 +49,11 @@
     <div class="data_container">
         <?php
 
-            usort($labelData, function ($item1, $item2) {
-                return $item2['number'] <=> $item1['number'];
-            });
+            if ($forceValueOrdering) {
+                usort($labelData, function ($item1, $item2) {
+                    return $item2['number'] <=> $item1['number'];
+                });
+            }
 
             foreach ($labelData as $element) {
                 if (( $element['number'] == 0 && !$hideZeroValues) || $element['number'] > 0) {
