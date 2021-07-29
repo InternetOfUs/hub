@@ -66,7 +66,13 @@
                     $developers = '<ul class="developer_list">';
                     foreach ($tasktypeDevelopers as $tasktypeDeveloper) {
                         $dev = User::findIdentity($tasktypeDeveloper->user_id);
-                        $developers .= '<li>'.$dev->username.'</li>';
+
+                        $appLogic = TaskType::find()->where(["id" => $taskType->id])->one();
+                        if($appLogic->isCreator($tasktypeDeveloper)){
+                            $developers .= '<li><strong>'.$dev->username.'</strong> ('.Yii::t('common', 'owner').')</li>';
+                        } else {
+                            $developers .= '<li>'.$dev->username.'</li>';
+                        }
                     }
                     $developers .= '</ul>';
                     echo $developers;
