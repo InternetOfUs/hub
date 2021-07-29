@@ -11,7 +11,7 @@ class Analytic {
     public $descriptor;
     public $result;
 
-    function __construct($id, AnalyticDescription $descriptor, CountAnalyticResult $result) {
+    function __construct($id, AnalyticDescription $descriptor, ?AnalyticResult $result) {
         $this->id = $id;
         $this->descriptor = $descriptor;
         $this->result = $result;
@@ -25,7 +25,15 @@ class Analytic {
         return new Analytic(
             $raw['id'],
             AnalyticDescription::fromRepr($raw['descriptor']),
-            CountAnalyticResult::fromRepr($raw['result'])
+            AnalyticResult::fromRepr($raw['result'])
         );
+    }
+
+    public function content() {
+        if (!$this->result) {
+            return null;
+        } else {
+            return $this->result->content();
+        }
     }
 }

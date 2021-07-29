@@ -17,13 +17,15 @@ class AnalyticsManager {
         '30d',
     ];
 
-    const ANALITYCS = [
+    const COUNT_ANALITYCS = [
         // ['dimension', 'metric']
 
         // User analytics
         ['user', 'new'],
         ['user', 'active'],
         ['user', 'engaged'],
+        // ['user', 'age'],
+        // ['user', 'gender'],
         // Message analytics
         // ['message', 'm:from_users'],
         // ['message', 'm:responses'],
@@ -33,17 +35,31 @@ class AnalyticsManager {
         // Badge analytics
     ];
 
+    const SEGMENTATION_ANALITYCS = [
+        // ['dimension', 'metric']
+
+        // User analytics
+        ['user', 'age'],
+        ['user', 'gender'],
+        // Message analytics
+        // Task analytics
+        // Transaction analytics
+        // Badge analytics
+    ];
+
     /**
      * Defines the list of analytics that should be available for
      * all existing applications.
      *
+     * @param array $analyticsMap Either SEGMENTATION_ANALITYCS or COUNT_ANALITYCS
+     *
      * @return array An array of tuple including the analytic dimension, metric and timespan
      */
-    private static function _analyticsToCreate() {
+    private static function _analyticsToCreate($analyticsMap) {
         $analyticsToCreate = [];
 
         foreach (AnalyticsManager::TIMESPANS as $timespan) {
-            foreach (AnalyticsManager::ANALITYCS as $analytic) {
+            foreach ($analyticsMap as $analytic) {
                 $analyticsToCreate[] = [$analytic[0], $analytic[1], $timespan];
             }
         }
@@ -74,30 +90,45 @@ class AnalyticsManager {
 
         # TODO it should be possible to remove analytics that are no more useful
 
-        foreach (self::_analyticsToCreate() as $analytic) {
-            $dimension = $analytic[0];
-            $metric = $analytic[1];
-            $timespan = $analytic[2];
+        foreach ([AnalyticDescription::TYPE_COUNT => self::COUNT_ANALITYCS, AnalyticDescription::TYPE_SEGMENTATION => SELF::SEGMENTATION_ANALITYCS] as $type => $analyticsMap) {
 
-            $appAnalytic = $this->appAnalytic($appId, $dimension, $metric, $timespan);
-            if (!$appAnalytic) {
-                Yii::info("Defining missing analytic for app [$appId]", 'wenet.component.analytic');
-                $appAnalytic = new AppAnalytic();
-                $appAnalytic->dimension = $dimension;
-                $appAnalytic->metric = $metric;
-                $appAnalytic->timespan = $timespan;
-                $appAnalytic->app_id = $appId;
+            foreach (self::_analyticsToCreate($analyticsMap) as $analytic) {
+                $dimension = $analytic[0];
+                $metric = $analytic[1];
+                $timespan = $analytic[2];
 
-                $descriptor = new AnalyticDescription(
-                    $appId,
-                    $dimension,
-                    $metric,
-                    AnalyticDescription::defaultTimespan($timespan)
-                );
+                $appAnalytic = $this->appAnalytic($appId, $dimension, $metric, $timespan);
+                if (!$appAnalytic) {
+                    Yii::info("Defining missing analytic for app [$appId]", 'wenet.component.analytic');
+                    $appAnalytic = new AppAnalytic();
+                    $appAnalytic->dimension = $dimension;
+                    $appAnalytic->metric = $metric;
+                    $appAnalytic->timespan = $timespan;
+                    $appAnalytic->app_id = $appId;
 
-                $id = Yii::$app->loggingComponent->createAnalytic($descriptor);
-                $appAnalytic->id = $id;
-                $appAnalytic->save();
+                    if ($type == AnalyticDescription::TYPE_COUNT) {
+
+                        $descriptor = AnalyticDescription::count(
+                            $appId,
+                            $dimension,
+                            $metric,
+                            AnalyticDescription::movingTimespan($timespan)
+                        );
+                    } else if ($type == AnalyticDescription::TYPE_SEGMENTATION) {
+                        $descriptor = AnalyticDescription::segmentation(
+                            $appId,
+                            $dimension,
+                            $metric,
+                            AnalyticDescription::movingTimespan($timespan)
+                        );
+                    } else {
+                        throw new Exception("Could not build descriptor for [$type]");
+                    }
+
+                    $id = Yii::$app->loggingComponent->createAnalytic($descriptor);
+                    $appAnalytic->id = $id;
+                    $appAnalytic->save();
+                }
             }
         }
     }
@@ -114,11 +145,17 @@ class AnalyticsManager {
     }
 
     private function userData($appId, $timespan) {
+
+        $genderData = $this->get($appId, 'user', 'gender', $timespan)->content();
+        $ageData = $this->get($appId, 'user', 'age', $timespan)->content();
+
         return [
             'total' => AppUser::find()->where(['app_id' => $appId])->count(),
-            'new' => $this->get($appId, 'user', 'new', $timespan)->result->count,
-            'active' => $this->get($appId, 'user', 'active', $timespan)->result->count,
-            'engaged' => $this->get($appId, 'user', 'engaged', $timespan)->result->count,
+            'new' => $this->get($appId, 'user', 'new', $timespan)->content(),
+            'active' => $this->get($appId, 'user', 'active', $timespan)->content(),
+            'engaged' => $this->get($appId, 'user', 'engaged', $timespan)->content(),
+            'gender' => $genderData ? $genderData : [],
+            'age' => $ageData ? $ageData : [],
         ];
     }
 
