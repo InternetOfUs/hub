@@ -66,6 +66,7 @@ return [
     'view' => 'ver',
     'Apps logic' => '',
     'Are you sure you want to proceed?' => '',
+    'Badges' => '',
     'Create date' => '',
     'Create new app logic' => '',
     'Delete app' => '',

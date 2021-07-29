@@ -36,10 +36,9 @@
                         } else if ($model->details()->isTaskBadge()){
                             echo '<div class="form-group field-appbadge-label">
                                     <label class="control-label" for="appbadge-label">'.Yii::t('badge', 'Transaction label').'</label>
-                                    <p>'. Yii::t('badge', 'No label') . '</p>
+                                    <p>'. Yii::t('badge', 'This is a task badge, it is not possible to select a transaction label.') . '</p>
                                 </div>';
                         }
-                        // echo '<p style="margin:-10px 0 20px 0;">'.Yii::t('badge', 'transaction label hint').'</p>'; //TODO
                     ?>
                     <?php echo $form->field($model, 'threshold'); ?>
                 </div>

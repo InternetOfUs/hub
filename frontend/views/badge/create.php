@@ -34,7 +34,7 @@
                                 'multiple' => false
                             ],
                         ]);
-                        // echo '<p style="margin:-10px 0 20px 0;">'.Yii::t('badge', 'transaction label hint').'</p>'; //TODO
+                        echo '<p style="margin:-10px 0 20px 0;">'.Yii::t('badge', 'create badge transaction label hint').'</p>'; 
                     ?>
                     <?php echo $form->field($model, 'threshold'); ?>
                 </div>

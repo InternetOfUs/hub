@@ -60,7 +60,6 @@ class BadgeDescriptor {
             'description' => $this->description,
             'taskTypeId' => ''.$this->taskTypeId,
             'threshold' => intval($this->threshold),
-            // TODO should make sure that an https image is present, else an error is given by the incentive server
             'image' => $this->image,
             'app' => $this->appId,
         ];

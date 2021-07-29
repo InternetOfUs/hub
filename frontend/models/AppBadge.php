@@ -127,9 +127,7 @@ class AppBadge extends \yii\db\ActiveRecord {
 
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
-
-            // TODO to be checked
-            if($this->label == ""){
+            if($this->label === "" || $this->label === "null"){
                 $this->label = null;
             }
 

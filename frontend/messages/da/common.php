@@ -25,6 +25,7 @@ return [
     'Apps logic' => '',
     'Are you sure you want to proceed?' => '',
     'Authorise' => '',
+    'Badges' => '',
     'Change password' => '',
     'Conversational Connector' => '',
     'Create date' => '',
