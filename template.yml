@@ -30,7 +30,6 @@
           - name: trigger
             manual: true
             git_ref: develop
-          - name: notify
       mr:
         stages:
           - name: build
@@ -42,6 +41,6 @@
           - name: push
           - name: trigger
             git_ref: develop
-          - name: notify
+            manual: true
   roles:
     - uh.project_template

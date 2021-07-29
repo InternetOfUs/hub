@@ -18,6 +18,7 @@
  */
 return [
     'Active' => '',
+    'Age distribution' => '',
     'Android app' => '',
     'App Details' => '',
     'App ID' => '',
@@ -67,6 +68,7 @@ return [
     'From the app' => '',
     'From the platform' => '',
     'From the users' => '',
+    'Gender distribution' => '',
     'ID' => '',
     'INFO - Be careful! all this information are shown to the end-user.' => '',
     'If the parameter {external_id} has been specified in step 1. it will be made available in this callback.' => '',
@@ -140,11 +142,9 @@ return [
     'show helpers' => '',
     'to be configured' => '',
     'yesterday' => '',
-    'Age distribution' => '@@@@',
     'Connectors' => '@@@@',
     'Conversational' => '@@@@',
     'Data' => '@@@@',
-    'Gender distribution' => '@@@@',
     'Platforms distribution' => '@@@@',
     'type distribution' => '@@@@',
 ];

@@ -2,6 +2,11 @@
 
 ## Version 1.*
 
+### next
+
+* Updated the endpoint for requesting the list an application's users. It is now possible to filter the results in time by specifying _fromTs_ and _toTs_ parameters.
+* Added new statistics section to the application page: it is now presenting insights about users (new, active, engaged in addition to age and gender distribution).
+
 ### 1.3.0
 
 * Updated OAuth flow. Now only developers can complete the OAuth flow of an WeNet application in development mode.
@@ -10,7 +15,6 @@
 * Authorisation steps enforced on the task type actions and app managing actions.
 * Updated layout of developer section.
 * Limited the length of the displayed app description in the public app section page.
-* Updated the endpoint for requesting the list an application's users. It is now possible to filter the results in time by specifying _fromTs_ and _toTs_ parameters.
 
 ### 1.2.5
 
