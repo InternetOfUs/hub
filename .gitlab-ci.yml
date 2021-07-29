@@ -201,23 +201,27 @@ trigger:staging:
     - develop
 
 
-notify:staging:
-  stage: notify
-  image: public.registry.u-hopper.com/alpine:3.13
+#
+# Stages for mr.
+#
+
+
+build:mr:
+  stage: build
   script:
     - *apk-before-script
-    - *ansible-script
-    - export RELEASE_TAG="latest"
-    - export BUILD_ENVIRONMENT="staging"
-    - export WITH_DEPLOY="yes"
-    - export DEPLOY_TRIGGERED="yes"
-    - ansible-playbook ansible/notify.yml
-  dependencies:
-    - build:staging
-    - push:staging
-  allow_failure: true
+    - *docker-script
+    - *php-script
+
+    - ./docker-support/runner.sh -bs latest
+  artifacts:
+    paths:
+      - docker_image.tar.gz
+    expire_in: 1 day
+  when: manual
+  allow_failure: false
   only:
-    - develop
+    - merge_requests
 
 
 #

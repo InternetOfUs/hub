@@ -30,7 +30,10 @@
           - name: trigger
             manual: true
             git_ref: develop
-          - name: notify
+      mr:
+        stages:
+          - name: build
+            manual: true
       issue:
         stages:
           - name: build
