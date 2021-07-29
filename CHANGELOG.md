@@ -2,12 +2,12 @@
 
 ## Version 1.*
 
-### next
+### 1.4.0
 
 * Authorisation steps enforced on the task type actions and app managing actions.
 * Limited the length of the displayed app description in the public app section page.
 * Updated the endpoint for requesting the list an application's users. It is now possible to filter the results in time by specifying _fromTs_ and _toTs_ parameters.
-* Added new statistics section to the application page: it is now presenting insights about users (new, active, engaged in addition to age and gender distribution). 
+* Added new statistics section to the application page: it is now presenting insights about users (new, active, engaged in addition to age and gender distribution).
 
 ### 1.3.0
 
