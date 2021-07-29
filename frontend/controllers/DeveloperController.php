@@ -154,18 +154,11 @@ class DeveloperController extends BaseController {
             return $this->redirect(['developers', 'id' => $id]);
         }
 
-        if($app->isOwner(Yii::$app->user->id)){
-            return $this->render('developers', array(
-                'provider' => $provider,
-                'app' => $app,
-                'appDeveloper' => $appDeveloper
-    		));
-        } else {
-            return $this->render('/site/error', array(
-                'message' => Yii::t('common', 'You are not authorised to perform this action.'),
-                'name' => Yii::t('common', 'Error')
-            ));
-        }
+        return $this->render('developers', array(
+            'provider' => $provider,
+            'app' => $app,
+            'appDeveloper' => $appDeveloper
+		));
     }
 
     public function actionDeveloperList($app_id, $q = null, $id = null) {

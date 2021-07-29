@@ -68,11 +68,7 @@
                             if($data->public == TaskType::PUBLIC_TASK_TYPE){
                                 return false;
                             } else {
-                                if($data->creator_id == Yii::$app->user->id){
-                                    return true;
-                                } else {
-                                    return false;
-                                }
+                                return true;
                             }
                         },
                         'delete' => function ($data) {

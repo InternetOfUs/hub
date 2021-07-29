@@ -703,6 +703,7 @@ div.developer_attributes_container{
 
 div.developer_attributes_container p{margin-bottom: 20px;}
 
+table.attribute_container pre{margin: 0 0 10px 0;}
 table.attribute_container tr td{vertical-align: top !important;}
 
 table.attribute_container tr td:first-child{

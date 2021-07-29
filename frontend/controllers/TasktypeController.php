@@ -156,18 +156,11 @@ class TasktypeController extends BaseController {
             return $this->redirect(['developers', 'id' => $id]);
         }
 
-        if($tasktype->isCreator(Yii::$app->user->id)){
-            return $this->render('developers', array(
-                'provider' => $provider,
-                'model' => $tasktype,
-                'tasktypeDeveloper' => $tasktypeDeveloper
-    		));
-        } else {
-            return $this->render('/site/error', array(
-                'message' => Yii::t('common', 'You are not authorised to perform this action.'),
-                'name' => Yii::t('common', 'Error')
-            ));
-        }
+        return $this->render('developers', array(
+            'provider' => $provider,
+            'model' => $tasktype,
+            'tasktypeDeveloper' => $tasktypeDeveloper
+		));
     }
 
     public function actionDeveloperList($task_type_id, $q = null, $id = null) {

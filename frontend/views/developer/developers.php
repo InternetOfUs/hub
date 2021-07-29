@@ -43,12 +43,7 @@
             'visibleButtons' => [
                 'unlink' => function ($data) {
                     $app = WenetApp::find()->where(["id" => $data->app_id])->one();
-                    $owner = $app->isOwner($data->user_id);
-                    if(!$owner){
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    return $app->isOwner(Yii::$app->user->id) && Yii::$app->user->id != $data->user_id;
                 }
             ],
             'buttons'=>[
