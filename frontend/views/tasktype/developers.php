@@ -42,13 +42,8 @@
             'template' => '{unlink}',
             'visibleButtons' => [
                 'unlink' => function ($data) {
-                    $app = TaskType::find()->where(["id" => $data->task_type_id])->one();
-                    $owner = $app->isCreator($data->user_id);
-                    if(!$owner){
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    $appLogic = TaskType::find()->where(["id" => $data->task_type_id])->one();
+                    return $appLogic->isCreator(Yii::$app->user->id) && Yii::$app->user->id != $data->user_id;
                 }
             ],
             'buttons'=>[

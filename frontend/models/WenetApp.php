@@ -455,9 +455,8 @@ class WenetApp extends \yii\db\ActiveRecord {
         return $this->hasMany(User::className(), ['id' => 'user_id'])->viaTable('app_developer', ['app_id' => 'id']);
     }
 
-    # TODO this logic appears to be incorrect: please check!
     public function isOwner($user_id) {
-        return WenetApp::find()->where(['id' => $this->id, 'owner_id' => $user_id])->one();
+        return WenetApp::find()->where(['id' => $this->id, 'owner_id' => $user_id])->one() != null;
     }
 
     public function isDeveloper($userId = null){

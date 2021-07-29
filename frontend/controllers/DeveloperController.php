@@ -2,15 +2,17 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\data\ArrayDataProvider;
-use frontend\models\WenetApp;
 use common\models\User;
+use frontend\components\AnalyticsManager;
+use frontend\models\WenetApp;
 use frontend\models\AppDeveloper;
-use yii\helpers\Json;
+use frontend\models\analytics\AnalyticDescription;
 
 /**
  * Developer controller
@@ -94,7 +96,7 @@ class DeveloperController extends BaseController {
 		));
     }
 
-    public function actionDetails($id) {
+    public function actionDetails($id, $filter='7d', $tab='settings') {
 		$app = WenetApp::find()->where(["id" => $id])->one();
 
         if(!$app || $app->status == WenetApp::STATUS_DELETED){
@@ -102,8 +104,16 @@ class DeveloperController extends BaseController {
 		} else {
             if($app->isDeveloper()){
                 $appDevelopers = AppDeveloper::find()->where(["app_id" => $id])->all();
+
+                $analyticManager = new AnalyticsManager;
+                $analyticManager->createAnalyticsIfMissing($app->id);
+                $statsData = $analyticManager->prepareData($app->id, $filter);
+
                 return $this->render('details', array(
                     'app' => $app,
+                    'statsData' => $statsData,
+                    'tab' => $tab,
+                    'filter' => $filter,
                     'appDevelopers' => $appDevelopers,
                 ));
             } else {
@@ -144,18 +154,11 @@ class DeveloperController extends BaseController {
             return $this->redirect(['developers', 'id' => $id]);
         }
 
-        if($app->isOwner(Yii::$app->user->id)){
-            return $this->render('developers', array(
-                'provider' => $provider,
-                'app' => $app,
-                'appDeveloper' => $appDeveloper
-    		));
-        } else {
-            return $this->render('/site/error', array(
-                'message' => Yii::t('common', 'You are not authorised to perform this action.'),
-                'name' => Yii::t('common', 'Error')
-            ));
-        }
+        return $this->render('developers', array(
+            'provider' => $provider,
+            'app' => $app,
+            'appDeveloper' => $appDeveloper
+		));
     }
 
     public function actionDeveloperList($app_id, $q = null, $id = null) {
@@ -224,7 +227,7 @@ class DeveloperController extends BaseController {
 
     public function actionDelete($id) {
         $model = WenetApp::find()->where(["id" => $id])->one();
-        
+
         if($model->status != WenetApp::STATUS_DELETED){
             if($model->isOwner(Yii::$app->user->id)){
                 $model->status = WenetApp::STATUS_DELETED;
