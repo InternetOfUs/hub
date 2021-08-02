@@ -5,10 +5,10 @@
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="pull-right" style="margin-top:25px;">
-            <!-- <span class="btn btn-secondary helpers_btn" style="margin:-20px 10px 0 0;">
+            <span class="btn btn-secondary helpers_btn" style="margin:-20px 10px 0 0;">
                 <i class="fa fa-eye" aria-hidden="true"></i>
-                <?php //echo Yii::t('app', 'show helpers'); ?>
-            </span> -->
+                <?php echo Yii::t('app', 'show helpers'); ?>
+            </span>
             <div class="time_filter">
                 <a href="<?php echo Url::to(['/developer/details', 'id' => $app->id, 'filter' => '1d', 'tab' => 'stats']); ?>" id="filter_1" class="<?php echo $filter == '1d' ? 'active' : ''; ?>"><?php echo Yii::t('app', 'yesterday'); ?></a>
                 <a href="<?php echo Url::to(['/developer/details', 'id' => $app->id, 'filter' => '7d', 'tab' => 'stats']); ?>" id="filter_7" class="<?php echo $filter == '7d' ? 'active' : ''; ?>"><?php echo Yii::t('app', 'last 7 days'); ?></a>

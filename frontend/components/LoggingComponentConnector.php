@@ -15,7 +15,7 @@ class LoggingComponentConnector extends PlatformConnector {
         $url = $this->baseUrl . '/analytic';
         try {
             $result = $this->post($url, $this->authHeaders(), $descriptor->toRepr());
-            return $result['staticId'];
+            return $result['id'];
         } catch (\Exception $e) {
             $log = "Something went wrong while creating new analytic: $e";
             Yii::error($log, 'wenet.connector.logging_component');
@@ -24,7 +24,7 @@ class LoggingComponentConnector extends PlatformConnector {
     }
 
     public function getResult($appId, $analyticId) {
-        $url = $this->baseUrl . '/analytic?project='.$appId.'&staticId='.$analyticId;
+        $url = $this->baseUrl . '/analytic?project='.$appId.'&id='.$analyticId;
         try {
             $result = $this->get($url, $this->authHeaders());
             return Analytic::fromRepr($result);

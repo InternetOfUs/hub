@@ -66,6 +66,7 @@ ol li{
 }
 
 ol li pre{margin: 10px 0 20px 0;}
+table pre{margin: 0px;}
 
 ul{list-style-type: none;}
 
@@ -970,6 +971,9 @@ div.stats_boxes{
     flex-wrap: wrap;
 }
 
+div.stats_boxes div.three_boxes{width: 32%;}
+div.stats_boxes div.two_boxes{width: 49%;}
+
 p.helper_text.hide{display: none;}
 
 span.big_number{
@@ -979,11 +983,6 @@ span.big_number{
 }
 
 p.totals{text-align: center;}
-
-div.user_boxes > div,
-div.tasks_boxes > div,
-div.messages_boxes > div{width: 32%;}
-div.transactions_boxes > div{width: 49%;}
 
 /* graphs */
 div.donut_data_container {
@@ -1013,8 +1012,29 @@ div.donut_data_container div.data_container > span {
     text-align: left;
 }
 
+/* manage badges */
+div.badge_image{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    height: 65px;
+    width: 65px;
+}
 
+div#appbadge-image{margin-top: 15px;}
 
+div#appbadge-image label{
+    display: inline-flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 30%;
+}
+
+div#appbadge-image label div.badge_image{
+    margin-left: 10px;
+}
 
 
 

@@ -30,16 +30,16 @@
                     'content' => Yii::$app->controller->renderPartial('_settings', ['app' => $app, 'appDevelopers' => $appDevelopers]),
                     'active' => $tab == 'settings'
                 ],
-                // [
-                //     'label' =>'<i class="fa fa-trophy"></i> ' . Yii::t('common', 'Badges'),
-                //     'content' => Yii::$app->controller->renderPartial('_badges'),
-                //      'active' => $tab == 'badges'
-                // ],
+                [
+                    'label' =>'<i class="fa fa-trophy"></i> ' . Yii::t('common', 'Badges'),
+                    'content' => Yii::$app->controller->renderPartial('_badges', ['app' => $app, 'appBadges' => $appBadges]),
+                    'active' => $tab == 'badges'
+                ],
                 [
                     'label' =>'<i class="fa fa-pie-chart"></i> ' . Yii::t('common', 'Stats'),
                     'content' => Yii::$app->controller->renderPartial('_stats', ['app' => $app, 'statsData' => $statsData, 'filter' => $filter]),
                     'active' => $tab == 'stats'
-                ]
+                ],
             ];
 
             echo TabsX::widget([

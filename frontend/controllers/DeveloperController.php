@@ -12,6 +12,8 @@ use common\models\User;
 use frontend\components\AnalyticsManager;
 use frontend\models\WenetApp;
 use frontend\models\AppDeveloper;
+use frontend\models\BadgeDescriptor;
+use frontend\models\AppBadge;
 use frontend\models\analytics\AnalyticDescription;
 
 /**
@@ -32,7 +34,7 @@ class DeveloperController extends BaseController {
                     'delete',
                     'conversational-connector',
                     'disable-conversational-connector', 'enable-conversational-connector',
-                    'disable-data-connector', 'enable-data-connector'
+                    'disable-data-connector', 'enable-data-connector',
                 ],
                 'rules' => [
                     [
@@ -42,7 +44,7 @@ class DeveloperController extends BaseController {
                             'delete',
                             'conversational-connector',
                             'disable-conversational-connector', 'enable-conversational-connector',
-                            'disable-data-connector', 'enable-data-connector'
+                            'disable-data-connector', 'enable-data-connector',
                         ],
                         'allow' => !Yii::$app->user->isGuest && Yii::$app->user->getIdentity()->isDeveloper(),
                         'roles' => ['@'],
@@ -107,14 +109,27 @@ class DeveloperController extends BaseController {
 
                 $analyticManager = new AnalyticsManager;
                 $analyticManager->createAnalyticsIfMissing($app->id);
-                $statsData = $analyticManager->prepareData($app->id, '1d');
+                $statsData = $analyticManager->prepareData($app->id, $filter);
+
+                $appBadges = AppBadge::find()->where(['app_id' => $app->id])->all();
+                $badgesProvider = new ArrayDataProvider([
+                    'allModels' => $appBadges,
+                    'pagination' => [
+                        'pageSize' => 15,
+                    ],
+                    'sort' => [
+                        'attributes' => [],
+                    ],
+                ]);
 
                 return $this->render('details', array(
                     'app' => $app,
+                    'statsData' => [],
                     'statsData' => $statsData,
                     'tab' => $tab,
                     'filter' => $filter,
                     'appDevelopers' => $appDevelopers,
+                    'appBadges' => $badgesProvider,
                 ));
             } else {
                 return $this->render('/site/error', array(

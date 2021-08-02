@@ -27,7 +27,6 @@ return [
     'Could not delete app logic.' => '',
     'Create a new app logic' => '',
     'Delete app logic' => '',
-    'Name (Task type ID)' => '',
     'Norms' => '',
     'Private' => '',
     'Public' => '',
@@ -40,5 +39,6 @@ return [
     'INFO - This app logic is no more editable or deletable because is public.' => '@@@@',
     'Id' => '@@@@',
     'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' => '@@@@',
+    'Name (Task type ID)' => '@@@@',
     'public app logic' => '@@@@',
 ];

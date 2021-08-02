@@ -201,25 +201,6 @@ trigger:staging:
     - develop
 
 
-notify:staging:
-  stage: notify
-  image: public.registry.u-hopper.com/alpine:3.13
-  script:
-    - *apk-before-script
-    - *ansible-script
-    - export RELEASE_TAG="latest"
-    - export BUILD_ENVIRONMENT="staging"
-    - export WITH_DEPLOY="yes"
-    - export DEPLOY_TRIGGERED="yes"
-    - ansible-playbook ansible/notify.yml
-  dependencies:
-    - build:staging
-    - push:staging
-  allow_failure: true
-  only:
-    - develop
-
-
 #
 # Stages for mr.
 #
@@ -295,27 +276,7 @@ trigger:issue:
     - build:issue
     - push:issue
   allow_failure: false
-  only:
-    - /^feature.*$/i
-    - /^hotfix.*$/i
-    - /^milestone.*$/i
-
-
-notify:issue:
-  stage: notify
-  image: public.registry.u-hopper.com/alpine:3.13
-  script:
-    - *apk-before-script
-    - *ansible-script
-    - export RELEASE_TAG="latest"
-    - export BUILD_ENVIRONMENT="issue"
-    - export WITH_DEPLOY="yes"
-    - export DEPLOY_TRIGGERED="no"
-    - ansible-playbook ansible/notify.yml
-  dependencies:
-    - build:issue
-    - push:issue
-  allow_failure: true
+  when: manual
   only:
     - /^feature.*$/i
     - /^hotfix.*$/i
