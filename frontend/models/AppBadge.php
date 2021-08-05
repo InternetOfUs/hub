@@ -20,6 +20,7 @@ class AppBadge extends \yii\db\ActiveRecord {
 
     public $name;
     public $description;
+    public $message;
     public $taskTypeId;
     public $threshold;
     public $image;
@@ -37,10 +38,10 @@ class AppBadge extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['name', 'description', 'taskTypeId', 'threshold', 'image', 'creator_id', 'app_id'], 'required'],
+            [['name', 'description', 'taskTypeId', 'threshold', 'image', 'creator_id', 'app_id', 'message'], 'required'],
             [['creator_id', 'created_at', 'updated_at'], 'integer'],
             [['threshold'], 'number'],
-            [['incentive_server_id', 'label'], 'string', 'max' => 256],
+            [['incentive_server_id', 'label', 'message'], 'string', 'max' => 256],
         ];
     }
 
@@ -106,6 +107,7 @@ class AppBadge extends \yii\db\ActiveRecord {
             $this->incentive_server_id,
             $this->name,
             $this->description,
+            $this->message,
             $this->taskTypeId,
             $this->threshold,
             $this->image,
@@ -127,9 +129,12 @@ class AppBadge extends \yii\db\ActiveRecord {
 
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
-            if($this->label === "" || $this->label === "null"){
+            if ($this->label === "" || $this->label === "null"){
                 $this->label = null;
             }
+            // if ($this->message === "" || $this->message === "null"){
+            //     $this->message = null;
+            // }
 
             $descriptor = $this->details();
 
@@ -161,6 +166,7 @@ class AppBadge extends \yii\db\ActiveRecord {
 
         $this->name = $descriptor->name;
         $this->description = $descriptor->description;
+        $this->message = $descriptor->message;
         $this->taskTypeId = $descriptor->taskTypeId;
         $this->threshold = $descriptor->threshold;
         $this->image = $descriptor->image;

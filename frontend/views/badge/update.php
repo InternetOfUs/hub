@@ -24,6 +24,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                     <?php echo $form->field($model, 'name'); ?>
                     <?php echo $form->field($model, 'description')->textarea(); ?>
+                    <?php echo $form->field($model, 'message')->textarea(); ?>
                     <?php
                         if($model->details()->isTransactionBadge()){
                             echo $form->field($model, 'label')->widget(Select2::classname(), [

@@ -12,16 +12,18 @@ class BadgeDescriptor {
     public $id;
     public $name;
     public $description;
+    public $message;
     public $taskTypeId;
     public $threshold;
     public $image;
     public $appId;
     public $label;
 
-    function __construct($id, $name, $description, $taskTypeId, $threshold, $image, $appId, $label=NULL) {
+    function __construct($id, $name, $description, $message, $taskTypeId, $threshold, $image, $appId, $label=NULL) {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
+        $this->message = $message;
         $this->taskTypeId = $taskTypeId;
         $this->threshold = $threshold;
         $this->image = $image;
@@ -46,6 +48,7 @@ class BadgeDescriptor {
             $rawData['id'],
             $rawData['name'],
             $rawData['description'],
+            $rawData['message'],
             $rawData['taskTypeId'],
             $rawData['threshold'],
             $rawData['image'],
@@ -62,6 +65,7 @@ class BadgeDescriptor {
             'threshold' => intval($this->threshold),
             'image' => $this->image,
             'app' => $this->appId,
+            'messege' => $this->message,
         ];
         if ($this->id) {
             $repr['id'] = $this->id;
@@ -86,6 +90,7 @@ class BadgeDescriptor {
             'threshold' => intval($this->threshold),
             'image' => $this->image,
             'app' => $this->appId,
+            'messege' => $this->message,
         ];
         if ($this->label) {
             $repr['label'] = $this->label;
