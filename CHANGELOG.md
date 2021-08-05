@@ -2,6 +2,10 @@
 
 ## Version 1.*
 
+### next
+
+* Added support for Sentry integration. This is enabled by specifying the Sentry DSN with the `SENTRY_DSN` environment variable. Additionally, _release_ and _environment_ values can be specified.
+
 ### 1.4.0
 
 * Authorisation steps enforced on the task type actions and app managing actions.
