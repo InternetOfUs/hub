@@ -69,7 +69,7 @@ class BadgeController extends BaseController {
 
         $model = new AppBadge;
         $model->creator_id = Yii::$app->user->id;
-        $model->taskTypeId = $app->task_type_id;
+        $model->taskTypeId = $app->taskType->task_manager_id;
         $model->app_id = $appId;
 
         if ($model->load(Yii::$app->request->post())) {
