@@ -70,7 +70,13 @@
                 $developers = '<ul class="developer_list">';
                 foreach ($appDevelopers as $appDeveloper) {
                     $dev = User::findIdentity($appDeveloper->user_id);
-                    $developers .= '<li>'.$dev->username.'</li>';
+
+                    $app = WenetApp::find()->where(["id" => $app->id])->one();
+                    if($app->isOwner($appDeveloper)){
+                        $developers .= '<li><strong>'.$dev->username.'</strong> ('.Yii::t('common', 'owner').')</li>';
+                    } else {
+                        $developers .= '<li>'.$dev->username.'</li>';
+                    }
                 }
                 $developers .= '</ul>';
                 echo $developers;

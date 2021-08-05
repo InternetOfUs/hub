@@ -2,7 +2,7 @@
 
 ## Version 1.*
 
-### next
+### 1.4.0
 
 * Updated the endpoint for requesting the list an application's users. It is now possible to filter the results in time by specifying _fromTs_ and _toTs_ parameters.
 * Added new statistics section to the application page: it is now presenting insights about users (new, active, engaged in addition to age and gender distribution).

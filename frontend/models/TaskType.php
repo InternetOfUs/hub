@@ -143,11 +143,7 @@ class TaskType extends \yii\db\ActiveRecord {
     }
 
     public function isCreator($user_id) {
-        if(TaskType::find()->where(['id' => $this->id, 'creator_id' => $user_id])->one()){
-            return true;
-        }else{
-            return false;
-        }
+        return TaskType::find()->where(['id' => $this->id, 'creator_id' => $user_id])->one() != null;
     }
 
     /**

@@ -56,19 +56,23 @@
     </div>
     <?php if($taskType->public == TaskType::PRIVATE_TASK_TYPE){ ?>
         <div class="dx_sidemenu_section">
-            <?php if($taskType->creator_id == Yii::$app->user->id){ ?>
-                <a href="<?= Url::to(['/tasktype/developers', 'id' => $taskType->id]); ?>" class="btn btn-secondary pull-right" style="margin-top:-5px;">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    <?php echo Yii::t('common', 'manage'); ?>
-                </a>
-            <?php } ?>
+            <a href="<?= Url::to(['/tasktype/developers', 'id' => $taskType->id]); ?>" class="btn btn-secondary pull-right" style="margin-top:-5px;">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <?php echo Yii::t('common', 'manage'); ?>
+            </a>
             <h3><?php echo Yii::t('common', 'Developers'); ?></h3>
             <?php
                 if(count($tasktypeDevelopers) > 0){
                     $developers = '<ul class="developer_list">';
                     foreach ($tasktypeDevelopers as $tasktypeDeveloper) {
                         $dev = User::findIdentity($tasktypeDeveloper->user_id);
-                        $developers .= '<li>'.$dev->username.'</li>';
+
+                        $appLogic = TaskType::find()->where(["id" => $taskType->id])->one();
+                        if($appLogic->isCreator($tasktypeDeveloper)){
+                            $developers .= '<li><strong>'.$dev->username.'</strong> ('.Yii::t('common', 'owner').')</li>';
+                        } else {
+                            $developers .= '<li>'.$dev->username.'</li>';
+                        }
                     }
                     $developers .= '</ul>';
                     echo $developers;
