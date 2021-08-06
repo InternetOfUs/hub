@@ -2,6 +2,10 @@
 
 ## Version 1.*
 
+### next
+
+* Added new badge section to the application details page for allowing the management of badges.
+
 ### 1.4.0
 
 * Updated the endpoint for requesting the list an application's users. It is now possible to filter the results in time by specifying _fromTs_ and _toTs_ parameters.

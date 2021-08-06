@@ -24,6 +24,7 @@ class AppBadge extends \yii\db\ActiveRecord {
     public $taskTypeId;
     public $threshold;
     public $image;
+    # The label identifying either the transaction badge or the message callback one
     public $label;
 
     /**
@@ -60,7 +61,7 @@ class AppBadge extends \yii\db\ActiveRecord {
      */
     public function attributeLabels() {
         return [
-            'label' => Yii::t('badge', 'Transaction label'),
+            'label' => Yii::t('badge', 'Label'),
             'id' => 'ID',
             'app_id' => 'App ID',
             'creator_id' => 'Creator ID',
@@ -119,12 +120,11 @@ class AppBadge extends \yii\db\ActiveRecord {
     }
 
     public static function getTransactionLabels($app){
-        $transactionLabels = array_keys($app->taskType->details()->transactions);
-        $labelData = [];
-        foreach ($transactionLabels as $transactionLabel) {
-            $labelData[$transactionLabel] = $transactionLabel;
-        }
-        return $labelData;
+        return array_keys($app->taskType->details()->transactions);
+    }
+
+    public static function getMessageCallbackLabels($app){
+        return array_keys($app->taskType->details()->callbacks);
     }
 
     public function beforeSave($insert) {
