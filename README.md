@@ -67,19 +67,21 @@ Optionally, configurations can also be set by setting the value of the following
 
 * `BASE_URL`
 * `API_BASE_URL`
-* `COMP_AUTH_KEY` - apikey for cross-component authentication
+* `COMP_AUTH_KEY` - Apikey for cross-component authentication
 * `SERVICE_API_BASE_URL`
 * `INCENTIVE_SERVER_BASE_URL`
 * `REDIS_HOST`
-* `REDIS_PORT` - optional, default to *6379*
-* `REDIS_DB` - optional, default to *1* for development mode and to *0* for production mode
+* `REDIS_PORT` - Optional, default to *6379*
+* `REDIS_DB` - Optional, default to *1* for development mode and to *0* for production mode
 * `KONG_URL`
 * `KONG_PROVISION_KEY`
 * `EMAIL_FROM`
 * `EMAIL_PASSWORD`
 * `EMAIL_HOST`
 * `EMAIL_PORT`
-<!-- * `EMAIL_FROM_NAME` -->
+* `SENTRY_DSN` - The DSN of the Sentry project to connect. The Sentry integration is optional.
+* `SENTRY_RELEASE` - The _release_ value that should be associated to the created Sentry events (this is optional also when Sentry integration is enabled).
+* `SENTRY_ENVIRONMENT` - The _environment_ value that should be associated to the created Sentry events (this is optional also when Sentry integration is enabled).
 
 
 ## Usage

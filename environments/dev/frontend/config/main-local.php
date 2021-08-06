@@ -40,6 +40,32 @@ $config = [
     ],
 ];
 
+# Include Sentry event logger
+if (getenv('SENTRY_DSN')) {
+
+    $sentryOptions = [];
+    if (getenv('SENTRY_RELEASE')) {
+        $sentryOptions['release'] = getenv('SENTRY_RELEASE');
+    }
+    if (getenv('SENTRY_ENVIRONMENT')) {
+        $sentryOptions['environment'] = getenv('SENTRY_ENVIRONMENT');
+    }
+
+    $config['components']['log'] = [
+        'targets' => [
+            [
+                'class' => 'notamedia\sentry\SentryTarget',
+                'dsn' => getenv('SENTRY_DSN'),
+                'levels' => ['error', 'warning'],
+                // Write the context information (the default is true):
+                'context' => true,
+                // Additional options for `Sentry\init`:
+                'clientOptions' => $sentryOptions,
+            ],
+        ],
+    ];
+}
+
 if (!YII_ENV_TEST) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
