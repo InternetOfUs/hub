@@ -65,7 +65,7 @@ class BadgeDescriptor {
             'threshold' => intval($this->threshold),
             'image' => $this->image,
             'app' => $this->appId,
-            'messege' => $this->message,
+            'message' => $this->message,
         ];
         if ($this->id) {
             $repr['id'] = $this->id;
@@ -90,7 +90,7 @@ class BadgeDescriptor {
             'threshold' => intval($this->threshold),
             'image' => $this->image,
             'app' => $this->appId,
-            'messege' => $this->message,
+            'message' => $this->message,
         ];
         if ($this->label) {
             $repr['label'] = $this->label;

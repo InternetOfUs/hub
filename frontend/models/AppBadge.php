@@ -140,6 +140,9 @@ class AppBadge extends \yii\db\ActiveRecord {
 
             if (!$this->incentive_server_id) {
                 $descriptor = Yii::$app->incentiveServer->createBadgeDescriptor($descriptor);
+                if (!$descriptor) {
+                    return false;
+                }
                 $this->incentive_server_id = $descriptor->id;
             } else {
                 if (!Yii::$app->incentiveServer->updateBadgeDescriptor($descriptor)) {
