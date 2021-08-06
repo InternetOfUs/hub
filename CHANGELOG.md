@@ -5,6 +5,7 @@
 ### next
 
 * Added new badge section to the application details page for allowing the management of badges.
+* Added support for Sentry integration. This is enabled by specifying the Sentry DSN with the `SENTRY_DSN` environment variable. Additionally, _release_ and _environment_ values can be specified.
 
 ### 1.4.0
 

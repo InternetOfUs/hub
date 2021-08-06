@@ -3,7 +3,7 @@
 $redisPort = getenv('REDIS_PORT') !== false ? getenv('REDIS_PORT') : 6379;
 $redisDb = getenv('REDIS_DATABASE') !== false ? getenv('REDIS_DATABASE') : 0;
 
-return [
+$config = [
     'components' => [
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
@@ -39,3 +39,31 @@ return [
         ],
     ],
 ];
+
+# Include Sentry event logger
+if (getenv('SENTRY_DSN')) {
+
+    $sentryOptions = [];
+    if (getenv('SENTRY_RELEASE')) {
+        $sentryOptions['release'] = getenv('SENTRY_RELEASE');
+    }
+    if (getenv('SENTRY_ENVIRONMENT')) {
+        $sentryOptions['environment'] = getenv('SENTRY_ENVIRONMENT');
+    }
+
+    $config['components']['log'] = [
+        'targets' => [
+            [
+                'class' => 'notamedia\sentry\SentryTarget',
+                'dsn' => getenv('SENTRY_DSN'),
+                'levels' => ['error', 'warning'],
+                // Write the context information (the default is true):
+                'context' => true,
+                // Additional options for `Sentry\init`:
+                'clientOptions' => $sentryOptions,
+            ],
+        ],
+    ];
+}
+
+return $config;
