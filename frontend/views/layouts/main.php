@@ -69,6 +69,7 @@
                         'developer/developers',
                         'tasktype/index', 'tasktype/create', 'tasktype/details', 'tasktype/update',
                         'tasktype/developers',
+                        'badge/create'
                     ])
                 ]
             ];

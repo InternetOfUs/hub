@@ -478,7 +478,7 @@ class WenetApp extends \yii\db\ActiveRecord {
             $shortName = substr($owner->first_name, 0, 1) .'. '. $owner->last_name;
             return $shortName;
         } catch (\Exception $e) {
-            Yii::error('App owner short name is not available', 'wenet.model.app');
+            Yii::warning('App owner short name is not available', 'wenet.model.app');
             return null;
         }
     }

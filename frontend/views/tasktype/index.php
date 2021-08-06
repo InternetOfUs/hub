@@ -38,14 +38,23 @@
                     },
                 ],
                 [
-                    'attribute' => 'name',
-                    'header' => Yii::t('tasktype', 'Name (Task type ID)'),
+                    'header' => Yii::t('badge', 'Name, Description'),
                     'format' => 'raw',
                     'value' => function ($data) {
-                        return '<strong>'.$data->name.'</strong><br>'.$data->task_manager_id.'';
+                        $description = $data->description;
+                        if(strlen($description) > 110){
+                            $description = substr($data->description, 0, 110).'...';
+                        }
+                        return '<p><strong>'.$data->name.'</strong><br>'.$description.'</p>';
                     },
                 ],
-                'description',
+                [
+                    'header' => Yii::t('tasktype', 'Task type ID'),
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return '<pre>'.$data->task_manager_id.'</pre>';
+                    },
+                ],
                 [
                     'headerOptions' => [
                         'class' => 'action-column',

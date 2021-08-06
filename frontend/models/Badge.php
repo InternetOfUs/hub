@@ -9,15 +9,15 @@ class Badge {
     public $id;
     public $name;
     public $description;
-    public $criteria;
+    public $taskTypeId;
     public $imageUrl;
     public $createdAtDt;
 
-    function __construct($id, $name, $description, $criteria, $imageUrl, $createdAtDt) {
+    function __construct($id, $name, $description, $taskTypeId, $imageUrl, $createdAtDt) {
         $this->id = $id;
         $this->name = $name;
         $this->desc = $description;
-        $this->criteria = $criteria;
+        $this->taskTypeId = $taskTypeId;
         $this->imageUrl = $imageUrl;
         $this->createdAtDt = $createdAtDt;
     }
@@ -73,7 +73,7 @@ class Badge {
             $rawData['id'],
             $rawData['name'],
             $rawData['description'],
-            $rawData['criteriaNarrative'],
+            $rawData['taskTypeId'],
             $rawData['image'],
             $createdAtDt
         );
