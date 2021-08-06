@@ -63,7 +63,10 @@
                                 $value = '<span>'.Yii::t('badge', 'Task').'</span>';
                             } else if ($data->details()->isTransactionBadge()){
                                 $value = '<span style="display:block;margin-bottom:5px;">'.Yii::t('badge', 'Transaction').'</span><pre>'.$data->label.'</pre>';
+                            } else if ($data->details()->isMessageCallbackBadge()){
+                                $value = '<span style="display:block;margin-bottom:5px;">'.Yii::t('badge', 'Callback').'</span><pre>'.$data->label.'</pre>';
                             } else {
+                                Yii::warning("Badge [$data->id] has un-supported badge type [$data->label]");
                                 $value = '<pre>?</pre>';
                             }
                             return $value;

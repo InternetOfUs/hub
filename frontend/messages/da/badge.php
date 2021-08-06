@@ -33,5 +33,5 @@ return [
     'Transaction' => '',
     'Transaction label' => '',
     'Type' => '',
-    'create badge transaction label hint' => 'Selecting one of the labels defined in the app logic description allows to create a Transaction Badge. Leaving this field blank (or selecting the option `no transaciton label`) allows the creation of a Task Badge. A Task Badge can not be modified into a Transaction one and viceversa.',
+    'create badge label hint' => 'Selecting one of the labels defined in the app logic description allows to create Transaction and Callback Badges. Leaving this field blank (or selecting the option `no label`) allows the creation of a Task Badge. A Task Badge can not be modified into a different one and viceversa.',
 ];

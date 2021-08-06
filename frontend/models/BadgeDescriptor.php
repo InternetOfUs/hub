@@ -36,7 +36,15 @@ class BadgeDescriptor {
     }
 
     public function isTransactionBadge() {
-        return !$this->isTaskBadge();
+        return !$this->isTaskBadge() && \in_array($this->label, AppBadge::getTransactionLabels($this->wenetApp()));
+    }
+
+    public function isMessageCallbackBadge() {
+        return !$this->isTaskBadge() && \in_array($this->label, AppBadge::getMessageCallbackLabels($this->wenetApp()));
+    }
+
+    public function wenetApp() {
+        return WenetApp::find()->where(['id' => $this->appId])->one();
     }
 
     public static function fromRepr($rawData) {

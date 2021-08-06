@@ -65,7 +65,6 @@ class BadgeController extends BaseController {
 
     public function actionCreate($appId){
         $app = WenetApp::find()->where(["id" => $appId])->one();
-        $transactionLabels = AppBadge::getTransactionLabels($app);
 
         $model = new AppBadge;
         $model->creator_id = Yii::$app->user->id;
@@ -80,17 +79,15 @@ class BadgeController extends BaseController {
             }
         }
 
-        return $this->render('create', array(
+        return $this->render('_form', array(
             'app' => $app,
-            'model' => $model,
-            'transactionLabels' => $transactionLabels
+            'model' => $model
         ));
     }
 
     public function actionUpdate($appId, $id) {
         $app = WenetApp::find()->where(["id" => $appId])->one();
         $model = AppBadge::find()->where(["id" => $id])->one();
-        $transactionLabels = AppBadge::getTransactionLabels($app);
 
         if ($model->load(Yii::$app->request->post())) {
             // print_r($model->details());
@@ -101,10 +98,9 @@ class BadgeController extends BaseController {
         }
 
         if($model->wenetApp->isDeveloper(Yii::$app->user->id)){
-            return $this->render('update', [
+            return $this->render('_form', [
                 'model' => $model,
                 'app' => $app,
-                'transactionLabels' => $transactionLabels
             ]);
         } else {
             return $this->render('/site/error', array(
