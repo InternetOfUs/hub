@@ -5,6 +5,7 @@
 ### next
 
 * Resolved issue related to the forwarding of guest users to the login page.
+* Updated application _Stats_ section with new data about message types (requests, responses and notifications).
 
 ### 1.5.0
 

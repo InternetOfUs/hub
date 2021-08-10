@@ -27,9 +27,9 @@ class AnalyticsManager {
         // ['user', 'age'],
         // ['user', 'gender'],
         // Message analytics
-        // ['message', 'm:from_users'],
-        // ['message', 'm:responses'],
-        // ['message', 'm:notifications'],
+        ['message', 'requests'],
+        ['message', 'responses'],
+        ['message', 'notifications'],
         // Task analytics
         // Transaction analytics
         // Badge analytics
@@ -42,6 +42,7 @@ class AnalyticsManager {
         ['user', 'age'],
         ['user', 'gender'],
         // Message analytics
+        ['message', 'all'],
         // Task analytics
         // Transaction analytics
         // Badge analytics
@@ -161,19 +162,21 @@ class AnalyticsManager {
 
     # TODO
     private function messageData($appId, $timespan) {
+        $segmentationData = $this->get($appId, 'message', 'all', $timespan)->content();
         return [
-            'platform' => [
+            'requests' => [
                 'total' => null, # TODO
-                'period' => $this->get($appId, 'message', 'notifications', $timespan)->result->count,
+                'period' => $this->get($appId, 'message', 'requests', $timespan)->content(),
             ],
-            'app' => [
+            'responses' => [
                 'total' => null, # TODO
-                'period' => $this->get($appId, 'message', 'responses', $timespan)->result->count,
+                'period' => $this->get($appId, 'message', 'responses', $timespan)->content(),
             ],
-            'users' => [
+            'notifications' => [
                 'total' => null, # TODO
-                'period' => $this->get($appId, 'message', 'from_users', $timespan)->result->count,
-            ]
+                'period' => $this->get($appId, 'message', 'notifications', $timespan)->content(),
+            ],
+            'segmentation' => $segmentationData ? $segmentationData : [],
         ];
     }
 
@@ -214,7 +217,7 @@ class AnalyticsManager {
     public function prepareData($appId, $timespan) {
         $data = [];
         $data['users'] = $this->userData($appId, $timespan);
-        // $data['messages'] = $this->messageData($appId, $timespan);
+        $data['messages'] = $this->messageData($appId, $timespan);
         // $data['tasks'] = $this->taskData($appId, $timespan);
         // $data['transactions'] = $this->transactionData($appId, $timespan);
         return $data;
