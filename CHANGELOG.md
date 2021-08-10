@@ -2,6 +2,10 @@
 
 ## Version 1.*
 
+### next
+
+* Resolved issue related to the forwarding of guest users to the login page.
+
 ### 1.5.0
 
 * Added new badge section to the application details page for allowing the management of badges.
