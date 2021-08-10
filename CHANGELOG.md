@@ -2,6 +2,13 @@
 
 ## Version 1.*
 
+### 1.5.1
+
+* Resolved issue related to the forwarding of guest users to the login page.
+* Updated application _Stats_ section with new data about:
+  * message types (requests, responses and notifications);
+  * task and transactions.
+
 ### 1.5.0
 
 * Added new badge section to the application details page for allowing the management of badges.
