@@ -207,7 +207,7 @@ class AnalyticsManager {
 
         # This is a fix required to remove the `CREATE_TASK` label. This is not a real transaction
         # label; it is, in fact, a control variable used inside the Task Manager.
-        if (array_key_exists('CREATE_TASK', $segmentationData)) {
+        if (is_array($segmentationData) && array_key_exists('CREATE_TASK', $segmentationData)) {
             $createTaskTransactions = $segmentationData['CREATE_TASK'];
             $newTransactions -= $createTaskTransactions;
             unset($segmentationData['CREATE_TASK']);
