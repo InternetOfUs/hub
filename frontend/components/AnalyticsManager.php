@@ -31,7 +31,11 @@ class AnalyticsManager {
         ['message', 'responses'],
         ['message', 'notifications'],
         // Task analytics
+        ['task', 'new'],
+        ['task', 'active'],
+        ['task', 'closed'],
         // Transaction analytics
+        ['transaction', 'total'],
         // Badge analytics
     ];
 
@@ -45,6 +49,7 @@ class AnalyticsManager {
         ['message', 'all'],
         // Task analytics
         // Transaction analytics
+        ['transaction', 'label'],
         // Badge analytics
     ];
 
@@ -160,7 +165,6 @@ class AnalyticsManager {
         ];
     }
 
-    # TODO
     private function messageData($appId, $timespan) {
         $segmentationData = $this->get($appId, 'message', 'all', $timespan)->content();
         return [
@@ -180,29 +184,41 @@ class AnalyticsManager {
         ];
     }
 
-    # TODO
     private function taskData($appId, $timespan) {
         return [
-            'total' => 101,
-            'new' => 21,
-            'active' => 86,
-            'closed' => 15,
+            'new' => [
+                'total' => null, # TODO
+                'period' => $this->get($appId, 'task', 'new', $timespan)->content(),
+            ],
+            'active' => [
+                'total' => null, # TODO
+                'period' => $this->get($appId, 'task', 'active', $timespan)->content(),
+            ],
+            'closed' => [
+                'total' => null, # TODO
+                'period' => $this->get($appId, 'task', 'closed', $timespan)->content(),
+            ],
         ];
     }
 
-    # TODO
     private function transactionData($appId, $timespan) {
+        $segmentationData = $this->get($appId, 'transaction', 'label', $timespan)->content();
+        $newTransactions = $this->get($appId, 'transaction', 'total', $timespan)->content();
+
+        # This is a fix required to remove the `CREATE_TASK` label. This is not a real transaction
+        # label; it is, in fact, a control variable used inside the Task Manager.
+        if (array_key_exists('CREATE_TASK', $segmentationData)) {
+            $createTaskTransactions = $segmentationData['CREATE_TASK'];
+            $newTransactions -= $createTaskTransactions;
+            unset($segmentationData['CREATE_TASK']);
+        }
+
         return [
-            'total' => 111,
-            'new' => 81,
-            'distribution' => [
-                'answerTransaction' => 5,
-                'notAnswerTransaction' => 10,
-                'bestAnswerTransaction' => 15,
-                'moreAnswerTransaction' => 20,
-                'reportQuestionTransaction' => 25,
-                'reportAnswerTransaction' => 6
-            ]
+            'new' => [
+                'total' => null, # TODO
+                'period' => $newTransactions,
+            ],
+            'segmentation' => $segmentationData ? $segmentationData : [],
         ];
     }
 
@@ -218,8 +234,8 @@ class AnalyticsManager {
         $data = [];
         $data['users'] = $this->userData($appId, $timespan);
         $data['messages'] = $this->messageData($appId, $timespan);
-        // $data['tasks'] = $this->taskData($appId, $timespan);
-        // $data['transactions'] = $this->transactionData($appId, $timespan);
+        $data['tasks'] = $this->taskData($appId, $timespan);
+        $data['transactions'] = $this->transactionData($appId, $timespan);
         return $data;
     }
 
