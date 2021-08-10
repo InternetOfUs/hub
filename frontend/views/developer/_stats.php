@@ -17,7 +17,7 @@
         </div>
 
         <?php echo Yii::$app->controller->renderPartial('stats/_users', ['statsData' => $statsData['users']]); ?>
-        <?php // echo Yii::$app->controller->renderPartial('stats/_messages', ['statsData' => $statsData['messages']]); ?>
+        <?php echo Yii::$app->controller->renderPartial('stats/_messages', ['statsData' => $statsData['messages']]); ?>
         <?php // echo Yii::$app->controller->renderPartial('stats/_tasks', ['statsData' => $statsData['tasks']]); ?>
         <?php // echo Yii::$app->controller->renderPartial('stats/_transactions', ['statsData' => $statsData['transactions']]); ?>
 
