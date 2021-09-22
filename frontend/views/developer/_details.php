@@ -27,16 +27,16 @@
             </table>
         </div>
 
-        <?php if($app->community_id != null){ ?>
+        <?php if($community->id != null){ ?>
             <div class="box_container">
                 <h3><?php echo Yii::t('app', 'Community'); ?></h3>
                 <p><?php echo Yii::t('app', '...'); ?></p>
 
                 <p><?php echo Yii::t('app', 'Community ID'); ?>:</p>
-                <pre><?php echo $app->community_id; ?></pre>
+                <pre><?php echo $community->id; ?></pre>
                 <br>
                 <p><?php echo Yii::t('app', 'Norms'); ?>:</p>
-                <pre><code id=norms></code></pre>
+                <pre><code id=norms><?php echo $community->norms; ?></code></pre>
                 <hr>
                 <a href="<?= Url::to(['/community/update', 'id' => $app->community_id, 'appId' => $app->id]); ?>" style="margin-right:10px;" class="btn btn-primary pull-right" title="<?php echo Yii::t('common', 'edit'); ?>">
                     <i class="fa fa-pencil"></i> <?php echo Yii::t('common', 'edit'); ?>

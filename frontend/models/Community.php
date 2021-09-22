@@ -37,6 +37,25 @@ class Community extends Model {
         }
     }
 
+    public static function empty($appId) {
+        $community = new Community();
+        $community->id = null;
+        $community->appId = $appId;
+        $community->norms = Json::encode([]);
+        $community->originalData = [
+            'name' => null,
+            'description' => null,
+            'keywords' => [],
+            'id' => null,
+            'appId' => $appId,
+            'members' => '[]',
+            'socialPractices' => '[]',
+            'taskTypeIds' => '[]',
+            'norms' => '[]',
+        ];
+        return $community;
+    }
+
     /**
      * {@inheritdoc}
      */

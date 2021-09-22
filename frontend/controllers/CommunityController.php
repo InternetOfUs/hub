@@ -59,15 +59,22 @@ class CommunityController extends BaseController {
     public function actionUpdate($id, $appId) {
         $app = WenetApp::find()->where(["id" => $appId])->one();
 
-        $community = new Community;
-        $community->norms = Json::encode([
-            [
-              "description"=> "Notify to all the participants that the task is closed.",
-              "whenever"=> "is_received_do_transaction('close',Reason) and not(is_task_closed()) and get_profile_id(Me) and get_task_requester_id(RequesterId) and =(Me,RequesterId) and get_participants(Participants)",
-              "thenceforth"=> "add_message_transaction() and close_task() and send_messages(Participants,'close',Reason)",
-              "ontology"=> "get_participants(P) :- get_task_state_attribute(UserIds,'participants',[]), get_profile_id(Me), wenet_remove(P,Me,UserIds)."
-            ]
-        ]);
+        try {
+            $community = \Yii::$app->profileManager->getCommunity($id, $appId);
+        } catch (\Exception $e) {
+            Yii::warning("Community $id (for app $appId) does not exist.", 'wenet.controller.community');
+            # TODO should show error page
+        }
+
+        if ($community->load(Yii::$app->request->post()) && $community->validate()) {
+            try {
+                \Yii::$app->profileManager->updateCommunity($community);
+                return $this->redirect(['developer/details', 'id' => $appId]);
+            } catch (\Exception $e) {
+                # TODO how should we display the error in this case?
+            }
+
+        }
 
         return $this->render('/community/update', array(
             'app' => $app,
