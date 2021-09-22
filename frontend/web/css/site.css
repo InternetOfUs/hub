@@ -758,7 +758,8 @@ textarea#tasktype-description{min-height: 150px;}
 textarea#tasktype-attributes,
 textarea#tasktype-transactions,
 textarea#tasktype-callbacks,
-textarea#tasktype-norms{
+textarea#tasktype-norms,
+textarea#community-norms{
     background-color: #232b3d;
     border-color: #232b3d;
     min-height: 200px;

@@ -11,6 +11,7 @@ use yii\data\ArrayDataProvider;
 use common\models\User;
 use frontend\components\AnalyticsManager;
 use frontend\models\WenetApp;
+use frontend\models\Community;
 use frontend\models\AppDeveloper;
 use frontend\models\BadgeDescriptor;
 use frontend\models\AppBadge;
@@ -98,7 +99,7 @@ class DeveloperController extends BaseController {
 		));
     }
 
-    public function actionDetails($id, $filter='7d', $tab='settings') {
+    public function actionDetails($id, $filter='7d', $tab='details') {
 		$app = WenetApp::find()->where(["id" => $id])->one();
 
         if(!$app || $app->status == WenetApp::STATUS_DELETED){
@@ -110,6 +111,16 @@ class DeveloperController extends BaseController {
                 $analyticManager = new AnalyticsManager;
                 $analyticManager->createAnalyticsIfMissing($app->id);
                 $statsData = $analyticManager->prepareData($app->id, $filter);
+
+                $community = new Community;
+                $community['norms'] = Json::encode([
+                    [
+                      "description"=> "Notify to all the participants that the task is closed.",
+                      "whenever"=> "is_received_do_transaction('close',Reason) and not(is_task_closed()) and get_profile_id(Me) and get_task_requester_id(RequesterId) and =(Me,RequesterId) and get_participants(Participants)",
+                      "thenceforth"=> "add_message_transaction() and close_task() and send_messages(Participants,'close',Reason)",
+                      "ontology"=> "get_participants(P) :- get_task_state_attribute(UserIds,'participants',[]), get_profile_id(Me), wenet_remove(P,Me,UserIds)."
+                    ]
+                ]);
 
                 $appBadges = AppBadge::find()->where(['app_id' => $app->id])->all();
                 $badgesProvider = new ArrayDataProvider([
@@ -124,6 +135,7 @@ class DeveloperController extends BaseController {
 
                 return $this->render('details', array(
                     'app' => $app,
+                    'community' => $community,
                     'statsData' => [],
                     'statsData' => $statsData,
                     'tab' => $tab,
