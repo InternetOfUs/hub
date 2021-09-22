@@ -15,7 +15,7 @@
             <p><?php echo Yii::t('app', 'To authenticate requests, you will need to include the following parameters in the header of each call:'); ?></p>
             <table class="attribute_container">
                 <tr>
-                    <td><span>id:</span></td>
+                    <td><span>ID:</span></td>
                     <td><pre><?php echo $app->id; ?></pre></td>
                 </tr>
             </table>
@@ -26,6 +26,23 @@
                 </tr>
             </table>
         </div>
+
+        <?php if($app->community_id != null){ ?>
+            <div class="box_container">
+                <h3><?php echo Yii::t('app', 'Community'); ?></h3>
+                <p><?php echo Yii::t('app', '...'); ?></p>
+                <table class="attribute_container">
+                    <tr>
+                        <td style="width: 110px;"><span>Community ID:</span></td>
+                        <td><pre><?php echo $app->community_id; ?></pre></td>
+                    </tr>
+                </table>
+                <hr>
+                <a href="<?= Url::to(['/community/update', 'id' => $app->community_id, 'appId' => $app->id]); ?>" style="margin-right:10px;" class="btn btn-primary pull-right" title="<?php echo Yii::t('common', 'edit'); ?>">
+                    <i class="fa fa-pencil"></i> <?php echo Yii::t('common', 'edit'); ?>
+                </a>
+            </div>
+        <?php } ?>
 
         <div class="box_container">
             <h3><?php echo Yii::t('app', 'OAuth2 Settings'); ?></h3>

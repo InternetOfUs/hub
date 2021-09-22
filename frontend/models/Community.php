@@ -51,7 +51,7 @@ class Community extends Model {
         $community = new Community();
 
         $community->originalData = $rawData;
-        $community->norms = $rawData['norms'];
+        $community->norms = Json::encode($rawData['norms']);
         $community->id = $rawData['id'];
         $community->appId = $rawData['appId'];
 
@@ -59,7 +59,7 @@ class Community extends Model {
     }
 
     public function toRepr() {
-        $this->originalData['norms'] = $this->norms;
+        $this->originalData['norms'] = Json::decode($this->norms);
         return $this->originalData;
     }
 

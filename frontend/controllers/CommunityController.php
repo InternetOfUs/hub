@@ -2,22 +2,15 @@
 namespace frontend\controllers;
 
 use Yii;
-// use yii\helpers\Json;
+use yii\helpers\Json;
 use yii\web\Controller;
-// use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-// use yii\data\ArrayDataProvider;
-// use common\models\User;
-// use frontend\components\AnalyticsManager;
-// use frontend\models\WenetApp;
-// use frontend\models\AppDeveloper;
-// use frontend\models\BadgeDescriptor;
-// use frontend\models\AppBadge;
-// use frontend\models\analytics\AnalyticDescription;
+use frontend\models\WenetApp;
+use frontend\models\Community;
 
 /**
- * Developer controller
+ * Communty controller
  */
 class CommunityController extends BaseController {
 
@@ -64,8 +57,21 @@ class CommunityController extends BaseController {
     }
 
     public function actionUpdate($id, $appId) {
+        $app = WenetApp::find()->where(["id" => $appId])->one();
+
+        $community = new Community;
+        $community->norms = Json::encode([
+            [
+              "description"=> "Notify to all the participants that the task is closed.",
+              "whenever"=> "is_received_do_transaction('close',Reason) and not(is_task_closed()) and get_profile_id(Me) and get_task_requester_id(RequesterId) and =(Me,RequesterId) and get_participants(Participants)",
+              "thenceforth"=> "add_message_transaction() and close_task() and send_messages(Participants,'close',Reason)",
+              "ontology"=> "get_participants(P) :- get_task_state_attribute(UserIds,'participants',[]), get_profile_id(Me), wenet_remove(P,Me,UserIds)."
+            ]
+        ]);
 
         return $this->render('/community/update', array(
+            'app' => $app,
+            'community' => $community
         ));
     }
 
