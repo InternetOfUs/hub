@@ -220,7 +220,7 @@ class DeveloperController extends BaseController {
                 try {
                     $community = \Yii::$app->profileManager->createCommunity($model->id);
                     $model->community_id = $community->id;
-                    if ($model->save()) {
+                    if (!$model->save()) {
                         Yii::error("Could not associate new community [$community->id] to app [$model->id].", 'wenet.controller.developer');
                     }
                 } catch (\Exception $e) {
