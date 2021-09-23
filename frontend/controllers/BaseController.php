@@ -52,7 +52,7 @@ class BaseController extends Controller {
             if ($profile === false) {
                 Yii::debug("Getting profile of user [$userId] from service APIs", 'wenet.controller.base');
                 $profile = Yii::$app->serviceApi->getUserProfile($userId);
-                $this->updateCachedUserProfile($profile);
+                $this->updateCachedUserProfile($profile, Yii::$app->params['profile.cache.time.secs']);
             }
         } catch (\Exception $e) {
             Yii::error("User [$userId] profile not available: not from cache, nor from Service APIs: $e", 'wenet.controller.base');

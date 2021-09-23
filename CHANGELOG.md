@@ -2,6 +2,11 @@
 
 ## Version 1.*
 
+### 1.6.0
+
+* Made the user profile cache time configurable via the environment variable `PROFILE_CACHE_TIME_SECS`. The default value is currently set to 60 seconds.
+* Configured new analytic time window `all` that allows to access the analytics of the complete timeline of an application.
+
 ### 1.5.1
 
 * Resolved issue related to the forwarding of guest users to the login page.
