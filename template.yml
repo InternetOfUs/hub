@@ -30,17 +30,21 @@
           - name: trigger
             manual: true
             git_ref: develop
-      mr:
+      # mr:
+      #   stages:
+      #     - name: build
+      #       manual: true
+      # issue:
+      #   stages:
+      #     - name: build
+      #       manual: true
+      #     - name: push
+      #     - name: trigger
+      #       git_ref: develop
+      #       manual: true
+      default:
         stages:
           - name: build
-            manual: true
-      issue:
-        stages:
-          - name: build
-            manual: true
-          - name: push
-          - name: trigger
-            git_ref: develop
-            manual: true
+            type: badge
   roles:
     - uh.project_template
