@@ -48,10 +48,10 @@ class Community extends Model {
             'keywords' => [],
             'id' => null,
             'appId' => $appId,
-            'members' => '[]',
-            'socialPractices' => '[]',
-            'taskTypeIds' => '[]',
-            'norms' => '[]',
+            'members' => [],
+            'socialPractices' => [],
+            'taskTypeIds' => [],
+            'norms' => [],
         ];
         return $community;
     }
