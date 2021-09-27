@@ -28,7 +28,6 @@
             manual: true
           - name: push
           - name: trigger
-            manual: true
             git_ref: develop
       # mr:
       #   stages:
