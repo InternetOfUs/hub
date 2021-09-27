@@ -116,6 +116,7 @@ class DeveloperController extends BaseController {
                 try {
                     $community = \Yii::$app->profileManager->getCommunity($app->community_id, $app->id);
                 } catch (\Exception $e) {
+                    $log = "Community for app [$id] has not been set";
                     Yii::warning($log, 'wenet.controller.developer');
                 }
 
