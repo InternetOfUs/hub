@@ -2,6 +2,10 @@
 
 ## Version 1.*
 
+### 1.6.0
+
+* Every new application can now be automatically associated to a community. The community norms can be edited directly in the application setting section. Important: for already existing applications it is going to be required to manually associated one of the existing communities. 
+
 ### 1.5.1
 
 * Resolved issue related to the forwarding of guest users to the login page.

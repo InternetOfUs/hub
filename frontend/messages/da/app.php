@@ -17,6 +17,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    '...' => '',
     'Active' => '',
     'Age distribution' => '',
     'Android app' => '',
@@ -35,6 +36,8 @@ return [
     'Callback Url' => '',
     'Categories' => '',
     'Closed' => '',
+    'Community' => '',
+    'Community ID' => '',
     'Configuration of the WeNet OAuth2 - guiding steps' => '',
     'Connector succesfully disabled.' => '',
     'Connector succesfully enabled.' => '',
@@ -84,6 +87,7 @@ return [
     'Metadata' => '',
     'Name' => '',
     'New' => '',
+    'Norms' => '',
     'Notifications' => '',
     'OAuth2' => '',
     'OAuth2 Settings' => '',
@@ -103,6 +107,7 @@ return [
     'Set up at least one link.' => '',
     'Skip OAuth2 configuration' => '',
     'Social' => '',
+    'Something went wrong while updating the community.' => '',
     'Source link image' => '',
     'Status' => '',
     'Tasks' => '',

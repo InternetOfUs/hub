@@ -63,17 +63,20 @@ class CommunityController extends BaseController {
             $community = \Yii::$app->profileManager->getCommunity($id, $appId);
         } catch (\Exception $e) {
             Yii::warning("Community $id (for app $appId) does not exist.", 'wenet.controller.community');
-            # TODO should show error page
+            return $this->render('/site/error', array(
+                'message' => Yii::t('community', 'The community you are looking for does not exist.'),
+                'name' => Yii::t('common', 'Error')
+            ));
         }
 
         if ($community->load(Yii::$app->request->post()) && $community->validate()) {
             try {
                 \Yii::$app->profileManager->updateCommunity($community);
-                return $this->redirect(['developer/details', 'id' => $appId]);
             } catch (\Exception $e) {
-                # TODO how should we display the error in this case?
+                Yii::error("Error while updating community [$id] for app [$appId]: $e", 'wenet.controller.community');
+                Yii::$app->session->setFlash('error', Yii::t('app', 'Something went wrong while updating the community.'));
             }
-
+            return $this->redirect(['developer/details', 'id' => $appId]);
         }
 
         return $this->render('/community/update', array(

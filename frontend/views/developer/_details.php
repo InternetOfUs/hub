@@ -30,7 +30,7 @@
         <?php if($community->id != null){ ?>
             <div class="box_container">
                 <h3><?php echo Yii::t('app', 'Community'); ?></h3>
-                <p><?php echo Yii::t('app', '...'); ?></p>
+                <!-- <p><?php //echo Yii::t('app', '...'); ?></p> -->
 
                 <p><?php echo Yii::t('app', 'Community ID'); ?>:</p>
                 <pre><?php echo $community->id; ?></pre>
