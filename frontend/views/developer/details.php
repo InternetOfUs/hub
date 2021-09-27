@@ -26,8 +26,17 @@
         <?php
             $items = [
                 [
+                    'label' =>'<i class="fa fa-info"></i> ' . Yii::t('common', 'App Details'),
+                    'content' => Yii::$app->controller->renderPartial('_details', [
+                        'app' => $app,
+                        'appDevelopers' => $appDevelopers,
+                        'community' => $community
+                    ]),
+                    'active' => $tab == 'details'
+                ],
+                [
                     'label' =>'<i class="fa fa-cog"></i> ' . Yii::t('common', 'Settings'),
-                    'content' => Yii::$app->controller->renderPartial('_settings', ['app' => $app, 'appDevelopers' => $appDevelopers]),
+                    'content' => Yii::$app->controller->renderPartial('_settings', ['app' => $app,]),
                     'active' => $tab == 'settings'
                 ],
                 [

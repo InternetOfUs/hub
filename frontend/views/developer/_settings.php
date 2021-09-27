@@ -9,25 +9,8 @@
 ?>
 
 <div class="row">
-    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="box_container" style="margin-top:30px;">
-            <h3><?php echo Yii::t('app', 'App Details'); ?></h3>
-            <p><?php echo Yii::t('app', 'To authenticate requests, you will need to include the following parameters in the header of each call:'); ?></p>
-            <table class="attribute_container">
-                <tr>
-                    <td><span>id:</span></td>
-                    <td><pre><?php echo $app->id; ?></pre></td>
-                </tr>
-            </table>
-            <table class="attribute_container">
-                <tr>
-                    <td><span>secret:</span></td>
-                    <td><pre><?php echo $app->token; ?></pre></td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="box_container">
             <h3><?php echo Yii::t('app', 'OAuth2 Settings'); ?></h3>
             <?php if($showSocialLogin){ ?>
                 <p>
@@ -52,14 +35,6 @@
                 </a>
             <?php } ?>
         </div>
-
-        <?php if($showSocialLogin){ ?>
-            <?php echo Yii::$app->controller->renderPartial('settings/_connectors', ['app' => $app]); ?>
-        <?php } ?>
-
-    </div>
-    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-        <?php echo Yii::$app->controller->renderPartial('settings/_side_data', ['app' => $app, 'appDevelopers' => $appDevelopers]); ?>
     </div>
 </div>
 <div class="row">
@@ -69,3 +44,7 @@
         <?php } ?>
     </div>
 </div>
+
+<?php if($showSocialLogin){ ?>
+    <?php echo Yii::$app->controller->renderPartial('settings/_connectors', ['app' => $app]); ?>
+<?php } ?>
