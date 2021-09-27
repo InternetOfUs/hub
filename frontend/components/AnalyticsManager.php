@@ -15,6 +15,7 @@ class AnalyticsManager {
         '1d',
         '7d',
         '30d',
+        'all',
     ];
 
     const COUNT_ANALITYCS = [

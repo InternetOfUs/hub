@@ -68,6 +68,7 @@ Optionally, configurations can also be set by setting the value of the following
 * `BASE_URL`
 * `API_BASE_URL`
 * `COMP_AUTH_KEY` - Apikey for cross-component authentication
+* `PROFILE_CACHE_TIME_SECS` cache time for the user profile information (default to 60 seconds)
 * `SERVICE_API_BASE_URL`
 * `INCENTIVE_SERVER_BASE_URL`
 * `REDIS_HOST`

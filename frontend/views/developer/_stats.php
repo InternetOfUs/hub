@@ -13,6 +13,7 @@
                 <a href="<?php echo Url::to(['/developer/details', 'id' => $app->id, 'filter' => '1d', 'tab' => 'stats']); ?>" id="filter_1" class="<?php echo $filter == '1d' ? 'active' : ''; ?>"><?php echo Yii::t('app', 'yesterday'); ?></a>
                 <a href="<?php echo Url::to(['/developer/details', 'id' => $app->id, 'filter' => '7d', 'tab' => 'stats']); ?>" id="filter_7" class="<?php echo $filter == '7d' ? 'active' : ''; ?>"><?php echo Yii::t('app', 'last 7 days'); ?></a>
                 <a href="<?php echo Url::to(['/developer/details', 'id' => $app->id, 'filter' => '30d', 'tab' => 'stats']); ?>" id="filter_30" class="<?php echo $filter == '30d' ? 'active' : ''; ?>"><?php echo Yii::t('app', 'last 30 days'); ?></a>
+                <a href="<?php echo Url::to(['/developer/details', 'id' => $app->id, 'filter' => 'all', 'tab' => 'stats']); ?>" id="filter_all" class="<?php echo $filter == 'all' ? 'active' : ''; ?>"><?php echo Yii::t('app', 'always'); ?></a>
             </div>
         </div>
 
