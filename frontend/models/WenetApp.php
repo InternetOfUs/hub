@@ -86,7 +86,7 @@ class WenetApp extends \yii\db\ActiveRecord {
             [['id', 'token', 'name', 'status', 'owner_id'], 'required'],
             [['status', 'created_at', 'updated_at', 'owner_id', 'data_connector', 'conversational_connector', 'task_type_id'], 'integer'],
             [['description', 'message_callback_url', 'metadata', 'image_url'], 'string'],
-            [['id'], 'string', 'max' => 128],
+            [['id', 'community_id'], 'string', 'max' => 128],
             [['name', 'token'], 'string', 'max' => 512],
             [['id'], 'unique'],
             [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['owner_id' => 'id']],
@@ -111,6 +111,7 @@ class WenetApp extends \yii\db\ActiveRecord {
             'metadata' => $this->allMetadata,
             'taskTypeId' => $this->task_type_id,
             'messageCallbackUrl' => $this->message_callback_url,
+            'community_id' => $this->community_id,
         ];
     }
 
@@ -211,6 +212,7 @@ class WenetApp extends \yii\db\ActiveRecord {
             'associatedCategories' => Yii::t('app', 'Associated Categories'),
             'image_url' => Yii::t('app', 'App image URL'),
             'task_type_id' => Yii::t('app', 'App Logic'),
+            'community_id' => Yii::t('app', 'Community ID'),
         ];
     }
 

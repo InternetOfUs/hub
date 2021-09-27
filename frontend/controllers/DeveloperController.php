@@ -11,6 +11,7 @@ use yii\data\ArrayDataProvider;
 use common\models\User;
 use frontend\components\AnalyticsManager;
 use frontend\models\WenetApp;
+use frontend\models\Community;
 use frontend\models\AppDeveloper;
 use frontend\models\BadgeDescriptor;
 use frontend\models\AppBadge;
@@ -98,7 +99,7 @@ class DeveloperController extends BaseController {
 		));
     }
 
-    public function actionDetails($id, $filter='7d', $tab='settings') {
+    public function actionDetails($id, $filter='7d', $tab='details') {
 		$app = WenetApp::find()->where(["id" => $id])->one();
 
         if(!$app || $app->status == WenetApp::STATUS_DELETED){
@@ -110,6 +111,13 @@ class DeveloperController extends BaseController {
                 $analyticManager = new AnalyticsManager;
                 $analyticManager->createAnalyticsIfMissing($app->id);
                 $statsData = $analyticManager->prepareData($app->id, $filter);
+
+                $community = Community::empty($app->id);
+                try {
+                    $community = \Yii::$app->profileManager->getCommunity($app->community_id, $app->id);
+                } catch (\Exception $e) {
+                    Yii::warning($log, 'wenet.controller.developer');
+                }
 
                 $appBadges = AppBadge::find()->where(['app_id' => $app->id])->all();
                 $badgesProvider = new ArrayDataProvider([
@@ -124,6 +132,7 @@ class DeveloperController extends BaseController {
 
                 return $this->render('details', array(
                     'app' => $app,
+                    'community' => $community,
                     'statsData' => [],
                     'statsData' => $statsData,
                     'tab' => $tab,
@@ -207,6 +216,17 @@ class DeveloperController extends BaseController {
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->create()) {
+
+                try {
+                    $community = \Yii::$app->profileManager->createCommunity($model->id);
+                    $model->community_id = $community->id;
+                    if (!$model->save()) {
+                        Yii::error("Could not associate new community [$community->id] to app [$model->id].", 'wenet.controller.developer');
+                    }
+                } catch (\Exception $e) {
+                    Yii::error("Could not create community for app [$model->id].", 'wenet.controller.developer');
+                }
+
                 $appDeveloper = new AppDeveloper;
                 $appDeveloper->app_id = $model->id;
                 $appDeveloper->user_id = $model->owner_id;

@@ -104,6 +104,11 @@ return [
             'baseUrl' => $params['task.manager.base.url'],
             'apikey' => $params['hub.apikey'],
         ],
+        'profileManager' => [
+            'class' => 'frontend\components\ProfileManagerConnector',
+            'baseUrl' => $params['profile.manager.base.url'],
+            'apikey' => $params['hub.apikey'],
+        ],
         'loggingComponent' => [
             'class' => 'frontend\components\LoggingComponentConnector',
             'baseUrl' => $params['logging.component.base.url'],

@@ -6,6 +6,7 @@
 
 * Made the user profile cache time configurable via the environment variable `PROFILE_CACHE_TIME_SECS`. The default value is currently set to 60 seconds.
 * Configured new analytic time window `all` that allows to access the analytics of the complete timeline of an application.
+* Every new application can now be automatically associated to a community. The community norms can be edited directly in the application setting section. Important: for already existing applications it is going to be required to manually associated one of the existing communities.
 
 ### 1.5.1
 

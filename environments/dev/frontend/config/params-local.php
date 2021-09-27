@@ -21,6 +21,7 @@ return [
 
 	'incentive.server.base.url' => getenv('INCENTIVE_SERVER_BASE_URL'),
 	'task.manager.base.url' => getenv('TASK_MANAGER_BASE_URL'),
+	'profile.manager.base.url' => getenv('PROFILE_MANAGER_BASE_URL'),
 	'logging.component.base.url' => getenv('LOGGING_COMPONENT_BASE_URL'),
 	'logging.component.base.url' => getenv('LOGGING_COMPONENT_BASE_URL'),
 	'profile.cache.time.secs' => getenvOrDefault('PROFILE_CACHE_TIME_SECS', 60),
