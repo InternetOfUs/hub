@@ -2,6 +2,10 @@
 
 ## Version 1.*
 
+### 1.6.1
+
+* Fixed error for a non declared variable in catching if an app has an already created community or not.
+
 ### 1.6.0
 
 * Made the user profile cache time configurable via the environment variable `PROFILE_CACHE_TIME_SECS`. The default value is currently set to 60 seconds.
