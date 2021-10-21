@@ -94,6 +94,9 @@ class AppBadge extends \yii\db\ActiveRecord {
             Url::toRoute('/images/badges/medals/first_good_answer.png', $flag),
             Url::toRoute('/images/badges/medals/good_answer_level_1.png', $flag),
             Url::toRoute('/images/badges/medals/good_answer_level_2.png', $flag),
+            Url::toRoute('/images/badges/medals/long_answer_level_1.png', $flag),
+            Url::toRoute('/images/badges/medals/long_answer_level_2.png', $flag),
+            Url::toRoute('/images/badges/medals/long_answer_level_3.png', $flag),
         ];
 
         if (in_array('env', Yii::$app->params) && Yii::$app->params['env'] == 'local') {
