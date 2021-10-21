@@ -2,6 +2,12 @@
 
 ## Version 1.*
 
+### 1.6.2
+
+:rocket: New features
+
+* Added new badge images.
+
 ### 1.6.1
 
 * Fixed error for a non declared variable in catching if an app has an already created community or not.
