@@ -1,0 +1,121 @@
+version: '3.1'
+
+services:
+
+  # hub:
+  #   # image: internetofus/hub:latest
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile-dev
+  #   # restart: unless-stopped
+  #   container_name: wenet-hub_dev
+  #   environment:
+  #     # COMP_AUTH_KEY: "COMP_APIKEY" # The apikey required for authenticate the hub on kong (used to perform requests to the other components)
+  #     # BASE_URL: /dev/hub # The base url of the components
+  #     MYSQL_HOST: wenet-mysql_dev # the mysql host
+  #     MYSQL_PORT: 3306 
+  #     MYSQL_DATABASE: wenet
+  #     MYSQL_PASSWORD: password
+  #     MYSQL_USER: root
+  #     REDIS_DATABASE: 1
+  #     REDIS_HOST: wenet-redis.wenet
+  #     REDIS_PORT: 6379
+  #     # SERVICE_API_BASE_URL: https://... # The base url for the service api component
+  #     # INCENTIVE_SERVER_BASE_URL: https://... # The base url for the incentive service
+  #     # TASK_MANAGER_BASE_URL: https://... # The base url for the task manager
+  #     # KONG_INTERNAL_URL: http://... # The internal url for the kong rest interface
+  #     # KONG_EXTERNAL_URL: https://... # The extarnal url for kong
+  #     # KONG_PROVISION_KEY: KEY #the provision key for kong oauth plugin
+  #     # AUTHORISATION_API_BASE_URL: https://... # The kong base url for oauth authenticayion
+  #     # EMAIL_FROM: support@internetofus.eu
+  #     # EMAIL_PASSWORD: password
+  #     # EMAIL_HOST: "..." # mail server host
+  #     # EMAIL_PORT: "..." # mail server port
+
+
+  #     PROD_MODE: '0'
+  #   volumes:
+  #     - .:/app
+  #   networks:
+  #     - wenet
+  #   ports:
+  #     - 80:80
+
+
+  frontend:
+    build: frontend
+    ports:
+      - 20080:80
+    volumes:
+      # Re-use local composer cache via host-volume
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      # Mount source-code for development
+      - ./:/app
+
+    environment:
+      # COMP_AUTH_KEY: "COMP_APIKEY" # The apikey required for authenticate the hub on kong (used to perform requests to the other components)
+      # BASE_URL: /dev/hub # The base url of the components
+      MYSQL_HOST: wenet-mysql_dev # the mysql host
+      MYSQL_PORT: 3306 
+      MYSQL_DATABASE: wenet
+      MYSQL_PASSWORD: password
+      MYSQL_USER: root
+      REDIS_DATABASE: 1
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      # SERVICE_API_BASE_URL: https://... # The base url for the service api component
+      # INCENTIVE_SERVER_BASE_URL: https://... # The base url for the incentive service
+      # TASK_MANAGER_BASE_URL: https://... # The base url for the task manager
+      # KONG_INTERNAL_URL: http://... # The internal url for the kong rest interface
+      # KONG_EXTERNAL_URL: https://... # The extarnal url for kong
+      # KONG_PROVISION_KEY: KEY #the provision key for kong oauth plugin
+      # AUTHORISATION_API_BASE_URL: https://... # The kong base url for oauth authenticayion
+      # EMAIL_FROM: support@internetofus.eu
+      # EMAIL_PASSWORD: password
+      # EMAIL_HOST: "..." # mail server host
+      # EMAIL_PORT: "..." # mail server port
+
+
+      PROD_MODE: '0'
+    networks:
+      - wenet
+
+
+
+  mysql:
+    image: mysql:5.7
+    container_name: wenet-mysql_dev
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_ROOT_HOST: "%"
+    volumes:
+      - wenet-mysql_dev:/var/lib/mysql
+    networks:
+      - wenet
+    ports:
+      - 3306:3306
+
+  redis:
+    image: redis:5.0
+    container_name: wenet-redis
+    restart: unless-stopped
+    networks:
+      - wenet
+    volumes:
+      - wenet-redis:/data
+
+
+volumes:
+  wenet-mysql_dev:
+    external: false
+  wenet-redis:
+    external: false
+
+networks:
+  wenet:
+    external: false
