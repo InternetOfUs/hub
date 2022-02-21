@@ -20,7 +20,7 @@
     </div>
     <div class="dx_sidemenu_section">
         <h3><?php echo Yii::t('common', 'Details'); ?></h3>
-        <p><?php echo nl2br($app->description); ?></p>
+        <p dir="auto"><?php echo nl2br($app->description); ?></p>
         <ul>
             <li>
                 <?php

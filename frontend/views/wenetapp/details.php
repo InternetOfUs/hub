@@ -23,8 +23,8 @@
             </div>
         <?php } ?>
 
-        <h1><?php echo $app->name; ?></h1>
-        <p style="margin:20px 0;"><?php echo nl2br($app->description); ?></p>
+        <h1 dir="auto"><?php echo $app->name; ?></h1>
+        <p dir="auto" style="margin:20px 0; text-align:left;"><?php echo nl2br($app->description); ?></p>
         <?php if($app->getOwnerShortName() != null){ ?>
             <p><strong><?php echo Yii::t('app', 'Creator'); ?>:</strong> <?php echo $app->getOwnerShortName(); ?></p>
         <?php } ?>

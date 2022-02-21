@@ -27,8 +27,8 @@
         ?>
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <?php echo $form->field($model, 'name'); ?>
-                    <?php echo $form->field($model, 'description')->textarea(); ?>
+                    <?php echo $form->field($model, 'name')->textInput(['dir' => 'auto']); ?>
+                    <?php echo $form->field($model, 'description')->textarea(['dir' => 'auto']); ?>
                     <?php
                         echo $form->field($model, 'associatedCategories')->widget(Select2::classname(), [
                             'data' => WenetApp::tagsWithLabels(),
