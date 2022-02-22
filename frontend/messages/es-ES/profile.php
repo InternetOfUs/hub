@@ -20,7 +20,6 @@ return [
     'Account info' => 'Información de la cuenta',
     'Become a developer' => 'Conviértete en desarrollador',
     'Birthdate' => 'Fecha de nacimiento',
-    'Conversation logging' => 'Registro de conversaciones',
     'Could not update profile.' => 'No se pudo actualizar el perfil.',
     'Developer' => 'Desarrollador',
     'Email' => 'Correo electrónico',
@@ -44,7 +43,6 @@ return [
     'Suffix name' => 'Sufijo del nombre',
     'User ID' => 'ID de usuario',
     'Username' => 'Nombre de usuario',
-    'Write data feed' => 'Escribir fuente de datos',
     'explanation' => '¿Quieres crear tu propia aplicación? ¡Conviértete en desarrollador y comienza a crear el tuyo propio! <br> Recuerda, para convertirte en desarrollador debes establecer tu nombre, apellido y fecha de nacimiento en tu perfil.',
     'profile' => 'perfil',
 ];

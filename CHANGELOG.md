@@ -2,6 +2,18 @@
 
 ## Version 1.*
 
+
+### 1.7.0
+
+:rocket: New features
+
+* Provide full scope support for all profile fields.
+
+:house: Internal
+
+* Updated project template to version 4.9.3
+* Added CONTRIBUTING.md with instructions on how to add/manage new translations.
+
 ### 1.6.4
 
 :rocket: New features
