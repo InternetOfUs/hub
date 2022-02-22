@@ -15,7 +15,8 @@
     docker_yii2_services:
       - name: frontend
         alias: frontend
-
+        
+    ci_release: True
     ci_environments:
       production:
         stages:
