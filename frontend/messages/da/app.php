@@ -17,7 +17,6 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    '...' => '',
     'Active' => '',
     'Age distribution' => '',
     'Android app' => '',
@@ -145,6 +144,7 @@ return [
     'You should configure OAuth2 and enable at least one connector to go live with the app.' => '',
     'You should enable at least one connector to go live with the app.' => '',
     'all' => '',
+    'always' => '',
     'configure OAuth2' => '',
     'filter_platform' => '',
     'filter_tags' => '',
@@ -159,13 +159,4 @@ return [
     'show helpers' => '',
     'to be configured' => '',
     'yesterday' => '',
-    'Connectors' => '@@@@',
-    'Conversational' => '@@@@',
-    'Data' => '@@@@',
-    'From the app' => '@@@@',
-    'From the platform' => '@@@@',
-    'From the users' => '@@@@',
-    'Platforms distribution' => '@@@@',
-    'Type distribution' => '@@@@',
-    'type distribution' => '@@@@',
 ];

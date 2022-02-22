@@ -89,5 +89,4 @@ return [
     'manage developers' => '',
     'owner' => '',
     'view' => '',
-    'Other' => '@@@@',
 ];
