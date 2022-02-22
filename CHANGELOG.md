@@ -6,7 +6,7 @@
 
 :house: Internal
 
-* Updated project template to version 4.9.2
+* Updated project template to version 4.9.3
 
 ### 1.6.4
 
