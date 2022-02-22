@@ -86,16 +86,16 @@
 
                         $activeSourceLinks = '';
                         if($app->hasActiveSourceLinksForApp()){
-                            $activeSourceLinks .= '<ul class="source_links_list table_view">' . implode(array_map(function($sl){
+                            $activeSourceLinks .= '<ul class="source_links_list table_view">' . implode('', array_map(function($sl){
                                 return '<li><img src="'.Url::base().'/images/platforms/'.$sl.'.png" alt="'.$sl." ". Yii::t('app', 'Source link image').'"></li>';
-                            }, $app->getActiveSourceLinksForApp()), '') . '</ul>';
+                            }, $app->getActiveSourceLinksForApp())) . '</ul>';
                         }
 
                         $availablePlatforms = array_map(function($p){
                             return 'platform__'.$p;
                         },$app->getActiveSourceLinksForApp());
 
-                        $content = '<a href="'. Url::to(['/wenetapp/app-details', 'id' => $app->id, 'back' => 'index']) .'" class="'.implode($itemTags, ' '). ' '.implode($availablePlatforms, ' ').' app appId__'.$app->id.'">';
+                        $content = '<a href="'. Url::to(['/wenetapp/app-details', 'id' => $app->id, 'back' => 'index']) .'" class="'.implode(' ', $itemTags). ' '.implode(' ', $availablePlatforms).' app appId__'.$app->id.'">';
 
                         if($app->image_url != null){
                             $content .= '<div class="app_icon_image big_icon" style="margin-top:0px !important; background-image: url('.$app->image_url.')"></div>';
