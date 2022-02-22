@@ -115,3 +115,10 @@ In order to take advantage of the Gitlab CI/CD integration, the following CI/CD 
 * GITLAB_SSH_KEY - the ssh key allowing the connection to the server
 * REGISTRY_USERNAME - the username used for authorising with the registry
 * REGISTRY_PASSWORD - the password used for authorising with the registry
+
+
+## Contributing
+
+Contributions to this project are more than welcome.
+Contributions regarding to the supported languages is particular appreciated.
+Details about the contrinution guidelines can be found in [CONTRIBUTING.md](CONTRIBUTING.md).
