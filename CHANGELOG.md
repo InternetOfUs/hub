@@ -2,6 +2,12 @@
 
 ## Version 1.*
 
+### 1.7.0
+
+:house: Internal
+
+* Updated project template to version 4.9.2
+
 ### 1.6.4
 
 :rocket: New features
