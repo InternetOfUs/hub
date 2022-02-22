@@ -2,6 +2,18 @@
 
 ## Version 1.*
 
+### 1.6.4
+
+:rocket: New features
+
+* Titles and descriptions in right-to-left writing are now handled.
+
+### 1.6.3
+
+:bug: Bug fixes
+
+* Added missing badge images.
+
 ### 1.6.2
 
 :rocket: New features

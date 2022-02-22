@@ -17,7 +17,7 @@
                     <span><?php echo strtoupper($app->name[0]); ?></span>
                 </div>
             <?php } ?>
-            <?php echo $app->name; ?>
+            <span dir="auto" style="color:#333333; font-weight: 500;"><?php echo $app->name; ?></span>
         </h1>
     </div>
 </div>

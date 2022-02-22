@@ -33,7 +33,16 @@ In the application configuration section, the developer has also the possibility
 ## Setup & configuration
 
 This project is based on a _Yii advanced template_.
-In order to set it up it is necessary to:
+
+In order to setup a development environment with docker first run:
+
+```bash
+./run-devevn.sh
+```
+
+This script will create a mysql, redis and php container. The mysql container will be available on the port `3306` with username `root` and password `password`.
+
+When a shell in the yii container appear, you can procede with the configuration of the yii project:
 
 1. install Composer
 
@@ -59,7 +68,7 @@ php init
 php yii migrate/up
 ```
 
-You are all set and ready to go!
+You are all set and ready to go! The yii server will be availabvle on port `20080`
 
 Custom environment configurations can be accessed in the `frontend/config/params-local.php` and `frontend/config/main-local.php`. These files are not tracked in git and their content can be freely changed accordingly to the local custom configurations.
 

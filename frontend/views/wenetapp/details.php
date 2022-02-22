@@ -15,16 +15,18 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+        <h1 style="margin-bottom:10px;">
         <?php if($app->image_url != null){ ?>
-            <div class="app_icon_image big_icon" style="background-image: url(<?php echo $app->image_url; ?>)"></div>
-        <?php } else { ?>
-            <div class="app_icon big_icon">
-                <span><?php echo strtoupper($app->name[0]); ?></span>
-            </div>
-        <?php } ?>
+                <div class="app_icon_image big_icon" style="background-image: url(<?php echo $app->image_url; ?>)"></div>
+            <?php } else { ?>
+                <div class="app_icon big_icon">
+                    <span><?php echo strtoupper($app->name[0]); ?></span>
+                </div>
+            <?php } ?>
+            <span dir="auto" style="color:#333333; font-weight: 500;"><?php echo $app->name; ?></span>
+        </h1>
 
-        <h1><?php echo $app->name; ?></h1>
-        <p style="margin:20px 0;"><?php echo nl2br($app->description); ?></p>
+        <p dir="auto" style="margin:20px 0; text-align:left;"><?php echo nl2br($app->description); ?></p>
         <?php if($app->getOwnerShortName() != null){ ?>
             <p><strong><?php echo Yii::t('app', 'Creator'); ?>:</strong> <?php echo $app->getOwnerShortName(); ?></p>
         <?php } ?>

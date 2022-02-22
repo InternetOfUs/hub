@@ -42,10 +42,10 @@
                     'value' => function ($data) {
                         if($data->image_url != null){
                             return '<div class="app_icon_image small_icon" style="background-image: url('.$data->image_url.')"></div>' .
-                            '<span>' . $data->name .'</span>';
+                            '<span dir="auto">' . $data->name .'</span>';
                         } else {
                             return '<div class="app_icon small_icon"><span>' . strtoupper($data->name[0]) .'</span></div>' .
-                            '<span>' . $data->name .'</span>';
+                            '<span dir="auto">' . $data->name .'</span>';
                         }
                     },
                 ],

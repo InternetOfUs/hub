@@ -108,8 +108,8 @@
                             $description = substr($description, 0, 150) . '...';
                         }
 
-                        $content .= '<h2>'. $app->name .'</h2>';
-                        $content .= '<p>'. $description .'</p>';
+                        $content .= '<h2 dir="auto">'. $app->name .'</h2>';
+                        $content .= '<p dir="auto">'. $description .'</p>';
                         $content .= $activeSourceLinks;
                         $content .= '</a>';
 

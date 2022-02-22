@@ -29,7 +29,7 @@
         ?>
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                    <?php echo $form->field($app, 'name'); ?>
+                    <?php echo $form->field($app, 'name')->textInput(['dir' => 'auto']); ?>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <?php echo $form->field($app, 'status')->widget(SwitchInput::classname(), [
@@ -42,7 +42,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                    <?php echo $form->field($app, 'description')->textarea(); ?>
+                    <?php echo $form->field($app, 'description')->textarea(['dir' => 'auto']); ?>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <?php
