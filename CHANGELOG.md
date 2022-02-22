@@ -12,6 +12,7 @@
 :house: Internal
 
 * Updated project template to version 4.9.3
+* Added CONTRIBUTING.md with instructions on how to add/manage new translations.
 
 ### 1.6.4
 
