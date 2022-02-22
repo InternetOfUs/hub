@@ -2,6 +2,14 @@
 
 ## Version 1.*
 
+
+### 1.7.0
+
+:rocket: New features
+
+* Provide full scope support for all profile fields.
+
+
 ### 1.6.4
 
 :rocket: New features
