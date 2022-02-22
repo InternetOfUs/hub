@@ -2,7 +2,12 @@
 
 ## Version 1.*
 
+
 ### 1.7.0
+
+:rocket: New features
+
+* Provide full scope support for all profile fields.
 
 :house: Internal
 

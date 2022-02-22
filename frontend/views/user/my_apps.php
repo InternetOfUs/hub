@@ -26,9 +26,9 @@
 
                          $activeSourceLinks = '';
                          if($app->hasActiveSourceLinksForApp()){
-                             $activeSourceLinks .= '<ul class="source_links_list table_view">' . implode(array_map(function($sl){
+                             $activeSourceLinks .= '<ul class="source_links_list table_view">' . implode('', array_map(function($sl){
                                  return '<li><img src="'.Url::base().'/images/platforms/'.$sl.'.png" alt="'.$sl." ". Yii::t('app', 'Source link image').'"></li>';
-                             }, $app->getActiveSourceLinksForApp()), '') . '</ul>';
+                             }, $app->getActiveSourceLinksForApp())) . '</ul>';
                          }
 
                          $content = '<a href="'. Url::to(['/wenetapp/user-app-details', 'id' => $app->id, 'back' => 'profile']) .'" class="app user_apps">';

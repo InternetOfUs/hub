@@ -54,9 +54,9 @@
                     'format' => 'raw',
                     'value' => function ($data) {
                         if($data->hasActiveSourceLinksForApp()){
-                            return '<ul class="source_links_list table_view">' . implode(array_map(function($sl){
+                            return '<ul class="source_links_list table_view">' . implode('', array_map(function($sl){
                                 return '<li><img src="'.Url::base().'/images/platforms/'.$sl.'.png" alt="'.Yii::t('app', 'Source link image').'"></li>';
-                            }, $data->getActiveSourceLinksForApp()), '') . '</ul>';
+                            }, $data->getActiveSourceLinksForApp())) . '</ul>';
                         } else {
                             return '<span class="not_set">'.Yii::t('app', 'to be configured').'</span>';
                         }
@@ -66,9 +66,9 @@
                 //     'attribute' => 'categories',
                 //     'format' => 'raw',
                 //     'value' => function ($data) {
-                //         return '<ul class="tags_list">' . implode(array_map(function($category){
+                //         return '<ul class="tags_list">' . implode('', array_map(function($category){
                 //             return '<li>' . $category . '</li>';
-                //         }, $data->associatedCategories), '') . '</ul>';
+                //         }, $data->associatedCategories)) . '</ul>';
                 //     },
                 // ],
                 [

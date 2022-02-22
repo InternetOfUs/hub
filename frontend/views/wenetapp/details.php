@@ -34,9 +34,9 @@
         <?php
             $activeSourceLinks = '<ul class="source_links_list details_view">';
             if($app->hasActiveSourceLinksForApp()){
-                $activeSourceLinks .= implode(array_map(function($sl)use ($app){
+                $activeSourceLinks .= implode('', array_map(function($sl)use ($app){
                     return '<li><a href="'.$app->allMetadata['source_links'][$sl].'" target="_blank"><img src="'.Url::base().'/images/platforms/'.$sl.'.png" alt="'.$sl." ". Yii::t('app', 'Source link image').'"></a></li>';
-                }, $app->getActiveSourceLinksForApp()), '');
+                }, $app->getActiveSourceLinksForApp()));
             }
             $activeSourceLinks .= '</ul>';
             echo $activeSourceLinks;

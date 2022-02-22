@@ -35,10 +35,4 @@ return [
     'The app logic you are trying to delete does not exist.' => '',
     'The specified app logic cannot be found.' => '',
     'Transactions' => '',
-    'INFO - Once you decide to set the app logic as a public one, a copy of the current app logic will be automatically created and you will be no more able to edit or delete it.' => '@@@@',
-    'INFO - This app logic is no more editable or deletable because is public.' => '@@@@',
-    'Id' => '@@@@',
-    'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' => '@@@@',
-    'Name (Task type ID)' => '@@@@',
-    'public app logic' => '@@@@',
 ];
