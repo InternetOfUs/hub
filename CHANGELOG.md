@@ -9,6 +9,9 @@
 
 * Provide full scope support for all profile fields.
 
+:house: Internal
+
+* Updated project template to version 4.9.2
 
 ### 1.6.4
 
