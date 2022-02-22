@@ -9,7 +9,7 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <h1 style="margin-bottom:40px;" dir="auto">
+        <h1 style="margin-bottom:40px;">
             <?php if($app->image_url != null){ ?>
                 <div class="app_icon_image big_icon" style="background-image: url(<?php echo $app->image_url; ?>)"></div>
             <?php } else { ?>
@@ -17,7 +17,7 @@
                     <span><?php echo strtoupper($app->name[0]); ?></span>
                 </div>
             <?php } ?>
-            <?php echo $app->name; ?>
+            <span dir="auto" style="color:#333333; font-weight: 500;"><?php echo $app->name; ?></span>
         </h1>
     </div>
 </div>
