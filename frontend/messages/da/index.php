@@ -23,5 +23,4 @@ return [
     'about text' => '',
     'about text 2' => '',
     'hub text' => '',
-    'Notifiche' => '@@@@',
 ];

@@ -37,8 +37,4 @@ return [
     'Type' => '',
     'Update badge' => '',
     'WARNING - Operations are available only for apps with status In Develpment.' => '',
-    'No transaction label' => '@@@@',
-    'Select transaction label ...' => '@@@@',
-    'This is a task badge, it is not possible to select a transaction label.' => '@@@@',
-    'Transaction label' => '@@@@',
 ];

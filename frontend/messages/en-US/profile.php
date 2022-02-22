@@ -21,7 +21,6 @@ return [
     'Account info' => '',
     'Become a developer' => '',
     'Birthdate' => '',
-    'Conversation logging' => '',
     'Could not update profile.' => '',
     'Developer' => '',
     'Email' => '',
@@ -45,6 +44,5 @@ return [
     'Suffix name' => '',
     'User ID' => '',
     'Username' => '',
-    'Write data feed' => '',
     'profile' => '',
 ];
