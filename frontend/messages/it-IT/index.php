@@ -17,10 +17,10 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'About WeNet' => '',
-    'About WeNet Hub' => '',
-    'Discover more' => '',
-    'about text' => '',
-    'about text 2' => '',
-    'hub text' => '',
+    'About WeNet' => 'WeNet',
+    'About WeNet Hub' => 'WeNet Hub',
+    'Discover more' => 'Scopri di più',
+    'about text' => 'La diversità fa parte della nostra vita quotidiana. La tecnologia, nonostante la sua evoluzione, lotta ancora quando si tratta di aiutare a sviluppare e mantenere relazioni sociali che trascendono i contesti geografici e culturali.',
+    'about text 2' => 'L\'obiettivo è connettere persone che possono aiutarsi a vicenda e la chiave è sfruttare la loro diversità.',
+    'hub text' => 'Accedi per scoprire e utilizzare tutte le fantastiche applicazioni WeNet.',
 ];
