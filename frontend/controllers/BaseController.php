@@ -73,8 +73,10 @@ class BaseController extends Controller {
             Yii::$app->language = 'mn';
         } else if(strpos($userLang, 'es_') !== false){
             Yii::$app->language = 'es-ES';
+        } else if(strpos($userLang, 'el_') !== false){
+            Yii::$app->language = 'el-GR';
         }
-        // } else if(strpos($userLang, 'da') !== false){
+       // } else if(strpos($userLang, 'da') !== false){
         //     Yii::$app->language = 'da';
         // }
         else {
