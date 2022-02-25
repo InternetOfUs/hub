@@ -16,7 +16,7 @@ In order to add support for a new language, the following steps should be comple
 5. Browse to the file [frontend/controllers/BaseController.php](frontend/controllers/BaseController.php) and modify the `setLanguage` function, adding a new condition in the `else if block` with the root of the new language. For example in case of German language the code to be added should be:
 
 ```php
-    } else if(strpos($userLang, 'de_') !== false){
+} else if(strpos($userLang, 'de', 0) !== false){
         Yii::$app->language = 'de-DE';
     }
 ```
