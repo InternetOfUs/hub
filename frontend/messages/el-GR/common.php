@@ -89,5 +89,4 @@ return [
     'edit app logic' => '',
     'manage' => '',
     'owner' => '',
-    'Other' => '@@Otro@@',
 ];
