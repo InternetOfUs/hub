@@ -36,5 +36,6 @@ return [
     'Transaction' => '',
     'Type' => '',
     'Update badge' => '',
-    'WARNING - Operations are available only for apps with status In Develpment.' => '',
+    'WARNING - Operations are available only for apps with status In Development.' => '',
+    'WARNING - Operations are available only with an App Logic associated. Go to "Settings" section to set it.' => '',
 ];

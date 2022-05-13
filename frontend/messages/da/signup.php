@@ -31,6 +31,7 @@ return [
     'Please fill out the following fields to signup' => '',
     'Please fill out your email. A link to reset password will be sent there' => '',
     'Please fill out your email. A verification email will be sent there' => '',
+    'Please, accept our Privacy Policy.' => '',
     'Remember me' => '',
     'Repeat password' => '',
     'Resend' => '',
@@ -42,5 +43,7 @@ return [
     'Verify account' => '',
     'Your email has been confirmed!' => '',
     'create an account' => '',
+    'privacy_consent1' => '',
+    'privacy_consent2' => '',
     'reset it' => '',
 ];

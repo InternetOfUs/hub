@@ -43,4 +43,7 @@ return [
     'Your email has been confirmed!' => 'Таны и-мэйл баталгаажлаа!',
     'create an account' => 'шинэ аккаунт үүсгэх',
     'reset it' => 'сэргээх',
+    'Please, accept our Privacy Policy.' => '',
+    'privacy_consent1' => '',
+    'privacy_consent2' => '',
 ];

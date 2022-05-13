@@ -19,7 +19,9 @@
 return [
     'About WeNet' => '',
     'About WeNet Hub' => '',
+    'Are you a robot?' => 'Sei un robot?',
     'Discover more' => '',
+    'Privacy Policy' => '',
     'about text' => '',
     'about text 2' => '',
     'hub text' => '',

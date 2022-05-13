@@ -93,6 +93,10 @@ Optionally, configurations can also be set by setting the value of the following
 * `SENTRY_RELEASE` - The _release_ value that should be associated to the created Sentry events (this is optional also when Sentry integration is enabled).
 * `SENTRY_ENVIRONMENT` - The _environment_ value that should be associated to the created Sentry events (this is optional also when Sentry integration is enabled).
 
+Google reCaptcha:
+
+* `GOOGLE_RACAPTCHA_SECRET` - _required_
+* `GOOGLE_RACAPTCHA_SITE` - _required_
 
 ## Usage
 

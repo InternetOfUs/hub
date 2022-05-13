@@ -24,4 +24,7 @@ return [
 	'profile.manager.base.url' => getenv('PROFILE_MANAGER_BASE_URL'),
 	'logging.component.base.url' => getenv('LOGGING_COMPONENT_BASE_URL'),
 	'profile.cache.time.secs' => getenvOrDefault('PROFILE_CACHE_TIME_SECS', 60),
+
+    'google.reCaptcha.secret' => getenv('GOOGLE_RACAPTCHA_SECRET'),
+    'google.reCaptcha.site' => getenv('GOOGLE_RACAPTCHA_SITE'),
 ];

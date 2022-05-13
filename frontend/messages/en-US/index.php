@@ -22,5 +22,7 @@ return [
     'hub text' => 'Login to discover and use all the terrific WeNet applications.',
     'About WeNet' => '',
     'About WeNet Hub' => '',
+    'Are you a robot?' => '',
     'Discover more' => '',
+    'Privacy Policy' => '',
 ];

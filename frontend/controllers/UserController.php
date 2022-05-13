@@ -258,14 +258,49 @@ class UserController extends BaseController {
     public function actionSignup() {
         $model = new SignupForm();
         $model->scenario = SignupForm::SCENARIO_CREATE;
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            Yii::$app->session->setFlash('success', Yii::t('signup', 'Thank you for registration. Please check your inbox for verification email.'));
-            return $this->goHome();
+
+        if($model->load(Yii::$app->request->post())){
+
+            if(Yii::$app->params['env'] != 'local'){
+        		$recaptchaToken = $_POST['g-recaptcha-response'];
+        		if (!$this->verifyRecaptcha($recaptchaToken)) {
+        			echo Yii::t("index", "Are you a robot?");
+        			exit();
+        		}
+            }
+
+            if(isset($_POST['privacy_consent'])){
+                if ($model->signup()) {
+                    Yii::$app->session->setFlash('success', Yii::t('signup', 'Thank you for registration. Please check your inbox for verification email.'));
+                    return $this->goHome();
+                }
+            } else {
+                Yii::$app->session->setFlash('error', Yii::t('signup', 'Please, accept our Privacy Policy.'));
+            }
         }
 
         return $this->render('signup', [
             'model' => $model,
         ]);
+    }
+
+    private function verifyRecaptcha($token) {
+        $secret = Yii::$app->params['google.reCaptcha.secret'];
+        $url = 'https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$token;
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        // curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        $jsonResponse = curl_exec($ch);
+        $respose = json_decode($jsonResponse, true);
+        if (isset($respose['success']) && $respose['success'] ==  true) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
