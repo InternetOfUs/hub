@@ -27,4 +27,6 @@ return [
 
     'google.reCaptcha.secret' => getenv('GOOGLE_RACAPTCHA_SECRET'),
     'google.reCaptcha.site' => getenv('GOOGLE_RACAPTCHA_SITE'),
+
+    'env' => 'staging',
 ];
