@@ -264,8 +264,7 @@ class UserController extends BaseController {
             if(Yii::$app->params['env'] != 'local'){
         		$recaptchaToken = $_POST['g-recaptcha-response'];
         		if (!$this->verifyRecaptcha($recaptchaToken)) {
-        			echo Yii::t("index", "Are you a robot?");
-        			exit();
+                    Yii::$app->session->setFlash('error', Yii::t("index", "Are you a robot?"));
         		}
             }
 
