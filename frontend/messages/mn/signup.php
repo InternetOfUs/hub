@@ -44,6 +44,6 @@ return [
     'create an account' => 'шинэ аккаунт үүсгэх',
     'reset it' => 'сэргээх',
     'Please, accept our Privacy Policy.' => '',
-    'privacy_consent1' => '',
-    'privacy_consent2' => '',
+    'privacy_consent1' => 'I consent to the processing of data for the purposes described in the',
+    'privacy_consent2' => 'that I have read and understood.',
 ];

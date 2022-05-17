@@ -44,6 +44,6 @@ return [
     'Your email has been confirmed!' => 'La tua email è stata confermata!',
     'create an account' => 'crea un account',
     'reset it' => 'resettarla',
-    'privacy_consent1' => 'Dichiaro di aver preso visione dell\'',
-    'privacy_consent2' => 'e di averne compreso il contenuto.',
+    'privacy_consent1' => 'I consent to the processing of data for the purposes described in the',
+    'privacy_consent2' => 'that I have read and understood.',
 ];

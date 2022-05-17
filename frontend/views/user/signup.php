@@ -21,9 +21,9 @@
         <?= $form->field($model, 'password')->passwordInput() ?>
         <?= $form->field($model, 'password_repeat')->passwordInput() ?>
 
-        <div class="checkboxes">
+        <div class="checkboxes required">
 			<input value="" name="privacy_consent" id="signup_privacy_consent" type="checkbox">
-			<label for="signup_privacy_consent" class="checkbox_labels">
+			<label for="signup_privacy_consent" class="control-label checkbox_labels">
 				<?php echo Yii::t('signup', 'privacy_consent1'); ?>
 				<a href="<?php echo Url::base().'/files/WeNet_Privacy-Policy.pdf'; ?>" title="<?php echo Yii::t('index', 'Privacy Policy'); ?>"><?php echo Yii::t('index', 'Privacy Policy'); ?></a>
 				<?php echo Yii::t('signup', 'privacy_consent2'); ?>

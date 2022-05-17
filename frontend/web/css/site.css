@@ -334,6 +334,15 @@ div.menu ul li a:hover{
 }
 
 /* forms */
+div.checkboxes{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+div.checkboxes *{margin: 0px;}
+div.checkboxes input{margin-right: 10px;}
+
 div.required label.control-label::after {
     content: " * ";
     color: #cb3434;

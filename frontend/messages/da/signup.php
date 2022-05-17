@@ -43,7 +43,7 @@ return [
     'Verify account' => '',
     'Your email has been confirmed!' => '',
     'create an account' => '',
-    'privacy_consent1' => '',
-    'privacy_consent2' => '',
+    'privacy_consent1' => 'I consent to the processing of data for the purposes described in the',
+    'privacy_consent2' => 'that I have read and understood.',
     'reset it' => '',
 ];
