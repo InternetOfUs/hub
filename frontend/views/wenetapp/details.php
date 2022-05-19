@@ -27,20 +27,7 @@
         </h1>
 
         <p dir="auto" style="margin:20px 0; text-align:left;"><?php echo nl2br($app->description); ?></p>
-        <?php if($app->getOwnerShortName() != null){ ?>
-            <p><strong><?php echo Yii::t('app', 'Creator'); ?>:</strong> <?php echo $app->getOwnerShortName(); ?></p>
-        <?php } ?>
-        <p><strong><?php echo Yii::t('app', 'Available platforms (for download or direct use)'); ?>:</strong></p>
         <?php
-            $activeSourceLinks = '<ul class="source_links_list details_view">';
-            if($app->hasActiveSourceLinksForApp()){
-                $activeSourceLinks .= implode('', array_map(function($sl)use ($app){
-                    return '<li><a href="'.$app->allMetadata['source_links'][$sl].'" target="_blank"><img src="'.Url::base().'/images/platforms/'.$sl.'.png" alt="'.$sl." ". Yii::t('app', 'Source link image').'"></a></li>';
-                }, $app->getActiveSourceLinksForApp()));
-            }
-            $activeSourceLinks .= '</ul>';
-            echo $activeSourceLinks;
-
             if(count($app->associatedCategories) > 0){
                 $categories = '<ul class="tags_list">';
                 foreach ($app->associatedCategories as $category) {
@@ -50,6 +37,34 @@
                 echo $categories;
             }
         ?>
+        
+        <?php if($app->getOwnerShortName() != null){ ?>
+            <p><strong><?php echo Yii::t('app', 'Creator'); ?>:</strong> <?php echo $app->getOwnerShortName(); ?></p>
+        <?php } ?>
+    </div>
+    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <h4><?php echo Yii::t('app', 'Available platforms (for download or direct use)'); ?>:</h4>
+        <?php
+            $activeSourceLinks = '<ul class="source_links_list details_view">';
+            if($app->hasActiveSourceLinksForApp()){
+                $activeSourceLinks .= implode('', array_map(function($sl)use ($app){
+                    return '<li><a href="'.$app->allMetadata['source_links'][$sl].'" target="_blank"><img src="'.Url::base().'/images/platforms/'.$sl.'.png" alt="'.$sl." ". Yii::t('app', 'Source link image').'"></a></li>';
+                }, $app->getActiveSourceLinksForApp()));
+            }
+            $activeSourceLinks .= '</ul>';
+            echo $activeSourceLinks;
+        ?>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+        <?php if($app->privacy_policy_url != null && $app->privacy_policy_text != null){ ?>
+            <hr>
+            <h4><?php echo Yii::t('app', 'Privacy Policy'); ?></h4>
+            <p style="font-style: italic;"><?php echo $app->privacy_policy_text; ?></p>
+            <a targt="_blank" class="btn btn-primary" href="<?php echo $app->privacy_policy_url; ?>"><?php echo Yii::t('app', 'Privacy Policy'); ?></a>
+        <?php } ?>
     </div>
 </div>
 
