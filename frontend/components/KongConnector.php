@@ -17,6 +17,14 @@ class KongConnector extends BaseConnector {
         return 'app_' . $appId;
     }
 
+    public function invalidateTokensForApp($appId) {
+        
+    }
+
+    public function invalidateTokenForAppAndUser($appId, $userId) {
+
+    }
+
     public function createConsumer($appId) {
         $url = $this->internalBaseUrl . '/consumers/';
         $data = [
