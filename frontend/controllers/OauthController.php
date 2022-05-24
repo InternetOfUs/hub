@@ -177,6 +177,7 @@ class OauthController extends BaseController {
 
         return $this->render('authorise', [
             'model' => $model,
+            'app' => $app,
             'userCanProceed' => $app->status == WenetApp::STATUS_ACTIVE || ($app->status == WenetApp::STATUS_NOT_ACTIVE && \in_array(Yii::$app->user->id, $appDeveloperIds))
         ]);
     }
