@@ -19,6 +19,7 @@
 return [
     'Congratulations! You successfully activated the {app_name} application.' => '',
     'Ooops! Something went wrong while activating the {app_name} application.' => '',
+    'Privacy Policy' => '',
     'The application {app_name} is currently in development mode. You don\'t have the permission to proceed. If you think this is an error, please contact the app administrators to be granted the correct permissions.' => '',
     'The application {app_name} will be able to' => '',
     'access your profile data' => '',

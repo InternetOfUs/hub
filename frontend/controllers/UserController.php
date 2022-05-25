@@ -39,7 +39,7 @@ class UserController extends BaseController {
                         'get-all-user-ids',
                         'request-password-reset', 'reset-password', 'resend-verification-email', 'verify-email',
                         # REST APIs
-                        'apps-for-user',
+                        'apps-for-user', 'delete-token-for-user-and-for-app'
                 ],
                 'rules' => [
                     [
@@ -61,7 +61,7 @@ class UserController extends BaseController {
                         'actions' => [
                             'logout',
                             'account', 'profile', 'change-password',
-                            'user-apps'
+                            'user-apps', 'delete-token-for-user-and-for-app'
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -129,6 +129,17 @@ class UserController extends BaseController {
             ];
         }
         return $response;
+    }
+
+    public function actionDeleteTokenForUserAndForApp($userId, $appId) {
+        $response = Yii::$app->kongConnector->invalidateTokenForAppAndUser($appId, $userId);
+
+        if($response){
+            Yii::$app->session->setFlash('success',  Yii::t('user', 'Access to your information and app connection successfully removed.'));
+        } else {
+            Yii::$app->session->setFlash('error',  Yii::t('user', 'There is a problem removing the access to your information. Please retry later.'));
+        }
+        return $this->redirect(['user-apps']);
     }
 
     public function actionAccount() {

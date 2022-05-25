@@ -37,9 +37,16 @@
                 echo $categories;
             }
         ?>
-        
+
         <?php if($app->getOwnerShortName() != null){ ?>
             <p><strong><?php echo Yii::t('app', 'Creator'); ?>:</strong> <?php echo $app->getOwnerShortName(); ?></p>
+        <?php } ?>
+
+        <?php if($app->privacy_policy_url != null && $app->privacy_policy_text != null){ ?>
+            <hr>
+            <h4><?php echo Yii::t('app', 'Privacy Policy'); ?></h4>
+            <p style="font-style: italic;"><?php echo $app->privacy_policy_text; ?></p>
+            <a targt="_blank" class="btn btn-primary" href="<?php echo $app->privacy_policy_url; ?>"><?php echo Yii::t('app', 'Privacy Policy'); ?></a>
         <?php } ?>
     </div>
     <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
@@ -54,16 +61,16 @@
             $activeSourceLinks .= '</ul>';
             echo $activeSourceLinks;
         ?>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
-        <?php if($app->privacy_policy_url != null && $app->privacy_policy_text != null){ ?>
+        <?php if($invalidateToken){ ?>
             <hr>
-            <h4><?php echo Yii::t('app', 'Privacy Policy'); ?></h4>
-            <p style="font-style: italic;"><?php echo $app->privacy_policy_text; ?></p>
-            <a targt="_blank" class="btn btn-primary" href="<?php echo $app->privacy_policy_url; ?>"><?php echo Yii::t('app', 'Privacy Policy'); ?></a>
+            <h5><?php echo Yii::t('app', 'Remove access to your data'); ?></h5>
+            <p><?php echo Yii::t('app', 'This app has been connected to your WeNet account. You can remove its access to your information. You will not be able to use the app until you enable it again.'); ?></p>
+
+            <a href="<?= Url::to(['/user/delete-token-for-user-and-for-app', 'userId' => Yii::$app->user->id, 'appId' => $app->id]); ?>" class="btn delete_btn pull-right" style="margin-right:10px;">
+                <i class="fa fa-user-times"></i>
+                <?php echo Yii::t('app', 'Remove'); ?>
+            </a>
         <?php } ?>
     </div>
 </div>

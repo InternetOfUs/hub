@@ -44,6 +44,17 @@
             </div>
         <?php } ?>
 
+        <div class="box_container" style="margin-top:30px;">
+            <h3><?php echo Yii::t('app', 'Invalidate OAuth2 tokens'); ?></h3>
+            <p><?php echo Yii::t('app', 'You have the possibility of invalidating the access tokens for all your users. You will not be able to access their information any more until they enable your app again.'); ?></p>
+            <p><?php echo Yii::t('app', 'This may be useful, for example, when changing the scopes of your application.'); ?></p>
+            <hr>
+            <a href="<?= Url::to(['/developer/invalidate-tokens-for-app', 'appId' => $app->id]); ?>" class="btn delete_btn pull-right" style="margin-right:10px;">
+                <i class="fa fa-user-times"></i>
+                <?php echo Yii::t('app', 'Invalidate'); ?>
+            </a>
+        </div>
+
     </div>
     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
         <?php echo Yii::$app->controller->renderPartial('settings/_side_data', ['app' => $app, 'appDevelopers' => $appDevelopers]); ?>

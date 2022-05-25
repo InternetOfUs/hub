@@ -18,11 +18,13 @@ class KongConnector extends BaseConnector {
     }
 
     public function invalidateTokensForApp($appId) {
-        
+        // TODO should return true or false
+        return true;
     }
 
     public function invalidateTokenForAppAndUser($appId, $userId) {
-
+        // TODO should return true or false
+        return true;
     }
 
     public function createConsumer($appId) {

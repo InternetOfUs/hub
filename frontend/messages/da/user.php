@@ -17,7 +17,9 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Access to your information and app connection successfully removed.' => '',
     'Now you are a developer.' => '',
+    'There is a problem removing the access to your information. Please retry later.' => '',
     'There is a problem setting your account as developer. Please retry later.' => '',
     'Your profile is incomplete. Complete it ' => '',
     'here' => '',
