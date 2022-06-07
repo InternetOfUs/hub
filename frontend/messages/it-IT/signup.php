@@ -31,6 +31,7 @@ return [
     'Please fill out the following fields to signup' => 'Si prega di compilare i seguenti campi per registrarsi',
     'Please fill out your email. A link to reset password will be sent there' => 'Compila la tua email. Ti verrà inviata un\'email con il link per reimpostare la password',
     'Please fill out your email. A verification email will be sent there' => 'Compila la tua email. Ti verrà inviata un\'email di verifica',
+    'Please, accept our Privacy Policy.' => 'Per favore, accetta la nostra Privacy Policy.',
     'Remember me' => 'Ricordami',
     'Repeat password' => 'Ripeti password',
     'Resend' => 'Re-invia',
@@ -43,4 +44,6 @@ return [
     'Your email has been confirmed!' => 'La tua email è stata confermata!',
     'create an account' => 'crea un account',
     'reset it' => 'resettarla',
+    'privacy_consent1' => 'I consent to the processing of data for the purposes described in the',
+    'privacy_consent2' => 'that I have read and understood.',
 ];

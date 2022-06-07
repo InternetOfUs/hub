@@ -17,6 +17,8 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Are you a robot?' => 'Sei un robot?',
+    'Privacy Policy' => '',
     'About WeNet' => 'WeNet',
     'About WeNet Hub' => 'WeNet Hub',
     'Discover more' => 'Scopri di più',

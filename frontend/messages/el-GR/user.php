@@ -21,4 +21,6 @@ return [
     'There is a problem setting your account as developer. Please retry later.' => 'Υπάρχει πρόβλημα με την ρύθμιση του λογαριασμού σας ως προγραμματιστή. Δοκιμάστε ξανά αργότερα.',
     'Your profile is incomplete. Complete it ' => 'Το προφίλ σας δεν είναι πλήρες. Συμπληρώστε το',
     'here' => 'εδώ',
+    'Access to your information and app connection successfully removed.' => '',
+    'There is a problem removing the access to your information. Please retry later.' => '',
 ];

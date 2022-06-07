@@ -17,6 +17,87 @@ class KongConnector extends BaseConnector {
         return 'app_' . $appId;
     }
 
+    private function getConsumerCredentialsId($appId) {
+        $url = $this->internalBaseUrl . '/consumers/'.self::consumerUsername($appId)."/oauth2";
+        try {
+            $result = $this->get($url, $this->authHeaders());
+            $data = $result['data'];
+            if(count($data) == 1){
+                return $data[0]['id'];
+            }
+            else {
+                $log = 'Received ['.count($data).'] credentials for app id ['.$appId.']';
+                Yii::error($log, "wenent.connector.kong");
+                throw new \Exception($log);
+            }
+           
+        } catch (Exception $e) {
+            $log = 'Something went wrong while retrieving the oauth2 credential id for comsumer ['. $appId.']';
+            Yii::error($log);
+            throw $e;
+        }
+    }
+
+    private function getAllOauth2Tokens() {
+        $url = $this->internalBaseUrl . '/oauth2_tokens';
+        try {
+            $result = $this->get($url, $this->authHeaders());
+            return $result['data'];
+        } catch (Exception $e) {
+            $log = 'Something went wrong while retrieving the oauth2 tokens';
+            Yii::error($log, 'wenent.connector.kong');
+            throw $e;
+        }
+    }
+
+    private function getAppOauth2Tokens($appId) {
+        $consumer_id = $this->getConsumerCredentialsId($appId);
+        $tokens = $this->getAllOauth2Tokens();
+        return array_filter($tokens ,function($t) use($consumer_id) {
+            return $t['credential']['id'] == $consumer_id;
+        });
+    }
+
+    private function getAppAndUserOauth2Tokens($appId, $userId){
+        $tokens = $this->getAppOauth2Tokens($appId);
+        return array_filter($tokens, function($t) use($userId) {
+            return $t['authenticated_userid'] == strval($userId);
+        });
+    }
+
+    private function invalidateToken($token_id) {
+        $url = $this->internalBaseUrl . '/oauth2_tokens/'.$token_id;
+        try {
+            $response = $this->delete($url, $this->authHeaders());
+            return true;
+        } catch (\Exception $e) {
+            $log = "Something went wrong while invalidating the token with id [$token_id]: $e";
+            Yii::error($log, 'wenent.connector.kong');
+            return false;
+        }
+    }
+
+    public function invalidateTokensForApp($appId) {
+        $tokens = $this->getAppOauth2Tokens($appId);
+        foreach ($tokens as $token) {
+            $this->invalidateToken($token['id']);
+        }
+        return true;
+    }
+
+    public function invalidateTokenForAppAndUser($appId, $userId) {
+        $tokens = $this->getAppAndUserOauth2Tokens($appId, $userId);
+        foreach ($tokens as $token) {
+            $this->invalidateToken($token['id']);
+        }
+        return true;
+    }
+
+    public function userHasValidTokenForApp($appId, $userId) {
+        $tokens = $this->getAppAndUserOauth2Tokens($appId, $userId);
+        return count($tokens) > 0;
+    }
+
     public function createConsumer($appId) {
         $url = $this->internalBaseUrl . '/consumers/';
         $data = [

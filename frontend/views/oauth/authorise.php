@@ -52,8 +52,21 @@
                 'items' => $items
             ]);
         ?>
+
+        <?php if( $app->privacy_policy_text && $app->privacy_policy_url) {?>
+            <div class="privacy_policy_container" style="margin:20px 0 30px 0;">
+                <div class="checkboxes">
+                    <input type="checkbox" id="privacy_policy_check" name="privacy_policy_check" value="">
+                    <label for="privacy_policy_check"><?php echo $app->privacy_policy_text; ?></label>
+                </div>
+                <div style="padding: 15px 0 0 23px;">
+                    <a target="_blank" href="<?php echo $app->privacy_policy_url; ?>"><?php echo Yii::t('authorisation', 'Privacy Policy'); ?></a>
+                </div>
+            </div>
+        <?php } ?>
+
         <div class="form-group" style="margin-top:15px;">
-            <?= Html::submitButton( Yii::t('common', 'continue'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+            <?= Html::submitButton( Yii::t('common', 'continue'), ['id' => 'continue_btn', 'class' => 'btn btn-primary', 'name' => 'login-button']) ?>
         </div>
     <?php ActiveForm::end(); ?>
 </div>
@@ -71,8 +84,25 @@
 
 <script type="text/javascript">
 
-    if($('.accordion div.card div.collapse').hasClass('show')){
-        $('.accordion div.card div.collapse').removeClass('show');
-    }
+    $(document).ready(function() {
+
+        // accordion
+        if($('.accordion div.card div.collapse').hasClass('show')){
+            $('.accordion div.card div.collapse').removeClass('show');
+        }
+
+        <?php if( $app->privacy_policy_text && $app->privacy_policy_url) {?>
+            // privacy checkbox
+            $('#continue_btn').prop("disabled",true);
+
+            $('#privacy_policy_check').change(function() {
+                if(this.checked) {
+                    $('#continue_btn').prop("disabled",false);
+                } else {
+                    $('#continue_btn').prop("disabled",true);
+                }
+            });
+        <?php } ?>
+    });
 
 </script>

@@ -17,8 +17,9 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Best,' => '',
     'Check your email for further instructions.' => 'Check your email for further instructions. In case of trouble check the SPAM folder.',
+    'Thank you for registration. Please check your inbox for verification email.' => 'Thank you for registration. Please check your inbox for verification email. In case of trouble check the SPAM folder.',
+    'Best,' => '',
     'Follow the link below to reset your password:' => '',
     'Follow the link below to verify your email:' => '',
     'Hello ' => '',
@@ -31,16 +32,18 @@ return [
     'Please fill out the following fields to signup' => '',
     'Please fill out your email. A link to reset password will be sent there' => '',
     'Please fill out your email. A verification email will be sent there' => '',
+    'Please, accept our Privacy Policy.' => '',
     'Remember me' => '',
     'Repeat password' => '',
     'Resend' => '',
     'Reset password' => '',
     'Sorry, we are unable to resend verification email for the provided email address.' => '',
     'Sorry, we are unable to verify your account with provided token.' => '',
-    'Thank you for registration. Please check your inbox for verification email.' => 'Thank you for registration. Please check your inbox for verification email. In case of trouble check the SPAM folder.',
     'The WeNet HUB Team' => '',
     'Verify account' => '',
     'Your email has been confirmed!' => '',
     'create an account' => '',
+    'privacy_consent1' => 'I consent to the processing of data for the purposes described in the',
+    'privacy_consent2' => 'that I have read and understood.',
     'reset it' => '',
 ];

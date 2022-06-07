@@ -19,6 +19,7 @@ class AppAsset extends AssetBundle {
         'https://code.highcharts.com/highcharts-more.js',
         'https://code.highcharts.com/modules/solid-gauge.js',
         'https://code.highcharts.com/modules/variable-pie.js',
+        'https://www.google.com/recaptcha/api.js', //Google reCaptcha
     ];
     public $jsOptions = [
         'position' => \yii\web\View::POS_HEAD

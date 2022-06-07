@@ -42,7 +42,7 @@ class SignupForm extends Model {
             [['password', 'password_repeat'], 'required', 'on' => self::SCENARIO_UPDATE_PASSWORD],
 
             [['password', 'password_repeat'], 'checkPassword'],
-            [['username'], 'contentValidation'],
+            [['username'], 'contentValidation']
         ];
     }
 

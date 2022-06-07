@@ -21,4 +21,6 @@ return [
     'There is a problem setting your account as developer. Please retry later.' => 'Аккаунтыг тань хөгжүүлэгч болгоход асуудал гарлаа. Дараа дахин оролдно уу.',
     'Your profile is incomplete. Complete it ' => 'Профайл тань дутуу байна. Гүйцээнэ үү ',
     'here' => 'энд',
+    'Access to your information and app connection successfully removed.' => '',
+    'There is a problem removing the access to your information. Please retry later.' => '',
 ];

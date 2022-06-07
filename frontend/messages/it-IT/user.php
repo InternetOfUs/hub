@@ -21,4 +21,6 @@ return [
     'There is a problem setting your account as developer. Please retry later.' => 'Si è verificato un problema durante l\'impostazione del tuo account come sviluppatore. Riprova più tardi',
     'Your profile is incomplete. Complete it ' => 'Il tuo profilo è incompleto. Completalo ',
     'here' => 'qui',
+    'Access to your information and app connection successfully removed.' => 'L\'accesso alle tue informazioni e la connessione all\'app sono stati rimossi con successo.',
+    'There is a problem removing the access to your information. Please retry later.' => 'Si è verificato un problema durante la rimozione dell\'accesso alle tue informazioni. Riprova più tardi.',
 ];

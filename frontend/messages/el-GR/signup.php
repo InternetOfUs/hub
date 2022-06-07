@@ -43,4 +43,7 @@ return [
     'Your email has been confirmed!' => 'Το email σας επιβεβαιώθηκε!',
     'create an account' => 'Δημιουργία λογαριασμού',
     'reset it' => 'Επαναφορά',
+    'Please, accept our Privacy Policy.' => '',
+    'privacy_consent1' => '',
+    'privacy_consent2' => '',
 ];

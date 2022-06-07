@@ -43,4 +43,7 @@ return [
     'Your email has been confirmed!' => '¡Tu correo ha sido confirmado!',
     'create an account' => 'crear una cuenta',
     'reset it' => 'restablecerla',
+    'Please, accept our Privacy Policy.' => '',
+    'privacy_consent1' => 'I consent to the processing of data for the purposes described in the',
+    'privacy_consent2' => 'that I have read and understood.',
 ];

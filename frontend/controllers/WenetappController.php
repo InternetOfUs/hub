@@ -24,7 +24,7 @@ class WenetappController extends BaseController {
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => [
-                    'index', 'app-details', 'user-app-details', 'json-details', 'developer-list', 'user-list',
+                    'index', 'app-details', 'user-app-details', 'json-details', 'developer-list', 'user-list'
                 ],
                 'rules' => [
                     [
@@ -129,6 +129,7 @@ class WenetappController extends BaseController {
 		} else {
 			return $this->render('details', array(
                 'app' => $app,
+                'invalidateToken' => false,
                 'badgesForApp' => null,
                 'badgesForUser' => null
             ));
@@ -155,6 +156,7 @@ class WenetappController extends BaseController {
 		} else {
 			return $this->render('details', array(
                 'app' => $app,
+                'invalidateToken' => true,
                 'badgesForApp' => $badgesForApp,
                 'badgesForUser' => $badgesForUser
             ));

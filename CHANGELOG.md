@@ -13,6 +13,25 @@
 * Updated project template to version 4.10.1
 
 
+### 1.8.0
+
+:rocket: New features
+
+* The user can now disable a WeNet application [#62](https://lab.u-hopper.com/wenet/wenet-frontend/-/issues/62) 
+* The developer can now invalidate all the outh2 token for an application [#51](https://lab.u-hopper.com/wenet/wenet-frontend/-/issues/51)
+
+:bug: Bug fixes
+* Resolved bug [#127](https://lab.u-hopper.com/wenet/wenet-frontend/-/issues/127) that prevented a correct creation of badges for those applications without an application logic.
+
+:nail_care: Polish
+* Added support to "South Korean" Nationality.
+* Added reCaptcha in the sign-up form.
+* Added Privacy Policy checkbox in the sign-up form.
+
+:house: Internal
+* Updated project template to version 4.12.1
+
+
 ### 1.7.0
 
 :rocket: New features

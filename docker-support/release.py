@@ -8,6 +8,7 @@ import subprocess
 from typing import Optional
 
 import gitlab
+import requests
 
 """
 This script is meant for managing releases.
@@ -17,6 +18,7 @@ This script is meant for managing releases.
 
 Requires:
 - python-gitlab==3.1.1
+- requests==2.27.1
 
 ## GitLab release creation.
 
@@ -37,7 +39,28 @@ Requires:
 """
 
 
-class Version(object):
+class Release:
+
+    @staticmethod
+    def read_from_changelog():
+        logging.debug("Extracting release description from CHANGELOG.md file.")
+        pipe = subprocess.PIPE
+        git_process = subprocess.Popen([
+            'awk',
+            'flag{ if (/### /){printf "%s", buf; flag=0; buf=""} else buf = buf $0 ORS}; /### ' + release_tag + '/{flag=1}',
+            "CHANGELOG.md"
+        ], stdout=pipe, stderr=pipe)
+        std_output, std_error_output = git_process.communicate()
+
+        error = std_error_output.decode("utf-8")
+        if error != "":
+            logging.error(f"Could not get release description. Cause: {error}.")
+            exit(1)
+
+        return std_output.decode("utf-8")
+
+
+class Version:
 
     def __init__(self, major: int, minor: int, patch: int, other: Optional[str] = None) -> None:
         self.major = major
@@ -82,6 +105,20 @@ class Version(object):
         return self.other is None
 
 
+def version_blocker(release_tag: str, allow_non_final_version: bool) -> Version:
+    try:
+        version = Version.build(release_tag)
+        # In the context of this script, there is no interest in creating releases for work in
+        # progress versions.
+        if not allow_non_final_version and not version.is_final:
+            logging.info(f"Target version [{version.label}] is not meant to be issued.")
+            exit(1)
+        return version
+    except ValueError as e:
+        logging.error(f"The structure of the tag [{release_tag}] does not support a release.", exc_info=e)
+        exit(1)
+
+
 if __name__ == "__main__":
 
     arg_parser = argparse.ArgumentParser(description="Release manager.")
@@ -97,11 +134,19 @@ if __name__ == "__main__":
     create_release_parser = sub_parsers.add_parser("create", help='Create a new GitLab release.')
     create_release_parser.add_argument("-i", "--project_id", type=str, default=os.getenv("CI_PROJECT_ID"), help="The project id. Allows configuration via CI_PROJECT_ID env variable.")
     create_release_parser.add_argument("-d", "--release_description", type=str, default=os.getenv("RELEASE_DESCRIPTION", None), help="The release description. Allows configuration via RELEASE_DESCRIPTION env variable. Default None.")
+    create_release_parser.add_argument("--allow_non_final_version", action="store_true", help="Allow the creation of a release based on a non final version.")
 
     issue_release_parser = sub_parsers.add_parser("issue", help='Issue a release to all the linked projects.')
     issue_release_parser.add_argument("-n", "--project_name", type=str, default=os.getenv("CI_PROJECT_TITLE"), help="The project name. Allows configuration via CI_PROJECT_TITLE env variable.")
     issue_release_parser.add_argument("-u", "--project_url", type=str, default=os.getenv("CI_PROJECT_URL"), help="The project name. Allows configuration via CI_PROJECT_URL env variable.")
     issue_release_parser.add_argument("-tp", "--gitlab_topic", type=str, help="The GitLab topic that identifies all other projects that should be notified of the new release.")
+
+    slack_notify_release_parser = sub_parsers.add_parser("slack", help='Notify release in Slack.')
+    slack_notify_release_parser.add_argument("-n", "--project_name", type=str, default=os.getenv("CI_PROJECT_TITLE"), help="The project name. Allows configuration via CI_PROJECT_TITLE env variable.")
+    slack_notify_release_parser.add_argument("-u", "--project_url", type=str, default=os.getenv("CI_PROJECT_URL"), help="The project name. Allows configuration via CI_PROJECT_URL env variable.")
+    slack_notify_release_parser.add_argument("-d", "--release_description", type=str, default=os.getenv("RELEASE_DESCRIPTION", None), help="The release description. Allows configuration via RELEASE_DESCRIPTION env variable. Default None.")
+    slack_notify_release_parser.add_argument("-s", "--slack_webhook", type=str, default=os.getenv("SLACK_WEBHOOK", None), help="The Slack webhook where the notification should be sent. Allows configuration via SLACK_WEBHOOK env variable. Default None.")
+    slack_notify_release_parser.add_argument("--allow_non_final_version", action="store_true", help="Allow the creation of a release based on a non final version.")
 
     args = arg_parser.parse_args()
 
@@ -121,32 +166,9 @@ if __name__ == "__main__":
         release_description = args.release_description
 
         if not release_description:
-            logging.debug("Extracting release description from CHANGELOG.md file.")
-            pipe = subprocess.PIPE
-            git_process = subprocess.Popen([
-                'awk',
-                'flag{ if (/### /){printf "%s", buf; flag=0; buf=""} else buf = buf $0 ORS}; /### ' + release_tag + '/{flag=1}',
-                "CHANGELOG.md"
-            ], stdout=pipe, stderr=pipe)
-            std_output, std_error_output = git_process.communicate()
+            release_description = Release.read_from_changelog()
 
-            error = std_error_output.decode("utf-8")
-            if error != "":
-                logging.error(f"Could not get release description. Cause: {error}.")
-                exit(1)
-
-            release_description = std_output.decode("utf-8")
-
-        try:
-            version = Version.build(release_tag)
-            # In the context of this script, there is no interest in creating releases for work in
-            # progress versions.
-            if not version.is_final:
-                logging.info(f"Target version [{version.label}] is not meant to be released.")
-                exit()
-        except ValueError as e:
-            logging.error(f"The structure of the tag [{release_tag}] does not support a release.", exc_info=e)
-            exit(1)
+        version = version_blocker(release_tag, args.allow_non_final_version)
 
         gl = gitlab.Gitlab(args.gitlab_url, private_token=args.api_token)
 
@@ -167,6 +189,8 @@ if __name__ == "__main__":
 
     elif args.command == "issue":
         logging.info(f"Issuing new release [{release_tag}].")
+
+        version_blocker(release_tag, False)
 
         gitlab_topic = args.gitlab_topic
         project_name = args.project_name
@@ -200,6 +224,51 @@ if __name__ == "__main__":
                         # Close the issue.
                         issue.state_event = "close"
                         issue.save()
+
+    elif args.command == "slack":
+        logging.info(f"Notifying on Slack new release [{release_tag}].")
+        version = version_blocker(release_tag, args.allow_non_final_version)
+
+        slack_webhook = args.slack_webhook
+        if not slack_webhook:
+            logging.error("Can not notify release. Slack webhook is not configured.")
+            exit(1)
+
+        project_url = args.project_url
+        project_name = args.project_name
+        if not project_url or not project_name:
+            logging.error("Required arguments [project_url, project_name] are missing.")
+            exit(1)
+
+        def _adjust_links(matches):
+            return f"<{matches.group(2)}|{matches.group(1)}>"
+
+        release_description = args.release_description
+        if not release_description:
+            release_description = Release.read_from_changelog()
+        release_description = release_description.replace("\n-", "\n•").replace("\n*", "\n•")
+        release_description = re.sub("\[(.*?)\]\((.*?)\)", _adjust_links, release_description)
+
+        body = {
+            "blocks": [
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": f"A new release <{project_url}/-/releases/{release_tag}|{release_tag}> has just been created for <{project_url}|{project_name}> :unicorn_face:"
+                    }
+                },
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": release_description
+                    }
+                }
+            ]
+        }
+        requests.post(slack_webhook, json=body)
+
     else:
         logging.error(f"Unknown command [{args.command}].")
         exit(1)

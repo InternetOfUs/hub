@@ -75,7 +75,7 @@ return [
     'Delete app logic' => '',
     'Details' => '',
     'Developers' => '',
-    'Enabled Apps' => '',
+    'Enabled Apps' => 'Le mie app',
     'My apps' => '',
     'Name' => '',
     'Settings' => '',

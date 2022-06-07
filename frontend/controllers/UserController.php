@@ -39,7 +39,7 @@ class UserController extends BaseController {
                         'get-all-user-ids',
                         'request-password-reset', 'reset-password', 'resend-verification-email', 'verify-email',
                         # REST APIs
-                        'apps-for-user',
+                        'apps-for-user', 'delete-token-for-user-and-for-app'
                 ],
                 'rules' => [
                     [
@@ -61,7 +61,7 @@ class UserController extends BaseController {
                         'actions' => [
                             'logout',
                             'account', 'profile', 'change-password',
-                            'user-apps'
+                            'user-apps', 'delete-token-for-user-and-for-app'
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -129,6 +129,17 @@ class UserController extends BaseController {
             ];
         }
         return $response;
+    }
+
+    public function actionDeleteTokenForUserAndForApp($userId, $appId) {
+        $response = Yii::$app->kongConnector->invalidateTokenForAppAndUser($appId, $userId);
+
+        if($response){
+            Yii::$app->session->setFlash('success',  Yii::t('user', 'Access to your information and app connection successfully removed.'));
+        } else {
+            Yii::$app->session->setFlash('error',  Yii::t('user', 'There is a problem removing the access to your information. Please retry later.'));
+        }
+        return $this->redirect(['user-apps']);
     }
 
     public function actionAccount() {
@@ -258,14 +269,48 @@ class UserController extends BaseController {
     public function actionSignup() {
         $model = new SignupForm();
         $model->scenario = SignupForm::SCENARIO_CREATE;
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            Yii::$app->session->setFlash('success', Yii::t('signup', 'Thank you for registration. Please check your inbox for verification email.'));
-            return $this->goHome();
+
+        if($model->load(Yii::$app->request->post())){
+
+            if(Yii::$app->params['env'] != 'local'){
+        		$recaptchaToken = $_POST['g-recaptcha-response'];
+        		if (!$this->verifyRecaptcha($recaptchaToken)) {
+                    Yii::$app->session->setFlash('error', Yii::t("index", "Are you a robot?"));
+        		}
+            }
+
+            if(isset($_POST['privacy_consent'])){
+                if ($model->signup()) {
+                    Yii::$app->session->setFlash('success', Yii::t('signup', 'Thank you for registration. Please check your inbox for verification email.'));
+                    return $this->goHome();
+                }
+            } else {
+                Yii::$app->session->setFlash('error', Yii::t('signup', 'Please, accept our Privacy Policy.'));
+            }
         }
 
         return $this->render('signup', [
             'model' => $model,
         ]);
+    }
+
+    private function verifyRecaptcha($token) {
+        $secret = Yii::$app->params['google.reCaptcha.secret'];
+        $url = 'https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$token;
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        // curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        $jsonResponse = curl_exec($ch);
+        $respose = json_decode($jsonResponse, true);
+        if (isset($respose['success']) && $respose['success'] ==  true) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

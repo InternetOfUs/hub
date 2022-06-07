@@ -31,6 +31,7 @@ class DeveloperController extends BaseController {
                 'class' => AccessControl::className(),
                 'only' => [
                     'index', 'create', 'update', 'details',
+                    'invalidate-tokens-for-app',
                     'developers', 'delete-developer',
                     'delete',
                     'conversational-connector',
@@ -41,6 +42,7 @@ class DeveloperController extends BaseController {
                     [
                         'actions' => [
                             'index', 'create', 'update', 'details',
+                            'invalidate-tokens-for-app',
                             'developers', 'delete-developer',
                             'delete',
                             'conversational-connector',
@@ -283,7 +285,17 @@ class DeveloperController extends BaseController {
             Yii::$app->session->setFlash('error', Yii::t('app', 'The app you are trying to delete does not exist.'));
             return $this->redirect(['index']);
         }
+    }
 
+    public function actionInvalidateTokensForApp($appId) {
+        $response = Yii::$app->kongConnector->invalidateTokensForApp($appId);
+
+        if($response){
+            Yii::$app->session->setFlash('success',  Yii::t('app', 'All tokens has been successfully invalidatd.'));
+        } else {
+            Yii::$app->session->setFlash('error',  Yii::t('app', 'There is a problem invalidating the tokens. Please retry later.'));
+        }
+        return $this->redirect(['/developer/details', 'id' => $appId]);
     }
 
     public function actionConversationalConnector($id){

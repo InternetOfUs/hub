@@ -1,8 +1,7 @@
 ---
 image: docker:20.10.2
 
-services:
-  - docker:20.10.2-dind
+services: ['docker:20.10.2-dind']
 
 #
 # Pipeline cache is based on CI_COMMIT_REF_SLUG.
@@ -96,8 +95,9 @@ create release:
     - when: never
   allow_failure: true
   script:
-    - pip install python-gitlab==3.1.1
+    - pip install python-gitlab==3.1.1 requests==2.27.1
     - python docker-support/release.py -t ${GITLAB_BOT_API_TOKEN} create
+  needs: []
 
 
 #
@@ -139,7 +139,7 @@ push:production:
 
 notify:production:
   stage: notify
-  image: public.registry.u-hopper.com/alpine:3.13
+  image: public.registry.u-hopper.com/alpine:3.13 
   script:
     - *apk-before-script
     - *ansible-script

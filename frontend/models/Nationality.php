@@ -49,6 +49,7 @@ class Nationality {
     const STATE_SENEGAL = "senegal";
     const STATE_SLOVAKIA = "slovakia";
     const STATE_SLOVENIA = "slovenia";
+    const STATE_SOUTH_KOREA = "south_korea";
     const STATE_SPAIN = "spain";
     const STATE_SWEDEN = "sweden";
     const STATE_SWITZERLAND = "switzerland";
@@ -106,6 +107,7 @@ class Nationality {
             self::STATE_SENEGAL => "Sénégalais",
             self::STATE_SLOVAKIA => "Slovák",
             self::STATE_SLOVENIA => "Slovenščina",
+            self::STATE_SOUTH_KOREA => "대한민국",
             self::STATE_SPAIN => "Española",
             self::STATE_SWEDEN => "Svenska",
             self::STATE_SWITZERLAND => "Schweiz",

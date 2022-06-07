@@ -27,20 +27,7 @@
         </h1>
 
         <p dir="auto" style="margin:20px 0; text-align:left;"><?php echo nl2br($app->description); ?></p>
-        <?php if($app->getOwnerShortName() != null){ ?>
-            <p><strong><?php echo Yii::t('app', 'Creator'); ?>:</strong> <?php echo $app->getOwnerShortName(); ?></p>
-        <?php } ?>
-        <p><strong><?php echo Yii::t('app', 'Available platforms (for download or direct use)'); ?>:</strong></p>
         <?php
-            $activeSourceLinks = '<ul class="source_links_list details_view">';
-            if($app->hasActiveSourceLinksForApp()){
-                $activeSourceLinks .= implode('', array_map(function($sl)use ($app){
-                    return '<li><a href="'.$app->allMetadata['source_links'][$sl].'" target="_blank"><img src="'.Url::base().'/images/platforms/'.$sl.'.png" alt="'.$sl." ". Yii::t('app', 'Source link image').'"></a></li>';
-                }, $app->getActiveSourceLinksForApp()));
-            }
-            $activeSourceLinks .= '</ul>';
-            echo $activeSourceLinks;
-
             if(count($app->associatedCategories) > 0){
                 $categories = '<ul class="tags_list">';
                 foreach ($app->associatedCategories as $category) {
@@ -50,6 +37,45 @@
                 echo $categories;
             }
         ?>
+
+        <?php if($app->getOwnerShortName() != null){ ?>
+            <p><strong><?php echo Yii::t('app', 'Creator'); ?>:</strong> <?php echo $app->getOwnerShortName(); ?></p>
+        <?php } ?>
+
+        <?php if($app->privacy_policy_url != null && $app->privacy_policy_text != null){ ?>
+            <hr>
+            <h4><?php echo Yii::t('app', 'Privacy Policy'); ?></h4>
+            <p style="font-style: italic;"><?php echo $app->privacy_policy_text; ?></p>
+            <a targt="_blank" class="btn btn-primary" href="<?php echo $app->privacy_policy_url; ?>"><?php echo Yii::t('app', 'Privacy Policy'); ?></a>
+        <?php } ?>
+    </div>
+    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <h4><?php echo Yii::t('app', 'Available platforms (for download or direct use)'); ?>:</h4>
+        <?php
+            $activeSourceLinks = '<ul class="source_links_list details_view">';
+            if($app->hasActiveSourceLinksForApp()){
+                $activeSourceLinks .= implode('', array_map(function($sl)use ($app){
+                    return '<li><a href="'.$app->allMetadata['source_links'][$sl].'" target="_blank"><img src="'.Url::base().'/images/platforms/'.$sl.'.png" alt="'.$sl." ". Yii::t('app', 'Source link image').'"></a></li>';
+                }, $app->getActiveSourceLinksForApp()));
+            }
+            $activeSourceLinks .= '</ul>';
+            echo $activeSourceLinks;
+        ?>
+
+        <?php if($invalidateToken && Yii::$app->kongConnector->userHasValidTokenForApp($app->id, Yii::$app->user->id)){ ?>
+            <hr>
+            <h5><?php echo Yii::t('app', 'Remove access to your data'); ?></h5>
+            <p><?php echo Yii::t('app', 'This app has been connected to your WeNet account. You can remove its access to your information. You will not be able to use the app until you enable it again.'); ?></p>
+
+            <a href="<?= Url::to(['/user/delete-token-for-user-and-for-app', 'userId' => Yii::$app->user->id, 'appId' => $app->id]); ?>" class="btn delete_btn pull-right" style="margin-right:10px;">
+                <i class="fa fa-user-times"></i>
+                <?php echo Yii::t('app', 'Remove'); ?>
+            </a>
+        <?php } else if($invalidateToken && !Yii::$app->kongConnector->userHasValidTokenForApp($app->id, Yii::$app->user->id)) { ?>
+            <hr>
+            <h5><?php echo Yii::t('app', 'Access to your data'); ?></h5>
+            <p><?php echo Yii::t('app', 'This app is no more connected to your WeNet account. You will not be able to use the app until you enable it again performing the WeNet login.'); ?></p>
+        <?php } ?>
     </div>
 </div>
 

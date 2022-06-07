@@ -27,6 +27,8 @@ use yii\helpers\Json;
  * @property int $owner_id
  * @property string $image_url
  * @property int|null $task_type_id
+ * @property string|null $privacy_policy_url
+ * @property string|null $privacy_policy_text
  *
  * @property User $owner
  * @property TaskType $taskType
@@ -85,7 +87,7 @@ class WenetApp extends \yii\db\ActiveRecord {
 
             [['id', 'token', 'name', 'status', 'owner_id'], 'required'],
             [['status', 'created_at', 'updated_at', 'owner_id', 'data_connector', 'conversational_connector', 'task_type_id'], 'integer'],
-            [['description', 'message_callback_url', 'metadata', 'image_url'], 'string'],
+            [['description', 'message_callback_url', 'metadata', 'image_url', 'privacy_policy_url', 'privacy_policy_text'], 'string'],
             [['id', 'community_id'], 'string', 'max' => 128],
             [['name', 'token'], 'string', 'max' => 512],
             [['id'], 'unique'],
@@ -93,8 +95,8 @@ class WenetApp extends \yii\db\ActiveRecord {
             // [['task_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => TaskType::className(), 'targetAttribute' => ['task_type_id' => 'id']],
             [['slFacebook', 'slTelegram', 'slAndroid', 'slIos', 'slWebApp', 'image_url'], 'linksValidation'],
             [['status'], 'statusValidation'],
-            [['description'], 'contentValidation'],
-            [['message_callback_url'], 'messageLinkValidation'],
+            [['description', 'privacy_policy_text'], 'contentValidation'],
+            [['message_callback_url', 'privacy_policy_url'], 'messageLinkValidation'],
             [['associatedCategories', 'slFacebook', 'slTelegram', 'slAndroid', 'slIos', 'slWebApp'], 'safe'],
         ];
     }
@@ -112,13 +114,15 @@ class WenetApp extends \yii\db\ActiveRecord {
             'taskTypeId' => $this->task_type_id,
             'messageCallbackUrl' => $this->message_callback_url,
             'community_id' => $this->community_id,
+            'privacyPolicyUrl' => $this->privacy_policy_url,
+            'privacyPolicyText' => $this->privacy_policy_text,
         ];
     }
 
     public function contentValidation(){
         foreach ($this as $key => $value) {
             if(is_string($value)){
-                if($key == 'description'){
+                if($key == 'description' || $key == 'privacy_policy_text'){
                     $this[$key] = strip_tags($value, '<b><i><br>');
                 } else {
                     $this[$key] = strip_tags($value, '');
@@ -152,6 +156,16 @@ class WenetApp extends \yii\db\ActiveRecord {
                 $ok = false;
             } else if($this->hasSocialLogin() && $this->conversational_connector == WenetApp::NOT_ACTIVE_CONNECTOR && $this->data_connector == WenetApp::NOT_ACTIVE_CONNECTOR) {
                 $this->addError('status', Yii::t('app', 'You should enable at least one connector to go live with the app.'));
+                $ok = false;
+            }
+
+            if($this->privacy_policy_url == null){
+                $this->addError('privacy_policy_url', Yii::t('app', 'Privacy policy URL cannot be blank.'));
+                $ok = false;
+            }
+
+            if($this->privacy_policy_text == null){
+                $this->addError('privacy_policy_text', Yii::t('app', 'Privacy policy text cannot be blank.'));
                 $ok = false;
             }
 
@@ -213,6 +227,8 @@ class WenetApp extends \yii\db\ActiveRecord {
             'image_url' => Yii::t('app', 'App image URL'),
             'task_type_id' => Yii::t('app', 'App Logic'),
             'community_id' => Yii::t('app', 'Community ID'),
+            'privacy_policy_url' => Yii::t('app', 'Privacy Policy URL'),
+            'privacy_policy_text' => Yii::t('app', 'Privacy Policy Text'),
         ];
     }
 

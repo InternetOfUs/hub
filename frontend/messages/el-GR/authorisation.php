@@ -19,10 +19,11 @@
 return [
     'Congratulations! You successfully activated the {app_name} application.' => 'Συγχαρητήρια! Έχετε ενεργοποιήσει με επιτυχία την εφαρμογή {app_name}.',
     'Ooops! Something went wrong while activating the {app_name} application.' => 'Ωψ! Παρουσιάστηκε σφάλμα κατά την ενεργοποίηση της εφαρμογής {app_name}.',
+    'The application {app_name} is currently in development mode. You don\'t have the permission to proceed. If you think this is an error, please contact the app administrators to be granted the correct permissions.' => 'Η εφαρμογή {app_name} βρίσκεται αυτήν τη στιγμή σε λειτουργία ανάπτυξης. Δεν έχετε άδεια να συνεχίσετε. Εάν πιστεύετε ότι πρόκειται για σφάλμα, επικοινωνήστε με τους διαχειριστές της εφαρμογής για να λάβετε τα σωστά δικαιώματα.',
     'The application {app_name} will be able to' => 'Η εφαρμογή {app_name} θα μπορεί',
     'access your profile data' => 'πρόσβαση στα δεδομένα του προφίλ σας',
     'access your public profile info' => 'πρόσβαση στις πληροφορίες του δημόσιου προφίλ σας',
     'cancel' => 'Ματαίωση',
     'write your profile data' => 'γράψτε τα δεδομένα του προφίλ σας',
-    'The application {app_name} is currently in development mode. You don\'t have the permission to proceed. If you think this is an error, please contact the app administrators to be granted the correct permissions.' => 'Η εφαρμογή {app_name} βρίσκεται αυτήν τη στιγμή σε λειτουργία ανάπτυξης. Δεν έχετε άδεια να συνεχίσετε. Εάν πιστεύετε ότι πρόκειται για σφάλμα, επικοινωνήστε με τους διαχειριστές της εφαρμογής για να λάβετε τα σωστά δικαιώματα.',
+    'Privacy Policy' => '',
 ];
