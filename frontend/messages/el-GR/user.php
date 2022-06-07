@@ -17,12 +17,10 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Are you a robot?' => 'Sei un robot?',
-    'Privacy Policy' => '',
-    'About WeNet' => 'WeNet',
-    'About WeNet Hub' => 'WeNet Hub',
-    'Discover more' => 'Scopri di più',
-    'about text' => 'La diversità fa parte della nostra vita quotidiana. La tecnologia, nonostante la sua evoluzione, lotta ancora quando si tratta di aiutare a sviluppare e mantenere relazioni sociali che trascendono i contesti geografici e culturali.',
-    'about text 2' => 'L\'obiettivo è connettere persone che possono aiutarsi a vicenda e la chiave è sfruttare la loro diversità.',
-    'hub text' => 'Accedi per scoprire e utilizzare tutte le fantastiche applicazioni WeNet.',
+    'Now you are a developer.' => 'Είστε πλέον προγραμματιστής.',
+    'There is a problem setting your account as developer. Please retry later.' => 'Υπάρχει πρόβλημα με την ρύθμιση του λογαριασμού σας ως προγραμματιστή. Δοκιμάστε ξανά αργότερα.',
+    'Your profile is incomplete. Complete it ' => 'Το προφίλ σας δεν είναι πλήρες. Συμπληρώστε το',
+    'here' => 'εδώ',
+    'Access to your information and app connection successfully removed.' => '',
+    'There is a problem removing the access to your information. Please retry later.' => '',
 ];

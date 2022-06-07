@@ -2,6 +2,16 @@
 
 ## Version 1.*
 
+### 1.7.1
+
+:rocket: New features
+
+* Added Greek language translations.
+
+:house: Internal
+
+* Updated project template to version 4.10.1
+
 
 ### 1.8.0
 
