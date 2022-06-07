@@ -17,6 +17,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Access to your data' => '',
     'Active' => '',
     'Age distribution' => '',
     'All tokens has been successfully invalidatd.' => '',
@@ -143,6 +144,7 @@ return [
     'There are no apps to display.' => '',
     'There is a problem invalidating the tokens. Please retry later.' => '',
     'This app has been connected to your WeNet account. You can remove its access to your information. You will not be able to use the app until you enable it again.' => '',
+    'This app is no more connected to your WeNet account. You will not be able to use the app until you enable it again performing the WeNet login.' => '',
     'This may be useful, for example, when changing the scopes of your application.' => '',
     'To authenticate requests, you will need to include the following parameters in the header of each call:' => '',
     'Token' => '',
