@@ -131,15 +131,15 @@ class UserController extends BaseController {
         return $response;
     }
 
-    public function actionDeleteTokenForUserAndForApp($userId, $appId) {
-        $apps = AppUser::find()->where(['user_id' => $userId])->all();
+    public function actionDeleteTokenForUserAndForApp($appId) {
+        $apps = AppUser::find()->where(['user_id' => Yii::$app->user->id])->all();
 
         foreach ($apps as $app) {
             if($app->app_id == $appId){
                 if (isset(Yii::$app->params['kong.ignore']) && Yii::$app->params['kong.ignore']) {
                     $respose = true;
                 } else {
-                    $response = Yii::$app->kongConnector->invalidateTokenForAppAndUser($appId, $userId);
+                    $response = Yii::$app->kongConnector->invalidateTokenForAppAndUser($appId, Yii::$app->user->id);
                 }
 
                 if($response){
