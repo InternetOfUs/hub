@@ -2,22 +2,18 @@
 
 ## Version 1.*
 
-### 1.7.1
 
-:rocket: New features
+### 1.8.1
 
-* Added Greek language translations.
+:nail_care: Polish
 
-:house: Internal
-
-* Updated project template to version 4.10.1
-
+* Added checks on permits for invalidating app tokens, both for developers and users.
 
 ### 1.8.0
 
 :rocket: New features
 
-* The user can now disable a WeNet application [#62](https://lab.u-hopper.com/wenet/wenet-frontend/-/issues/62) 
+* The user can now disable a WeNet application [#62](https://lab.u-hopper.com/wenet/wenet-frontend/-/issues/62)
 * The developer can now invalidate all the outh2 token for an application [#51](https://lab.u-hopper.com/wenet/wenet-frontend/-/issues/51)
 
 :bug: Bug fixes
@@ -31,6 +27,16 @@
 :house: Internal
 * Updated project template to version 4.12.1
 
+
+### 1.7.1
+
+:rocket: New features
+
+* Added Greek language translations.
+
+:house: Internal
+
+* Updated project template to version 4.10.1
 
 ### 1.7.0
 

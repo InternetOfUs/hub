@@ -132,14 +132,30 @@ class UserController extends BaseController {
     }
 
     public function actionDeleteTokenForUserAndForApp($userId, $appId) {
-        $response = Yii::$app->kongConnector->invalidateTokenForAppAndUser($appId, $userId);
+        $apps = AppUser::find()->where(['user_id' => $userId])->all();
 
-        if($response){
-            Yii::$app->session->setFlash('success',  Yii::t('user', 'Access to your information and app connection successfully removed.'));
-        } else {
-            Yii::$app->session->setFlash('error',  Yii::t('user', 'There is a problem removing the access to your information. Please retry later.'));
+        foreach ($apps as $app) {
+            if($app->app_id == $appId){
+                if (isset(Yii::$app->params['kong.ignore']) && Yii::$app->params['kong.ignore']) {
+                    $respose = true;
+                } else {
+                    $response = Yii::$app->kongConnector->invalidateTokenForAppAndUser($appId, $userId);
+                }
+
+                if($response){
+                    Yii::$app->session->setFlash('success',  Yii::t('user', 'Access to your information and app connection successfully removed.'));
+                } else {
+                    Yii::$app->session->setFlash('error',  Yii::t('user', 'There is a problem removing the access to your information. Please retry later.'));
+                }
+                return $this->redirect(['user-apps']);
+            }
         }
-        return $this->redirect(['user-apps']);
+
+        return $this->render('/site/error', array(
+            'message' => Yii::t('common', 'You are not authorised to perform this action.'),
+            'name' => Yii::t('common', 'Error')
+        ));
+
     }
 
     public function actionAccount() {

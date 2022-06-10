@@ -151,12 +151,22 @@ class WenetappController extends BaseController {
             $badgesForUser = [];
         }
 
+        $invalidateToken = false;
+        if (isset(Yii::$app->params['kong.ignore']) && Yii::$app->params['kong.ignore']) {
+            // not really invalidated but not cheked in kong!
+            $invalidateToken = false;
+        } else {
+            if(Yii::$app->kongConnector->userHasValidTokenForApp($app->id, Yii::$app->user->id)){
+                $invalidateToken = true;
+            }
+        }
+
         if(!$app){
             throw new NotFoundHttpException('The specified app cannot be found.');
 		} else {
 			return $this->render('details', array(
                 'app' => $app,
-                'invalidateToken' => true,
+                'invalidateToken' => $invalidateToken,
                 'badgesForApp' => $badgesForApp,
                 'badgesForUser' => $badgesForUser
             ));
