@@ -288,14 +288,28 @@ class DeveloperController extends BaseController {
     }
 
     public function actionInvalidateTokensForApp($appId) {
-        $response = Yii::$app->kongConnector->invalidateTokensForApp($appId);
+        $app = WenetApp::find()->where(["id" => $appId])->one();
 
-        if($response){
-            Yii::$app->session->setFlash('success',  Yii::t('app', 'All tokens has been successfully invalidatd.'));
+        if($app->isDeveloper()){
+            if (isset(Yii::$app->params['kong.ignore']) && Yii::$app->params['kong.ignore']) {
+                $response = true;
+            } else{
+                $response = Yii::$app->kongConnector->invalidateTokensForApp($appId);
+            }
+
+            if($response){
+                Yii::$app->session->setFlash('success',  Yii::t('app', 'All tokens has been successfully invalidatd.'));
+            } else {
+                Yii::$app->session->setFlash('error',  Yii::t('app', 'There is a problem invalidating the tokens. Please retry later.'));
+            }
+            return $this->redirect(['/developer/details', 'id' => $appId]);
         } else {
-            Yii::$app->session->setFlash('error',  Yii::t('app', 'There is a problem invalidating the tokens. Please retry later.'));
+            return $this->render('/site/error', array(
+                'message' => Yii::t('common', 'You are not authorised to perform this action.'),
+                'name' => Yii::t('common', 'Error')
+            ));
         }
-        return $this->redirect(['/developer/details', 'id' => $appId]);
+
     }
 
     public function actionConversationalConnector($id){

@@ -62,16 +62,16 @@
             echo $activeSourceLinks;
         ?>
 
-        <?php if($invalidateToken && Yii::$app->kongConnector->userHasValidTokenForApp($app->id, Yii::$app->user->id)){ ?>
+        <?php if($invalidateToken){ ?>
             <hr>
             <h5><?php echo Yii::t('app', 'Remove access to your data'); ?></h5>
             <p><?php echo Yii::t('app', 'This app has been connected to your WeNet account. You can remove its access to your information. You will not be able to use the app until you enable it again.'); ?></p>
 
-            <a href="<?= Url::to(['/user/delete-token-for-user-and-for-app', 'userId' => Yii::$app->user->id, 'appId' => $app->id]); ?>" class="btn delete_btn pull-right" style="margin-right:10px;">
+            <a href="<?= Url::to(['/user/delete-token-for-user-and-for-app', 'appId' => $app->id]); ?>" class="btn delete_btn pull-right" style="margin-right:10px;">
                 <i class="fa fa-user-times"></i>
                 <?php echo Yii::t('app', 'Remove'); ?>
             </a>
-        <?php } else if($invalidateToken && !Yii::$app->kongConnector->userHasValidTokenForApp($app->id, Yii::$app->user->id)) { ?>
+        <?php } else { ?>
             <hr>
             <h5><?php echo Yii::t('app', 'Access to your data'); ?></h5>
             <p><?php echo Yii::t('app', 'This app is no more connected to your WeNet account. You will not be able to use the app until you enable it again performing the WeNet login.'); ?></p>
