@@ -3,6 +3,11 @@
 ## Version 1.*
 
 
+### 1.8.2
+
+:house: Internal
+* Updated the Privacy Policy document.
+
 ### 1.8.1
 
 :nail_care: Polish
