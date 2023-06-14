@@ -17,6 +17,10 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Contact the service desk reporting the following data' => 'Contact the service desk reporting the following data',
+    'Do you want to delete your account?' => 'Do you want to delete your account?',
+    'Send an email to our service desk' => 'Send an email to our service desk',
+    'delete_account' => 'As soon as we process your request, your account, your profile, the association with all the apps you have used and the related data will be deleted. <br>If you are a developer, all the apps you own will also be deleted. If you are only a developer, but not an app owner, these will be kept.<br><br>Once cancelled, you will receive a confirmation e-mail.',
     'explanation' => 'Do you want to create your own app? Become a developer and start building your own!<br>Remember, to become developer you should set your first name, last name and birthdate in your profile.',
     'Account info' => '',
     'Become a developer' => '',
@@ -44,5 +48,6 @@ return [
     'Suffix name' => '',
     'User ID' => '',
     'Username' => '',
+    'delete_account_subject' => 'specifing in the subject [WeNet account deletion].',
     'profile' => '',
 ];
