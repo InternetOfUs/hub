@@ -34,6 +34,7 @@
                     </p>
                 <?php } ?>
             </div>
+
             <?php if(!Yii::$app->user->getIdentity()->isDeveloper()) { ?>
                 <div class="box_container developer_container">
                     <h3><?php echo Yii::t('profile', 'Become a developer'); ?></h3>
@@ -46,6 +47,27 @@
                     </a>
                 </div>
             <?php } ?>
+
+            <div class="box_container">
+                <h3><?php echo Yii::t('profile', 'Do you want to delete your account?'); ?></h3>
+                <p><?php echo Yii::t('profile', 'Contact the service desk reporting the following data'); ?>:</p>
+                <ul>
+                    <li>
+                        <?php echo Yii::t('profile', 'User ID'); ?>,
+                    </li>
+                    <li>
+                        <?php echo Yii::t('profile', 'Username'); ?>,
+                    </li>
+                    <li>
+                        <?php echo Yii::t('profile', 'Email'); ?>,
+                    </li>
+                </ul>
+                <p><?php echo Yii::t('profile', 'delete_account_subject'); ?></p>
+                <hr>
+                <p><?php echo Yii::t('profile', 'delete_account'); ?></p>
+                <a class="btn btn-primary" href="mailto:support@internetofus.eu"><?php echo Yii::t('profile', 'Send an email to our service desk'); ?></a>
+            </div>
+
         </div>
 	</div>
 </div>
