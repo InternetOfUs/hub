@@ -2,6 +2,11 @@
 
 ## Version 1.*
 
+### 1.9.0
+
+:rocket: New features
+* Added the possibility to request the deletion of the WeNet account, profile and data via the service desk.
+
 
 ### 1.8.2
 
