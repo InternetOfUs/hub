@@ -6,7 +6,27 @@ WORKDIR /app
 COPY composer.json composer.lock /app/
 RUN composer install --no-dev --no-interaction --ignore-platform-reqs
 
-FROM public.registry.u-hopper.com/uhopper/ubuntu:20.10
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# PHP 7.4 has no upstream releases anymore: it comes from the ondrej/php PPA, whose
+# 7.4.33-31 build includes the official backport of the fixes for CVE-2026-109618
+# and CVE-2026-109619. Same packages as the old uhopper/ubuntu:20.10 base image,
+# except php7.4-dev and php-pear, which are not needed at runtime.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends software-properties-common gpg-agent \
+    && add-apt-repository -y ppa:ondrej/php \
+    && apt-get update \
+    && apt-get -y upgrade \
+    && apt-get install -y sudo curl git htop unzip vim wget python3 python3-pip netcat-openbsd \
+        supervisor apache2 libapache2-mod-php7.4 php7.4-cli php7.4-curl php7.4-gd \
+        php7.4-mbstring php7.4-zip php7.4-mysql php7.4-xml \
+    && rm -rf /var/lib/apt/lists/*
+
+# Previously shipped in the base image
+ADD docker-support/start-apache2.sh /start-apache2.sh
+ADD docker-support/supervisord-apache2.conf /etc/supervisor/conf.d/supervisord-apache2.conf
 
 ADD docker-support/run.sh /run.sh
 
