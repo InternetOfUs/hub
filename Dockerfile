@@ -1,3 +1,11 @@
+# Dependencies are installed from composer.lock with Composer running on PHP 8:
+# recent Composer versions refuse to extract tar archives (npm-asset/bootstrap)
+# on PHP < 8.0. The lock was resolved for PHP 7.4, hence --ignore-platform-reqs.
+FROM composer:2 AS vendor
+WORKDIR /app
+COPY composer.json composer.lock /app/
+RUN composer install --no-dev --no-interaction --ignore-platform-reqs
+
 FROM public.registry.u-hopper.com/uhopper/ubuntu:20.10
 
 ADD docker-support/run.sh /run.sh
@@ -11,9 +19,7 @@ RUN rm -fr /var/www && ln -s /app /var/www
 
 RUN mkdir /app
 
-ADD composer.json /app
-ADD composer.phar /app
-RUN cd /app && php composer.phar install --no-dev
+COPY --from=vendor /app/vendor /app/vendor
 
 ADD / /app
 
