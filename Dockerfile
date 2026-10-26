@@ -53,6 +53,8 @@ RUN sed -i 's/${custom_alias}/frontend/g' /app/frontend/web/.htaccess
 
 RUN sed -ri 's/memory_limit\s*=.*$/memory_limit = 1024M/' /etc/php/7.4/apache2/php.ini
 
+ADD docker-support/php-hardening.ini /etc/php/7.4/apache2/conf.d/99-hardening.ini
+
 env BASE_URL=''
 
 ARG GIT_REF_ARG
