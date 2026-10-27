@@ -11,6 +11,7 @@ use common\models\LoginForm;
 use common\models\User;
 use frontend\models\AppUser;
 use frontend\models\WenetApp;
+use frontend\components\BaseConnector;
 use frontend\models\SignupForm;
 use frontend\models\VerifyEmailForm;
 use frontend\models\ResetPasswordForm;
@@ -314,8 +315,7 @@ class UserController extends BaseController {
         $secret = Yii::$app->params['google.reCaptcha.secret'];
         $url = 'https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$token;
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
+        $ch = BaseConnector::curlInit($url);
         // curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);

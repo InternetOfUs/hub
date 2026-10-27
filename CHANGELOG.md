@@ -2,6 +2,14 @@
 
 ## Version 1.*
 
+### 1.9.2
+
+:bug: Bug fixes
+* Fixed calls to the WeNet service APIs and reCaptcha failing with "getaddrinfo() thread failed to start" on Docker engines older than 20.10.10, after the move to Ubuntu 22.04.
+
+:house: Internal
+* cURL errors are now included in the logs of failed service API calls.
+
 ### 1.9.1
 
 :house: Internal
