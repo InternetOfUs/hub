@@ -2,6 +2,11 @@
 
 ## Version 1.*
 
+### 1.9.1
+
+:house: Internal
+* Mitigation for php vulnerability
+
 ### 1.9.0
 
 :rocket: New features
