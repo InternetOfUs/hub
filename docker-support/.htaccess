@@ -123,16 +123,15 @@ RewriteEngine on
 #
 RewriteBase ${BASE_URL}/${custom_alias}
 
+# The site accepts no uploads: reject multipart requests before they reach PHP
+# (main attack vector of CVE-2026-109618 / CVE-2026-109619)
+RewriteCond %{HTTP:Content-Type} multipart/ [NC]
+RewriteRule ^ - [F]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 RewriteRule . index.php
 
-# Tmp for large data uploads
-<IfModule mod_php5.c>
-php_value upload_max_filesize 100M
-php_value post_max_size 100M
-</IfModule>
-
-php_value upload_max_filesize 100M
-php_value post_max_size 100M
+# Request bodies are limited to 2 MB, in line with post_max_size in php-hardening.ini
+LimitRequestBody 2097152
