@@ -1,7 +1,8 @@
 ---
-image: docker:20.10.2
+image: docker:24.0.9
 
-services: ['docker:20.10.2-dind']
+services: ['docker:24.0.9-dind']
+
 
 #
 # Pipeline cache is based on CI_COMMIT_REF_SLUG.
@@ -13,8 +14,8 @@ cache:
 # Docker variables for allowing image build.
 #
 variables:
-  DOCKER_TLS_CERTDIR: ""
-  DOCKER_HOST: "tcp://docker:2375"
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_HOST: "tcp://docker:2376"
   GIT_SUBMODULE_STRATEGY: recursive
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
 
