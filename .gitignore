@@ -20,7 +20,6 @@ nbproject
 Thumbs.db
 
 composer.phar
-composer.lock
 
 # composer vendor dir
 /vendor
