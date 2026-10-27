@@ -59,12 +59,6 @@ workflow:
 
   - apk add --update ansible ansible-lint
 
-# Scripts for allowing the build of php/yii2 projects
-# that require composer for installing dependencies.
-.php-script: &php-script
-  - apk add --update php7 php7-phar php7-json php7-iconv php7-openssl
-  - curl --show-error --silent https://getcomposer.org/installer | php
-
 # Script for allowing the connection to a remote server for completing a deployment.
 .remote-server-connection: &remote-server-connection
   # Configure .ssh folder
@@ -111,8 +105,6 @@ docker image:production:
   script:
     - *apk-before-script
     - *docker-script
-    - *php-script
-
     - ./docker-support/runner.sh -bs $CI_COMMIT_TAG
   artifacts:
     paths:
@@ -167,8 +159,6 @@ docker image:staging:
   script:
     - *apk-before-script
     - *docker-script
-    - *php-script
-
     - ./docker-support/runner.sh -bs latest
   artifacts:
     paths:
